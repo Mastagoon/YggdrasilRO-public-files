@@ -1,0 +1,378 @@
+//===== rAthena Script ======================================= 
+//= Daily Tournament
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= Daily 1v1 tournament.
+//= Tournamets last for 2 hours, and every player will be queued against a random participent
+//= Each match lasts for 3 rounds.
+//= Players can use @spectatebg to spectate the fights
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+-	script	daily_tournament	-1,{
+OnInit:
+    // settings
+    .map$ = "wager02";
+    .n$ = "[أرض المعركة]";
+    .debug = 0;
+    setarray .winner_rewards[0], 909,5;
+    setarray .loser_rewards[0],909,1;
+    //============================================================
+    // do not edit.
+    setarray .flags[0],mf_loadevent, mf_nobranch, mf_nomemo, mf_noteleport, mf_pvp, mf_nosave, mf_nopenalty,
+                    mf_pvp_noguild, mf_notrade, mf_nowarp, mf_noreturn, mf_nowarpto,mf_nodrop;
+    for(.@i = 0; .@i < getarraysize(.flags); .@i++) 
+        if(!getmapflag(.map$), .flags[.@i]) setmapflag .map$,.flags[.@i];
+    function endmatch;
+    .playerone = 0;
+	.playertwo = 0;
+	setarray .playerone_coord, 75, 100; 	// Challenger Map coord <X>, <Y>
+	setarray .playertwo_coord, 125, 100; 	// Challengee Map coord <X>, <Y>
+    setarray .wallsx[0],86,113;
+	setarray .wallsy[0],86,113;
+	setarray .wallsx2[0],92,107;
+	setarray .wallsy2[0],107,107;
+    for(.@i = .wallsx[0]; .@i < .wallsx[1]; .@i++) {
+        npcskilleffect 25,0,.wallsy[0],.@i;
+        npcskilleffect 25,0,.wallsy[1],.@i;
+        setcell .map$, .@i,.wallsy[0],.@i,.wallsy[0],cell_walkable, 0;
+        setcell .map$, .@i,.wallsy[1],.@i,.wallsy[1],cell_walkable, 0;
+    }
+    for(.@i = .wallsy[0]; .@i < .wallsy[1]; .@i++) {
+        npcskilleffect 25,0,.wallsx[0],.@i;
+        npcskilleffect 25,0,.wallsx[1],.@i;
+        setcell .map$,.wallsx[0],.@i,.wallsx[0],.@i,cell_walkable, 0;
+        setcell .map$,.wallsx[1],.@i,.wallsx[1],.@i,cell_walkable, 0;
+    }
+	deletearray .queue;
+    deletearray .ips$;
+	$bgstatus = 0;
+    //============================================================
+    // commands
+    bindatcmd("startbg",strnpcinfo(3)+"::OnBgStart",80,80);
+    bindatcmd("stopbg",strnpcinfo(3)+"::OnBgStop",80,80);
+    bindatcmd("joinbg",strnpcinfo(3)+"::OnJoinBg",0,99);
+    bindatcmd("spectatebg",strnpcinfo(3)+"::OnSpectateBg",0,99);
+    bindatcmd("debugbg",strnpcinfo(3)+"::OnDebug",99,99);
+    end;
+
+OnDebug:
+	mes ".queue: ";
+	for(.@i = 0; .@i < getarraysize(.queue); .@i++) {
+		mes "["+.@i+"] "+.queue[.@i];
+	}
+	mes ".ips$: ";
+	for(.@i = 0; .@i < getarraysize(.ips$); .@i++) {
+		mes "["+.@i+"] "+.ips$[.@i];
+	}
+	next;
+	mes ".playerone&.playertwo: ";
+	mes "one: "+.playerone;
+	mes "two: "+.playertwo;
+	next;
+	mes "status: "+$bgstatus;
+	close;
+
+OnSpectateBg:
+    if($bgstatus < 2) end;
+    if(getcharid(3) == .playerone || getcharid(3) == .playertwo) end;
+    if(checkhomcall() == 0 || geteleminfo(1)) {
+		mes "لا يمكنك دخول المباراة إذا";
+		mes "كان معك هومنكلس أو أحد أرواح الخواص الأربعة, يرجى إزالته";
+		mes "قبل المتابعة.";
+		close;
+	}
+	if(getpetinfo(PETINFO_ID) != 0) {
+		mes "لايمكنك إحضار الحيوانات الأليفة";
+		mes "لرؤية المباراة, حيث أن فيها أحداثاً";
+		mes "عنيفة وغير مناسبة للحيوانات الرقيقة.";
+		close;
+	}
+    //spectate below
+    if(.debug) debugmes "player "+strcharinfo(0)+" is spectating.";
+    setarray .spectators[getarraysize(.spectators)],getcharid(3);
+	setpcblock PCBLOCK_ALL,true;
+	setoption 0x40;
+	warp .map$,100,100;
+	end;
+
+OnJoinBg:
+    if(!$bgstatus) {
+        mes .n$;
+        mes "لا يمكنك المشاركة في ساحة المعركة";
+        mes "في هذا الوقت.";
+        next;
+        mes .n$;
+        mes "تبدأ ساحة المعركة في تمام الساعة العاشرة";
+        mes "بتوقيت السعودية في كل يوم ماعدا";
+        mes "أيام حرب الجواهر.";
+        close;
+    }
+    if(inarray(.queue,getcharid(3)) > -1 ) {
+        mes .n$;
+        mes "أنت مسجلٌ في أرض المعركة بالفعل.";
+        close;
+    }
+    if(inarray(.ips$,getcharip()) > -1) {
+        mes .n$;
+        mes "لايمكنك المشاركة بأكثر من شخصية";
+        mes "واحدة في ساحة المعركة.";
+        close;
+    }
+    // join player to queue
+    setarray .queue[getarraysize(.queue)],getcharid(3);
+    setarray .ips$[getarraysize(.ips$)],getcharip();
+    .@turn = inarray(.queue,getcharid(3))+1;
+    mes .n$;
+    mes "تم تسجيلك في أرض المعركة بنجاح";
+    mes "ترتيبك في أرض المعارك هو:";
+    mes ""+.@turn;
+    close;
+
+OnClock2201:
+OnBgStart:
+    if(agitcheck() || agitcheck2() || $invasion) end;
+    $bgstatus = 1;
+    announce "لقد بدأ التسجيل في ساحة المعركة !",bc_all|bc_blue;
+    sleep 5000;
+    announce "إستعمل الأمر @joinbg للمشاركة الآن !!",bc_all|bc_blue;
+    initnpctimer;
+    end;
+    
+OnBgStop:
+OnClock0000:
+    if($bgstatus) {
+        $bgstatus = 0;
+        announce "لقد إنتهت مباريات ساحة المعركة لهذا اليوم, شكراً على مشاركتكم.",bc_all|bc_blue;
+    }
+    stopnpctimer;
+    end;
+
+OnTimer15000:
+	if(.debug) debugmes "timer is 15000";
+    if($bgstatus == 1) {    // no match
+		if(.debug) debugmes "selecting match";
+        initnpctimer;
+        .@size = getarraysize(.queue);
+        if(.@size > 1) {  // no match currently, there are enough participants
+			if(.debug) debugmes "choosing players";
+            do {
+                .playerone = .queue[0];
+                .playertwo = .queue[1];
+                deletearray .queue[0],2;
+                deletearray .ips$[0],2;
+				if(.debug) debugmes "chose players: "+.playerone+" vs "+.playertwo;
+            } while((!isloggedIn(.playerone) || !isloggedIn(.playertwo)) && getarraysize(.queue) >= 2);
+            if(!.playerone || !.playertwo) end;
+            announce callfunc("formatArabic","["+rid2name(.playerone)+"] VS ["+rid2name(.playertwo)+"] ستبدأ المباراة بعد قليل"),bc_all;
+            sleep 5000;
+            announce callfunc("formatArabic","["+rid2name(.playerone)+"] VS ["+rid2name(.playertwo)+"] لقد بدأ النزال"),bc_all;
+            warp .map$,75,100,getcharid(0,rid2name(.playerone));
+            warp .map$,125,100, getcharid(0,rid2name(.playertwo));
+            initnpctimer;
+            $bgstatus = 2;
+            setwall .map$,120,96,8,0,0,"player1wall";
+            setwall .map$,79,96,8,0,0,"player2wall";
+            sleep 1000;
+            announce "لمشاهدة المباراة, إستعمل الأمر @spectatebg",bc_all|bc_blue;
+        }
+        end;
+    }
+    if($bgstatus == 2) {    // match preparation
+        mapannounce	.map$,"سيبدأ النزال بعد 10 ثوان",bc_map;
+        sleep 5000;
+        mapannounce	.map$,"سيبدأ النزال بعد 5 ثوان",bc_map;
+        for(.@i = 4; .@i > 0; .@i--) {
+            mapannounce	.map$,"سيبدأ النزال بعد "+.@i+" ثوان",bc_map;
+			sleep 1000;
+        }
+        mapannounce .map$,"بدأت المباراة !!",bc_map;
+		// warp .map$, .playerone_coord[0], .playerone_coord[1], getcharid(0,rid2name(.playerone));
+        warp .map$, 87,100,getcharid(0,rid2name(.playerone));
+	    warp .map$,112,99,getcharid(0,rid2name(.playertwo));
+		$bgstatus = 3;
+        initnpctimer;
+    }
+    end;
+
+OnTimer60000:
+    if($bgstatus == 3) {
+        mapannounce	.map$,"ستنتهي المباراة بالتعادل بعد دقيقة واحدة",bc_map;
+    }
+    end;
+
+OnTimer90000:
+    if($bgstatus == 3) {
+        mapannounce	.map$,"ستنتهي المباراة بالتعادل بعد ثلاثون ثانية",bc_map;
+    }
+    end;
+
+OnTimer110000:
+    if($bgstatus == 3) {
+        mapannounce	.map$,"ستنتهي المباراة بالتعادل بعد عشرة ثوان",bc_map;
+    }
+    end;
+OnTimer120000:
+    if($bgstatus == 3) {
+        mapannounce	.map$,"لقد انتهت المباراة بالتعادل !",bc_map;
+        endmatch(3);
+    }
+    end;
+
+OnPCLoginEvent:
+    if($bgstatus) {
+		announce "لقد بدأ التسجيل في ساحة المعركة !",bc_self|bc_blue;
+        sleep2 5000;
+        announce "إستعمل الأمر @joinbg للمشاركة الآن !!",bc_self|bc_blue;
+    }
+    end;
+
+OnPCLogoutEvent:
+    switch($bgstatus) {
+        case 1:
+            if(inarray(.queue,getcharid(3)) > -1) {
+                deletearray .queue[inarray(.queue,getcharid(3))],1;
+                deletearray .ips$[inarray(.ips$,getcharip())],1;
+            }
+            break;
+        case 2: // match active
+		case 3:
+            if(inarray(.spectators,getcharid(3)) > -1) {
+                setpcblock PCBLOCK_ALL,false,getcharid(3);
+                if(checkoption(0x40)) setoption 0x40,0;
+                deletearray .spectators[inarray(.spectators,getcharid(3))];
+            }
+            if(getcharid(3) == .playerone) endmatch(2);
+            else if(getcharid(3) == .playertwo) endmatch(1);
+            break;
+        default:
+            break;
+    }
+	end;
+
+OnPCDieEvent:
+	if($bgstatus < 2 || strcharinfo(3) != .map$) end;
+	if(getcharid(3) == .playerone) endmatch(2);
+	if(getcharid(3) == .playertwo) endmatch(1);
+	end;
+
+function    endmatch {
+    initnpctimer;
+    $bgstatus = 1;
+    if(getarg(0)) == 3 {    // tie game
+        if(attachrid(.playerone)) { getitem 7829,3; BG_TOURNAMENT_TIES++; detachrid(); }
+        if(attachrid(.playertwo)) { getitem 7829,3; BG_TOURNAMENT_TIES++; detachrid(); }
+    } else {
+        .@winner = getarg(0) == 1 ? .playerone : .playertwo;
+        .@loser = getarg(0) == 1 ? .playertwo : .playerone;
+        announce "الفائز في النزال هو",bc_all|bc_blue;
+        sleep 3000;
+        announce rid2name(.@winner)+" !!",bc_all|bc_blue;
+        if(attachrid(.@winner)) {
+            for(.@i = 0; .@i < getarraysize(.winner_rewards); .@i += 2)
+                getitem .winner_rewards[.@i], .winner_rewards[.@i+1];
+            BG_TOURNAMENT_WINS++;
+			dispbottom "لقد انتصرت في هذا النزال, عدد انتصاراتك الإجمالية: "+BG_TOURNAMENT_WINS;
+            detachrid();
+        }
+        if(attachrid(.@loser)) {  
+            for(.@i = 0; .@i < getarraysize(.loser_rewards); .@i += 2)
+                getitem .loser_rewards[.@i], .loser_rewards[.@i+1];
+            BG_TOURNAMENT_LOSSES++; 
+            detachrid(); 
+        }
+    }
+    //cleanup
+	if(.debug) debugmes "cleaning up";
+    sleep 500;
+    for(.@i = 0; .@i < getarraysize(.spectators); .@i++) {
+		attachrid(.spectators[.@i]);
+		setpcblock PCBLOCK_ALL,false;
+		if(checkoption(0x40)) setoption 0x40,0;
+		if(.debug) debugmes "de-hiding "+strcharinfo(0);
+		detachrid();
+	}
+	if(.debug) debugmes "clean completed.";
+    deletearray .spectators;
+    .playerone = 0;
+    .playertwo = 0;
+	mapwarp .map$,"aimia",109,172;
+	if($bgstatus) { $bgstatus = 1; initnpctimer; }
+	end;
+}
+
+}
+
+
+aimia,128,190,4	script	موظف ساحة المعركة	416,{
+	mes .n$;
+	mes "كيف يمكنني مساعدتك؟";
+	next;
+	switch(select("ماهي ساحة المعركة؟:ترتيب ساحة المعركة:توقيت ساحة المعركة:متجر ساحة المعركة:إلغاء")) {
+		case 5:
+			close;
+		case 1:
+			mes .n$;
+			mes "ساحة المعركة هي الإختبار الحقيقي";
+			mes "لمدى قوة المغامرين !";
+			next;
+			mes .n$;
+			mes "في ساحة المعركة, يصطف اللاعبين لقتال بعضهم";
+			mes "البعض, في سلسلة من النزالات الفردية.";
+			next;
+			mes .n$;
+			mes "تتكون النزالات من جولة واحدة فقط";
+			mes "وسيحصل الفائز على شارات ساحة";
+			mes "المعركة كجائزة لانتصاره.";
+			next;
+			mes .n$;
+			mes "يمكنك استبدال شارات الساحة مقابل";
+			mes "العديد من الأدوات الحصرية في متجر";
+			mes "ساحة المعركة.";
+			next;
+			mes .n$;
+			mes "بالإضافة إلى ذلك, فسيتم";
+			mes "مكافأة اللاعب الحاصل على";
+			mes "أكبر قدر ممكن من الإنتصارات";
+			mes "عند نهاية الشهر بجائزة مميزة !";
+			next;
+			mes .n$;
+			mes "تبدأ ساحة المعركة يومياً في تمام";
+			mes "الساعة العاشرة مساءً بتوقيت السعودية.";
+			mes "إحرص على التواجد في الموعد !";
+			close;
+
+		case 2:
+			mes .n$;
+			query_sql("SELECT char_id, CAST(`value` AS SIGNED) FROM `char_reg_num` WHERE `key` = 'BG_TOURNAMENT_WINS' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 20",.@cid,.@value);
+			for(set .@i,0; .@i<getarraysize(.@cid); set .@i,.@i+1) {
+				query_sql("SELECT `name` FROM `char` WHERE char_id = "+.@cid[.@i]+";",.@j$);
+				set .@name$[.@i], .@j$;
+			}
+			if (!getarraysize(.@cid))
+				mes "لا يوجد ترتيب";
+			else for(set .@i,0; .@i<getarraysize(.@cid); set .@i,.@i+1)
+			mes "["+(.@i+1)+"] "+.@name$[.@i]+" ~ "+.@value[.@i]+" wins";
+			close;
+
+		case 3:
+			mes .n$;
+			mes "تبدأ ساحة المعركة يومياً في";
+			mes "تمام الساعة العاشرة مساءً بتوقيت السعودية.";
+			close;
+		case 4:
+			mes .n$;
+			mes "إختر المتجر الذي تريده";
+            .@choice = select("متجر الأسلحة:متجر الدروع والإكسسوارات:متجر المستهلكات");
+            close2;
+            callshop "bgshop"+.@choice,1;
+            end;
+	}   
+
+
+OnInit:
+	set .n$,"^0000FF[موظف ساحة المعركة]^000000";
+	end;
+}

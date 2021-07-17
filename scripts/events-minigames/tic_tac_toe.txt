@@ -1,0 +1,314 @@
+//===== rAthena Script ======================================= 
+//= Ticctactoe Minigame
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Ticctactoe Minigame
+//= A simple tictactoe script. With the option of setting a bet with Zeny or gold coins.
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= This minigame was designed to work in aimia town map. Check grfs to get the map.
+//============================================================
+
+aimia,203,37,5	script	X/O	648,{
+	function resetGame; function winner; function tieGame;
+	if(getgmlevel() == 99) {
+		if(select("disable:continue") == 1) {
+			for(.@i = 1; .@i < 10; .@i++) {
+				disablenpc "sq"+.@i;
+				disablenpc "O"+.@i;
+				disablenpc "X"+.@i;
+			}
+		}
+	}
+	
+	switch(.Game) {
+		case 0: // fresh
+			mes .Name$;
+			mes "هل تريد بدء التحدي؟";
+			next;
+			if(select("نعم:لا")-1) close;
+			mes .Name$;
+			mes "هل تريد وضع رهان؟";
+			next;
+			.@wager = select("بدون رهان:المراهنة بالزيني");
+			if(.@wager == 2) { // zeny bet
+				mes .Name$;
+				mes "أدخل قيمة الرهان";
+				mes "الحد الأقصى هو 100,000 زيني";
+				input .@zenyBet,1,100000;
+				next;
+				if(zeny < .@zenyBet) {
+					mes .Name$;
+					mes "أنت لا تملك زيني كافي للمشاركة";
+					close;
+				}
+			}
+			if(.Game) {
+				mes .Name$;
+				mes "هناك لعبة جارية حالياً";
+				close;
+			} 
+			zeny = zeny - .@zenyBet;
+			.ZenyBet = .@zenyBet;
+			mes .Name$;
+			mes "تم بدء اللعبة, بانتظار اللاعب الثاني";
+			$TicTacPlayerOne = getcharid(3);
+			.Game = 1;
+			initnpctimer;
+			close;
+			break;
+		case 1: //there's a challenger
+			mes .Name$;
+			if(getcharid(3) == $TicTacPlayerOne) {
+				mes "لم يقبل أحد تحديك بعد";
+				mes "هل تريد إلغاء التحدي؟";
+				next;
+				if(select("إنتظار:إلغاء") == 2) {
+					if(.ZenyBet) {
+						zeny = zeny + 8*.ZenyBet/10;
+					}
+					mes .Name$;
+					mes "تم الإلغاء بنجاح";
+					resetGame();		
+				}
+				close;
+			}
+			mes callfunc("formatArabic","اللاعب الأول هو "+rid2name($TicTacPlayerOne));
+			mes "هل تريد قبول التحدي؟";
+			next;
+			mes .Name$;
+			if(.ZenyBet) {
+				mes callfunc("formatArabic","قيمة الرهان "+callfunc("formatNumber",.ZenyBet)+"z");
+				mes "هل تريد قبول الرهان؟";
+				if(select("نعم:لا")-1) close;
+				if(Zeny < .ZenyBet) {
+					mes "ليس لديك زيني كافي لقبول التحدي";
+					close;
+				}
+				zeny = zeny - .ZenyBet;
+			}
+			mes .Name$;
+			mes "تم قبول النزال, لقد بدأت اللعبة";
+			npctalk "لقد بدأت اللعبة";
+			for(.@i = 1; .@i < 10; .@i++) {
+				enablenpc "sq"+.@i;
+			}
+			showscript "أنت اللاعب الثاني X";
+			$TicTacPlayerTwo = getcharid(3);
+			showscript "أنت اللاعب الأول O",$TicTacPlayerOne;
+			$Turn = 1;
+			.Game = 2;
+			initnpctimer;
+			close;
+		
+		case 2:
+			mes .Name$;
+			mes "هناك لعبة جارية حالياً";
+			close;
+	}
+
+OnPCLogOutEvent:
+	if(getcharid(3) == $TicTacPlayerOne) {
+		if(.Game == 1) {
+			if(.ZenyBet) zeny = zeny + 8*.zenyBet/10;
+			resetGame();
+			stopnpctimer;
+		}
+		if(.Game == 2) {
+			winner($TicTacPlayerTwo);
+		}
+	} else if(getcharid(3) == $TicTacPlayerTwo) {
+		if(.Game == 2) {
+			winner($TicTacPlayerOne);
+		}
+	}
+	end;
+
+OnTimer60000:
+	//announce?
+	if(.Game == 1) {
+		attachrid($TicTacPlayerOne);
+		mes .Name$;
+		mes "لم يقبل أحد تحديك";
+		mes "تم إلغاء التحدي";
+		if(.ZenyBet) zeny = zeny + 8*.ZenyBet/10;
+		close2;
+		sleep 1000;
+		resetGame();
+		stopnpctimer;
+		end;
+	}
+	if(.Game == 2) {
+		npctalk "تبقى دقيقة على انتهاء الوقت";
+		sleep 2000;
+	}
+	end;
+
+OnTimer110000:
+	if(.Game == 2) {
+		npctalk "ستنتهي اللعبة بعد 10 ثوان";
+	}
+	end;
+
+OnTimer115000:
+	if(.Game == 2) {
+		npctalk "ستنتهي اللعبة بعد 5 ثوان";
+	}
+	end;
+
+OnTimer120000:
+	if(.Game == 2) {
+		npctalk "لقد انتهى الوقت.";
+		winner(($Turn%2 == 0)? $TicTacPlayerOne : $TicTacPlayerTwo);
+	}
+	end;
+
+function	resetGame	{
+	.Game = 0;
+	.BetMode = 0;
+	$TicTacPlayerOne = 0;
+	$TicTacPlayerTwo = 0;
+	.ZenyBet = 0;
+	.CoinsBet = 0;
+	.TicketsBet = 0;
+	$Turn = 0;
+	setarray $Board[1],10,15,3,4,5,6,7,8,9;
+	for(.@i = 1; .@i < 10; .@i++) {
+		disablenpc "sq"+.@i;
+		disablenpc "O"+.@i;
+		disablenpc "X"+.@i;
+	}
+	stopnpctimer;
+	return;
+}
+
+function	winner	{
+	.@winner = getarg(0);
+	npctalk "لقد انتهت اللعبة";
+	sleep 2000;
+	npctalk callfunc("formatArabic","الفائز هو "+rid2name(.@winner));
+	if(.ZenyBet) {
+		attachrid(.@winner);
+		Zeny = Zeny + 2*.ZenyBet;
+		sleep 500;
+	}
+	resetGame();
+	end;	
+}
+
+function	tieGame	{
+	npctalk "لقد انتهت اللعبة بالتعادل";
+	sleep 2000;
+	if(.ZenyBet) {
+		attachrid($TicTacPlayerOne);
+		Zeny = Zeny + .ZenyBet;
+		sleep 500;
+		attachrid($TicTacPlayerTwo);
+		Zeny = Zeny + .ZenyBet;
+		sleep 500;
+	}
+	resetGame();
+	end;
+}
+
+OnCheck:
+	// eight conditions for winning
+	// since rAthena doesn't support 2d arrays, i'm not sure if there's a better way to do this
+	if($Board[1] == $Board[2] && $Board[1] == $Board[3]) { //[1][2][3]
+		winner(($Board[2] == 1)?$TicTacPlayerOne:$TicTacPlayerTwo);
+	}
+	if($Board[4] == $Board[5] && $Board[4] == $Board[6]) { //[4][5][6]
+		winner(($Board[5] == 1)?$TicTacPlayerOne:$TicTacPlayerTwo);
+	}
+	if($Board[7] == $Board[8] && $Board[7] == $Board[9]) { //[7][8][9]
+		winner(($Board[8] == 1)?$TicTacPlayerOne:$TicTacPlayerTwo);
+	}
+	if($Board[1] == $Board[4] && $Board[1] == $Board[7]) { //[1][4][7]
+		winner(($Board[4] == 1)?$TicTacPlayerOne:$TicTacPlayerTwo);
+	}
+	if($Board[1] == $Board[5] && $Board[1] == $Board[9]) { //[1][5][9]
+		winner(($Board[5] == 1)?$TicTacPlayerOne:$TicTacPlayerTwo);
+	}
+	if($Board[2] == $Board[5] && $Board[2] == $Board[8]) { //[2][5][8]
+		winner(($Board[5] == 1)?$TicTacPlayerOne:$TicTacPlayerTwo);
+	}
+	if($Board[3] == $Board[6] && $Board[3] == $Board[9]) { //[3][6][9]
+		winner(($Board[6] == 1)?$TicTacPlayerOne:$TicTacPlayerTwo);
+	}
+	if($Board[3] == $Board[5] && $Board[3] == $Board[7]) { //[3][5][7]
+		winner(($Board[5] == 1)?$TicTacPlayerOne:$TicTacPlayerTwo);
+	}
+	if($Turn == 10) tieGame();
+	end;
+
+OnInit:
+	.Game = 0;
+	.BetMode = 0;
+	$TicTacPlayerOne = 0;
+	$TicTacPlayerTwo = 0;
+	.ZenyBet = 0;
+	$Turn = 0;
+	//.CoinsBet = 0;
+	//.TicketsBet = 0;
+	.Name$ = "[X/O]";
+	setarray $Board[1],9,18,3,4,5,6,7,8,9;
+}
+
+-	script	Square	4_PURPLE_WARP,{
+	if(!$Turn) { disablenpc strnpcinfo(3); end; }
+	.@number$ = substr(strnpcinfo(3),2,2);
+	if(($Turn%2 == 1) && getcharid(3) == $TicTacPlayerOne) {  enablenpc "O"+.@number$; setarray $Board[atoi(.@number$)],1; $Turn++;  disablenpc strnpcinfo(3); }
+	else if(($Turn%2 == 0) && getcharid(3) == $TicTacPlayerTwo) { enablenpc "X"+.@number$; setarray $Board[atoi(.@number$)],2; $Turn++;  disablenpc strnpcinfo(3); }
+	donpcevent "X/O::OnCheck"; 
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+-	script	X	1002,{
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+-	script	O	2062,{
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+aimia,185,42,4	duplicate(X)	X::X1	1031
+aimia,191,42,4	duplicate(X)	X::X2	1031
+aimia,196,42,4	duplicate(X)	X::X3	1031
+aimia,185,36,4	duplicate(X)	X::X4	1031
+aimia,191,36,4	duplicate(X)	X::X5	1031
+aimia,196,36,4	duplicate(X)	X::X6	1031
+aimia,185,30,4	duplicate(X)	X::X7	1031
+aimia,191,30,4	duplicate(X)	X::X8	1031
+aimia,196,30,4	duplicate(X)	X::X9	1031
+
+aimia,185,42,4	duplicate(O)	O::O1	1002
+aimia,191,42,4	duplicate(O)	O::O2	1002
+aimia,196,42,4	duplicate(O)	O::O3	1002
+aimia,185,36,4	duplicate(O)	O::O4	1002
+aimia,191,36,4	duplicate(O)	O::O5	1002
+aimia,196,36,4	duplicate(O)	O::O6	1002
+aimia,185,30,4	duplicate(O)	O::O7	1002
+aimia,191,30,4	duplicate(O)	O::O8	1002
+aimia,196,30,4	duplicate(O)	O::O9	1002
+
+
+aimia,185,42,4	duplicate(Square)	Square1::sq1	4_PURPLE_WARP
+aimia,191,42,4	duplicate(Square)	Square2::sq2	4_PURPLE_WARP
+aimia,196,42,4	duplicate(Square)	Square3::sq3	4_PURPLE_WARP
+aimia,185,36,4	duplicate(Square)	Square4::sq4	4_PURPLE_WARP
+aimia,191,36,4	duplicate(Square)	Square5::sq5	4_PURPLE_WARP
+aimia,196,36,4	duplicate(Square)	Square6::sq6	4_PURPLE_WARP
+aimia,185,30,4	duplicate(Square)	Square7::sq7	4_PURPLE_WARP
+aimia,191,30,4	duplicate(Square)	Square8::sq8	4_PURPLE_WARP
+aimia,196,30,4	duplicate(Square)	Square9::sq9	4_PURPLE_WARP

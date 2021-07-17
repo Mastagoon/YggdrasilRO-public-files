@@ -1,0 +1,918 @@
+//===== rAthena Script ======================================= 
+//= Guildhouse System
+//===== By: ==================================================
+//= KiNa
+//===== Description: =========================================
+//= functions for YggdrasilRO's Guildhouse System
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= This script needs to be loaded before guild_houses.txt
+//= Really old scripts, use at your own discretion
+//============================================================
+
+//============================================================ 
+//= Baord shows house data and gm option
+//============================================================ 
+function	script	rent_board	{
+	mes "^FF0000[لافتة المنزل]^000000";
+	if(getd("$house" + getarg(0) + "_rent")) {
+		mes "هذا بيت النقابة :" + getguildname(getd("$house" + getarg(0) + "_guild"));
+		mes "قائد النقابه : " + getguildmaster(getd("$house" + getarg(0) + "_guild"));
+		mes "تاريخ التعاقد : "+ getd("$house" + getarg(0) + "_buy_day") + " / " + getd("$house" + getarg(0) + "_buy_month") + " / " + getd("$house" + getarg(0) + "_buy_year");
+		mes "تاريخ انتهاء العقد : "+ getd("$house" + getarg(0) + "_buy_day") + " / "  + getd("$house" + getarg(0) + "_end_month") + " / " + getd("$house" + getarg(0) + "_end_year");;
+		mes "عدد مرات الدخول : " + getd("$house" + getarg(0) + "_access");
+		if (getgmlevel() == 99){
+			next;
+			.@gmoption = select ("close","gm option");
+			if(.@gmoption == 1) close;
+			mes "this option for gms only!";
+			mes "you will set this house as free,in case the guild that owns this house got deleted or something like this";
+			next;
+			mes "do u want to do it?";
+			next;
+			.@gmsure = select("no","yes,sure");
+			if (.@gmsure == 1) close;
+			setd "$house" + getarg(0) + "_rent",0;
+			setd "$house" + getarg(0) + "_guild",0;
+			setd "$house" + getarg(0) + "_buy_day",0;
+			setd "$house" + getarg(0) + "_end_month",0;
+			setd "$house" + getarg(0) + "_buy_year",0;
+			setd "$house" + getarg(0) + "_pass",0;
+			setd "$house" + getarg(0) + "_basement",0;
+			setd "$house" + getarg(0) + "_basement",0;
+			for( set .@i,1; .@i <= 5; .@i++){if(getd("$house" + .@i + "_basement")>0){enablenpc "basement_warp#" + .@i + "";} else {disablenpc "basement_warp#"+.@i; }}
+			mes "this house doesnt have an owner anymore !";
+		} 
+		close; 
+	}
+	mes "هذا البيت لم يستأجره احد بعد";
+	close;
+}
+
+//============================================================ 
+//= NPC in aimia that talks about House availability
+//============================================================ 
+
+function	script	board_houses	{
+	set .@t, getarg(2);
+	mes "^FF0000[" + getarg(0) + "]^000000";
+	mes "لدينا "+ .@t + " بيوت";
+	mes "تكلفة البيت : ^0000FF" + getarg(1) + " z^000000";
+	set .@j, 5;
+	for (set @i, 1; @i <= .@t; set @i, @i + 1) {
+		if (getd("$house" + @i + "_rent") == 1) set .@j, .@j - 1;
+	}
+	if (.@j == 0) mes "لا توجد بيوت متاحه حالياً";
+	else mes "البيوت المتاحه للإيجار : ^0000FF" + .@j + "^000000.";
+	close;
+}
+
+
+
+//============================================================ 
+//= Fuction of the warp
+//============================================================ 
+
+function	script	rent_enter	{
+	if (getd("$house" + getarg(0) + "_rent") == 1) 
+		goto L_rented;
+
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "اذهب واستأجر هذا البيت اولاً";
+	close;
+
+L_rented:
+	if(getd("$house" + getarg(0) + "_guild") == getcharid(2)){
+		if(getguildmasterid(getcharid(2)) != getcharid(0)){
+			goto L_Access;
+			end;
+		}
+	}
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	if(getd("$house" + getarg(0) + "_guild") != getcharid(2) || getcharid(2) == 0 ){
+	mes "هذا البيت ملك للنقابة"+"^0000FF'" +getguildname(getd("$house" + getarg(0) + "_guild"))+"'.^000000";
+	mes "هل تمتلك كلمة السر الخاصة بالضيوف؟";
+	mes "يمكنك طلب كلمة السر من قائد النقابة";
+	next;
+	.@select = select("لدي كلمة السر","الغاء");
+	if(.@select == 2) close;
+	input .@pass;
+	if(.@pass == getd("$house" + getarg(0) + "_pass")){
+		setd "$house" + getarg(0) + "_access",getd("$house" + getarg(0) + "_access") + 1;
+		warp "gh_garden0" + getarg(0) + ".gat",getarg(2),getarg(3);
+		end;
+	}
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "لقد ادخلت كلمة سر غير صحيحه";
+	close; 
+	}
+	if(getguildmasterid(getcharid(2)) == getcharid(0)){
+		mes "هل تريد الدخول؟";
+		next;
+		menu "نعم",L_Access,"الاعدادات",L_MMenu,"لا",-;
+		mes "^0000FF[House " + getarg(0) + "]^000000";
+		mes ".... اراك لاحقاً";
+		close;
+	}
+
+
+L_Access:
+	setd "$house" + getarg(0) + "_access",getd("$house" + getarg(0) + "_access") + 1;
+	warp "gh_garden0" + getarg(0) + ".gat",getarg(2),getarg(3);
+	end;
+
+L_MMenu:
+	menu "تمديد التعاقد",L_Extender,"تحرير الملكيه",L_rentend,"تغيير كلمة سر الضيوف",L_pass,"لاشيئ",-;
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "حسناً. أراك لاحقاً";
+	close;
+L_pass:
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "كلمة السر هي "+getd("$house" + getarg(0) + "_pass");
+	mes "هل تريد تغييرها؟";
+	next;
+	.@pselect = select("نعم","لا");
+	if(.@pselect == 2) close;
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "ادخل كلمة السر الجديده";
+	while (.@newpass < 1000 ){
+	next;
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "يفضل ان تتكون كلمة السر من اكثر من 4 ارقام";
+	input .@newpass;
+	}
+	next;
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "كلمة سرك هي "+.@newpass;
+	.@sselect = select("تأكيد","الغاء");
+	if(.@pselect == 2) close;
+	setd("$house" + getarg(0) + "_pass"),.@newpass;
+	mes "تم تغيير كلمة السر بنجاح";
+	close;
+L_Extender:
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "هل تريد تمديد الايجار لشهر ؟";
+	mes "المبلغ :" +getarg(1)+"z";
+	mes "هل انت متأكد؟";
+	next;
+	menu "نعم",L_DExtender,"لا",-;
+	mes "^0000FF[House " + getarg(0) + "]^000000";
+	mes "حسناً ...";
+	next;
+	goto L_MMenu;
+
+L_DExtender:
+	if (zeny < getarg(1)) 
+		goto L_NoZeny;
+
+	if (gettime(6) < (getd("$house" + getarg(0) + "_end_month") - 1))
+		goto L_NoExtend;
+
+	setd "$house" + getarg(0) + "_end_month", getd("$house" + getarg(0) + "_end_month") + 1;
+	if (getd("$house" + getarg(0) + "_end_month") > 12) {
+		setd "$house" + getarg(0) + "_end_month", getd("$house" + getarg(0) + "_end_month") - 12;
+		setd "$house" + getarg(0) + "_buy_year", getd("$house" + getarg(0) + "_buy_year") + 1;
+	}
+	set Zeny, Zeny - getarg(1);
+	mes "^0000FF[Property " + getarg(0) + "]^000000";
+	mes "تم تمديد العقد.";
+	close;
+
+L_NoZeny:
+	mes "^0000FF[Property " + getarg(0) + "]^000000";
+	mes "ليس لديك أموال كافية!";
+	close;
+
+L_NoExtend:
+	mes "^0000FF[Property " + getarg(0) + "]^000000";
+	mes "تم تجاوز الحد الأقصى للعقد. الرجاء التمديد بعد مرور شهر";
+	close;
+
+L_rentend:
+	mes "^0000FF[Property " + getarg(0) + "]^000000";
+	mes "هل ترغب في إنهاء عقد إيجار هذا المنزل؟";
+	mes "لا يمكنك استرداد ماقمت بدفعه";
+	next;
+	menu "نعم. انا متأكد",L_rentended,"لا ...",-;
+	mes "^0000FF[Property " + getarg(0) + "]^000000";
+	mes "حسناً ...";
+	next;
+	goto L_MMenu;
+
+L_rentended:
+	mes "^0000FF[Property " + getarg(0) + "]^000000";
+	mes "تم تحرير الملكيه";
+	mes "البيت الان متاح للايجار من قبل اي شخص";
+	setd "$house" + getarg(0) + "_rent",0;
+	setd "$house" + getarg(0) + "_guild",0;
+	setd "$house" + getarg(0) + "_buy_day",0;
+	setd "$house" + getarg(0) + "_end_month",0;
+	setd "$house" + getarg(0) + "_buy_year",0;
+	setd "$house" + getarg(0) + "_pass",0;
+	setd "$house" + getarg(0) + "_basement",0;
+	setd "$house" + getarg(0) + "_basementzeny",0;
+	killmonster "ghouse0"+getarg(0),"All";
+	for( set .@i,1; .@i <= 5; .@i++){if(getd("$house" + .@i + "_basement")>0){enablenpc "basement_warp#" + .@i + "";} else {disablenpc "basement_warp#"+.@i; }}
+	close;
+}
+
+
+function	script	rent_freehouse	{
+	if ((getd("$house" + getarg(0) + "_buy_day") == gettime(5)) && (getd("$house" + getarg(0) + "_end_month") == gettime(6))) {
+		setd "$house" + getarg(0) + "_rent",0;
+		setd "$house" + getarg(0) + "_guild",0;
+		setd "$house" + getarg(0) + "_buy_day",0;
+		setd "$house" + getarg(0) + "_end_month",0;
+		setd "$house" + getarg(0) + "_buy_year",0;
+		setd "$house" + getarg(0) + "_pass",0;
+		killmonster "ghouse0"+getarg(0),"All";
+		setd "$house" + getarg(0) + "_basement",0;
+		setd "$house" + getarg(0) + "_basementzeny",0;
+		for( set .@i,1; .@i <= 5; .@i++){if(getd("$house" + .@i + "_basement")>0){enablenpc "basement_warp#" + .@i + "";} else {disablenpc "basement_warp#"+.@i; }}
+	}
+	return 0;
+}
+
+//============================================================ 
+//= Control for the time
+//============================================================ 
+
+-	script	rent_timer	-1,{
+	end;
+
+// check end time for houses and check onguildbreak
+OnClock0001:
+	setarray .@guildid[1],
+		getd("$house" + 1 + "_guild"),
+		getd("$house" + 2 + "_guild"),
+		getd("$house" + 3 + "_guild"),
+		getd("$house" + 4 + "_guild"),
+		getd("$house" + 5 + "_guild");
+
+	for (set .@i,1; .@i <= 5; set .@i, .@i + 1) {
+		callfunc "rent_freehouse",.@i;
+		if(!query_sql("SELECT `guild_id` FROM `guild` WHERE `guild_id` ="+.@guildid[.@i])){
+			setd "$house" + .@i + "_rent",0;
+			setd "$house" + .@i + "_guild",0;
+			setd "$house" + .@i + "_buy_day",0;
+			setd "$house" + .@i + "_end_month",0;
+			setd "$house" + .@i + "_buy_year",0;
+			setd "$house" + .@i + "_pass",0;
+			setd "$house" + .@i + "_basement",0;
+			killmonster "ghouse0"+getarg(0),"All";
+			setd "$house" + .@i + "_basementzeny",0;
+			if(getd("$house" + .@i + "_basement")>0){enablenpc "basement_warp#" + .@i + "";} else {disablenpc "basement_warp#"+.@i; }
+		}
+	}
+	end;
+OnPCLoginEvent:
+	for (set .@j,1; .@j <= 5; .@j++) {
+		if(strcharinfo(3) == "ghouse0"+.@j && getcharid(2) != getd("$house" + .@j + "_guild") ){
+			savepoint "aimia",108,171,getcharid(0); warp "aimia",108,171,getcharid(0);
+		}
+	}
+	end;
+
+
+OnGuildBreak:
+
+}
+
+
+
+
+//============================================================ 
+//= Function to control the Apple Tree
+//= (id of house)
+//============================================================ 
+
+function	script	apple_tree	{
+	if(#tree_CD > gettimetick(2)) end;
+	setarray .@tree,512,512,512,512,512,512,512,512,512,512,607;
+		specialeffect2 363;
+		getitem .@tree[rand(getarraysize(.@tree)-1)], 1;
+		set #tree_CD,gettimetick(2) + 5;
+	end;
+}
+
+//============================================================ 
+//= Function to control the pvp switch.
+//============================================================ 
+
+function	script	rent_pvp	{
+	if(getguildmasterid(getcharid(2)) != getcharid(0)) end;
+	getmapxy(.@mapname$, .@mapx, .@mapy, BL_NPC, strnpcinfo(3));
+	mes "[الحلبة]";
+	mes "هل تريد تشغيل الحلبة في المنزل؟";
+	next;
+	menu "PVP On",L_PvpOn,"PVP Off",L_PvpOff,"Nothing",-;
+	mes "[الحلبة]";
+	mes "Good day.";
+	close;
+
+L_PvpOn:
+	mes "[الحلبة]";
+	mes "تم تفعيل الحلبة";
+	pvpon .@mapname$;
+	close;
+
+L_PvpOff:
+	mes "[الحلبة]";
+	mes "تم إيقاف الحلبة";
+	pvpoff .@mapname$;
+	close;
+}
+
+//============================================================ 
+//= BED!!!!
+//============================================================ 
+function	script	rent_beds	{
+	mes "هل تريد أخذ قيلولة؟";
+	if(select("نعم:لا") -1) close;
+	close2;
+	sc_start SC_BLIND,500000,1;
+	emotion ET_SLEEPY;
+	sleep2(4000);
+	
+	warp "ghouse0" + getarg(0),getarg(1),getarg(2);
+	percentheal 100,100;
+	sc_end SC_BLIND;
+	end;
+}
+
+//============================================================ 
+//= Function for the piano
+//============================================================ 
+
+function	script	rent_pianoStart	{
+	mes "[البيانو]";
+	if (getd("$@Piano" + getarg(0)) > 0) {
+		mes "يرجى الانتظار قبل استخدام البيانو مرة أخرى";
+		close;
+	}
+	mes "يرجى اختيار أغنية";
+	getmapxy(.@mapname$, .@mapx, .@mapy, BL_NPC, strnpcinfo(3));
+	set @Tema, select("01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","None");
+	if (@Tema >= 20) close;
+	if (@Tema < 10) set @Tema$, "0" + @Tema;
+	else set @Tema$,@Tema;	
+	if (getd("$@Piano" + getarg(0)) <= 0) {
+		setd "$@Piano" + getarg(0), 1;
+		playBGMall @Tema$,.@mapname$,56,134,129,194;
+		initnpctimer;
+	}
+	close2;
+	end;
+}
+
+function	script	rent_pianoStop	{
+	emotion ET_BEST;
+	stopnpctimer;
+	setd "$@Piano" + getarg(0), 0;
+	end;
+}
+
+//============================================================ 
+//= Cleaning Services
+//============================================================ 
+
+//============================================================ 
+//= Calculate the following point X and Y
+//= (Present Position XoY)
+//============================================================ 
+
+function	script	rent_aliceXY	{
+	set .@CP, getarg(0); // Present position XoY
+	set .@DST, rand(1,5); // Distance to cross
+	if (rand(2)) // Direccion a tomar (izq der arr abj)
+		set .@CP, .@CP + .@DST;
+	else
+		set .@CP, .@CP - .@DST;
+	if (.@CP < getarg(1))
+		set .@CP, .@CP + .@DST; // If the new point is smaller, thats the minimum
+	if (.@CP > getarg(2))
+		set .@CP, .@CP - .@DST; // If the new point is greater, thats the maximum
+	return .@CP;
+}
+
+//============================================================ 
+//= Fuction for the Service Request NPC
+//= (Id of House)
+//============================================================ 
+
+function	script	rent_serviceCall	{
+	set @alicecost,5000;	// alice cost
+	mes "[خدمة التنظيف]";
+	if (getd("$@house" + getarg(0) + "_alice") == 0) {
+		mes "هل تريد استئجار خادمة للتنظيف؟";
+		mes "ستكلفك هذه الخدمة "+callfunc("formatNumber",@alicecost)+"z";
+		mes "وستبقى الخادمة لتنظف لمدة ثمانية ساعات";
+		next;
+		menu "نعم",-,"لا",L_No;
+		if (Zeny < @alicecost) goto L_NoZeny;
+		if (getd("$@house" + getarg(0) + "_alice") == 1) goto L_Activo;
+		setd "$@house" + getarg(0) + "_alice", 1; // Activo
+		set Zeny, Zeny - @alicecost;
+		mes "[خدمة التنظيف]";
+		mes "سيتم إرسال الخادمة فوراً";
+		enablenpc "AliceR" + getarg(0) + ""; // This shows the npc
+		donpcevent "AliceR" + getarg(0) + "::OnEmpezar"; // Initiates the event
+		initnpctimer;
+	} else {
+		mes "هل تريد طرد الخادمة؟";
+		next;
+		menu "نعم",-,"لا",L_No;
+		if (getd("$@house" + getarg(0) + "_alice") == 0) goto L_Activo;
+		setd "$@house" + getarg(0) + "_alice", 0; // Inactive
+		mes "[خدمة التنظيف]";
+		mes "سوف تغادر الخادمة الآن";
+		stopnpctimer;
+		donpcevent "AliceR" + getarg(0) + "::OnTerminar";
+		disablenpc "AliceR" + getarg(0) + "";
+	}
+	close;
+
+L_Activo:
+	mes "[خدمة التنظيف]";
+	mes "لقد قمت بالتنظيف بالفعل اليوم";
+	close;
+
+L_NoZeny:
+	mes "[خدمة التنظيف]";
+	mes "ليس لديك مالٌ كافي";
+	close;
+
+L_No:
+	mes "[خدمة التنظيف]";
+	mes "شكراً لاستخدامك خدمات التنظيف";
+	close;
+}
+
+//============================================================ 
+//= Finish Kafra Service
+//= (Id of House)
+//============================================================ 
+
+function	script	rent_serviceFinish	{
+	stopnpctimer;
+	setd "$@house" + getarg(0) + "_alice", 0; // Inactivo
+	donpcevent "AliceR" + getarg(0) + "::OnTerminar";
+	disablenpc "AliceR" + getarg(0) + "";
+	end;
+}
+
+
+//============================================================ 
+//= Start of the Alice function, activates NPC timer and salutation
+//============================================================ 
+
+function	script	rent_aliceStart	{
+	npctalk "سأنظف هذا المكان جيداً";
+	initnpctimer;
+	return 0;
+}
+
+//============================================================ 
+//= Alice's movements
+//============================================================ 
+
+function	script	rent_aliceWalk	{
+	emotion ET_DELIGHT;
+	getmapxy(.@mapname$, .@x, .@y, BL_NPC, strnpcinfo(3));
+	set .@curX, callfunc("rent_aliceXY",.@x,56,150);
+	set .@curY, callfunc("rent_aliceXY",.@y,128,134);
+	npcwalkto .@curX, .@curY;
+	stopnpctimer;
+	initnpctimer;
+	end;
+}
+
+//============================================================ 
+//= Only happens when you speak to Alice...click!
+//= Add more in if you want to (Preima)
+//============================================================ 
+
+function	script	rent_aliceTalk	{
+	switch (rand(1,5)) {
+		case 1: npctalk "كدت أنتهي من التنظيف"; break;
+		case 2: npctalk "إن أردت تناول شيء ما, يمكنك الذهاب إلى المطبخ"; break;
+		case 3: npctalk "لا أحصل على مايكفي من المال لهذا العمل!"; emotion ET_HNG; break;
+		case 4: npctalk "لحسن الحظ, لا يوجد الكثير لتنظيفه"; emotion ET_SMILE; break;
+		case 5: npctalk "هذا المنزل مقرف!"; emotion ET_KEK; break;
+	}
+	end;
+}
+
+//============================================================ 
+//= Finishing Alice's service (stopping her)
+//============================================================ 
+
+function	script	rent_aliceStop	{
+	npctalk "تم تنظيف المنزل بشكل كامل";
+	stopnpctimer;
+	return 0;
+}
+
+
+
+//============================================================ 
+//= Function for changing clothes
+//============================================================ 
+
+function	script	rent_clothes	{
+	mes "تغيير الملابس إلى";
+	.@clothes = select ("الزي الطبيعي","الزفاف","الكريسماس","ملابس الصيف","ملابس المنزل","زي الحفلات","إلغاء");
+	if(.@clothes == 7 ) end;
+	if(.@clothes == 1 ){sc_end SC_Xmas; sc_end SC_Summer; sc_end SC_Wedding; sc_end Sc_Hanbok; sc_end Sc_Oktoberfest; end;}
+	if(.@clothes == 2 ){sc_end SC_Xmas; sc_end SC_Summer; sc_end Sc_Hanbok; sc_end Sc_Oktoberfest; sc_start SC_Wedding,600000,0; end;}
+	if(.@clothes == 3 ){sc_end SC_Summer; sc_end SC_Wedding; sc_end Sc_Hanbok; sc_end Sc_Oktoberfest; sc_start SC_Xmas,600000,0; end;}
+	if(.@clothes == 4 ){sc_end SC_Xmas; sc_end SC_Wedding; sc_end Sc_Hanbok; sc_end Sc_Oktoberfest; sc_start SC_Summer,600000,0; end;}
+	if(.@clothes == 5 ){sc_end SC_Xmas; sc_end SC_Summer; sc_end SC_Wedding; sc_end Sc_Hanbok; sc_start Sc_Oktoberfest,600000,0; end;}
+	if(.@clothes == 6 ){sc_end SC_Xmas; sc_end SC_Summer; sc_end SC_Wedding; sc_end Sc_Oktoberfest; sc_start Sc_Hanbok,600000,0; end;}
+}
+
+
+//============================================================ 
+//= save npc
+//============================================================ 
+function	script	rent_kafra	{
+	set .NPC$,"[موظفة كابرا]";
+	mes .NPC$;
+	cutin "kafra_03",2;
+	mes "Welcome to the";
+	mes "Kafra Corporation~";
+	mes "The Kafra Services are";
+	mes "always here to support";
+	mes "you. So how can I be";
+	mes "of service today?";
+	next;
+	.@menu = select("Save","Use Storage","Cancel");
+	if(.@menu == 3) close3;
+	if(.@menu == 1){
+		mes .NPC$;
+		mes "Your Respown Point";
+		mes "has been saved here.";
+		mes "Thank you for using";
+		mes "the Kafre Services";
+		savepoint "ghouse0" + getarg(0),101,182,1,1;
+		close3;
+	}
+	if(.@menu == 2){
+		callfunc("F_CheckKafCode");
+		close2;
+		openstorage;
+		cutin "",255;
+		end;
+	}
+}
+
+//============================================================ 
+//= basement npc's
+//============================================================ 
+function	script	basement_npc	{
+	set .lv1price,20000000;
+	set .lv2price,50000000; 
+	set .lv3price,70000000;
+	set .NPC$,"[العجوز الغريب]";
+	mes .NPC$;
+	if(getd("$house" + getarg(0) + "_basement") == 0){
+		if(getcharid(2) == getd("$house" + getarg(0) + "_guild")){
+			mes "همم.. اهلاً";
+			.@select1 = select("من انت ؟؟","التبرع لفتح القبو");
+			if(.@select1 == 1){
+				next;
+				mes .NPC$;
+				mes "انا كنت اعيش هنا لمدة 30 سنه";
+				mes "انا الان احرس القبو";
+				mes "هل سمعت عن القبو الغريب الخاص بهذا البيت؟";
+				mes "هناك طاقه غريبه لا احد يعلم مصدرها";
+				mes "تخرج من القبو";
+				mes "وهناك بعض الوحوش تطمع في السيطره على هذه الطاقه";
+				next;
+				mes .NPC$;
+				mes "وظيفتي هنا هي حراسه البوابه";
+				mes "لكن لقد سمح لي بإدخال بعض المغامرين لإستكشاف مصدر الطاقه";
+				mes "لكن لاستكشاف القبو عليك ان تدفع لي بعض النقود";
+			}
+			if(.@select1 == 2){
+				next;
+				mes .NPC$;
+				mes "حسناً..";
+				mes "هل تريد نقابتك فتح هذا القبو؟";
+				mes "لكن انا احذركم ستظهر الوحوش فيه من وقت لاخر";
+				mes "قد تكون وحوش قويه لا اعلم بشأن ذلك حقاً";
+				next;
+				mes .NPC$;
+				mes "لفتح القبو عليكم ان تدفعو";
+				mes callfunc("formatNumber",.lv1price)+"z";
+				mes "مجمل ماتم دفعه هو : ";
+				mes getd("$house" + getarg(0) + "_basementzeny") +" / "+.lv1price;
+				next;
+				.@select2 = select("تبرع","اظن انني سأنسحب ");
+				if(.@select2 == 1){
+					mes .NPC$;
+					mes "بكم تريد التبرع؟";
+					input .@input;
+					if(Zeny<.@input){
+						mes "انت لا تملك هذا المبلغ";
+						close;
+					}
+					set Zeny,Zeny-.@input;
+					setd("$house" + getarg(0) + "_basementzeny"),getd("$house" + getarg(0) + "_basementzeny")+.@input;
+					mes "لقد تبرعت لفتح قبو المنزل";
+					if(getd("$house" + getarg(0) + "_basementzeny") >= .lv1price){
+						setd("$house" + getarg(0) + "_basement"),1;
+						setd("$house" + getarg(0) + "_basementzeny"),0;
+						announce callfunc("formatArabic","لقد قامت نقابة "+getguildname(getd("$house" + getarg(0) + "_guild")) +" .بفتح قبو البيت الخاص بها"),0,0xDBA901;
+						enablenpc "basement_warp#" + getarg(0) + "";
+						set .@arg,getarg(0);
+						callfunc("basement_mvprespowns",.@arg);
+						mes "لقد تم فتح قبو المنزل";
+						close;
+					}
+				}
+				if(.@select2 == 2){
+					mes .NPC$;
+					mes "عد الي عندما تصبح شجاعاً";
+					close;
+				}
+			}
+		}
+		else {
+		mes "لا أملك وقت لاضيعه مع الغرباء";
+		close;
+		}
+		close;
+	}
+	if(getd("$house" + getarg(0) + "_basement") == 3){
+		mes "مستوى القبو هو 3";
+		mes "لا يمكنك رفع مستوى القبو اكثر من 3";
+		close;
+	}else{
+	mes "هل تريد استكشاف القبو اكثر؟";
+	mes "تبرع اكثر لاستكشاف القبو";
+	mes "هناك 3 لفلات للقبو";
+	mes "عند زيادة لفل القبو تزداد الطاقه التي تنتج منه";
+	mes "فتجذب وحوش اقوى وافضل";
+	mes "لتصل للفل التالي عليك التبرع ب";
+	if(getd("$house" + getarg(0) + "_basement") == 2){
+		mes ""+callfunc("formatNumber",.lv3price)+"z";
+		set .@basement,2;
+	}else if(getd("$house" + getarg(0) + "_basement") == 1){
+		mes ""+callfunc("formatNumber",.lv2price)+"z";
+		set .@basement,1;
+	}
+	next;
+	mes .NPC$;
+	mes "لفل القبو هو : "+getd("$house" + getarg(0) + "_basement");
+	if (.@basement == 1){
+		mes "مجمل التبرعات هو : "; 
+		mes getd("$house" + getarg(0) + "_basementzeny") +" / "+ .lv2price;
+	}
+	if (.@basement == 2){
+		mes "مجمل التبرعات هو : ";
+		mes getd("$house" + getarg(0) + "_basementzeny") +" / "+ .lv3price;
+	}
+	mes "هل تريد التبرع؟";
+	.@pay = select("نعم","لا");
+	if(.@pay == 2) close;
+	input .@lvlpay;
+	if(Zeny<.@lvlpay){
+		mes "انت لا تملك هذا المبلغ";
+		close;
+	}
+	next;
+	mes .NPC$;
+	set Zeny,Zeny-.@lvlpay;
+	setd("$house" + getarg(0) + "_basementzeny"),getd("$house" + getarg(0) + "_basementzeny")+.@lvlpay;
+	mes "لقد تبرعت لقبو المنزل";
+	if (.@basement == 1){
+		mes "مجمل التبرعات هو : "; 
+		mes getd("$house" + getarg(0) + "_basementzeny") +" / "+ .lv2price;
+		if(getd("$house" + getarg(0) + "_basementzeny") >= .lv2price){
+			setd("$house" + getarg(0) + "_basement"),2;
+			setd("$house" + getarg(0) + "_basementzeny"),0;
+			set .@arg,getarg(0);
+			killmonster "ghouse0"+getarg(0),"All";
+			callfunc("basement_mvprespowns",.@arg);
+			end;
+		}
+	}
+	if (.@basement == 2){
+		mes "مجمل التبرعات هو : ";
+		mes getd("$house" + getarg(0) + "_basementzeny") +" / "+ .lv3price;
+		if(getd("$house" + getarg(0) + "_basementzeny") >= .lv3price){
+			setd("$house" + getarg(0) + "_basement"),3;
+			setd("$house" + getarg(0) + "_basementzeny"),0;
+			set .@arg,getarg(0);
+			killmonster "ghouse0"+getarg(0),"All";
+			callfunc("basement_mvprespowns",.@arg);
+			end;
+		}
+	}
+	close;
+	}
+
+}
+
+
+function	script	basement_enter	{
+	if(getd("$house" + getarg(0) + "_basement") > 0 && getcharid(2) == getd("$house" + getarg(0) + "_guild")){
+		warp "ghouse0"+getarg(0),getarg(1),getarg(2); //do warp here
+		end;
+	}
+	end;
+}
+function	script	basement_mvprespowns	{
+setarray .mobidlv1[0],1147,1685,2483,1734,1785,1312,2105,1492,1623,1252,1630,1885,1272,1373,2156,2068,1251,1112,1157,1039,1150,
+	1046,1389,1159,1511,1038,1115,1086,1190,1087;
+setarray .mobidlv2[0],2362,1658,1768,1871,1719,2202,1708,1059,1583,1688;
+setarray .mobidlv3[0],1917,1832,1751,3074,1874,2251,2255,2253,2249,1646,1647,1648,1649,1650,2235,2236,2238,2239,2240,2241;
+if(getd("$house" + getarg(0) + "_basement") == 3){
+	mapannounce "ghouse0"+getarg(0),"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";
+	setd("$h"+getarg(0)+"_btimer_lv2",-1);
+	setd("$h"+getarg(0)+"_btimer_lv1",-1);
+	monster "ghouse0"+getarg(0),216,146,"وحش القبو",.mobidlv3[rand(getarraysize(.mobidlv3))],1,"basement"+getarg(0)+"::Onlv3BossDead";
+	end;
+}
+if(getd("$house" + getarg(0) + "_basement") == 2){
+	mapannounce "ghouse0"+getarg(0),"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";
+	setd("$h"+getarg(0)+"_btimer_lv3",-1);
+	setd("$h"+getarg(0)+"_btimer_lv1",-1);
+	monster "ghouse0"+getarg(0),216,146,"وحش القبو",.mobidlv2[rand(getarraysize(.mobidlv2))],1,"basement"+getarg(0)+"::Onlv2BossDead";
+	end;
+}
+if(getd("$house" + getarg(0) + "_basement") == 1){
+	mapannounce "ghouse0"+getarg(0),"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";
+	setd("$h"+getarg(0)+"_btimer_lv2",-1);
+	setd("$h"+getarg(0)+"_btimer_lv3",-1);
+	monster "ghouse0"+getarg(0),216,146,"وحش القبو",.mobidlv1[rand(getarraysize(.mobidlv1))],1,"basement"+getarg(0)+"::Onlv1BossDead";
+	end;
+}
+}
+// -	script	mvplabels#0	-1,{	
+
+// Onlv3BossDead:
+// 	mapannounce strcharinfo(3),"لقد تم هزيمة احد الوحوش الموجودة في القبو",bc_map,"0x70dbdb";
+// 	getitem 50001,1;
+// 	setd "$map3name_"+strnpcinfo(2)+"$",strcharinfo(3);
+// 	setd "$mapnum"+strnpcinfo(2),callfunc("mapnumber");
+// initnpctimer;
+// end;
+
+// OnTimer32400000: //9h
+// 	stopnpctimer;
+// 	mapannounce getd("$map3name_"+strnpcinfo(2)+"$"),"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";	
+// 	monster getd("$map3name_"+strnpcinfo(2)+"$"),216,146,"وحش القبو",.mobidlv3[rand(getarraysize(.mobidlv3))],1,"mvplabels#"+getd("$mapnum"+strnpcinfo(2))+"::Onlv3BossDead";
+// end;
+
+// Onlv2BossDead:
+// 	mapannounce strcharinfo(3),"لقد تم هزيمة احد الوحوش الموجودة في القبو",bc_map,"0x70dbdb";
+// 	getitem 50002,1;
+// 	setd "$map2name_"+strnpcinfo(2)+"$",strcharinfo(3);
+// 	setd "$mapnum"+strnpcinfo(2),callfunc("mapnumber");
+// initnpctimer;
+// end;
+
+// OnTimer21600000: //6h
+// stopnpctimer;
+// 	mapannounce getd("$map2name_"+strnpcinfo(2)+"$"),"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";
+// 	monster getd("$map2name_"+strnpcinfo(2)+"$"),216,146,"وحش القبو",.mobidlv2[rand(getarraysize(.mobidlv2))],1,"mvplabels#"+getd("$mapnum"+strnpcinfo(2))+"::Onlv2BossDead";
+// end;
+
+// Onlv1BossDead:
+// 	mapannounce strcharinfo(3),"لقد تم هزيمة احد الوحوش الموجودة في القبو",bc_map,"0x70dbdb";
+// 	getitem 50003,1;
+// 	setd "$map1name_"+strnpcinfo(2)+"$",strcharinfo(3);
+// 	setd "$mapnum"+strnpcinfo(2),callfunc("mapnumber");
+// initnpctimer;
+// end;
+
+// OnTimer10800000: //3h
+// //OnTimer5000:
+// 	stopnpctimer;
+// 	mapannounce getd("$map1name_"+strnpcinfo(2)+"$"),"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";
+// 	monster getd("$map1name_"+strnpcinfo(2)+"$"),216,146,"وحش القبو",.mobidlv1[rand(getarraysize(.mobidlv1))],1,"mvplabels#"+getd("$mapnum"+strnpcinfo(2))+"::Onlv1BossDead";
+// end;
+
+
+// OnInit:
+// setarray .mobidlv1[0],1147,1685,2483,1734,1785,1312,2105,1492,1623,1252,1630,1885,1272,1373,2156,2068,1251,1112,1157,1039,1150,
+// 	1046,1389,1159,1511,1038,1115,1086,1190,1087;
+// setarray .mobidlv2[0],2362,1658,1768,1871,1719,2202,1708,1059,1583,1688;
+// setarray .mobidlv3[0],1917,1832,1751,3074,1874,2251,2255,2253,2249,1646,1647,1648,1649,1650,2235,2236,2238,2239,2240,2241;
+// }
+// -	duplicate(mvplabels#0)	mvplabels#1	-1
+// -	duplicate(mvplabels#0)	mvplabels#2	-1
+// -	duplicate(mvplabels#0)	mvplabels#3	-1
+// -	duplicate(mvplabels#0)	mvplabels#4	-1
+// -	duplicate(mvplabels#0)	mvplabels#5	-1
+-	script	basement_control	-1,{
+OnMinute00:
+	//check for lv1
+	for(.@i = 1 ; .@i <=5; .@i++) {
+		.@time = gettime(DT_HOUR) - getd("$h"+.@i+"_btimer_lv1");
+		if(getd("$h"+.@i+"_btimer_lv1") == -1) continue;
+		if(.@time >= 2) {
+			callfunc("basement_mvprespowns",.@i);
+		}
+	}
+	//check for lv2
+	for(.@i = 1 ; .@i <=5; .@i++) {
+		.@time = gettime(DT_HOUR) - getd("$h"+.@i+"_btimer_lv2");
+		if(getd("$h"+.@i+"_btimer_lv2") == -1) continue;
+		if(.@time >= 2) {
+			callfunc("basement_mvprespowns",.@i);
+		}
+	}
+	//check for lv3
+	for(.@i = 1 ; .@i <=5; .@i++) {
+		.@time = gettime(DT_HOUR) - getd("$h"+.@i+"_btimer_lv3");
+		if(getd("$h"+.@i+"_btimer_lv3") == -1) continue;
+		if(.@time >= 2) {
+			callfunc("basement_mvprespowns",.@i);
+		}
+	}
+	end;
+}
+ghouse01,0,0,0	script	basement1	-1,{
+
+Onlv1BossDead:
+	setd "$h1_btimer_lv1",gettime(DT_HOUR);
+	end;
+Onlv2BossDead:
+	setd "$h1_btimer_lv2",gettime(DT_HOUR);
+	end;
+Onlv3BossDead:
+	setd "$h1_btimer_lv3",gettime(DT_HOUR);	
+	end;
+	
+}
+ghouse02,0,0,0	script	basement2	-1,{
+Onlv1BossDead:
+	setd "$h2_btimer_lv1",gettime(DT_HOUR);
+	end;
+Onlv2BossDead:
+	setd "$h2_btimer_lv2",gettime(DT_HOUR);
+	end;
+Onlv3BossDead:
+	setd "$h2_btimer_lv3",gettime(DT_HOUR);	
+	end;
+}
+ghouse03,0,0,0	script	basement3	-1,{
+Onlv1BossDead:
+	setd "$h3_btimer_lv1",gettime(DT_HOUR);
+	end;
+Onlv2BossDead:
+	setd "$h3_btimer_lv2",gettime(DT_HOUR);
+	end;
+Onlv3BossDead:
+	setd "$h3_btimer_lv3",gettime(DT_HOUR);	
+	end;
+}
+ghouse04,0,0,0	script	basement4	-1,{
+Onlv1BossDead:
+	setd "$h4_btimer_lv1",gettime(DT_HOUR);
+	end;
+Onlv2BossDead:
+	setd "$h4_btimer_lv2",gettime(DT_HOUR);
+	end;
+Onlv3BossDead:
+	setd "$h4_btimer_lv3",gettime(DT_HOUR);	
+	end;
+}
+ghouse05,0,0,0	script	basement5	-1,{
+Onlv1BossDead:
+	setd "$h5_btimer_lv1",gettime(DT_HOUR);
+	end;
+Onlv2BossDead:
+	setd "$h5_btimer_lv2",gettime(DT_HOUR);
+	end;
+Onlv3BossDead:
+	setd "$h5_btimer_lv3",gettime(DT_HOUR);	
+	end;
+}
+
+function	script	mapnumber	{
+	if(strcharinfo(3) == "ghouse01"){
+		return 1;
+		end;
+	}
+	if(strcharinfo(3) == "ghouse02"){
+		return 2;
+		end;
+	}
+	if(strcharinfo(3) == "ghouse03"){
+		return 3;
+		end;
+	}
+	if(strcharinfo(3) == "ghouse04"){
+		return 4;
+		end;
+	}
+	if(strcharinfo(3) == "ghouse05"){
+		return 5;
+		end;
+	}
+}

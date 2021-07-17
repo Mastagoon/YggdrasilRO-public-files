@@ -1,0 +1,241 @@
+//===== rAthena Script ======================================= 
+//= WoE Rewards by Mastagoon
+//===== Description: =========================================
+//= This script rewards players for each minute spent on WoE castle.
+//===== Current Version: =====================================
+//= 1.0
+//===== Featuers: ============================================
+//= Can reward players for every minute they spend inside a WoE castle
+//= Can reward players for every kill in WoE castle, and will also display the name of the killed/killer.
+//= Can reward players for every emperium break
+//= Shows statistics for the latest WoE
+//= Excludes AFK players and players who are not in a guild.
+//= Announces kills with different colors depending on the killer's castle
+//= Can set a modifier for certain classes to gain more points than others
+//===== Notes: ============================================
+//= This script needs the OnPCAttackEvent source mod to work
+//= https://rathena.org/board/files/file/4285-onpcattackevent/
+//============================================================
+
+function	script	KDR_Calc	{
+	.@kills = getarg(0);
+	.@deaths = getarg(1);
+	if(!.@kills && !.@deaths) return "0.00";
+	if(.@kills >= .@deaths) {
+		if(!.@deaths) return .@kills+".00";
+		.@i = .@kills / .@deaths;
+		.@j = .@kills % .@deaths;
+		if(!.@j) return .@i+"..";
+		return .@i+"."+.@j * 100 / .@deaths;
+	}
+	.@i = .@kills * 10 / .@deaths;
+	.@j = .@kills % 10 / .@deaths;
+	return "0."+@i + .@j * 10 / .@deaths;
+}
+
+function	script	getcharid2	{
+	.@size = query_sql("select char_id, party_id, guild_id, account_id, clan_id from `char` where name = '"+getarg(1)+"'",.@charid,.@pid,.@gid,.@aid,.@cid);
+	if(.@size < 0) return 0;
+	if(getarg(0)==0) return .@charid;
+	else if(getarg(0)==1) return .@pid;
+	else if(getarg(0)==2) return .@gid;
+	else if(getarg(0)==3) return .@aid;
+	else if(getarg(0)==4) return .@cid;
+	return 0;
+}
+
+-	script	woerewards	-1,{ 
+
+function	AddPlayer	{ //player name , npc name
+	for (.@i = 0 ; .@i < getvariableofnpc(.player_amount,getarg(1)) ; .@i += 3)
+		if (getvariableofnpc(.players$[.@i],getarg(1)) == getarg(0)) return;
+	setarray getvariableofnpc(.players$[getvariableofnpc(.player_amount,getarg(1))],getarg(1)) , getarg(0) , strcharinfo(3) , "0";
+	set getvariableofnpc(.player_amount,getarg(1)) , getvariableofnpc(.player_amount,getarg(1)) + 3;
+	return;
+}
+
+OnInit:
+	setarray .maps$ ,"schg_cas03", "prtg_cas01"; //maps where the system is active
+    .points_per_minute = 1; // Number of points earned for each minute you spend in the castle. set to 0 to disable it
+	.points_per_kill = 5;	// Number of points earned for every kill you get in the castle. set to 0 to disable it
+	.points_per_break = 30;	// Number of points earned for every emperium you break during woe. set to 0 to disable it
+	.top_damage_reward = 30;	// Number of points for the player with the most damage done woe. set to 0 to disable it
+	.top_kills_reward = 30;	// Number of points for the player with the most kills during woe. set to 0 to disable it
+    for (.@i = 0 ; .@i < getarraysize(.maps$) ; .@i++)
+        if (!getmapflag(.maps$[.@i],mf_loadevent)) setmapflag .maps$[.@i],mf_loadevent;
+
+    .s_idle_time = 180; // time before player is considered idle (in seconds)
+    .rewardId = 909;    // ID of the reward item
+    .announce = 0;  // Announce kills (0 = no announcement, 1 = map announcement, 2 = global announcement)
+    .color_defenders$ = "0xffff00"; // Announcement color when a defending player kills an attacking player
+    .color_attackers$ = "0x99ccff"; // Announcement color when an attacking player kills a member of the castle's owner
+    setarray .class_modifier[0],4063,3,4076,2;  // Modifier for certain classes [Id, Modifier, Id, Modifier....]
+	if(agitcheck() || agitcheck2()) initnpctimer;
+	end;
+
+OnAgitStart:
+	.@sql$ = "DELETE from `char_reg_num` WHERE `key` = 'woepoints' OR `key` = 'woedeaths' OR `key` = 'woekills' OR `key` = 'woedamage' OR `key` = 'woeempbreak'";
+	query_sql(.@sql$);
+	addrid(0);
+	woepoints = 0;
+	woekills = 0;
+	woedeaths = 0;
+	woeempbreak = 0;
+	woedamage = 0;
+	detachrid();
+	initnpctimer;
+	end;
+
+OnPCLoadMapEvent:
+	if(!agitcheck() || !getcharid(2)) end;
+	for (.@i = 0 ; .@i < getarraysize(.maps$) ; .@i++) {
+		if (.maps$[.@i] == strcharinfo(3)) {
+			if(!woepoints) {
+				dispbottom "You've entered a WoE castle map, you will gain rewards for each minute you spend in this castle.";
+			}
+			AddPlayer(strcharinfo(0),strnpcinfo(0));
+		}
+	}
+	end;
+
+OnTimer10000: //will check every ten seconds if player is still on the map
+	freeloop(1);
+	for (.@i = 0 ; .@i < .player_amount ; .@i += 3) {
+		if (!attachrid(getcharid2(3,.players$[.@i]))) { deletearray .players$[.@i],3 ; .player_amount -= 3; }
+		else if(strcharinfo(3) != .players$[.@i+1]) { deletearray .players$[.@i],3 ; .player_amount -= 3; }
+	}
+	for (.@i = 0 ; .@i < .player_amount ; .@i += 3) {
+		if(checkidle() < .s_idle_time) {    // no points for idle players
+            setarray .players$[.@i+2] , ""+(atoi(.players$[.@i+2]) + 1)+"";
+            if (atoi(.players$[.@i+2]) >= 6) {
+                if(attachrid(getcharid2(3,.players$[.@i]))) {
+                    woepoints += .points_per_minute;
+                    dispbottom "You've spent one minute in a WoE castle and gained a WoE point.";
+                    dispbottom "Total points earned: "+woepoints;
+                    setarray .players$[.@i+2] , "0";
+                }
+            }
+        }
+	}
+	initnpctimer;
+	freeloop(0);
+	end;
+
+OnPCKillEvent:
+	if(!agitcheck() || !getcharid(2) || !.points_per_kill || inarray(.maps$,strcharinfo(3)) == -1) end;
+	dispbottom "You've recieved "+.points_per_kill+" WoE Points for killing "+rid2name(killedrid);
+	woepoints += .points_per_kill;
+	woekills++;
+    .@color$ = getcharid(2) == getcastledata(strcharinfo(3),CD_GUILD_ID) ? .color_defenders$ :  .color_attackers$;
+    if(.announce == 1) 
+        announce "[WoE]: "+strcharinfo(0)+" Has Killed "+rid2name(killedrid),bc_all,.@color$;
+    if(.announce == 2)
+        mapannounce strcharinfo(3),"[WoE]: "+strcharinfo(0)+" Has Killed "+rid2name(killedrid),bc_map,.@color$;
+	end;
+	
+OnPCDieEvent:
+	if(!agitcheck() || !getcharid(2)) end;
+	if(inarray(.maps$,strcharinfo(3)) == -1) end;
+	dispbottom "You've been killed by "+rid2name(killerrid);
+	woedeaths++;
+	end;
+
+OnPCAttackEvent:
+	if(!agitcheck() || !getcharid(2) || inarray(.maps$,strcharinfo(3)) == -1) end;
+	woedamage += @damage;
+	end;
+
+OnPCLogoutEvent:
+	if(woekills || woedeaths) 
+		query_sql("REPLACE INTO `woe_rank` (`char_id`, `guild_id`, `char`, `kill`, `death`, `kdr`, `damage_dealt`, `emperium_break`) VALUES ("+getcharid(0)+","+getcharid(2)+",'"+rid2name(getcharid(3))+"', "+woekills+", "+woedeaths+", '"+callfunc("KDR_Calc", woekills, woedeaths)+"', "+woedamage+", "+woeempbreak+")");
+	if(!agitcheck() && !agitcheck2()) {
+		woepoints = 0;
+		woekills = 0;
+		woedeaths = 0;
+		woeempbreak = 0;
+		woedamage = 0;
+	}
+	end;
+
+OnAgitBreak:
+	woepoints += .points_per_break;
+	if(.points_per_break) dispbottom "You've gained "+.points_per_break+" WoE Points for breaking an emperium.";
+	woeempbreak++;
+	end;
+
+OnAgitEnd:
+	stopnpctimer;
+	//participation rewards.
+	.@sql$ = "SELECT `char`.`char_id`, `value`, `char`.`class` FROM `char_reg_num` JOIN `char` ON `char`.`char_id` = `char_reg_num`.`char_id` WHERE `key` = 'woepoints'";
+	query_sql(.@sql$,.@ids, .@points, .@classes);
+	for(.@i = 0; .@i < getarraysize(.@ids); .@i++) {
+        .@modifier = inarray(.class_modifier, .@classes[i]) > -1 ? .class_modifier[inarray(.class_modifier, .@classes[.@i])+1] : 1;
+		.@charid = .@ids[.@i];
+		.@sender$ = "[WoE Rewards]";
+		.@title$ = "Rewards";
+		.@body$ = "You've recieved a reward for participating in war of emperium.\nTotal Participation Time:";
+		setarray .@itemarray[0],.coinid;
+		setarray .@itemamtarray[0], .@points[.@i] * .@modifier;
+		mail .@charid,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+	}
+	//reward for most kills 
+	if(.top_kills_reward) {
+		query_sql("SELECT `char_id`, `value` FROM `char_reg_num` WHERE `key` = 'woekills' ORDER BY `value` DESC LIMIT 1", .@char, .@kill);
+		.@charid = .@char;
+		.@sender$ = "[WoE Rewards]";
+		.@title$ = "WoE MvP Rewards";
+		.@body$ = "Congratulations. You have recieved a reward for the most kills during War of Emperium.";
+		.@zeny = 1;
+		setarray .@itemarray[0],.coinid;
+		setarray .@itemamtarray[0], 30;
+		mail .@charid,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+	}
+	// reward for most damage dealt
+	if(.top_damage_reward) {
+		query_sql("SELECT `char_id`, `value` FROM `char_reg_num` WHERE `key` = 'woedamage' ORDER BY `value` DESC LIMIT 1", .@char, .@kill);
+		.@charid = .@char;
+		.@sender$ = "[WoE Rewards]";
+		.@title$ = "WoE MvP Rewards";
+		.@body$ = "Congratulations. You have recieved a reward for the highest damage dealt during War of Emperium.";
+		.@zeny = 1;
+		setarray .@itemarray[0],.coinid;
+		setarray .@itemamtarray[0], 30;
+		mail .@charid,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+	}
+	end;
+}
+
+prontera,149,193,4	script	WoE Information	835,{
+	mes .n$;
+	mes "Information for the latest WoE on the server.";
+	next;
+	mes .n$;
+	query_sql("SELECT DISTINCT `guild_id` FROM `woe_rank`",.@guildIds); // get participating guilds
+	mes "The number of participating guilds: "+getarraysize(.@guildIds);
+	for(.@i = 0; .@i < getarraysize(.@guildIds); .@i++) {
+		if(getguildname(.@guildIds[.@i]) != "null") mes .@i+1+"-"+getguildname(.@guildIds[.@i]);
+	}
+	next;
+	mes .n$;
+	mes "Top ten players with the most kills:";
+	mes "Name | ^0000FFKill^000000 | ^FF0000Death^000000 | ^FF22FFKDR^000000";
+	query_sql("SELECT `char`, `kill`, `death`, `kdr`, `damage_dealt` FROM `woe_rank` ORDER BY `kill` DESC LIMIT 10", .@char$, .@kill, .@death, .@kdr$,.@damage);
+	mes "^ff00001. "+.@char$[0]+" ^000000| ^0000FF"+.@kill[0]+"^000000 | ^FF0000"+.@death[0]+"^000000 | ^FF22FF"+.@kdr$[0]+"^000000";
+	for(.@i = 1; .@i < getarraysize(.@char$); .@i++) {
+		mes (.@i+1)+"."+.@char$[.@i]+" | ^0000FF"+.@kill[.@i]+"^000000 | ^FF0000"+.@death[.@i]+"^000000 | ^FF22FF"+.@kdr$[.@i]+"^000000";
+	}
+	next;
+	mes .n$;
+	mes "Top ten players with the highest damage dealt:";
+	mes "Name | ^0000FFDamage^000000";
+	query_sql("SELECT `char`, `kill`, `death`, `kdr`, `damage_dealt` FROM `woe_rank` ORDER BY `damage_dealt` DESC LIMIT 10", .@char$, .@kill, .@death, .@kdr$,.@damage);
+	mes "^ff00001. "+.@char$[0]+" ^000000| ^0000FF"+callfunc("F_InsertComma",.@damage[0])+"^000000";
+	for(.@i = 1; .@i < getarraysize(.@char$); .@i++) {
+		mes (.@i+1)+"."+.@char$[.@i]+" | ^0000FF"+callfunc("F_InsertComma",.@damage[.@i])+"^000000";
+	}
+	close;
+
+OnInit:
+	.n$ = "[^0000ffWoE Information^000000]";
+	end;
+}

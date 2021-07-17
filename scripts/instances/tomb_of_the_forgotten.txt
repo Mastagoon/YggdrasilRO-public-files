@@ -1,0 +1,993 @@
+//===== rAthena Script ======================================= 
+//= Tomb of The Forgotten
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrsailRO's Tomb of The Forgotten Quest & Instance
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+aimia,236,73,3	script	حامل بندقية مصاب	31917,{
+	if(!racing_intro) {
+		mes .n$;
+		mes "...........";
+		next;
+		mes "- يبدو أنه مشتتُ الانتباه -";
+		next;
+		if(select("المعذرة...:تجاهل الأمر") -1) close;
+		mes .n$;
+		mes "^999999أوه...أهلاً....^000000";
+		mes "^999999أرجوا المعذرة....التحدّث...صعب...جداً...^000000";
+		next;
+		select("مالذي أتى بك إلى هنا؟");
+		mes .n$;
+		mes "^999999إلى...هنا...؟..^000000";
+		mes "^999999...أين...أين أنا...^000000";
+		mes "^999999.....هل أنت..أنت العدو؟^000000";
+		next;
+		specialeffect 722;
+		emotion 23,getcharid(3);
+		mes "- يسحب حامل البندقية المصاب سلاحه, يبدوا -";
+		mes "- أنه يريد القتال ! -";
+		mes "- ماذا ستفعل؟ -";
+		next;
+		if(select("الهجوم عليه:الانتظار") == 1) {
+			mes "- أنت تحاول مهاجمته -";
+			showscript "هيااااااااااااااه !!!";
+			specialeffect 810;
+			specialeffect 795;
+			next;
+			mes .n$;
+			mes ".........";
+			specialeffect 245, getcharid(3);
+			next;
+			mes "- لقد قام حامل البندقية بهزيمتك -";
+			mes "- بضربةٍ واحدة. -";
+			percentheal -100,-100;
+			close;
+		}
+		mes "- بعد الانتظار قليلاً -";
+		mes "- يبدوا أنه عاد لرشده -";
+		next;
+		mes "- ولكن يبدو...غير مستقرِّ أبداً. -";
+		next;
+		mes "- ربما يجب عليك سؤاله اسئلةً -";
+		mes "- يسهل الإجابة عليها بنعم أو لا -";
+		next;
+		freeloop(1);
+		do {
+			switch(select("هل جئت إلى إيميا عمداً؟:هل تحتاج المساعدة؟:هل هناك من يطاردك؟:هل تحب البطاطا المسلوقة؟")) {
+				case 4:
+					mes "- يومئ الرجل الغريب برأسه بشدّة -";
+					mes "- يبدوا أنه من محبي البطاطا -";
+					mes "- المسلوقة -";
+					emotion 67,getnpcid(0);
+					next;
+					mes "- أنت تشعر بوجود تفاهُمٍ بينك وبين -";
+					mes "- هذا الشخص. حتى إن لم تستطع الكلمات -";
+					mes "- أن تتواصل بينكما, فعلى الأقل -";
+					mes "- حبّكما للبطاطا المسلوقة سينتصر -";
+					next;
+					break;
+				case 3:
+					mes "- يهز الرجل رأسه نفياً, يبدو أنه -";
+					mes "- يقول لا. -";
+					next;
+					ghost_query++;
+					break;
+				case 2:
+					mes "- يومئ حامل السلاح برأسه, ويبدوا -";
+					mes "- حزيناً بعض الشيء؟ -";
+					next;
+					ghost_query++;
+					break;
+				case 1:
+					mes "- يومئ الرجل برأسه قليلاً فقط -";
+					mes "- أنت تشعر بأنه يريد القول -";
+					mes "- 'نوعمّا؟ ولكن ليس حقاً' -";
+					ghost_query++;
+					next;
+					break;
+			}
+		} while(ghost_query < 3);
+		freeloop(0);
+		mes "- مالذي استنتجته بعد التحدث -";
+		mes "- إلى الرجل واستجوابه؟ -";
+		next;
+		if(select("لابد أنه هَرَب من مكانٍ ما ويريد إنقاذ اصدقائه:لابد أنه ممثّل في السيرك") == 2) {
+			mes "- أنت تستنتج أنه ممثل في السيرك -";
+			mes "- وتطلب من الرجل المرهَق, المصاب -";
+			mes "- والحزين, بأن يرقص من أجلك. -";
+			next;
+			mes "- ينظر إليك الرجل وكأن التحدّث -";
+			mes "- إليك كان أكبر غلطةٍ في حياته. -";
+			close;
+		}
+		mes "- أنت تسأل الرجل إذا ماكان -";
+		mes "- هارباً من مكانٍ ما, ويحتاج -";
+		mes "- إلى المساعدة -";
+		next;
+		mes .n$;
+		mes "^999999أ..أجل!!..نعم..اصدقائي...^000000";
+		mes "^999999الجميع...الجميع...أموات...";
+		next;
+		mes "- يخرج الرجل كريستالةً غريبة -";
+		mes "- من جيبه ويقدّمها لك -";
+		next;
+		mes .n$;
+		mes "^999999ال..نجدة....^000000";
+		mes "^999999سا..سا..ساعدهم^000000";
+		racing_intro = 1;
+		next;
+		if(select("مساعدة الرجل:إلغاء") -1) close;
+		.@name$ = "Tomb of The Forgotten";
+		.@tickets = 0;
+		.@cooldown = 84600;
+		.@quests$ = "";
+		.@partysize = 1;
+		.@minlevel = 175;
+		.@maxlevel = 185;
+		instanceDialoge(.@name$,.@tickets,.@cooldown,.@quests$,.@partysize,.@minlevel,.@maxlevel);
+	}
+	mes .n$;
+	mes "....";
+	next;
+	switch(select("دخول كهف النسيان:عن قبعات السباق:سحر قبعات السباق:ترقيَة سحر قبعة السباق:إلغاء")) {
+		case 1:
+			.@name$ = "Tomb of The Forgotten";
+			.@tickets = 0;
+			.@cooldown = 84600;
+			.@quests$ = "";
+			.@partysize = 1;
+			.@minlevel = 175;
+			.@maxlevel = 185;
+			instanceDialoge(.@name$,.@tickets,.@cooldown,.@quests$,.@partysize,.@minlevel,.@maxlevel);
+			break;
+		case 2:
+			mes .n$;
+			mes "ليس لدي الكثير لأعطيك إياه";
+			mes "ولكن إن وجدت المزيد من الجواهر";
+			mes "الغامضة, أعطني إياها من فضلك.";
+			next;
+			mes .n$;
+			mes "سأعطيك مقابلها بعض كنوز نقابتي";
+			mes "القديمة, قبعات السباق.";
+			next;
+			mes .n$;
+			mes "سأعطيك ^000000مخطوطة صناعة قبعات السباق^ff0000";
+			mes "مقابل 30 جوهرة ملعونة";
+			next;
+			if(select("شراء مخطوطة قبعة السباق:إلغاء") -1) close;
+			if(countitem(60245) < 30) {
+				mes .n$;
+				mes "ليس لديك 30 جوهرة ملعونة.";
+				close;
+			}
+			mes .n$;
+			mes "سيكلفك ذلك 30 جوهرة ملعونة";
+			mes "هل تريد المتابعة؟";
+			if(select("نعم:لا") -1 ) close;
+			delitem 60245,30;
+			getitem 60246,1;
+			close;
+			break;
+		case 3:
+			mes .n$;
+			if(inarray(.racing_headgears, getequipid(6)) == -1) {
+				mes "يرجى ارتداء قبعة السباق أولاً";
+				close;
+			}
+			disable_items;
+			disable_command;
+			mes "سيكلفك سحر القبعة 30 جوهرة ملعونة. هل تريد المتابعة؟";
+			next;
+			if(select("نعم:لا") -1 ) close;
+			if(countitem(60244) < 30) {
+				mes .n$;
+				mes "ليس لديك جواهر كافية.";
+				close;
+			}
+			setarray .@card[0],
+				getequipcardid(6,0),
+				getequipcardid(6,1),
+				getequipcardid(6,2),
+				getequipcardid(6,3);
+			copyarray .@equip_card[0], .@card[0], 4;	// for final check
+			.@equip_id = getequipid(6);
+			.@equip_refine = getequiprefinerycnt(6);
+			if (.@card[1] > 0) {
+				mes .n$;
+				mes "هذه القبعة مسحورة بالكامل";
+				mes "هل تريد إعادة سحرها؟";
+				next;
+				if(select("إعادة السحر:إلغاء") -1) close;
+				mes .n$;
+				mes "ستكلفك إعادة السحر 5 حجر النسيان";
+				mes "هل تريد المتابعة؟";
+				next;
+				if(select("إعادة السحر:إلغاء") -1 ) close;
+				mes .n$;
+				if(countitem(60245) < 5) {
+					mes "ليس لديك أحجار كافية.";
+					close;
+				}
+				delitem 60245, 5;
+				if (callfunc("F_IsEquipIDHack", 6, .@equip_id) || callfunc("F_IsEquipCardHack", 6, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || 
+				callfunc("F_IsEquipRefineHack", 6, .@equip_refine))
+					close;
+				specialeffect2 EF_REPAIRWEAPON;
+				delequip 6;
+				mes .n$;
+				mes "تمّت العملية بنجاح.";
+				getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],0,0,0;
+				close;
+			}
+			delitem 60244, 30;
+			if(.@card[3] == 0)
+				.@cardSlot = 3;
+			else if(.@card[2] == 0)
+				.@cardSlot = 2;
+			else .@cardslot = 1;
+			switch(.@cardslot) {
+				case 3:	// first enchant
+					.@card[.@cardslot] = .first_enchant[rand(getarraysize(.first_enchant))];
+					break;
+				case 2:
+					.@card[.@cardslot] = rand(100) > 80 ? .second_enchant[rand(getarraysize(.second_enchant))] : .first_enchant[rand(getarraysize(.first_enchant))];
+					break;
+				case 1:
+					if(rand(100) > 50) .@card[.@cardslot] = .third_enchant[rand(getarraysize(.third_enchant))];
+					else {
+						.@card[.@cardslot] = .special_enchant[inarray(.racing_headgears, .@equip_id)];
+					}
+					break;
+			}	
+			specialeffect2 EF_REPAIRWEAPON;
+			if (callfunc("F_IsEquipIDHack", 6, .@equip_id) || callfunc("F_IsEquipCardHack", 6, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || 
+				callfunc("F_IsEquipRefineHack", 6, .@equip_refine))
+				close;
+			delequip 6;
+			mes .n$;
+			mes "تمت العملية بنجاح.";
+			getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+			close;
+
+		case 4:	// upgrade enchant
+			mes .n$;
+			mes "تكلفك ترقية سحر القبعة";
+			mes "100 حجر نسيان";
+			next;
+			mes .n$;
+			mes "في حالة فشل التطوير فسينقص";
+			mes "تحسين السحر لمستوىً واحد.";
+			next;
+			if(select("ترقية سحر القبعة:إلغاء") -1) close;
+			setarray .@card[0],
+				getequipcardid(6,0),
+				getequipcardid(6,1),
+				getequipcardid(6,2),
+				getequipcardid(6,3);
+			copyarray .@equip_card[0], .@card[0], 4;	// for final check
+			.@equip_id = getequipid(6);
+			.@equip_refine = getequiprefinerycnt(6);
+			if(inarray(.third_enchant, .@card[1]) > -1 || !.@card[1]) {
+				mes .n$;
+				mes "يرجى إحضار قبعة بها سحرٌ مميز أولاً.";
+				close;
+			}
+			if(inarray(.special_enchant_max, .@card[1]) > -1) {
+				mes .n$;
+				mes "هذه القبعة مسحورة بالكامل بالفعل.";
+				close;
+			}
+			if(countitem(60244) < 100) {
+				mes .n$;
+				mes "ليس لديك أحجار نسيان كافية";
+				close;
+			}
+			if(inarray(.special_enchant, .@card[1]) > -1) {
+				mes .n$;
+				mes "سيتم الآن سحر القبعة";
+				mes "هل تريد الاستمرار؟";
+				next;
+				if(select("نعم:كلّا") -1 ) close;
+				delitem 60244, 100;
+				if(rand(0,1)) {
+					mes .n$;
+					mes "لقد فشل سحر القبعة.";
+					close;
+				}
+				specialeffect2 EF_REPAIRWEAPON;
+				.@card[1] = .@card[1]+1;
+				if(callfunc("F_IsEquipIDHack", 6, .@equip_id) || callfunc("F_IsEquipCardHack", 6, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || 
+					callfunc("F_IsEquipRefineHack", 6, .@equip_refine))
+						close;
+				delequip 6;
+				mes .n$;
+				mes "تمت العملية بنجاح.";
+				getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+				close;
+			}
+			//check enchant
+			for(.@i = 0; .@i < getarraysize(.special_enchant); .@i++) {
+				if(.special_enchant[.@i]+1 == .@card[1]) {
+					mes .n$;
+					mes "سيتم الآن سحر القبعة";
+					mes "هل تريد الاستمرار؟";
+					next;
+					if(select("نعم:كلّا") -1 ) close;
+					delitem 60244, 100;
+					if(rand(0,1)) {
+						mes .n$;
+						mes "لقد فشل سحر القبعة.";
+						close;
+					}
+					specialeffect2 EF_REPAIRWEAPON;
+					.@card[1] = .@card[1]+1;
+					if(callfunc("F_IsEquipIDHack", 6, .@equip_id) || callfunc("F_IsEquipCardHack", 6, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || 
+						callfunc("F_IsEquipRefineHack", 6, .@equip_refine))
+							close;
+					delequip 6;
+					mes .n$;
+					mes "تمت العملية بنجاح.";
+					getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+					close;
+				}
+			}
+			mes .n$;
+			mes "لا يمكنك سحر هذه القبعة.";
+			close;
+	}
+	
+    end;
+
+OnInit:
+	.n$ = "] رجل مصاب [";
+	setarray .racing_headgears[0], 
+							19189,
+							19190,
+							19191,
+							19192,
+							19193,
+							19194,
+							19195,
+							19196,
+							19197,
+							19198,
+							19199,
+							19200,
+							19201,
+							19202,
+							19203,
+							19204,
+							19205,
+							19396,
+							19397;
+
+	setarray .first_enchant[0],4700, 4701, 4702, 4710, 4711, 4712, 4720, 4721, 4722, 4730, 4731, 4732, 4740, 4741, 4742, 4750 ,4751 ,4752;
+	setarray .second_enchant[0], 4703, 4713, 4723, 4733, 4743, 4753;
+	setarray .third_enchant[0], 4811, 4810, 4815, 4814, 4818, 4817, 4832, 4833, 4863, 4864,4869 , 4872;
+	setarray .special_enchant[0],29316, 29319, 29322, 29325, 29328, 29331, 29310, 29313, 29334, 29337, 29340, 29343, 29343, 29346, 29349, 29352, 29355, 29579, 29582;
+	setarray .special_enchant_max[0],29318, 29321, 29324, 29327, 29330, 29333, 29312, 29315, 29336, 29339, 29342, 29345, 29345,  29346, 29349, 29352, 29355, 29579, 29582;
+	end;
+}
+
+//instance script below
+
+//warps
+ordeal_a00,149,176	warp	tofwarp#1	2,2,ordeal_a00,149,200
+ordeal_a00,149,198	warp	tofwarp#2	2,2,ordeal_a00,149,173
+ordeal_a00,177,149	warp	tofwarp#3	2,2,ordeal_a00,202,149
+ordeal_a00,198,149	warp	tofwarp#4	2,2,ordeal_a00,174,149
+ordeal_a00,149,122	warp	tofwarp#5	2,2,ordeal_a00,149,97
+ordeal_a00,149,100	warp	tofwarp#6	2,2,ordeal_a00,149,125
+ordeal_a00,122,148	warp	tofwarp#7	2,2,ordeal_a00,98,148
+ordeal_a00,101,148	warp	tofwarp#8	2,2,ordeal_a00,125,148
+ordeal_a00,150,150	warp	tofwarp#9	2,2,aimia,108,171
+
+ordeal_a00,0,0,0	script	tof_controller	-1,{
+
+// spawn monsters and open 1st warp
+OnStart:
+	mapannounce 'map$,"لقد تم فتح البوابة إلى شمال الكهف",bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#1");
+	areamonster 'map$,145,201,154,250,"--ja--",31916,150,strnpcinfo(3)+"::OnMobDead1";
+	'mobs = 150;
+	// setwall 'map$,144,251,11,6,0,'map$+"wall";
+	end;
+
+OnEast:
+	mapannounce 'map$, "لقد تم فتح البوابة إلى الجهة الشرقية.",bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#3");
+	areamonster 'map$,204,145,245,154,"--ja--",31913,150,strnpcinfo(3)+"::OnMobDead2";
+	'mobs = 150;
+	// setwall 'map$,246,154,11,4,0,'map$+"wall2";
+	end;
+
+OnSouth:
+	mapannounce 'map$,"لقد تم فتح البوابة إلى جنوب الكهف",bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#5");
+	areamonster 'map$,145,96,153,55,"--ja--",31910,150,strnpcinfo(3)+"::OnMobDead3";
+	'mobs = 150;
+	// setwall 'map$,145,54,11,6,0,'map$+"wall3";
+	end;
+
+OnWest:
+	mapannounce 'map$,"لقد تم فتح البوابة إلى الجهة الغربية من الكهف",bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#7");
+	areamonster 'map$,94,157,53,145,"--ja--",31907,75,strnpcinfo(3)+"::OnMobDead4";
+	areamonster 'map$,94,157,53,145,"--ja--",31904,75,strnpcinfo(3)+"::OnMobDead4";
+	'mobs = 150;
+	// setwall 'map$,145,54,11,6,0,'map$+"wall3";
+	end;
+
+OnCenter:
+	mapannounce 'map$, "جيمس راسيل: خلّصني من هذه المعاناة...", bc_map|bc_blue;
+	monster 'map$,150,158,"--ja--",31917,1,strnpcinfo(3)+"::OnJamesDead";
+	end;
+
+
+OnInstanceInit:
+	for(.@i = 1; .@i <= 9; .@i++) {
+		disablenpc instance_npcname("tofwarp#"+.@i);
+	}
+	'map$ = instance_mapname("ordeal_a00");
+	'stage = 0;
+	end;
+
+OnMobDead1:
+	'mobs--;
+	if('mobs <= 0) {
+		mapannounce 'map$, "لقد تم القضاء على جميع الوحوش.",bc_map|bc_blue;
+		// delwall 'map$+"wall";
+		enablenpc instance_npcname("جيمس راسيل#2");
+		enablenpc instance_npcname("ويليام هوبز");
+	}
+	end;
+
+OnMobDead2:
+	'mobs--;
+	if('mobs <= 0) {
+		mapannounce 'map$, "لقد تم القضاء على  جميع الوحوش",bc_map|bc_blue;
+		// delwall 'map$+"wall2";
+		enablenpc instance_npcname("جيمس راسيل#3");
+		enablenpc instance_npcname("دوروثي هوبز");
+	}
+	end;
+
+OnMobDead3:
+	'mobs--;
+	if('mobs <= 0) {
+		mapannounce 'map$, "لقد تم القضاء على  جميع الوحوش",bc_map|bc_blue;
+		// delwall 'map$+"wall3";
+		enablenpc instance_npcname("جيمس راسيل#4");
+		enablenpc instance_npcname("أليس يونغ");
+	}
+	end;
+
+OnMobDead4:
+	'mobs--;
+	if('mobs <= 0) {
+		mapannounce 'map$, "لقد تم القضاء على  جميع الوحوش",bc_map|bc_blue;
+		// delwall 'map$+"wall3";
+		enablenpc instance_npcname("جيمس راسيل#5");
+		enablenpc instance_npcname("إدوارد بيشوب");
+		enablenpc instance_npcname("ماري وارين");
+	}
+	end;
+
+OnWilliamDead:
+	.@color$ = "0xfffff00";
+	getitem 60202,1;
+	announce "player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid),bc_all,.@color$;
+	discord("Player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid), "mvp");
+	mapannounce 'map$, "ويليام هوبز:..مالذي..يحدث......جيمس...؟",bc_map|bc_blue;
+	sleep 3000;
+	mapannounce 'map$, "جيمس راسيل: لا بأس عليك..يمكنك الارتياح الآن...",bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#2");
+	disablenpc instance_npcname("tofwarp#1");
+	enablenpc instance_npcname("جيمس راسيل");
+	sleep 3000;
+	mapannounce 'map$, "جيمس راسيل: لنتحدث في منتصف الكهف...لا أريد البقاء هنا..",bc_map|bc_blue;
+	// enablenpc instance_npcname("tofwarp#3");
+	'stage = 2;
+	end;
+
+OnDorothyDead:
+	.@color$ = "0xfffff00";
+	getitem 60202,1;
+	announce "player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid),bc_all,.@color$;
+	discord("Player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid), "mvp");
+	mapannounce 'map$, "دوروثي هوبز:أشعر....بالبرد...", bc_map|bc_blue;
+	sleep 3000;
+	mapannounce 'map$, "جيمس راسيل: وداعاً دوروثي....سألحق بك قريباً.", bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#4");
+	disablenpc instance_npcname("tofwarp#3");
+	enablenpc instance_npcname("جيمس راسيل");
+	sleep 3000;
+	mapannounce 'map$, "تم فتح البوابة إلى منتصف الكهف.",bc_map|bc_blue;
+	'stage = 4;
+	end;
+
+OnAliceDead:
+	.@color$ = "0xfffff00";
+	getitem 60202,1;
+	announce "player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid),bc_all,.@color$;
+	discord("Player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid), "mvp");
+	mapannounce 'map$, "أليس: أين...أين أنا...", bc_map|bc_blue;
+	sleep 3000;
+	mapannounce 'map$, "جيمس راسيل: آسف لأني لم أستطع إنقاذك...", bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#6");
+	disablenpc instance_npcname("tofwarp#5");
+	enablenpc instance_npcname("جيمس راسيل");
+	sleep 3000;
+	mapannounce 'map$, "تم فتح البوابة إلى منتصف الكهف.",bc_map|bc_blue;
+	'stage = 6;
+	end;
+
+OnEdwardDead:
+	.@color$ = "0xfffff00";
+	getitem 60202,1;
+	announce "player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid),bc_all,.@color$;
+	discord("Player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid), "mvp");
+	if(mobcount('map$, strnpcinfo(3)+"::OnMaryDead") > 0) {	// edward died, marry still lives
+		mapannounce 'map$, "ماري وارين: إدوارد...إدوارد !!! كيف تجرؤون !!", bc_map|bc_blue;
+		setunitdata 'boss_mary,UMOB_MAXHP, 100000000;
+		setunitdata 'boss_mary,UMOB_HP, 100000000;
+		end;
+	}
+	mapannounce 'map$, "ماري...سامحيني...", bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#8");
+	disablenpc instance_npcname("tofwarp#7");
+	enablenpc instance_npcname("جيمس راسيل");
+	sleep 3000;
+	mapannounce 'map$, "تم فتح البوابة إلى منتصف الكهف.",bc_map|bc_blue;
+	'stage = 8;
+	end;
+
+OnMaryDead:
+	.@color$ = "0x8000ff";
+	getitem 60201,1;
+	announce "player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid),bc_all,.@color$;
+	discord("Player "+strcharinfo(0)+" has defeated the boss monster "+rid2name(killedgid), "mvp");
+	if(mobcount('map$, strnpcinfo(3)+"::OnEdwardDead") > 0) {	// edward died, marry still lives
+		mapannounce 'map$, "إدوارد بيشوب: ماري...سيدفعون ثمن هذا !!!", bc_map|bc_blue;
+		setunitdata 'boss_edward,UMOB_MAXHP, 100000000;
+		setunitdata 'boss_edward,UMOB_HP, 100000000;
+		setunitdata 'boss_edward,UMOB_ATKMIN, 20000;
+		setunitdata 'boss_edward,UMOB_ATKMAX, 30000;
+		setunitdata 'boss_edward,UMOB_SPEED, 100;
+		end;
+	}
+	mapannounce 'map$, "إدوارد....أنا خائفة..", bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#8");
+	disablenpc instance_npcname("tofwarp#7");
+	enablenpc instance_npcname("جيمس راسيل");
+	sleep 3000;
+	mapannounce 'map$, "تم فتح البوابة إلى منتصف الكهف.",bc_map|bc_blue;
+	'stage = 8;
+	end;
+
+OnJamesDead:
+	mapannounce 'map$, "جيمس راسيل: وداعاً...شكراً على كل شيء...", bc_map|bc_blue;
+	enablenpc instance_npcname("tofwarp#9"); 
+	end;
+
+OnInit:
+	.map$ = "ordeal_a00";
+	if(!getmapflag(.map$,mf_noteleport)) setmapflag .map$,mf_noteleport;
+	if(!getmapflag(.map$,mf_nobranch)) setmapflag .map$,mf_nobranch;
+	if(!getmapflag(.map$,mf_monster_noteleport)) setmapflag .map$,mf_monster_noteleport;
+	if(!getmapflag(.map$,mf_nosave)) setmapflag .map$,mf_nosave;
+	if(!getmapflag(.map$,mf_nomemo)) setmapflag .map$,mf_nomemo;
+	if(!getmapflag(.map$,mf_nowarp)) setmapflag .map$,mf_nowarp;
+	if(!getmapflag(.map$,mf_partylock)) setmapflag .map$,mf_partylock;
+	if(!getmapflag(.map$,mf_noicewall)) setmapflag .map$,mf_noicewall;
+	end;
+}
+
+
+ordeal_a00,25,150,6	script	إدوارد بيشوب	31907,{
+	end;
+
+OnInit:
+OnInstanceInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+ordeal_a00,25,149,6	script	ماري وارين	31904,{
+	end;
+
+OnInit:
+OnInstanceInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+ordeal_a00,149,25,8	script	أليس يونغ	31910,{
+	end;
+
+OnInit:
+OnInstanceInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+ordeal_a00,274,149,2	script	دوروثي هوبز	31913,{
+	end;
+
+OnInit:
+OnInstanceInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+ordeal_a00,31,155,3	script	جيمس راسيل#5	31917,{
+	if(!is_party_leader() || getnpctimer(0) || 'stage != 7) end;
+	initnpctimer;
+	end;
+
+OnTimer2000:
+	showscript "مرحباً ماري..إدوارد...",getnpcid(0);
+	end;
+
+OnTimer8000:
+	showscript "تشه, ابقي خلفي يا ماري!! سأقضي أنا على هذه الوحوش!", getnpcid(0,instance_npcname("إدوارد بيشوب"));
+	showscript "إدوارد ! الوحوش تهاجمنا !!", getnpcid(0,instance_npcname("ماري وارين"));
+	end;
+
+OnTimer10000:
+	showscript "ماري, إدوارد, ليس هناك أيٌّ وحـ.",getnpcid(0);
+	end;
+OnTimer11000:
+	showscript "إخرس أيها الوحش !! لن أدعك تقترب من ماري!", getnpcid(0,instance_npcname("إدوارد بيشوب"));
+	sleep 5000;
+	disablenpc instance_npcname("إدوارد بيشوب");
+	disablenpc instance_npcname("ماري وارين");
+	monster 'map$,25,150,"--ja--",31905,1,instance_npcname("tof_controller")+"::OnEdwardDead";
+	'boss_edward = $@mobid[0];
+	monster 'map$,25,149,"--ja--",31902,1,instance_npcname("tof_controller")+"::OnMaryDead";
+	'boss_mary = $@mobid[0];
+	stopnpctimer;
+	disablenpc strnpcinfo(3);
+	end;
+
+OnInit:
+OnInstanceInit:
+	disablenpc(strnpcinfo(3));
+	end;
+}
+
+ordeal_a00,159,29,3	script	جيمس راسيل#4	31917,{
+	if(!is_party_leader() || getnpctimer(0) || 'stage != 5) end;
+	initnpctimer;
+	end;
+
+OnTimer5000:
+	showscript "أليس...",getnpcid(0);
+	end;
+
+OnTimer8000:
+	showscript "أوه جيمس, مالذي تفعله هنا؟ من هؤلاء الغرباء؟", getnpcid(0,instance_npcname("أليس يونغ"));
+	end;
+
+Ontimer10000:
+	showscript "لقد أخفتني قليلاً. مالذي يجري هنا؟ جيمس, لنخرج من هنا معاً",getnpcid(0,instance_npcname("أليس يونغ")); 
+	end;
+
+Ontimer15000:
+	showscript "أليس؟ هذا لايعقل...ألم تفقدي صوابك؟؟", getnpcid(0);
+	emotion 23,getnpcid(0);
+	sleep 3000;
+	showscript "بالطبع لا ! الاهم من ذلك, لنخرج من هنا معاً ! هيا يا جيمس !",getnpcid(0,instance_npcname("أليس يونغ")); 
+	emotion 33,getnpcid(0,instance_npcname("أليس يونغ"));
+	end;
+
+OnTimer20000:
+	npcspeed 100;
+	showscript "لا أصدق ما أراه....أليس..", getnpcid(0);
+	npcwalkto 148,24;
+	sleep 3000;
+	specialeffect 245;
+	emotion 23,getnpcid(0);
+	showscript "تشه...لقد خدعتيني! ", getnpcid(0);
+	showscript "هاهاه, ردود أفعالك سريعةٌ كالعادة, لقد كنت على وشك التخلص منك !",getnpcid(0,instance_npcname("أليس يونغ")); 
+	emotion 29, getnpcid(0,instance_npcname("أليس يونغ")); 
+	sleep 5000;
+	disablenpc instance_npcname("أليس يونغ");
+	monster 'map$,149,25,"--ja--",31908,1,instance_npcname("tof_controller")+"::OnAliceDead";
+	stopnpctimer;
+	disablenpc strnpcinfo(3);
+	end;
+
+OnInit:
+OnInstanceInit:
+	disablenpc(strnpcinfo(3));
+	end;
+}
+
+ordeal_a00,268,153,5	script	جيمس راسيل#3	31917,{
+	if(!is_party_leader() || getnpctimer(0) || 'stage != 3) end;
+	initnpctimer;
+	end;
+
+OnTimer5000:
+	showscript "مرحباً يا دوروثي...",getnpcid(0);
+	end;
+
+OnTimer8000:
+	showscript "...جيمس..هل أحضرت النجدة..هيهي.هاهاهاه", getnpcid(0,instance_npcname("دوروثي هوبز"));
+	end;
+
+Ontimer10000:
+	showscript "س..ساعدني...ساعدني على قتلكم جميعاً..هاهاهاها!! سأقتلكم سأقتلكم",getnpcid(0,instance_npcname("دوروثي هوبز")); 
+	end;
+
+Ontimer15000:
+	showscript "سأقتلكم سأقتلكم سأقتلكم سأقتلكم سأقتلكم",getnpcid(0,instance_npcname("دوروثي هوبز")); 
+	sleep 3000;
+	showscript "سأقتلكمسأقتلكمسأقتلكمسأقتلكمسأقتلكم",getnpcid(0,instance_npcname("دوروثي هوبز")); 
+	emotion 29,getnpcid(0,instance_npcname("دوروثي هوبز")); 
+	end;
+
+OnTimer20000:
+	showscript "سامحيني يا دوروثي...هذا هو كل ما يمكنني فعله لاجلك.", getnpcid(0);
+	disablenpc instance_npcname("دوروثي هوبز");
+	monster 'map$,273,149,"--ja--",31911,1,instance_npcname("tof_controller")+"::OnDorothyDead";
+	stopnpctimer;
+	disablenpc strnpcinfo(3);
+	end;
+
+OnInit:
+OnInstanceInit:
+	disablenpc(strnpcinfo(3));
+	end;
+}
+
+// ordeal_a00,149,149,0	script	BG_CHANGER#1	5,5,-1,{
+// OnTouch:
+// 	if(getbattlegroup(getcharid(3)) != 10)
+// 		setbattlegroup(getcharid(3), 10);
+// 	end;
+// }
+
+ordeal_a00,144,268,7	script	جيمس راسيل#2	31917,{
+	if(!is_party_leader() || getnpctimer(0) || 'stage != 1) end;
+	initnpctimer;
+	end;
+
+OnTimer5000:
+	showscript "ويليام...هل أنت...",getnpcid(0);
+	end;
+
+OnTimer8000:
+	showscript "جيمس ! هاها! لقد عدتَ مرّة أخرى", getnpcid(0,instance_npcname("ويليام هوبز"));
+	end;
+
+Ontimer10000:
+	showscript "وأخيراً سأقتلك وأثبت بأنني الأقوى في النقابة !! هاهاهاهاها !!",getnpcid(0,instance_npcname("ويليام هوبز")); 
+	end;
+
+OnTimer13000:
+	showscript "يبدو أنك فقدت عقلك تماماً....ولكن لا تقلق..سأخلّصك من هذه اللعنة.", getnpcid(0);
+	end;
+
+OnTimer16000:
+	disablenpc instance_npcname("ويليام هوبز");
+	monster 'map$,149,273,"--ja--",31914,1,instance_npcname("tof_controller")+"::OnWilliamDead";
+	stopnpctimer;
+	disablenpc strnpcinfo(3);
+	// monster2 144,268,"James Russel",31917,1,10,instance_npcname("tof_controller")+"::OnJamesDead";
+	// 'russel1 =$@mobid[0];
+	// mapannounce 'map$, "قوموا بهزيمة ويليام وحماية جيمس منه !",bc_map|bc_blue;
+	end;
+
+OnInstanceInit:
+	disablenpc strnpcinfo(3);
+	end;
+OnInit:
+	.n$ = "] جيمس راسيل [";
+	end;
+}
+
+ordeal_a00,149,273,4	script	ويليام هوبز	31916,{
+	end;
+
+OnInit:
+OnInstanceInit:
+	.n$ = "[^0000ffويليام هوبز^000000]";
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+ordeal_a00,149,158,4	script	جيمس راسيل	31917,{
+	if(!is_party_leader()) end;
+	switch('stage) {
+		case 0:
+			mes .n$;
+			mes "أخيراً !!, يمكنني التحدّث";
+			showscript "أخيراً !!, يمكنني التحدّث بحريّة في هذا المكان", getnpcid(0);
+			mes "بحريّة في هذا المكان.";
+			next;
+			mes .n$;
+			mes "لا أشعر بأني مشتت الذهن";
+			mes "وأستطيع التفكير بحريّة";
+			showscript "لا أشعر بأني مشتت الذهن, وأستطيع التفكير بحريّة !", getnpcid(0);
+			next;
+			mes .n$;
+			mes "يمكنني قتلكم جميعاً الآن !!";
+			showscript "هه, يمكنني قتلكم جميعاً هنا والآن !! هاهاها!!", getnpcid(0);
+			emotion 23, getcharid(3);
+			next;
+			select("قتلنا...جميعاً؟؟");
+			showscript "ماذا تعني بذلك, ألم تطلب مساعدتنا؟";
+			mes .n$;
+			mes "أوه...أجل..أصدقائي..";
+			mes "أرجوا المعذرة, هذا المكان يؤثر";
+			mes "على أفكاري, لكن لاتقلق";
+			mes "سأتحكم بنفسي أمامكم.";
+			showscript "أوه...هذا صحيح..", getnpcid(0);
+			next;
+			mes .n$;
+			mes "دعني أعرّف عن نفسي رسمياً.";
+			mes "إسمي هو جيمس راسيل. لقد";
+			mes "كنت عضواً في نقابةٍ للمغامرين";
+			showscript "اسمي هو جيمس راسيل, لقد كنت عضواً في نقابة للمغامرين", getnpcid(0);
+			next;
+			mes .n$;
+			mes "أثناء أحد المهمات مع أعضاء نقابتي";
+			mes "تم خداعنا وسقطنا في هذا الكهف";
+			showscript "لقد سقطت في هذا الكهف مع اصدقائي", getnpcid(0);
+			showscript "ياللأسف...";
+			next;
+			mes .n$;
+			mes "لقد حاولنا الهروب من هذا المكان";
+			mes "ولكن لم نستطع فعل ذلك...";
+			mes "في النهاية استسلمنا للواقع";
+			mes "وظننا بأننا سنموت هنا";
+			showscript "لقد حاولنا الهروب دون جدوى, واستسلمنا لواقع أننا سنموت في هذا المكان", getnpcid(0);
+			next;
+			mes .n$;
+			mes "ولكن هذا لم يحدث...";
+			mes "لقد مرّت الساعات والأيام والأسابيع";
+			mes "ولم نمت من الجوع أو العطش.";
+			showscript "ولكن هذا لم يحدث. لقد مرّت الساعات والأيام والأسابيع, ولم نمت من الجوع أو العطش", getnpcid(0);
+			next;
+			emotion 23, getnpcid(3);
+			select("ولكن كيف يعقل ذلك؟");
+			showscript "ولكن كيف يعقل ذلك!";
+			mes .n$;
+			mes "هناك لعنَةٌ قديمة في هذا الكهف";
+			mes "إمضاء الوقت هنا يجعلنا...";
+			mes "أقل بشريّة.";
+			showscript "إنها لعنة هذا الكهف, إمضاء الوقت هنا يجعلنا أقل...بشريّة", getnpcid(0);
+			next;
+			mes .n$;
+			mes "مع مرور الوقت, فقد اصدقائي عقلهم";
+			mes "أيضاً, وبدأنا في القتال ضد بعضنا البعض";
+			mes "ولكن مهما حاولنا فلم نستطع الموت.";
+			showscript "مع مرور الوقت, بدانا في القتال ضد بعضنا, ولكن لم يمت أحد منا.", getnpcid(0);
+			next;
+			mes .n$;
+			mes "لقد أمضينا سنواتٍ وسنواتٍ نقاتل ونقاتل";
+			mes "دون جدوى.";
+			showscript "لقد أمضينا سنواتٍ نقاتل دون جدوى", getnpcid(0);
+			showscript "هذا...فظيع";
+			next;
+			select("ولكن كيف استطعت الهرب؟");
+			mes .n$;
+			mes "لقد وجدّتُ هذه الكريستالة";
+			mes "الخضراء في الكهف, وعند مزجها";
+			mes "بالقوى السحرية, استطعت الهرب من هنا.";
+			showscript "استطعت الهرب بفضل هذه الكرسيتالة الخضراء.", getnpcid(0);
+			next;
+			mes .n$;
+			mes "أيها المغامر, ليس لدي الكثير";
+			mes "لإعطائك إياه, ولكن أرجوك";
+			mes "ضع حدّاً لهذا الكابوس..";
+			mes "قم بالقضاء علينا جميعاً..";
+			showscript "ليس لدي الكثير لإعطائك, ولكن أرجوك, ضع حداً لهذا الكابوس...قم بالقضاء علينا جميعاً...", getnpcid(0);
+			next;
+			select("حسناً إذاً..سأساعدك.");
+			showscript "حسناً, سأساعدك";
+			mes .n$;
+			mes "أنت مغامرٌ نبيل حقاً.";
+			close2;
+			'stage = 1;
+			donpcevent instance_npcname("tof_controller")+"::OnStart";
+			disablenpc strnpcinfo(3);
+			break;
+
+		case 2:
+			mes .n$;
+			mes "كان هذا...مزعجاً..";
+			mes "ولكني سعيد بأننا استطعنا";
+			mes "تخليصه من المعاناة.";
+			showscript "من الجيد أننا خلصّناه من معاناته..",getnpcid(0);
+			next;
+			mes .n$;
+			mes "لنتجه إلى الجهة الشرقية هذه المرة.";
+			showscript "لنتجّه إلى الشرق.",getnpcid(0);
+			getpartyitem(60245);
+			getpartyitem(60244,3);
+			close2;
+			'stage = 3;
+			donpcevent instance_npcname("tof_controller")+"::OnEast";
+			disablenpc strnpcinfo(3);
+			break;
+
+		case 4:
+			mes "- يبدو جيمس مشتت الذهن -";
+			next;
+			select("هل أنت بخير؟");
+			showscript "هل أنت بخير؟";
+			mes .n$;
+			mes "أ-أجل...المعذرة..التحكّم";
+			mes "بنفسي صعبٌ قليلاً...";
+			showscript "أ-أجل..المعذرة...التحكم بنفسي صعبٌ قليلاً.",getnpcid(0);
+			next;
+			mes .n$;
+			mes "لنكمل إذاً. لقد رأيت أليس في الجهة";
+			mes "الجنوبية من الكهف.";
+			showscript "لنذهب إلى الجهة الجنوبية.", getnpcid(0);
+			getpartyitem(60245);
+			getpartyitem(60244,3);
+			close2;
+			'stage = 5;
+			donpcevent instance_npcname("tof_controller")+"::OnSouth";
+			disablenpc strnpcinfo(3);
+			break;
+
+		case 6:
+			mes .n$;
+			mes "تبقّى...إدوارد وماري فحسب.";
+			mes "لاتقلق...لن أنهار قبل إنهاء مهمتي";
+			showscript "تبقّى إدوارد وماري فحسب...", getnpcid(0);
+			getpartyitem(60245);
+			getpartyitem(60244,5);
+			close2;
+			'stage = 7;
+			donpcevent instance_npcname("tof_controller")+"::OnWest";
+			disablenpc strnpcinfo(3);
+			break;
+
+		case 8:
+			mes .n$;
+			mes "لقد...انتهى الأمر..";
+			mes "هه, لقد فعلتها حقاً...";
+			showscript "لقد...انتهى الأمر....هه, لقد فعلناها حقاً..", getnpcid(0);
+			next;
+			mes .n$;
+			mes "أيها المغامر, شكراً على مساعدتك";
+			mes "لا أدري ماذا كنت لافعل لولاك.";
+			next;
+			mes .n$;
+			mes "هذا ليس كثيراً, لكنه كل ما يمكنني";
+			mes "إعطاؤك إياه.";
+			if('stage != 99) getpartyitem(60245, 3);
+			'stage = 99;
+			showscript "اقبل هذه الهدية رجاءً..";
+			next;
+			mes .n$;
+			mes "والآن, تبقّى شخصٌ واحد فقط لهزيمته";
+			mes "أعتمد عليك في ذلك...";
+			mes "إقض علي الآن قبل أن أفقد عقلي";
+			showscript "والآن لم يبقى سواي أنا..أعتمد عليك أيها المغامر...", getnpcid(0);
+			close2;
+			'stage = 10;
+			donpcevent instance_npcname("tof_controller")+"::OnCenter";
+			disablenpc strnpcinfo(3);
+			break;
+
+		default:
+			break;
+	}
+	end;
+	
+
+OnInit:
+	.n$ = "[^0000ffجيمس راسيل^000000]";
+	end;
+}

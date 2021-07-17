@@ -1,0 +1,6 @@
+// change into summer outfit
+aimia,183,49,5	script	ملابس الصيف	724,{
+	if(!getstatus(SC_SUMMER)) sc_start SC_SUMMER,INFINITE_TICK,0;
+	else sc_end SC_SUMMER;
+	end;
+}

@@ -1,0 +1,390 @@
+//===== rAthena Script ======================================= 
+//= Bossinia
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Bossinia with MVP coin rewards
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+aimia,118,168,4	script	موظف بوسينيا	908,{
+	mes .npc$;
+	mes "مرحباً بك, أنا أدعى ريس";
+	mes "ولقد عثرتٌ مؤخراً على مكانٍ";
+	mes "خطير ومليء بزعماء الوحوش !";
+	next;
+	mes .npc$;
+	mes "أود أن أريك هذا المكان ولكن";
+	mes "سيكون الأمر خطيراً جداً عليك, لذا";
+	mes "أنصحك بالمغادرة الآن.";
+	next;
+	switch(select("دخول بوسينيا - النمط السهل:دخول بوسينيا - النمط المتوسط:دخول بوسينيا - النمط الصعب:ماهو الفرق بين الأنماط؟:دمج عملات بوسينيا:إلغاء")) {
+		case 6:
+			close;
+		case 5:
+			mes .npc$;
+			mes "ماهي العملات التي تريد دمجها؟";
+			setarray .@shardz[1], 60022,60023,60024,60025; // coin IDs for different mvp difficulties
+			setarray .@coinz[1], 50003,50002,50001,50000; // coin IDs for different mvp difficulties
+			.@coins = select("C Coins:B Coins:A Coins");
+			next;
+			mes .npc$;
+			mes "يمكنني دمج 20 أجزاء عملات";
+			mes "مقابل عملة واحدة.";
+			mes "كم عملةً كاملةً تريد؟";
+			input .@number,1,100;
+			next;
+			mes .npc$;
+			if(.@number*20 > countitem(.@shardz[.@coins])) {
+				mes "ليس لديك عملات كافية.";
+				close;
+			}
+			delitem .@shardz[.@coins],.@number*20;
+			getitem .@coinz[.@coins],.@number;
+			close;
+		case 4:
+			mes .npc$;
+			mes "تتكون بوسينيا من ثلاثة طوابق";
+			mes "بمستويات مختلفة من الصعوبة.";
+			next;
+			mes .npc$;
+			mes "يمكنك دخول النمط الأول, النمط السهل";
+			mes "مقابل 500 ألف زيني.";
+			next;
+			mes .npc$;
+			mes "في النمط السهل, يمكنك قتال الزعماء";
+			mes "كما تشاء, بدون أيٍ قيود, ولكن";
+			mes "لن تحصل على أي عملات أثناء ذلك.";
+			mes "كما أنه لن تسقط بطاقات الزعماء في هذا";
+			mes "الطابق.";
+			next;
+			mes .npc$;
+			mes "سيكلفك دخول النمط المتوسط";
+			mes "1,000,000z";
+			next;
+			mes .npc$;
+			mes "ستحصل عند قتل الزعماء في النمط";
+			mes "المتوسط, على قطع معدنية يمكنك جمعها";
+			mes "لتكوين عملات الزعماء";
+			next;
+			mes .npc$;
+			mes "ولكن بالمقابل, فإن جميع هجماتك";
+			mes "ستحرز ضرراً أقل بنسبة ^ff000050%^000000";
+			next;
+			mes .npc$;
+			mes "النمط الأخير هو النمط الصعب.";
+			mes "سيكلفك دخول هذا النمط";
+			mes "5,000,000z";
+			next;
+			mes .npc$;
+			mes "عند قتل الوحوش هناك ستسقط منهم";
+			mes "عملات الزعماء وبطاقاتهم وجميع المسقطات";
+			mes "العادية";
+			next;
+			mes .npc$;
+			mes "ولكن بالمقابل, سيكون ضررك هناك";
+			mes "^ff0000أقل بنسبة 90%^000000";
+			mes "كما أنه يمكنك دخول هذا الطابق";
+			mes "فقط ^ff0000خمسة مرات في اليوم الواحد^000000";
+			close;
+		case 3:	//hard mode
+			mes .npc$;
+			mes "هل انت متأكد من انك تريد دخول";
+			mes "النمط الصعب لبوسينيا؟";
+			mes "سيكلفك الأمر 5 ملايين زيني.";
+			next;
+			if(select("أنا متأكد:إلغاء") -1) close;
+			mes .npc$;
+			if(zeny < 5000000) {
+				mes "ليس لديك زيني كافي للدخول";
+				mes "يرجى إحضار ^ff00005,000,000z^000000";
+				close;
+			}
+			if(#BOSINA_TICKETS >= 10) {
+				mes "لقد دخلت النمط الصعب خمسة";
+				mes "مرات بالفعل اليوم, فلترتاح";
+				mes "قليلاً قبل المحاولة مرة أخرى.";
+				close;
+			}
+			Zeny -= 5000000;
+			#BOSINA_TICKETS++;
+			warp "bossnia_03",rand(202,204),rand(202,204);
+			end;
+		case 2:	// normal mode
+			mes .npc$;
+			mes "هل انت متأكد من أنك تريد دخول";
+			mes "النمط المتوسط لبوسينيا؟";
+			mes "سيكلفك الأمر مليون زيني !";
+			next;
+			if(select("أنا متأكد:إلغاء") -1) close;
+			mes .npc$;
+			if(Zeny < 1000000) {
+				mes "ليس لديك زيني كافي للدخول";
+				mes "يرجى إحضار ^ff00001,000,000z^000000";
+				close;
+			}
+			zeny -= 1000000;
+			warp "bossnia_02",rand(202,204),rand(202,204);
+			end;
+		case 1:	// ez mode
+			mes .npc$;
+			mes "هل انت متأكد من أنك تريد دخول";
+			mes "النمط المتوسط لبوسينيا؟";
+			mes "سيكلفك الأمر 100,000 زيني !";
+			next;
+			if(select("أنا متأكد:إلغاء") -1) close;
+			mes .npc$;
+			if(Zeny < 100000) {
+				mes "ليس لديك زيني كافي للدخول";
+				mes "يرجى إحضار ^ff0000500,000z^000000";
+				close;
+			}
+			zeny -= 100000;
+			warp "bossnia_01",rand(202,204),rand(202,204);
+			end;
+		default:
+			break;
+	}
+
+OnInit:
+	.npc$ = "[^0000ffموظف بوسينيا^000000]";
+	end;
+}
+
+-	script	bossinia_control	-1,{
+OnClock0001:
+	.@sql = "DELETE FROM `acc_reg_num` WHERE `key` = '#BOSINA_TICKETS'";
+	query_sql(.@sql);
+	addrid(0);
+	#BOSINA_TICKETS = 0;
+	end;
+OnNPCKillEvent:
+	if(inarray(.maps$,strcharinfo(3)) == -1) end;
+	if(inarray(.easy,killedrid) > -1) {
+		if(strcharinfo(3) == "bossnia_01") end;
+		if(strcharinfo(3) == "bossnia_02") getitem .shards[0],1;
+		if(strcharinfo(3) == "bossnia_03") getitem .coins[0],1;
+	} else if(inarray(.normal,killedrid) > -1) {
+		if(strcharinfo(3) == "bossnia_01") end;
+		if(strcharinfo(3) == "bossnia_02") getitem .shards[1],1;
+		if(strcharinfo(3) == "bossnia_03") getitem .coins[1],1;
+	} else if(inarray(.hard,killedrid) > -1) {
+		if(strcharinfo(3) == "bossnia_01") end;
+		if(strcharinfo(3) == "bossnia_02") getitem .shards[2],1;
+		if(strcharinfo(3) == "bossnia_03") getitem .coins[2],1;
+	}
+	end;
+OnInit:
+	setarray .easy[0],31957,31956,31955,31954,31953,31952,31950,31949,31948,31947,31946,31945,31944,31943,31942,31941,31940,31939,31938,31937,31936,31934,31930,31926,31922;
+	setarray .normal[0],31935,31931,31929,31928,31927,31924,31923;
+	setarray .hard[0],31933,31932,31925,31921,31920,31919;
+	//setarray .superhard[0],2165,2237,1651;
+	setarray .coins[0], 50003,50002,50001,50000; // coin IDs for different mvp difficulties
+	setarray .shards[0], 60022,60023,60024,60025; // coin IDs for different mvp difficulties
+	setarray .maps$,"bossnia_01","bossnia_02","bossnia_03";
+	for(.@i = 0; .@i < getarraysize(.maps$); .@i++) {
+		if(!getmapflag(.maps$[.@i],mf_noteleport)) setmapflag .maps$[.@i],mf_noteleport;
+	}
+	if(!getmapflag("aim_dun02",mf_noteleport)) setmapflag "aim_dun02",mf_noteleport;
+	end;
+
+OnPCDieEvent:
+	if(strcharinfo(3) == "bossnia_03") {
+		@bossniadeath++;
+		if (@bossniadeath >= 3) { 
+			@bossniadeath = 0; 
+			warp "SavePoint",0,0; 
+		}
+	}
+	end;
+}
+// geffen,124,169,4	duplicate(Bossnia Staff#1)	Bossnia Staff#2	908
+// payon,165,150,4	duplicate(Bossnia Staff#1)	Bossnia Staff#3	908
+// morocc,142,100,4	duplicate(Bossnia Staff#1)	Bossnia Staff#4	908
+// lighthalzen,203,140,4	duplicate(Bossnia Staff#1)	Bossnia Staff#5	908
+// rachel,132,144,4	duplicate(Bossnia Staff#1)	Bossnia Staff#6	908
+
+// Warp Portals
+//============================================================
+// bossnia_01,204,204,0	warp	bossnia01	1,1,aimia,108,171
+// bossnia_02,204,204,0	warp	bossnia02	1,1,aimia,108,171
+// bossnia_03,204,204,0	warp	bossnia03	1,1,aimia,108,171
+// bossnia_04,204,204,0	warp	bossnia04	1,1,aimia,108,171
+
+// Monster Spawns
+//============================================================
+
+//----------------------------------------------------------------------------
+// bossnia_01 - Bossnia
+//----------------------------------------------------------------------------
+bossnia_01,0,0	monster	Mistress	31957,5,1800000
+bossnia_01,0,0	monster	Osiris	31956,2,1800000
+bossnia_01,0,0	monster	Baphomet	31955,3,1800000
+bossnia_01,0,0	monster	Doppelganger	31954,2,1800000
+bossnia_01,0,0	monster	Golden Thief Bug	31953,3,1800000
+bossnia_01,0,0	monster	Orc Hero	31952,2,1800000
+bossnia_01,0,0	monster	Drake	31951,10,1800000
+bossnia_01,0,0	monster	Eddga	31950,2,1800000
+bossnia_01,0,0	monster	Maya	31949,3,1800000
+bossnia_01,0,0	monster	Moonlight Flower	31948,2,1800000
+bossnia_01,0,0	monster	Pharaoh	31947,2,1800000
+bossnia_01,0,0	monster	Phreeoni	31946,2,1800000
+bossnia_01,0,0	monster	Orc Lord	31945,3,1800000
+bossnia_01,0,0	monster	Stormy Knight	31944,5,1800000
+bossnia_01,0,0	monster	Hatii	31943,5,1800000
+bossnia_01,0,0	monster	Dark Lord	31942,2,1800000
+bossnia_01,0,0	monster	Turtle General	31941,5,1800000
+bossnia_01,0,0	monster	Lord of the Dead	31940,2,1800000
+bossnia_01,0,0	monster	Dracula	31939,5,1800000
+bossnia_01,0,0	monster	Evil Snake Lord	31938,3,1800000
+bossnia_01,0,0	monster	Samurai Specter	31937,5,1800000
+bossnia_01,0,0	monster	Amon Ra	31936,5,1800000
+bossnia_01,0,0	monster	Tao Gunka	31935,2,1800000
+bossnia_01,0,0	monster	RSX-0806	31934,5,1800000
+// bossnia_01,0,0	monster	Assassin Cross Eremes	31933,1,1800000
+// bossnia_01,0,0	monster	Whitesmith Howard	31932,1,1800000
+bossnia_01,0,0	monster	Egnigem Cenia	31931,3,1800000
+bossnia_01,0,0	monster	Vesper	31930,2,1800000
+bossnia_01,0,0	monster	Lady Tanee	31929,2,1800000
+bossnia_01,0,0	monster	Thanatos Phantom	31928,2,1800000
+bossnia_01,0,0	monster	Detardeurus	31927,2,1800000
+bossnia_01,0,0	monster	Kiel D-01	31926,2,1800000
+// bossnia_01,0,0	monster	Valkyrie Randgris	31925,1,1800000
+// bossnia_01,0,0	monster	Gloom Under Night	31924,2,1800000
+bossnia_01,0,0	monster	Ktullanux	31923,2,1800000
+bossnia_01,0,0	monster	Atroce	31922,5,1800000
+// bossnia_01,0,0	monster	Ifrit	31921,1,1800000
+// bossnia_01,0,0	monster	Falling Bishop	31920,2,1800000
+// bossnia_01,0,0	monster	Beelzebub	31919,1,1800000
+
+//----------------------------------------------------------------------------
+// bossnia_02 - Bossnia
+//----------------------------------------------------------------------------
+bossnia_02,0,0	monster	Mistress	31957,2,1800000
+bossnia_02,0,0	monster	Osiris	31956,2,1800000
+bossnia_02,0,0	monster	Baphomet	31955,2,1800000
+bossnia_02,0,0	monster	Doppelganger	31954,3,1800000
+bossnia_02,0,0	monster	Golden Thief Bug	31953,2,1800000
+bossnia_02,0,0	monster	Orc Hero	31952,3,1800000
+bossnia_02,0,0	monster	Drake	31951,3,1800000
+bossnia_02,0,0	monster	Eddga	31950,5,1800000
+bossnia_02,0,0	monster	Maya	31949,3,1800000
+bossnia_02,0,0	monster	Moonlight Flower	31948,5,1800000
+bossnia_02,0,0	monster	Pharaoh	31947,2,1800000
+bossnia_02,0,0	monster	Phreeoni	31946,2,1800000
+bossnia_02,0,0	monster	Orc Lord	31945,3,1800000
+bossnia_02,0,0	monster	Stormy Knight	31944,2,1800000
+bossnia_02,0,0	monster	Hatii	31943,2,1800000
+bossnia_02,0,0	monster	Dark Lord	31942,3,1800000
+bossnia_02,0,0	monster	Turtle General	31941,5,1800000
+bossnia_02,0,0	monster	Lord of the Dead	31940,5,1800000
+bossnia_02,0,0	monster	Dracula	31939,5,1800000
+bossnia_02,0,0	monster	Evil Snake Lord	31938,2,1800000
+bossnia_02,0,0	monster	Samurai Specter	31937,2,1800000
+bossnia_02,0,0	monster	Amon Ra	31936,2,1800000
+bossnia_02,0,0	monster	Tao Gunka	31935,2,1800000
+bossnia_02,0,0	monster	RSX-0806	31934,5,1800000
+bossnia_02,0,0	monster	Assassin Cross Eremes	31933,1,1800000
+bossnia_02,0,0	monster	Whitesmith Howard	31932,1,1800000
+bossnia_02,0,0	monster	Egnigem Cenia	31931,2,1800000
+bossnia_02,0,0	monster	Vesper	31930,2,1800000
+bossnia_02,0,0	monster	Lady Tanee	31929,1,1800000
+bossnia_02,0,0	monster	Thanatos Phantom	31928,2,1800000
+bossnia_02,0,0	monster	Detardeurus	31927,2,1800000
+bossnia_02,0,0	monster	Kiel D-01	31926,2,1800000
+bossnia_02,0,0	monster	Valkyrie Randgris	31925,1,1800000
+bossnia_02,0,0	monster	Gloom Under Night	31924,2,1800000
+bossnia_02,0,0	monster	Ktullanux	31923,2,1800000
+bossnia_02,0,0	monster	Atroce	31922,5,1800000
+bossnia_02,0,0	monster	Ifrit	31921,1,1800000
+bossnia_02,0,0	monster	Falling Bishop	31920,2,1800000
+bossnia_02,0,0	monster	Beelzebub	31919,1,1800000
+
+//----------------------------------------------------------------------------
+// bossnia_03 - Bossnia
+//----------------------------------------------------------------------------
+bossnia_03,0,0	monster	Mistress	1059,2,1800000
+bossnia_03,0,0	monster	Osiris	1038,2,1800000
+bossnia_03,0,0	monster	Baphomet	1039,2,1800000
+bossnia_03,0,0	monster	Doppelganger	1046,3,1800000
+bossnia_03,0,0	monster	Golden Thief Bug	31953,2,1800000
+bossnia_03,0,0	monster	Orc Hero	1087,3,1800000
+bossnia_03,0,0	monster	Drake	1112,3,1800000
+bossnia_03,0,0	monster	Eddga	1115,5,1800000
+bossnia_03,0,0	monster	Maya	1147,3,1800000
+bossnia_03,0,0	monster	Moonlight Flower	1150,5,1800000
+bossnia_03,0,0	monster	Pharaoh	1157,2,1800000
+bossnia_03,0,0	monster	Phreeoni	1159,2,1800000
+bossnia_03,0,0	monster	Orc Lord	1190,3,1800000
+bossnia_03,0,0	monster	Stormy Knight	1251,2,1800000
+bossnia_03,0,0	monster	Hatii	1252,2,1800000
+bossnia_03,0,0	monster	Dark Lord	1272,3,1800000
+bossnia_03,0,0	monster	Turtle General	1312,5,1800000
+bossnia_03,0,0	monster	Lord of the Dead	1373,5,1800000
+bossnia_03,0,0	monster	Dracula	1389,5,1800000
+bossnia_03,0,0	monster	Evil Snake Lord	1418,2,1800000
+bossnia_03,0,0	monster	Samurai Specter	1492,2,1800000
+bossnia_03,0,0	monster	Amon Ra	1511,2,1800000
+bossnia_03,0,0	monster	Tao Gunka	1583,2,1800000
+bossnia_03,0,0	monster	RSX-0806	1623,5,1800000
+bossnia_03,0,0	monster	Assassin Cross Eremes	1647,1,1800000
+bossnia_03,0,0	monster	Whitesmith Howard	1648,1,1800000
+bossnia_03,0,0	monster	Egnigem Cenia	1658,2,1800000
+bossnia_03,0,0	monster	Vesper	1685,2,1800000
+bossnia_03,0,0	monster	Lady Tanee	1688,1,1800000
+bossnia_03,0,0	monster	Thanatos Phantom	1708,2,1800000
+bossnia_03,0,0	monster	Detardeurus	1719,2,1800000
+bossnia_03,0,0	monster	Kiel D-01	1734,2,1800000
+bossnia_03,0,0	monster	Valkyrie Randgris	1751,5,1800000
+bossnia_03,0,0	monster	Gloom Under Night	1768,5,1800000
+bossnia_03,0,0	monster	Ktullanux	1779,5,1800000
+bossnia_03,0,0	monster	Atroce	1785,5,1800000
+bossnia_03,0,0	monster	Ifrit	1871,5,1800000
+bossnia_03,0,0	monster	Falling Bishop	1871,5,1800000
+bossnia_03,0,0	monster	Beelzebub	1873,5,1800000
+bossnia_03,0,0	monster	Rigid Muspellskoll	20419,1,1800000
+bossnia_03,0,0	monster	Genetic Flamel	3241,1,1800000
+
+
+//----------------------------------------------------------------------------
+// bossnia_04 - Bossnia
+//----------------------------------------------------------------------------
+// bossnia_01,0,0	monster	Mistress	31957,5,1800000
+// bossnia_01,0,0	monster	Osiris	31956,5,1800000
+// bossnia_01,0,0	monster	Baphomet	31955,5,1800000
+// bossnia_01,0,0	monster	Doppelganger	31954,5,1800000
+// bossnia_01,0,0	monster	Golden Thief Bug	31953,5,1800000
+// bossnia_01,0,0	monster	Orc Hero	31952,5,1800000
+// bossnia_01,0,0	monster	Drake	31951,5,1800000
+// bossnia_01,0,0	monster	Eddga	31950,5,1800000
+// bossnia_01,0,0	monster	Maya	31949,5,1800000
+// bossnia_01,0,0	monster	Moonlight Flower	31948,5,1800000
+// bossnia_01,0,0	monster	Pharaoh	31947,5,1800000
+// bossnia_01,0,0	monster	Phreeoni	31946,5,1800000
+// bossnia_01,0,0	monster	Orc Lord	31945,5,1800000
+// bossnia_01,0,0	monster	Stormy Knight	31944,5,1800000
+// bossnia_01,0,0	monster	Hatii	31943,5,1800000
+// bossnia_01,0,0	monster	Dark Lord	31942,5,1800000
+// bossnia_01,0,0	monster	Turtle General	31941,5,1800000
+// bossnia_01,0,0	monster	Lord of the Dead	31940,5,1800000
+// bossnia_01,0,0	monster	Dracula	31939,5,1800000
+// bossnia_01,0,0	monster	Evil Snake Lord	31938,5,1800000
+// bossnia_01,0,0	monster	Samurai Specter	31937,5,1800000
+// bossnia_01,0,0	monster	Amon Ra	31936,5,1800000
+// bossnia_01,0,0	monster	Tao Gunka	31935,5,1800000
+// bossnia_01,0,0	monster	RSX-0806	31934,5,1800000
+// bossnia_01,0,0	monster	Assassin Cross Eremes	31933,1,1800000
+// bossnia_01,0,0	monster	Whitesmith Howard	31932,1,1800000
+// bossnia_01,0,0	monster	Egnigem Cenia	31931,3,1800000
+// bossnia_01,0,0	monster	Vesper	31930,5,1800000
+// bossnia_01,0,0	monster	Lady Tanee	31929,5,1800000
+// bossnia_01,0,0	monster	Thanatos Phantom	31928,2,1800000
+// bossnia_01,0,0	monster	Detardeurus	31927,5,1800000
+// bossnia_01,0,0	monster	Kiel D-01	31926,5,1800000
+// bossnia_01,0,0	monster	Valkyrie Randgris	31925,5,1800000
+// bossnia_01,0,0	monster	Gloom Under Night	31924,5,1800000
+// bossnia_01,0,0	monster	Ktullanux	31923,5,1800000
+// bossnia_01,0,0	monster	Atroce	31922,5,1800000
+// bossnia_01,0,0	monster	Ifrit	31921,5,1800000
+// bossnia_01,0,0	monster	Falling Bishop	31920,5,1800000
+// bossnia_01,0,0	monster	Beelzebub	31919,5,1800000

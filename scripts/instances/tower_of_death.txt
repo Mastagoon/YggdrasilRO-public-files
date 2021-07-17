@@ -1,0 +1,676 @@
+//===== rAthena Script ======================================= 
+//= Tower of Death
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Tower of Death instance
+//= This is a solo instance
+//= This instance consists of 5 levels and normal/hard mode
+//= On each level, A number of MvP monsters will spawn.
+//= Clearing all the boss monsters will advance the player to the next level
+//= Players will be automatically resurrected upon death 3 times(normal) and 2 times(hard) before being kicked out of the instance
+//= Hard mode MvPs will have a +%MHP multiplier
+//= There is a leaderboard to display best times for the instance completion
+//= In YggdrasilRO, players were required to farm an amount of a specific item to start this instance
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= Requires Instance_functions.txt
+//============================================================
+
+function	script	add_score_normal	{
+	.@id = getarg(0);
+	.@stage = getarg(1);
+	.@time = getarg(2);
+	.@sql$ = "SELECT `stage`,`time` from boss_arena ORDER BY stage desc, time ASC limit 5";
+	query_sql(.@sql$,.@stages,.@times);
+	query_sql("INSERT INTO boss_arena(`char_id`,`stage`,`time`) VALUES("+.@id+","+.@stage+","+.@time+")");
+	for(.@i = 0; .@i < getarraysize(.@stages); .@i++) {
+		if(.@stage < .@stages[.@i]) continue;
+		if(.@stage == .@stages[.@i] && .@time > .@times[.@i]) continue;
+		//new score
+		if(.@i == 0) announce "لقد قام اللاعب "+strcharinfo2(0,.@id)+" بتحطيم جميع الأرقام القياسية في ساحة الزعماء !",bc_all;
+		 	else announce "لقد قام اللاعب "+strcharinfo2(0,.@id)+" بإحراز رقمٍ قياسي في ساحة الزعماء !",bc_all;
+		if(.@i == 0) {
+            .@sender$ = "[ساحة الزعماء]";
+            .@title$ = "رقمٌ قياسي";
+            .@body$ = "لقد حطّمت الرقم القياسي لساحة الزعماء !";
+            setarray .@itemarray[0],50000;
+            setarray .@itemamtarray[0],5;
+			.@zeny = 1;
+            mail .@id,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+        }
+		return;
+	}
+	return;
+}
+function	script	add_score_hard	{
+	.@id = getarg(0);
+	.@stage = getarg(1);
+	.@time = getarg(2);
+	.@sql$ = "SELECT `stage`,`time` from boss_arena_hard ORDER BY stage desc, time asc limit 5";
+	query_sql(.@sql$,.@stages,.@times);
+	query_sql("INSERT INTO boss_arena_hard(`char_id`,`stage`,`time`) VALUES("+.@id+","+.@stage+","+.@time+")");
+	for(.@i = 0; .@i < getarraysize(.@stages); .@i++) {
+		if(.@stage < .@stages[.@i] ) continue;
+		if(.@stage == .@stages[.@i] && .@time > .@times[.@i]) continue;
+		//new score
+		if(.@i == 0) announce "لقد قام اللاعب "+strcharinfo2(0,.@id)+" بتحطيم جميع الأرقام القياسية بالنمط الصعب في ساحة الزعماء !",bc_all;
+		 	else announce "لقد قام اللاعب "+strcharinfo2(0,.@id)+" بإحراز رقمٍ قياسي للنمط الصعب من ساحة الزعماء !",bc_all;
+        if(.@i == 0) {
+            .@sender$ = "[ساحة الزعماء]";
+            .@title$ = "رقمٌ قياسي";
+            .@body$ = "لقد حصلت على رقمٍ قياسيٍ جديد في ساحة الزعماء.";
+            setarray .@itemarray[0],49999;
+            setarray .@itemamtarray[0],1;
+			.@zeny = 1;
+            mail .@id,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+        }
+		return;
+	}
+	return;
+}
+
+function	script	TimeCalc	{
+	.@tick = getarg(0);
+	.@m = .@tick / (1000 * 60); //1
+	.@tick -= .@m * (1000 * 60);
+	.@s = .@tick / 1000;
+	.@tick -= .@s * 1000;
+	return .@m+":"+.@s+":"+.@tick;
+}
+
+
+luthadel,106,107,6	script	حارس ساحة الزعماء	10030,{
+	mes .n$;
+	mes "هل تريد دخول ساحة الزعماء؟";
+	next;
+	.@choice = select("دخول ساحة الزعماء:ماهي ساحة الزعماء؟:ترتيب اللاعبين في النمط السهل:ترتيب اللاعبين في النمط الصعب:إغلاق");
+	if(.@choice == 5) close;
+	if(.@choice == 3) {
+		// normal mode ranking
+		if(!getarraysize($tower_top_normal)) {
+			mes .n$;
+			mes "لا يوجد ترتيب.";
+			close;
+		}
+		.@sql$ = "SELECT `char_id`, `stage`, `time` from boss_arena ORDER BY `stage` DESC, `time` ASC LIMIT 5";
+		query_sql(.@sql$, .@ids, .@stages,.@times);
+		mes .n$;
+		mes "Name | ^0000FFStage^000000 | ^FF0000Time^000000";
+		.@stage$ = (.@stages[0]==6)? "Finish" : ""+.@stages[0];
+		mes "^ff00001. "+strcharinfo2(0,.@ids[0])+ " ^000000| ^0000FF"+.@stage$+"^000000 | ^FF0000"+TimeCalc(.@times[0])+"^000000";
+		.@order = 2;
+        for(.@i = 1; .@i < getarraysize(.@ids); .@i++) {
+			.@stage$ = (.@stages[.@i]==6)? "Finish" : ""+.@stages[.@i];
+			mes .@order+". "+strcharinfo2(0,.@ids[.@i])+ " ^000000| ^0000FF"+.@stage$+"^000000 | ^FF0000"+TimeCalc(.@times[.@i])+"^000000";
+            .@order++;
+        }
+		close;
+	}
+	if(.@choice == 4) {
+		if(!getarraysize($tower_top_hard)) {
+			mes .n$;
+			mes "لا يوجد ترتيب.";
+			close;
+		}
+		.@sql$ = "SELECT `char_id`, `stage`, `time` from boss_arena_hard ORDER BY `stage` DESC, `time` ASC LIMIT 5";
+		query_sql(.@sql$, .@ids, .@stages,.@times);
+		mes .n$;
+		mes "Name | ^0000FFStage^000000 | ^FF0000Time^000000";
+		mes "^ff00001. "+strcharinfo2(0,.@ids[0])+ " ^000000| ^0000FF"+.@stages[0]+"^000000 | ^FF0000"+TimeCalc(.@times[0])+"^000000";
+		.@order = 2;
+        for(.@i = 1; .@i < getarraysize(.@ids); .@i++) {
+			mes .@order+". "+strcharinfo2(0,.@ids[.@i])+ " ^000000| ^0000FF"+.@stages[.@i]+"^000000 | ^FF0000"+TimeCalc(.@times[.@i])+"^000000";
+            .@order++;
+		}
+		close;
+	}
+	if(.@choice == 2) {
+		// mes .n$;
+		// mes "ساحة الزعماء هو برجٌ عملاق";
+		// mes "في مدينة لوثاديل, مليءٌ";
+		// mes "بالوحوش العنيفة والقوية";
+		// next;
+		// mes .n$;
+		// mes "يكلفك دخول الساحة 500 عملة";
+		// mes "هالويين, ويمكنك ";
+		close;
+	}
+	//enter tower
+	// if(countitem(60040) < 500) {
+	// 	mes .n$;
+	// 	mes "يجب عليك دفع 500 عملة هالوين";
+	// 	mes "لدخول ساحة الزعماء, ليس لديك عملات";
+	// 	mes "هالوين كافية.";
+	// 	close;
+	// }
+	mes .n$;
+	set .@is_leader, ( getcharid(0) == getpartyleader(getcharid(1),2) );
+	getpartymember getcharid(1),0;
+	getpartymember getcharid(1),1;
+	getpartymember getcharid(1),2;
+	if($@partymembercount > 1 || !getcharid(1) || !.@is_leader) {
+		mes "يجب أن تكون قائد المجموعة";
+		mes "ويجب أن تكون مجموعتك مكونة";
+		mes "من لاعبٍ واحد قبل المتابعة.";
+		close;
+	}
+	mes "ماهو مستوى الصعوبة الذي";
+	mes "تريد اختياره؟";
+	next;
+	switch(select("النمط السهل:النمط الصعب")) {
+		case 1:
+			mes .n$;
+			mes "سيكلفك دخول النمط السهل";
+			mes "^ff0000500 عملة هالوين^000000";
+			next;
+			mes .n$;
+			mes "هل انت متأكد من أنك تريد الدخول؟";
+			next;
+			if(select("أجل:دعني أفكر قليلاً") -1 ) close;
+			if(countitem(60040) < 500) {
+				mes .n$;
+				mes "ليس لديك عملات هالوين كافية";
+				close;
+			}
+            delitem 60040,500;
+			.@name$ = "Halloween Tower";
+			.@minparty = 1;
+			.@minlevel = 100;
+			.@maxlevel = 185;
+			.@quests$ = "";
+			.@tickets = 0;
+			.@cooldown = 0;
+			instanceDialoge(.@name$,.@tickets,.@cooldown,.@quests$,.@partysize,.@minlevel,.@maxlevel);
+			end;
+		case 2:
+			mes .n$;
+			mes "سيكلفك دخول النمط الصعب";
+			mes "^ff00001000 عملة هالوين^000000";
+			next;
+			mes .n$;
+			mes "هل انت متأكد من أنك تريد الدخول؟";
+			next;
+			if(select("أجل:دعني أفكر قليلاً") -1 ) close;
+			if(countitem(60040) < 1000) {
+				mes .n$;
+				mes "ليس لديك عملات هالوين كافية";
+				close;
+			}
+			delitem 60040,1000;
+			.@name$ = "Halloween Tower Hard";
+			.@minparty = 1;
+			.@minlevel = 100;
+			.@maxlevel = 185;
+			.@quests$ = "";
+			.@tickets = 0;
+			.@cooldown = 0;
+			instanceDialoge(.@name$,.@tickets,.@cooldown,.@quests$,.@partysize,.@minlevel,.@maxlevel);
+			end;
+	}
+	close;
+OnInit:
+	.map$ = "ytower";
+	.instance_name$ = "Halloween Tower";
+	.instance_name_hard$ = "Halloween Tower Hard";
+	.n$ = "[^0000FFساحة الزعماء^000000]";
+	.quest_cd_id = 500;
+	end;
+
+}
+
+ytower,64,91,4	script	ساحة الزعماء#tower	10029,{
+	mes .n$;
+//	give players buff 
+	specialeffect2 EF_INCAGILITY;
+	sc_start SC_INCREASEAGI,240000,10;
+	specialeffect2 EF_BLESSING;
+	sc_start SC_BLESSING,240000,10;
+
+//	repair all player's broken eqiupments
+	repairall;
+
+//	identify all player's equipments
+	atcommand "@identifyall";
+
+//	and last, give players heal
+	percentheal 100,100;
+	specialeffect2 EF_HEAL2;
+	switch('TOWER_STAGE) {
+		case 1:
+			if(instance_live_info(ILI_NAME) == "Halloween Tower Hard") { set 'HARD_MODE,1; set 'lives,1; }
+			set 'char_id,getcharid(0);
+			mes "ستبدأ تحدي ساحة الزعماء الآن";
+			mes "أنت في المرحلة الأولى من التحدي";
+			mes "هل أنت مستعد؟";
+			if(select("نعم:لا") -1 ) close;
+			donpcevent instance_npcname("tower_controller")+"::OnStart";
+			disablenpc strnpcinfo(3);
+            'last_lives = 'lives;
+			break;
+		case 2:
+			mes "ستدخل المرحلة الثانية من التحدي الآن";
+			mes "توقيتك الحاليّ هو: ";
+			mes TimeCalc('timer);
+			mes "هل أنت مستعد؟";
+			if(select("نعم:لا") -1 ) close;
+			donpcevent instance_npcname("tower_controller")+"::OnStart";
+			// if('lives == 'last_lives) {
+                if('HARD_MODE) {
+                    getitem 60047,5;
+                    getitem 50053,3;
+                } else {
+                getitem 60047,3;
+                getitem 60053,1;
+				}
+            // 'last_lives = 'lives;
+			disablenpc strnpcinfo(3);
+			end;
+		case 3:
+			disablenpc strnpcinfo(3);
+			mes "ستدخل المرحلة الثالثة من التحدي الآن";
+			mes "توقيتك الحاليّ هو: ";
+			mes TimeCalc('timer);
+			mes "هل أنت مستعد؟";
+			if(select("نعم:لا") -1 ) close;
+			donpcevent instance_npcname("tower_controller")+"::OnStart";
+			// if('lives == 'last_lives) {
+                if('HARD_MODE) {
+                    getitem 60047,10;
+                    getitem 50053,5;
+                } else {
+                getitem 60047,5;
+                getitem 60053,3;
+				}
+            // }
+            'last_lives = 'lives;
+			disablenpc strnpcinfo(3);
+			end;
+		case 4:
+			disablenpc strnpcinfo(3);
+			mes "ستدخل المرحلة الرابعة من التحدي الآن";
+			mes "توقيتك الحاليّ هو: ";
+			mes TimeCalc('timer);
+			mes "هل أنت مستعد؟";
+			if(select("نعم:لا") -1 ) close;
+			donpcevent instance_npcname("tower_controller")+"::OnStart";
+			// if('lives == 'last_lives) {
+            if('HARD_MODE) {
+                getitem 60047,30;
+                getitem 50053,10;
+                getitem 50050,1;
+            } else {
+				getitem 60047,10;
+				getitem 60053,5;
+			}
+            // }
+			'last_lives = 'lives;
+			end;
+			disablenpc strnpcinfo(3);
+		case 5:
+			mes "ستدخل المرحلة الخامسة من التحدي الآن";
+			mes "توقيتك الحاليّ هو: ";
+			mes TimeCalc('timer);
+			mes "هل أنت مستعد؟";
+			if(select("نعم:لا") -1 ) close;
+			donpcevent instance_npcname("tower_controller")+"::OnStart";
+			// if('lives == 'last_lives) {
+            if('HARD_MODE) {
+                getitem 60047,50;
+                getitem 50053,15;
+                getitem 50050,1;
+                getitem 50000,2;
+            } else {
+				getitem 60047,15;
+				getitem 60053,10;
+				getitem 50050,1;
+			}
+            // }
+			disablenpc strnpcinfo(3);
+            'last_lives = 'lives;
+			end;
+		case 6:
+		default:
+			mes "تهانيناً ! لقد أنهيت ساحة الزعماء !";
+			mes "توقيتك هو :";
+			mes TimeCalc('timer);
+            next;
+            mes "هل تريد استلام جائزتك والخروج من الساحة؟";
+            if(select("الخروج من الساحة:البقاء") -1 )close;
+            //if('HARD_MODE) getitem 50009,1000;
+            //else getitem 50009,200;
+            warp "SavePoint",0,0;
+			close;
+	}
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	.n$ = "[^0000FFساحة الزعماء^000000]";
+	end;
+OnInstanceInit:
+	enablenpc strnpcinfo(3);
+	'TOWER_STAGE = 1;
+	'lives = 3;
+	'timer = 0;
+	end;
+}
+
+ytower,101,107,4	script	tower_controller	-1,{
+OnInit:
+	.map$ = "ytower";
+	if(!getmapflag(.map$,mf_noteleport)) setmapflag .map$,mf_noteleport;
+	if(!getmapflag(.map$,mf_nobranch)) setmapflag .map$,mf_nobranch;
+	if(!getmapflag(.map$,mf_monster_noteleport)) setmapflag .map$,mf_monster_noteleport;
+	if(!getmapflag(.map$,mf_nosave)) setmapflag .map$,mf_nosave;
+	if(!getmapflag(.map$,mf_nomemo)) setmapflag .map$,mf_nomemo;
+	if(!getmapflag(.map$,mf_nowarp)) setmapflag .map$,mf_nowarp;
+	if(!getmapflag(.map$,mf_partylock)) setmapflag .map$,mf_partylock;
+	end;
+OnStart:
+	// sleep 5000;
+	set 'map$, instance_mapname("ytower");
+	// mapannounce 'map$,"لقد بدأ تحدي ساحة الزعماء",bc_map;
+    // // sleep 10000;
+    // mapannounce 'map$,"حظاً موفقاً.",bc_map;
+    // initnpctimer;
+	// // if(TOWER_HARD_MODE) 'HARD_MODE = 1; else 'HARD_MODE = 0;
+	// if('HARD_MODE) {
+    // 	mapannounce 'map$,"النمط الصعب",bc_map;
+	// } else mapannounce 'map$,"النمط السهل",bc_map;
+	mapannounce 'map$,"ستبدأ المرحلة التالية الآن.",bc_map;
+	sleep 5000;
+    donpcevent instance_npcname("mob_spawner#tower")+"::OnStart";
+    end;
+
+OnPCDieEvent:
+	.@id = instance_id(IM_PARTY);
+	.@map$ = instance_mapname("ytower",.@id);
+	if(!.@id || strcharinfo(3) != .@map$) end;
+	//player lost
+	// stopnpctimer instance_npcname("mob_spawner#tower",.@id);
+	mapannounce .@map$,"لقد تمت هزيمتك بواسطة "+rid2name(killerrid),bc_map;
+	sleep2 5000;
+	if( !getvariableofinstance('lives,.@id)) {
+        killmonster .@map$,instance_npcname("mob_spawner#tower",.@id) + "::OnEasyMobDead",0;
+        killmonster .@map$,instance_npcname("mob_spawner#tower",.@id) + "::OnNormalMobDead",0;
+        killmonster .@map$,instance_npcname("mob_spawner#tower",.@id) + "::OnHardMobDead",0;
+        killmonster .@map$,instance_npcname("mob_spawner#tower",.@id) + "::OnSuperHardMobDead",0;
+		mapannounce .@map$,"لقد إنتهى تحدّي ساحة الزعماء الخاص بك",bc_map;
+		sleep2 5000;
+		mapannounce .@map$,"حظاً أوفر المرة القادمة.",bc_map;
+		sleep2 3000;
+		mapannounce .@map$,"لقد وصلت إلى المستوى رقم "+getvariableofinstance('TOWER_STAGE,.@id),bc_map;
+		mapannounce .@map$,"توقيتك الإجمالي هو: "+TimeCalc(getvariableofinstance('timer,.@id)),bc_map;
+		donpcevent instance_npcname("tower_controller",.@id)+"::OnEnd";
+		warp "SavePoint",0,0;
+		end;
+	}
+	mes "قم بإغلاق هذه النافذة ليتم إنعاشك.";
+	close2;
+	atcommand "@alive";
+	set getvariableofinstance('lives,.@id), getvariableofinstance('lives,.@id)-1;
+	mapannounce .@map$,"محاولاتك المتبقية: ",bc_map;
+	sleep2 1000;
+	mapannounce .@map$,""+getvariableofinstance('lives,.@id),bc_map;
+	// enablenpc instance_npcname("ساحة الزعماء#tower",.@id);
+	end;
+
+OnEnd:
+OnInstanceEnd:
+	debugmes "ended the instance";
+	.@stage = 'TOWER_STAGE;
+	if(.@stage < 2) end;
+	.@time = 'timer;
+	.@mode = 'HARD_MODE;
+	.@id = 'char_id;
+	if(.@mode) 
+		add_score_hard(.@id,.@stage,.@time);
+	else add_score_normal(.@id,.@stage,.@time);
+	// if(.@mode) { // hard
+	// 	for(.@i = 0; .@i < 15; .@i = .@i + 3) {
+	// 		if(.@stage >= $tower_top_hard[.@i]) { // you have a better stage than the best player
+	// 			if(!$tower_top_hard[.@i+1] || .@time < $tower_top_hard[.@i+1]) { // better time aswell
+	// 				// new high score
+	// 				$tower_top_hard[.@i] = .@stage;
+	// 				$tower_top_hard[.@i+1] = .@time;
+	// 				$tower_top_hard[.@i+2] = .@id;
+	// 				if(.@i == 0) announce "لقد قام اللاعب "+strcharinfo2(0,.@id)+" بتحطيم جميع الأرقام القياسية بالنمط الصعب في ساحة الزعماء !",bc_all;
+	// 				 	else announce "لقد قام اللاعب "+strcharinfo2(0,.@id)+" بإحراز رقمٍ قياسي للنمط الصعب من ساحة الزعماء !",bc_all;
+    //                 if(.@i == 0) {
+    //                     .@sender$ = "[ساحة الزعماء]";
+    //                     .@title$ = "رقمٌ قياسي";
+    //                     .@body$ = "لقد حصلت على رقمٍ قياسيٍ جديد في ساحة الزعماء.";
+    //                     setarray .@itemarray[0],49999;
+    //                     setarray .@itemamtarray[0],1;
+	// 					.@zeny = 1;
+    //                     mail .@id,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+    //                 }
+    //                 end;
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// //normal
+	// for(.@i = 0; .@i < 15; .@i = .@i + 3) {
+	// 	if(.@stage >= $tower_top_normal[.@i]) { // you have a better stage than the best player
+	// 		if(!$tower_top_normal[.@i+1] || .@time < $tower_top_normal[.@i+1]) { // better time aswell
+	// 			// new high score
+	// 			copyarray .@scores[0],$tower_top_normal[0],getarraysize;
+	// 			for(.@j = 0; .@j < .@i; .@j++) {
+	// 				setarray .@arr[.@j],$tower_top_normal[.@j];
+	// 			}
+	// 			$tower_top_normal[.@i] = .@stage;
+	// 			$tower_top_normal[.@i+1] = .@time;
+	// 			$tower_top_normal[.@i+2] = .@id;
+	// 			if(.@i == 0) announce "لقد قام اللاعب "+strcharinfo2(0,.@id)+" بتحطيم جميع الأرقام القياسية في ساحة الزعماء !",bc_all;
+	// 			 	else announce "لقد قام اللاعب "+strcharinfo2(0,.@id)+" بإحراز رقمٍ قياسي في ساحة الزعماء !",bc_all;
+	// 			if(.@i == 0) {
+    //                     .@sender$ = "[ساحة الزعماء]";
+    //                     .@title$ = "رقمٌ قياسي";
+    //                     .@body$ = "لقد حطّمت الرقم القياسي لساحة الزعماء !";
+    //                     setarray .@itemarray[0],50000;
+    //                     setarray .@itemamtarray[0],5;
+	// 					.@zeny = 1;
+    //                     mail .@id,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+    //                 }
+    //             end;
+	// 		}
+	// 	}
+	// }
+	end;
+}
+
+
+ytower,101,107,4	script	mob_spawner#tower	-1,{
+OnInit:
+	setarray .easy[0],1147,1685,2106,1734,1785,1312,2105,1418,2104,1492,1623,1252,1630,1885,1272,2052,1373,2101,2156,2068,
+	1251,1112,1157,1039,2100,1150,1046,2098,1389,2097,1159,1511,1038,2096,1115,2095,1086,1190,1087,1094;
+	setarray .normal[0],2362,1658,1768,2108,1871,2107,1719,2202,1708,1059,1583,1688,3633,3758,3741,3796;
+	setarray .hard[0],1917,2110,1832,1751,2109,3074,1874,2251,2255,2253,2249,1646,1647,1648,1649,1650,2111,2112,2113,2235,2236,2238,2239,
+	2240,2241,20260,3804,20520;
+	setarray .superhard[0],2165,2237,1651,20419;
+	// setarray .ultrahard[0],31974;
+	setarray .x[0],44,83;
+	setarray .y[0],72,111;
+	setarray .coins[0], 50003,50002,50001,50000; // coin IDs for different mvp difficulties
+	setarray .shards[0], 50003,50002,50001,50000; // coin IDs for different mvp difficulties
+	end;
+
+OnStart:
+	switch('TOWER_STAGE) {
+		case 1:
+			if(!'HARD_MODE) {
+				for(.@i = 0; .@i < 10; .@i++) 
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.easy[rand(getarraysize(.easy))],1,instance_npcname("mob_spawner#tower") + "::OnEasyMobDead";
+			} else {
+				for(.@i = 0; .@i < 5; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.easy[rand(getarraysize(.easy))],1,instance_npcname("mob_spawner#tower") + "::OnEasyMobDead";
+				}
+				for(.@i = 0; .@i < 5; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				}
+			}
+			'mobs = 10;
+			break;
+		case 2:
+			if(!'HARD_MODE) {
+				for(.@i = 0; .@i < 5; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				
+				for(.@i = 0; .@i < 10; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.easy[rand(getarraysize(.easy))],1,instance_npcname("mob_spawner#tower") + "::OnEasyMobDead";
+			} else {
+				for(.@i = 0; .@i < 5; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.easy[rand(getarraysize(.easy))],1,instance_npcname("mob_spawner#tower") + "::OnEasyMobDead";
+				}
+				for(.@i = 0; .@i < 9; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				}
+				for(.@i = 0; .@i < 1; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.hard[rand(getarraysize(.hard))],1,instance_npcname("mob_spawner#tower") + "::OnHardMobDead";
+				}
+			}
+			'mobs = 15;
+			break;
+		case 3:
+			if(!'HARD_MODE) {
+				for(.@i = 0; .@i < 1; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.hard[rand(getarraysize(.hard))],1,instance_npcname("mob_spawner#tower") + "::OnHardMobDead";
+				
+				for(.@i = 0; .@i < 5; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				for(.@i = 0; .@i < 9; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.easy[rand(getarraysize(.easy))],1,instance_npcname("mob_spawner#tower") + "::OnEasyMobDead";
+			} else {
+				for(.@i = 0; .@i < 3; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.hard[rand(getarraysize(.hard))],1,instance_npcname("mob_spawner#tower") + "::OnHardMobDead";
+				}
+				for(.@i = 0; .@i < 12; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				}
+			}
+			'mobs = 15;
+			break;
+
+		case 4:
+			if(!'HARD_MODE) {
+				for(.@i = 0; .@i < 2; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.hard[rand(getarraysize(.hard))],1,instance_npcname("mob_spawner#tower") + "::OnHardMobDead";
+				for(.@i = 0; .@i < 4; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				for(.@i = 0; .@i < 9; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.easy[rand(getarraysize(.easy))],1,instance_npcname("mob_spawner#tower") + "::OnEasyMobDead";
+			} else {
+				for(.@i = 0; .@i < 5; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.hard[rand(getarraysize(.hard))],1,instance_npcname("mob_spawner#tower") + "::OnHardMobDead";
+				}
+				for(.@i = 0; .@i < 9; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				}
+				for(.@i = 0; .@i < 1; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.superhard[rand(getarraysize(.superhard))],1,instance_npcname("mob_spawner#tower") + "::OnSuperHardMobDead";
+				}
+			}
+			'mobs = 15;
+			break;
+		case 5:
+			if(!'HARD_MODE) {
+				for(.@i = 0; .@i < 10; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				
+				for(.@i = 0; .@i < 4; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.hard[rand(getarraysize(.hard))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				for(.@i = 0; .@i < 1; .@i++)
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.superhard[rand(getarraysize(.superhard))],1,instance_npcname("mob_spawner#tower") + "::OnSuperHardMobDead";
+			} else {
+				for(.@i = 0; .@i < 2; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.superhard[rand(getarraysize(.superhard))],1,instance_npcname("mob_spawner#tower") + "::OnSuperHardMobDead";
+				}
+				for(.@i = 0; .@i < 8; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.hard[rand(getarraysize(.hard))],1,instance_npcname("mob_spawner#tower") + "::OnSuperHardMobDead";
+				}
+				for(.@i = 0; .@i < 5; .@i++) {
+					areamonster 'map$,.x[0],.y[0],.x[1],.y[1],"--ja--",.normal[rand(getarraysize(.normal))],1,instance_npcname("mob_spawner#tower") + "::OnNormalMobDead";
+				}
+			}
+			'mobs = 15;
+			break;
+	}
+	initnpctimer;
+	end;
+	
+
+OnEasyMobDead:
+	if('HARD_MODE) {
+		getitem .coins[0],1;
+		'mobs--;
+	} else {
+		getitem .shards[0],1;
+		'mobs--;
+	}
+	if('mobs == 0) {
+		'timer += getnpctimer(0,instance_npcname("mob_spawner#tower"));
+		stopnpctimer;
+		mapannounce 'map$,"لقد تم القضاء على جميع الوحوش في هذه الجولة.",bc_map;
+		sleep 5000;
+		mapannounce 'map$,"تحدث إلى موظّفِ الساحة للاستمرار",bc_map;
+		enablenpc instance_npcname("ساحة الزعماء#tower");
+		'TOWER_STAGE++;
+	}
+	end;
+OnNormalMobDead:
+	if('HARD_MODE) {
+		getitem .coins[1],1;
+		'mobs--;
+	} else {
+		getitem .shards[1],1;
+		'mobs--;
+	}
+	if('mobs == 0) {
+		'timer += getnpctimer(0,instance_npcname("mob_spawner#tower"));
+		stopnpctimer;
+		mapannounce 'map$,"لقد تم القضاء على جميع الوحوش في هذه الجولة.",bc_map;
+		sleep 5000;
+		mapannounce 'map$,"تحدث إلى موظّفِ الساحة للاستمرار",bc_map;
+		enablenpc instance_npcname("ساحة الزعماء#tower");
+		'TOWER_STAGE++;
+	}
+	end;
+OnHardMobDead:
+	if('HARD_MODE) {
+		getitem .coins[2],1;
+		'mobs--;
+	} else {
+		getitem .shards[2],1;
+		'mobs--;
+	}
+	if('mobs == 0) {
+		'timer += getnpctimer(0,instance_npcname("mob_spawner#tower"));
+		stopnpctimer;
+		mapannounce 'map$,"لقد تم القضاء على جميع الوحوش في هذه الجولة.",bc_map;
+		sleep 5000;
+		mapannounce 'map$,"تحدث إلى موظّفِ الساحة للاستمرار",bc_map;
+		enablenpc instance_npcname("ساحة الزعماء#tower");
+		'TOWER_STAGE++;
+	}
+	end;
+OnSuperHardMobDead:
+	if('HARD_MODE) {
+		getitem .coins[3],1;
+		'mobs--;
+	} else {
+		getitem .shards[3],1;
+		'mobs--;
+	}
+	if('mobs == 0) {
+		'timer += getnpctimer(0,instance_npcname("mob_spawner#tower"));
+		stopnpctimer;
+		mapannounce 'map$,"لقد تم القضاء على جميع الوحوش في هذه الجولة.",bc_map;
+		sleep 5000;
+		mapannounce 'map$,"تحدث إلى موظّفِ الساحة للاستمرار",bc_map;
+		enablenpc instance_npcname("ساحة الزعماء#tower");
+		'TOWER_STAGE++;
+	}
+	end;
+}

@@ -1,0 +1,89 @@
+//===== rAthena Script ======================================= 
+//= Maher
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrsailRO's Maher buffer
+//= Used for the Summon Maher! scroll, which simply calls the OnSummon event for this npc
+//===== Current Version: =====================================
+//= 1.0
+//===== TODO: ===============================================
+//= Remove duplicate NPCs, create a new npc on script call instead
+//============================================================
+aim_fild01b,384,24,3	script	الطبيب ماهر#0	616,{
+	end;
+
+OnSummon:
+	if(getd(".SLAVE_"+strnpcinfo(2)) && atoi(strnpcinfo(2)) != 27) { // npc busy
+		doevent "الطبيب ماهر#"+(1+atoi(strnpcinfo(2)))+"::OnSummon";
+		end;
+	}
+	setd(".SLAVE_"+strnpcinfo(2)),1;
+	getmapxy(.@map$,.@x,.@y);
+	unitwarp getnpcid(0),.@map$,.@x+rand(1,3),.@y+rand(1,3);
+	cutin "bu_mark1.bmp",2;
+	npctalk "Blessing !!";
+	specialeffect2 EF_BLESSING;
+	sc_start SC_BLESSING,240000,10;
+	sleep2 1000;
+	npctalk "Increase Agility !!";
+	specialeffect2 EF_INCAGILITY;
+	sc_start SC_INCREASEAGI,240000,10;
+	sleep2 1000;
+	npctalk "Kyrie Elesion !!";
+	specialeffect2 112;
+	sc_start SC_KYRIE,240000,10;
+	sleep2 1000;
+	npctalk "Heal !!";
+	percentheal 100,100;
+	specialeffect2 EF_HEAL2;
+	sleep2 1000;
+	npctalk "الطبيب ماهر: فليبارك بك الرب";
+	emotion 78;
+	cutin "",255;
+	sleep2 3000;
+	unitwarp getnpcid(0),getd(".SLAVE_MAP$"+strnpcinfo(2)),getd(".SLAVEX_"+strnpcinfo(2)),getd(".SLAVEY_"+strnpcinfo(2));
+	setd(".SLAVE_"+strnpcinfo(2)),0;
+	end;
+
+OnTimer60000:
+	unitwarp getnpcid(0),getd(".SLAVE_MAP$"+strnpcinfo(2)),getd(".SLAVEX_"+strnpcinfo(2)),getd(".SLAVEY_"+strnpcinfo(2));
+	setd(".SLAVE_"+strnpcinfo(2)),0;
+	stopnpctimer;
+	end;
+
+OnInit:
+	setd ".SLAVE_"+strnpcinfo(2),0;
+	setd ".SLAVE_MAP$"+strnpcinfo(2),"aim_fild01b";
+	setd ".SLAVEX_"+strnpcinfo(2),100;
+	setd ".SLAVEY_"+strnpcinfo(2),100;
+	end;
+}
+
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#1	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#2	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#3	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#4	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#5	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#6	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#7	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#8	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#9	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#10	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#11	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#12	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#13	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#14	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#15	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#16	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#17	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#18	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#19	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#20	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#21	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#22	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#23	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#24	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#25	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#26	616
+aim_fild01b,384,24,4	duplicate(الطبيب ماهر#0)	الطبيب ماهر#27	616

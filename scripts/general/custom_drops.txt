@@ -1,0 +1,87 @@
+//===== rAthena Script ======================================= 
+//= Custom Drops
+//===== By: ==================================================
+//= KiNa
+//===== Description: =========================================
+//= Specifies items that drop from all monsters at a specified rate
+//===== Current Version: =====================================
+//= 1.0
+//= 2.0 added bossinia ticket drops for the new bossinia system
+//============================================================
+
+-	script	custom_drops	-1,{
+
+OnInit:
+	setarray .drops[0],50004,50005,50006,50034;
+	end;
+
+OnNPCKillEvent:
+	if(rand(1000) < 5) {
+		getitem .drops[rand(0,3)],1;
+	}
+	end;
+
+}
+
+-	script	Bossnia_Ticket_drops	-1,{
+OnClock0000:
+OnClock0200:
+OnClock0400:
+OnClock0600:
+OnClock0800:
+OnClock1000:
+OnClock1200:
+OnClock1400:
+OnClock1600:
+OnClock1800:
+OnClock2000:
+	announce "تذاكر بوسنيا تسقط الآن عند قتلك للوحوش في :"+$ticketmap$, bc_all|bc_blue;
+	end;
+
+OnClock2200:
+	$ticketmap$ = .maps$[rand(getarraysize(.maps$))];
+	announce "تذاكر بوسنيا تسقط الآن عند قتلك للوحوش في :"+$ticketmap$, bc_all|bc_blue;
+	end;
+
+OnStartBossnia:
+OnFri0000:
+	announce "لقد بدأ حدث بوسنيا, تستطيع الدخول بإستخدام التذاكر الآن", bc_all|bc_blue;
+	$bossnia = 1;
+	end;
+
+OnSat0000:
+	announce "إنتهى حدث بوسنيا !", bc_all|bc_blue;
+	$bossnia = 0;
+	end;
+
+OnInit:
+	bindatcmd("startbossnia",strnpcinfo(3)+"::OnStartBossnia",60,99);
+	bindatcmd("stopbossnia",strnpcinfo(3)+"::OnStopBossnia",60,99);
+	setarray .maps$[0],"aim_dun02","lhz_dun_n","mag_dun03";
+	$ticketmap$ = .maps$[rand(getarraysize(.maps$))];
+	end;
+
+OnNPCKillEvent:
+	getmapxy(.@map$,.@x,.@y); 
+	if(.@map$ == $ticketmap$){
+	if(rand(1000) < 5) {
+		getitem 60254,1;
+	}
+	end;
+	}
+	end;
+
+OnStopBossnia:
+	announce "تم إيقاف حدث بوسنيا من قبل الإدارة.",bc_all;
+	$bossnia = 0;
+	end;
+
+OnPCLoginEvent:
+	if($bossnia){
+		announce "حدث بوسنيا يعمل الآن, تستطيع الدخول بإستخدام التذاكر", bc_all|bc_blue;
+	} else {
+		announce "تذاكر بوسنيا تسقط الآن عند قتلك للوحوش في "+$ticketmap$, bc_self|bc_blue;
+	}
+	end;
+
+}

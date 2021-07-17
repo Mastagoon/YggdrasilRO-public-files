@@ -1,0 +1,172 @@
+//===== rAthena Script ======================================= 
+//= Naseem Corporation
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrsailRO's Naseem Corporation script
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+glast_01,198,273,4	script	موظف شركة النسيم	10299  ,{
+	cutin "ep171_kaya01",2;
+	mes "[موظف شركة النسيم]";
+	mes "! أهلاً بك ايها المغامر";
+	mes "لم أتوقع رؤيتك هنا, لابد انك شجاع";
+	mes "حقاً لتأتي لمكانٍ خطير كهذا";
+	next;
+	mes "[موظف شركة النسيم]";
+	mes "^ff0000الكريستالات الزمنية؟ ^000000هل سمعت عن ";
+	next;
+	if(select("أجل, سمعت عنها:إلغاء") -1) {
+		cutin "",255;
+		close;
+	}
+	emotion ET_COOL;
+	mes "[موظف شركة النسيم]";
+	mes "اوه؟ هل يصدف أن لديك بعضاً منها؟";
+	mes "سأعطيك شيئاً قيماً جداً بالمقابل";
+	next;
+	if(select("ماذا ستعطيني مقابلها؟:إلغاء") -1) {
+		cutin "",255;
+		close;
+	}
+	mes "[موظف شركة النسيم]";
+	mes "هل تعرف الأحذية الخاصة التي يمكنك";
+	mes "صناعتها بتلك الكريستالات؟";
+	mes "سأعطيك حذءً واحداً من اختيارك";
+	mes "وكل ماعليك فعله هو أن تحضر لي";
+	mes "^ff0000200 كريستالة زمنية^000000";
+	next;
+	mes "[موظف شركة النسيم]";
+	mes "سأعطيك أي حذاء تريده, لدي جميع التحسينات الممكنة.";
+	next;
+	if(select("اعطي جوهر الكريستالات:إلغاء") -1) {
+		cutin "",255;
+		close;
+	}
+	disable_items;
+	if(countitem(6607) < 200) {
+		mes "[موظف شركة النسيم]";
+		mes "هل نسيت الكريستالات في المخزن أو ماشابه؟";
+		mes "أحضر 200 كريستالة ثم حاول مجدداً";
+		cutin "",255;
+		close;
+	}
+
+	mes "[موظف شركة النسيم]";
+	mes "حسناً إذاً, سأريك مجموعة الأحذية التي لدي";
+	mes "لاتكن خجولاً واختر الحذاء الذي تريده";
+	emotion ET_DELIGHT;
+	next;
+	mes "- جوهر يريك مجموعة أحذيته -";
+	mes "- يمكنك اختيار الحذاء الذي تريده -";
+	next;
+	mes "- اختر نوع الحذاء -";
+	if(select("Temporal Boots:Modified Temporal Boots") -1) { //modeified boots
+		setarray .@boot_type[0],
+			22113,	// Slotted Modified_STR_Boots
+			22114,	// Slotted Modified_INT_Boots
+			22115,	// Slotted Modified_AGI_Boots
+			22116,	// Slotted Modified_VIT_Boots
+			22117,	// Slotted Modified_DEX_Boots
+			22118;	// Slotted Modified_LUK_Boots
+	} else {
+		setarray .@boot_type[0],
+			22006,	// Normal slotted STR_Boots
+			22009,	// Normal slotted INT_Boots
+			22010,	// Normal slotted AGI_Boots
+			22007,	// Normal slotted VIT_Boots
+			22008,	// Normal slotted DEX_Boots
+			22011;	// Normal slotted LUK_Boots
+	}
+	next;
+	mes "- اختر الحالة -";
+	.@boot = .@boot_type[select("Str Boots:Int Boots:Agi Boots:Vit Boots:Dex Boots:Luk Boots")-1];
+	next;
+	setarray .@enchants1[0],4822,4835,4826,4862,4881,4755;
+	mes "- اختر التحسين الأول -";
+	set .@enchant1, .@enchants1[select("Fighting Spirit:Expert Archer:Spell:MaxHP:DelayafterAttack(ASPD):Luck")-1];
+	next;
+	mes "- اختر التحسين الأخير -";
+	setarray .@enchants2[0],4875,4876,4877,4878,4879,4880;
+	set .@enchant2, .@enchants2[select("Bear's Power:Runaway Magic:Speed Of Light:Muscle Fool:Hawkeye:Lucky Day")-1];
+	next;
+	mes "- "+getitemname(.@boot)+" -";
+	mes "- "+getitemname(.@enchant1)+" -";
+	mes "- "+getitemname(.@enchant2)+" -";
+	mes "هل انت متأكد من اختياراتك؟";
+	mes "^ff0000لا يمكن إلغاء هذه العملية عند الموافقة^000000";
+	if(select("نعم انا متأكد:إلغاء") -1) {
+		cutin "",255;
+		close;
+	}
+	delitem 6607, 200;
+	getitem2 .@boot,1,1,0,0,0,0,.@enchant2,.@enchant1;
+	cutin "",255;
+	close;
+}
+
+verus04,170,214,6	script	موظف شركة النسيم#3	899,{
+	mes "[موظف شركة النسيم]";
+	mes "يو ! هل جئت لتستكشف هذه المدينة";
+	mes "ايضاً؟";
+	next;
+	emotion ET_HUK;
+	mes "[موظف شركة النسيم]";
+	mes "من كان ليظن أن هناك مدينة كبيرة";
+	mes "كهذه تحت أنقاض جوبيروز";
+	next;
+	if(select("ماذا تفعل هنا:إلغاء")-1){
+		cutin "",255;
+		close;
+	}
+	mes "[موظف شركة النسيم]";
+	mes "هل ترى الآليين الصغار بجانبي؟";
+	mes "لقد اشتريت بعض التحسينات منهم";
+	next;
+	mes "[موظف شركة النسيم]";
+	mes "...................";
+	mes "في الواقع لقد اشتريت كل ما لديهم";
+	mes "والان لدي الكثير من الاغراض التي لا احتاجها";
+	next;
+	mes "[موظف شركة النسيم]";
+	mes "ان كنت تحتاج بعضاً منها";
+	mes "يمكنني بيعها لك بسعرٍ مناسب";
+	next;
+	if(select("أرني التحسينات:إلغاء") -1) {
+		cutin "",255;
+		close;
+	}
+	mes "[موظف شركة النسيم]";
+	mes "يمكنك شراء أي واحد منها";
+	mes " ^ff0000300 خزان وقود^000000 ستكلفك";
+	next;
+	if(countitem(6962) < 200) {
+		mes "[موظف شركة النسيم]";
+		mes "يبدو انك لاتملك مايكفي من الوقود";
+		next;
+		mes "[موظف شركة النسيم]";
+		mes "أحتاج 300 خزان وقود لأعطيك التحسينات";
+		cutin "",255;
+		close;
+	}
+	disable_items;
+	setarray .@blueprints[1],0;
+	for(.@i = 1; .@i <= 22; .@i++) {
+		setarray .@blueprints[.@i], 6964+.@i;	
+		set .@menu$, .@menu$ +":"+ getitemname(.@blueprints[.@i]);
+	}
+	.@choice = select(.@menu$);
+	mes "- "+getitemname(.@blueprints[.@choice-1])+" -";
+	mes "هل انت متأكد من اختيارك؟";;
+	mes "^ff0000لايمكن إلغاء هذه العملية بعد الموافقة^000000";
+	next;
+	if(select("تأكيد:إلغاء") -1) {
+		cutin "",255;
+		close;
+	}
+	delitem 6962,300;
+	getitem .@blueprints[.@choice-1],1;
+	cutin "",255;
+	close;
+}

@@ -1,0 +1,457 @@
+//===== rAthena Script ======================================= 
+//= Beginner Tutorial
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Beginner Tutorial
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+beginner01,127,57,5	script	العم قاسم	412,{
+	if(#WELCOME_REWARD){
+		if(BaseLevel < 10) getexp2 25000,2000;
+		Zeny = Zeny + 10000;
+		warp "aimia",109,172;
+		savepoint "aimia",109,172;
+		end;
+	}
+	function	checkInstance	{
+		if(instance_live_info(ILI_OWNER) != -1) {
+			return;
+		}
+		mes "يبدو أنك انتهيت من التدريب";
+		mes "سيتم نقلك إلى إيميا الآن.";
+		if(BaseLevel < 10) getexp2 25000,2000;
+		if(!countitem(50054)) getitem 50054,1; set #WELCOME_REWARD,1;
+		warp "aimia",109,172;
+		savepoint "aimia",109,172;
+		end;
+	}
+	switch(TUTORIAL) {
+		cutin "ins_cata_pri_n",2;
+		case 0:
+			mes "[أرض المبتدئين]";
+			mes "هل تريد الذهاب إلى المدينة مباشرةً؟";
+			next;
+			.@choice = select("بدء تدريب المبتدئين:أرسلني إلى المدينة من فضلك");
+			if(.@choice == 2 ){ 
+				mes "[أرض المبتدئين]";
+				mes "حسناً سيتم إرسالك إلى جزيرة إيميا.";
+				close2;
+				getexp2 25900,1151;
+				getitem 50054,1; set #WELCOME_REWARD,1;
+				Zeny = Zeny + 10000;
+				warp "aimia",109,172;
+				savepoint "aimia",109,172;
+				TUTORIAL = 99;
+				end;
+			}
+			.@md_name$ = "Tutorial";
+			set .@instance, instance_create(.@md_name$,IM_CHAR,getcharid(0));
+			if (.@instance < 0) {
+				mes "حدث خطأ ما, يرجى التواصل مع إدارة اللعبة";
+				mes "رمز الخطأ "+.@instance;
+				cutin "",255;
+				close;
+			}
+			instance_enter(.@md_name$,128,52,getcharid(0),.@instance);
+			TUTORIAL = 1;
+		close;
+
+		case 1:
+			checkInstance();
+			cutin "ins_cata_pri_n",2;
+			.@n$ = "[رجل عجوز]";
+			mes .@n$;
+			mes "مرحباً بك في سيرفر";
+			mes "Yggdrasil RO";
+			next;
+			mes .@n$;
+			mes "نأمل أن تحظى بوقتٍ ممتع";
+			mes "وأن تتعرف على الكثير من الأصدقاء";
+			next;
+			mes .@n$;
+			mes "انا أدعى قاسم, وأنا هنا";
+			mes "لأريك بعض من ميزات السيرفر";
+			next;
+			mes .@n$;
+			mes "لنذهب لمكان أنسب للحديث";
+			mes "تعال معي إلى وسط المدينة.";
+			specialeffect2 EF_INCAGILITY;
+			sc_start SC_INCREASEAGI,240000,10;
+			cutin "",255;
+			close2;
+			movenpc instance_npcname(strnpcinfo(0)),128,140;
+			TUTORIAL = 2;
+			break;
+		case 2:
+			checkInstance();
+			.@n$ = "[العم قاسم]";
+			cutin "ins_cata_pri_n",2;
+			mes .@n$;
+			mes "في سيرفر يجدراسيل, يمكنك";
+			mes "استلام جائزة مميزة كل يوم";
+			next;
+			mes .@n$;
+			cutin "daily1",4;
+			mes "ستستلم جائزة مختلفة كل يوم";
+			mes "وستكون الجوائز مميزة وفريدة أكثر";
+			mes "مع تقدم الوقت";
+			for(.@i = 1; .@i <= 20; .@i++) {
+				cutin "daily"+.@i,4;
+				sleep2 300;
+			}
+			next;
+			cutin "ins_cata_pri_n",2;
+			mes .@n$;
+			mes "بالإضافة للجائزة المعروضة";
+			mes "ستحصل كل يوم على عدد عشوائي";
+			mes "من العملات الذهبية وتذاكر الحظ";
+			next;
+			mes .@n$;
+			mes "يمكنك مبادلة العملات الذهبية";
+			mes "مقابل نقاط كابرا";
+			mes "ويمكنك استعمال تذاكر الحظ";
+			mes "في آلة الحظ في المدن الرئيسية.";
+			next;
+			mes .@n$;
+			mes callfunc("formatArabic","لم لا تجرب الآن؟ اكتب ^ff0000@daily^000000");
+			mes "واستلم جائزتك الأولى";
+			close2;
+			cutin "",255;
+			TUTORIAL = 3;
+			TARINING = 1;
+			end;
+		case 3:
+			checkInstance();
+			.@n$ = "[العم قاسم]";
+			mes .@n$;
+			if(!countitem(50060)) {
+				mes "كل ماعليك فعله هو";
+				mes callfunc("formatArabic","استخدام الأمر ^ff0000@daily^000000");
+				mes "لاستلام الجائزة";
+				close;
+			}
+			mes "أحسنت عملاً !";
+			getexp2 27000,1151;
+			next;
+			mes .@n$;
+			mes "والآن سأعلمك كيف تستعمل";
+			mes "تذكرة الحظ التي لديك.";
+			next;
+			mes .@n$;
+			mes "هل ترى الآلة الغريبة على يمينك؟";
+			mes "يمكنك الحصول على مختلف الجوائز";
+			mes "باستخدام التذكرة فيها";
+			mes "لم لا تجرب استخدام تذكرتك الآن؟";
+			close2;
+			cutin "",255;
+			movenpc instance_npcname(strnpcinfo(0)),139,153;
+			TUTORIAL = 4;
+			end;
+
+		case 4:
+			checkInstance();
+			.@n$ = "[العم قاسم]";
+			mes .@n$;
+			mes "أنقر على الآلة لتجرب حظك.";
+			close2;
+			cutin "",255;
+			end;
+
+		case 5:
+			checkInstance();
+			.@n$ = "[العم قاسم]";
+			mes .@n$;
+			mes "هاهاها, لقد حصلت على";
+			mes "جائزة نادرة, آمل أن تعثر";
+			mes "على قبعة جميلة في هذا الصندوق.";
+			next;
+			mes .@n$;
+			mes "والآن, هل ترى الرجل الملثم";
+			mes "الواقف هناك؟";
+			next;
+			mes .@n$;
+			mes "إنه مدير متجر زعماء الوحوش";
+			mes "يمكنك الشراء من متجره باستعمال";
+			mes "عملات الزعماء";
+			next;
+			mes .@n$;
+			mes "اتبعني وسأريك كيف تحصل عليها.";
+			close2;
+			movenpc instance_npcname(strnpcinfo(0)),136,170;
+			cutin "",255;
+			TUTORIAL = 6;
+			end;
+		
+		case 8:
+			checkInstance();
+			.@n$ = "[العم قاسم]";
+			mes .@n$;
+			mes "! أحسنت عملاً يافتى";
+			mes "....رؤيتك تذكرني بشبابي";
+			next;
+			mes .@n$;
+			mes "أنت تتعلم بسرعة حقاً";
+			mes "والآن تعال معي إلى غرب هذه الساحة";
+			mes "هناك شخص أريدك أن تقابله";
+			close2;
+			movenpc instance_npcname(strnpcinfo(0)),116,172;
+			cutin "",255;
+			TUTORIAL = 9;
+			end;
+		
+		case 9:
+			checkInstance();
+			.@n$ = "[العم قاسم]";
+			mes .@n$;
+			mes "هناك شخصيات كثيرة جديدة في هذا";
+			mes "السيرفر, قد تحصل منهم على مهام";
+			mes "أو خبرة أو أدوات نادرة";
+			next;
+			mes .@n$;
+			mes "وهنا أحد تلك الشخصيات, إنه جوهر";
+			mes "جوهر مستكشف مشهور قام بزيارة";
+			mes "جميع أنحاء رون ميدجارد";
+			next;
+			mes .@n$;
+			mes "لم لا تجرب التحدث إليه؟";
+			TUTORIAL = 10;
+			close2;
+			cutin "",255;
+			end;
+		
+		case 11:
+			checkInstance();
+			.@n$ = "[العم قاسم]";
+			mes .@n$;
+			mes "يبدو أنك أنهيت التدريب بالكامل";
+			mes "حان الوقت لتنطلق في مغامرتك";
+			next;
+			mes .@n$;
+			mes "سأرسلك الآن إلى جزيرة إيميا";
+			mes "أتمنى لك مغامرةً ممتعة ومسلية";
+			mes "سأعطيك بعض الأدوات التي قد تفيدك في رحلتك";
+			getitem 50054,1; set #WELCOME_REWARD,1;
+			Zeny = Zeny + 10000;
+			next;
+			mes .@n$;
+			mes "...............";
+			mes "إلى اللقاء يا بني";
+			close2;
+			cutin "",255;
+			warp "aimia",109,172;
+			savepoint "aimia",109,172;
+			instance_destroy(instance_id(IM_CHAR));
+			TUTORIAL = 99;
+			end;
+
+		default:
+			cutin "",255;
+			checkInstance();
+			end;
+		}
+}
+
+beginner01,143,151,4	script	آلة الحظ::tutorial	563,{
+	if(TUTORIAL != 4) end;
+	if(!countitem(50060)) end;
+	mes "- استعمل التذكرة لتجرب حظك -";
+	next;
+	select("أدخل التذكرة");
+	mes "جائزتك هي !!!!";
+	sleep2 3000;
+	mes "صندوق قبعات الزينة !!";
+	delitem 50060,1;
+	getitem 50004,1;
+	TUTORIAL = 5;
+	close;
+}
+
+beginner01,138,170,4	script	متجر الزعماء	998,{
+	if(TUTORIAL == 7) {
+		if(!countitem(50051) || !countitem(50053) || !countitem(50052)) {
+			mes "لنتحدث بعد أن تهزم زعيم الوحوش";
+			close;
+		}
+		.@n$ = "[مدير متجر الزعماء]";
+		mes .@n$;
+		mes "احسنت عملاً, لقد حصلت على عملة نادرة";
+		mes "سأعطيك هدية جيدة مقابلها";
+		next;
+		delitem 50051,1;
+		delitem 50053,1;
+		delitem 50052,1;
+		getitem 50005,1;
+		TUTORIAL = 8;
+		close;
+	}
+	if(TUTORIAL == 6) {
+		.@n$ = "[مدير متجر الزعماء]";
+		mes .@n$;
+		mes "مرحباً بك أيها المغامر";
+		mes "أنا أبيع الكثير من النوادر";
+		mes "مقابل عملات زعماء الوحوش";
+		next;
+		mes .@n$;
+		mes "هناك أربعة فئات من عملات الزعماء";
+		mes callfunc("formatArabic","الفئة الأولى هي الفئة C");
+		cutin "c_coin",4;
+		next;
+		mes .@n$;
+		mes callfunc("formatArabic","العملة C هي أضعف العملات وتسقط");
+		mes "من زعماء الوحوش الضعيفة";
+		next;
+		cutin "tut_mvp1",4;
+		mes .@n$;
+		mes "يمكنك استعمال هذه العملة لشراء";
+		mes "بعض المنشطات أو أدلة الميدان.";
+		next;
+		mes .@n$;
+		mes "B الفئة التالية هي الفئة";
+		cutin "b_coin",4;
+		next;
+		mes .@n$;
+		mes callfunc("formatArabic","زعماء العملة B هم زعماء في أماكن");
+		mes "يصعب الوصول إليها, وقتلهم أصعب";
+		mes "C قليلاً من وحوش الفئة ";
+		next;
+		mes .@n$;
+		cutin "tut_mvp2",4;
+		mes callfunc("formatArabic","تستعمل عملات الفئة B لشراء جرع");
+		mes "وصناديق منشطات نادرة";
+		next;
+		mes .@n$;
+		mes "A الفئة التالية هي عملات الفئة";
+		cutin "a_coin",4;
+		mes "هذه العملة النادرة تسقط من";
+		mes "وحوش قوية ومخيفة جداً";
+		mes "ومن الصعب هزيمتها بدون مجموعة";
+		mes "من اللاعبين.";
+		next;
+		mes .@n$;
+		cutin "tut_mvp3",4;
+		mes "يمكنك استعمال هذه العملات";
+		mes "لشراء بعض الأدوات القوية";
+		next;
+		mes .@n$;
+		mes "S الفئة الأخيرة هي عملات الفئة";
+		cutin "s_coin",4;
+		mes "تعتبر أندر عملة ومن الصعب";
+		mes "الحصول عليها";
+		next;
+		mes .@n$;
+		cutin "tut_mvp4",4;
+		mes "يمكنك شراء أدوات نادرة وأسطورية";
+		mes "باستعمال هذه العملة.";
+		next;
+		mes .@n$;
+		cutin "",255;
+		mes "حسناً والآن سأقوم باختبارك قليلاً";
+		mes "سأسألك ثلاثة أسئلة وإن جاوبت";
+		mes "بشكل صحيح فستحصل على بعض الخبرة.";
+		next;
+		mes .@n$;
+		mes "ماهو تصنيف هذا الوحش؟";
+		mes "^ff0000Ifrit^000000";
+		next;
+		while(.@select != 2) {
+			.@select = select("B Rank:A Rank:C Rank:S Rank");
+		}
+		getexp2 10000,0;
+		mes .@n$;
+		mes "أحسنت ! جواب صحيح";
+		next;
+		mes .@n$;
+		mes "السؤال الثاني:";
+		mes "ماهو تصنيف هذا الوحش؟";
+		mes "^ff0000Lady Tanee^000000";
+		next;
+		while(.@select != 1) {
+			.@select = select("B Rank:A Rank:C Rank:S Rank");
+		}
+		getexp2 10000,0;
+		mes .@n$;
+		mes "أحسنت ! جواب صحيح";
+		next;
+		mes .@n$;
+		mes "حسناً حان وقت السؤال الأخير:";
+		mes "ماهو تصنيف هذا الوحش؟";
+		mes "^ff0000Atroce^000000";
+		next;
+		while(.@select != 3) {
+			.@select = select("B Rank:A Rank:C Rank:S Rank");
+		}
+		getexp2 10000,0;
+		mes .@n$;
+		mes "هاهاها, أحسنت عملاً, هذا هو الجواب الصحيح";
+		next;
+		mes .@n$;
+		mes "والآن بعد أن تعلمت الأساسيات";
+		mes "حان وقت التدريب";
+		mes "في هذا التدريب, سأعلمك";
+		mes "كيف تصطاد زعماء الوحوش وتحصل";
+		mes "على عملاتهم الخاصة";
+		next;
+		mes .@n$;
+		mes "سأستدعي زعيم وحوش الآن";
+		mes "قم بهزيمته واحضار عملته لي لتستمر";
+		TUTORIAL = 7;
+		monster strcharinfo(3),134,165,"Ifrit",31994,1,instance_npcname(strnpcinfo(0))+"::OnIfritDeath";
+		monster strcharinfo(3),130,165,"Atroce",31993,1,instance_npcname(strnpcinfo(0))+"::OnAtroceDeath";
+		monster strcharinfo(3),126,165,"Tao Gunka",31992,1,instance_npcname(strnpcinfo(0))+"::OnTaoDeath";
+		close;
+	}
+	if(TUTORIAL > 7 || TUTORIAL < 6) end;
+
+OnIfritDeath:
+	getitem 50051,1;
+	end;
+OnAtroceDeath:
+	getitem 50053,1;
+	end;
+OnTaoDeath:
+	getitem 50052,1;
+	end;
+}
+
+beginner01,119,172,5	script	جوهر	4_M_MINSTREL1,{
+	if(TUTORIAL != 10) {
+		end;
+	}
+	.@n$ = "[المستكشف جوهر]";
+	cutin "3rd_mins_song02",2;
+	mes .@n$;
+	emotion ET_GOODBOY;
+	mes "مرحباً أيها المغامر الصغير";
+	mes "لقد أخبرني قاسم الكثير عنك";
+	next;
+	emotion ET_DELIGHT;
+	cutin "3rd_mins_song04",2;
+	mes .@n$;
+	mes "انا أدعى جوهر, وأنا مستكشف محترف";
+	mes "لقد زرت أغلب أنحاء هذا العالم";
+	mes "لكن مازال هناك الكثير لاستكشافه !";
+	next;
+	mes .@n$;
+	mes "إن كنت من محبي الاستكشاف, فربما";
+	mes "ستقابلني في بعض الدهاليز أو المدن";
+	mes "إن استكشفت جميع الدهاليز التي";
+	mes "ذهبتُ إليها, فسأعطيك جائزة رائعة" ;
+	next;
+	emotion ET_GOODBOY;
+	mes .@n$;
+	cutin "3rd_mins_song01",2;
+	mes "لكن مازال الوقت مبكراً على الاستكشاف";
+	mes "فلتغامر وتزيد من قوتك ومستواك أولاً";
+	next;
+	cutin "3rd_mins_song01",2;
+	mes .@n$;
+	mes "بالتوفيق أيها المغامر.";
+	close2;
+	cutin "",255;
+	getexp2 25000,0;
+	TUTORIAL = 11;
+	end;
+}

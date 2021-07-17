@@ -1,0 +1,76 @@
+//===== rAthena Script ======================================= 
+//= Boss Invasion
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Boss monster invasion
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+-	script	boss_invasion	-1,{
+OnInit:
+	bindatcmd("startbossinvasion",strnpcinfo(3)+"::OnStart",80,80);
+	bindatcmd("startinvasion",strnpcinfo(3)+"::OnStart",80,80);
+	setarray .easy[0],1147,1685,2483,2106,1734,1785,1312,2105,1418,2104,1492,1623,1252,1630,1885,1272,2052,1373,2101,2156,2068,
+	1251,1112,1157,1039,2100,1150,1046,2098,1389,2097,1159,1511,1038,2096,1115,2095,1086,1190,1087,1094;
+	setarray .normal[0],2362,1658,1768,2108,1871,2107,1719,2202,1708,1059,1583,1688,3633,3758,3741,3796;
+	setarray .hard[0],1917,2110,1832,1751,2109,3074,1874,2251,2255,2253,2249,1646,1647,1648,1649,1650,2111,2112,2113,2235,2236,2238,2239,
+	2240,2241,20260,3804,20520;
+	setarray .superhard[0],2165,2237,1651,20419,20421,31974;
+	end;
+OnStart:
+	.mobs = 160;
+	for(.@i = 0; .@i < 80; .@i++) {
+		monster "aimia",0,0,"--ja--",.easy[rand(getarraysize(.easy))],1,strnpcinfo(3)+"::OnCRankBossDead";
+	}
+	for(.@i = 0; .@i < 30; .@i++) {
+		monster "aimia",0,0,"--ja--",.normal[rand(getarraysize(.normal))],1,strnpcinfo(3)+"::OnBRankBossDead";
+	}
+	for(.@i = 0; .@i < 40; .@i++) {
+		monster "aimia",0,0,"--ja--",.hard[rand(getarraysize(.hard))],1,strnpcinfo(3)+"::OnARankBossDead";
+	}
+	for(.@i = 0; .@i < 10; .@i++) {
+		monster "aimia",0,0,"--ja--",.superhard[rand(getarraysize(.superhard))],1,strnpcinfo(3)+"::OnSRankBossDead";
+	}
+	enablenpc "mvp_invasion";
+	end;
+
+OnCRankBossDead:
+		.@invasionPoints = callfunc("getInvasionPoints",.points[3]);
+		.mobs--;
+		if(.mobs == 0) donpcevent strnpcinfo(3)+"::OnEventEnd";
+		.@amt = $doublemvpdropevent ? 2 : 1;
+		getitem 60204,.@amt;
+		specialeffect2 313;
+		announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة أحد الزعماء, تبقى "+.mobs+" زعيم وحوش"), bc_all|bc_blue;
+	end;
+
+OnBRankBossDead:
+		.@invasionPoints = callfunc("getInvasionPoints",.points[4]);
+		.mobs--;
+		if(.mobs == 0) donpcevent strnpcinfo(3)+"::OnEventEnd";
+		.@amt = $doublemvpdropevent ? 2 : 1;
+		getitem 60203,.@amt;
+		specialeffect2 313;
+		announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة أحد الزعماء, تبقى "+.mobs+" زعيم وحوش"), bc_all|bc_blue;
+	end;
+
+OnARankBossDead:
+		.@invasionPoints = callfunc("getInvasionPoints",.points[5]);
+		.mobs--;
+		if(.mobs == 0) donpcevent strnpcinfo(3)+"::OnEventEnd";
+		.@amt = $doublemvpdropevent ? 2 : 1;
+		getitem 60202,.@amt;
+		specialeffect2 313;
+		announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة أحد الزعماء, تبقى "+.mobs+" زعيم وحوش"), bc_all|bc_blue;
+	end;
+OnSRankBossDead:
+		.@invasionPoints = callfunc("getInvasionPoints",.points[6]);
+		.mobs--;
+		if(.mobs == 0) donpcevent strnpcinfo(3)+"::OnEventEnd";
+		getitem 60201,1;
+		specialeffect2 313;
+		announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة أحد الزعماء, تبقى "+.mobs+" زعيم وحوش"), bc_all|bc_blue;
+	end;
+}

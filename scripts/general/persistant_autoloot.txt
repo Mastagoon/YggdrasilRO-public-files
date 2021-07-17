@@ -1,0 +1,58 @@
+//===== rAthena Script ======================================= 
+//= Autoloot Manager by Mastagoon
+//===== Description: =========================================
+//= Your autoloot settings will be saved even after relogging to the game.
+//= Allows using @alootid -item and @alootid reset
+//= Version 1.0
+//============================================================
+
+-	script	command#autolootsaver	-1,{
+OnPCLoginEvent:
+    if(!aloot_setting[0]) end;
+    atcommand "@autoloot "+aloot_setting[1]+"";
+    end;
+
+OnInit: 
+    bindatcmd("autoloot",strnpcinfo(0)+"::OnCommand");
+    end;
+
+OnCommand:
+    .@rate$ = .@atcmd_parameters$[0];
+    atcommand "@autoloot "+.@rate$;
+    if(atoi(.@rate$)) setarray aloot_setting[0],1,atoi(.@rate$);
+   	else setarray aloot_setting[0],!aloot_setting[0],100;
+	end;
+}
+
+-	script	command#alootidsaver	-1,{
+OnPCLoginEvent:
+    if(getarraysize(alootid_list) == 0) end;
+	for(.@i = 0; .@i < getarraysize(alootid_list); .@i++) {
+		atcommand "@alootid +"+alootid_list[.@i];
+		//dispbottom alootid_list[.@i];
+	}
+	end;
+
+OnInit: 
+    bindatcmd("alootid",strnpcinfo(0)+"::OnCommand");
+    end;
+
+OnCommand:
+	if(!.@atcmd_numparameters) { atcommand "@alootid"; end; }	//no parameters, show help
+    if(strtolower(.@atcmd_parameters$[0]) == "reset") { atcommand "@alootid reset"; deletearray alootid_list[0]; end; } //reset
+	if(substr(.@atcmd_parameters$[0],0,0) == "+") {  // if the first character of the first parameter is +
+		.@item = getstrlen(.@atcmd_parameters$[0]) > 1 ? atoi(.@atcmd_parameters$[0]) : .@atcmd_parameters$[1];
+		//dispbottom .@item;
+		atcommand "@alootid +"+.@item;
+		if(getitemname(.@item) == "null" || inarray(alootid_list,.@item) != -1) end;
+		setarray alootid_list[getarraysize(alootid_list)],.@item;
+		end;
+	}
+	if(substr(.@atcmd_parameters$[0],0,0) == "-") {	//add an item to list
+		.@item = getstrlen(.@atcmd_parameters$[0]) > 1 ? -atoi(.@atcmd_parameters$[0]) : .@atcmd_parameters$[1];
+		//dispbottom .@item;
+		atcommand "@alootid -"+.@item;
+		if(inarray(alootid_list[0],.@item) == -1) end; // let the official @alootid display the error message.
+		deletearray alootid_list[inarray(alootid_list[0],.@item)],1;
+	} 
+}

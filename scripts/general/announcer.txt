@@ -1,0 +1,25 @@
+//===== rAthena Script ======================================= 
+//= Periodic Announcer
+//===== By: ==================================================
+//= Mastagoon & KiNa
+//===== Description: =========================================
+//= Sends a random announcement from a specified list four times every hour.
+//= Version 1.0
+//============================================================
+
+-	script	announcments	-1,{
+OnInit:
+	setarray .messages$[0],"مرحباً بكم في يجدراسيل رو, نتمنى لكم قضاء وقتٍ ممتع","إذا اكتشفت أي أخطاء يرجى التبليغ عنها فوراً لإدارة اللعبة","لاتنسى المشاركة في الفعاليات التلقائية للحصول على جوائز رائعة","تنبيه: سيتم ازالة جميع المتاجر القديمة (الحلبة - الزعماء - الانستنز) في الصيانة القادمة","لاتنسوا المشاركة في مسابقة ملكة جمال يجدراسيل!";
+	.announce_color = "0xffff00";
+    end;
+
+
+OnMinute15:
+OnMinute25:
+OnMinute45:
+OnMinute55:
+	.@message$ = .messages$[rand(0,getarraysize(.messages$))];
+	announce .@message$ ,bc_all,.announce_color;
+	end;
+
+}

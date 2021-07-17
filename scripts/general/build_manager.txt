@@ -1,0 +1,174 @@
+//===== rAthena Script ======================================= 
+//= Build Manager
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Build Manager script.
+//= Allows players to save and swtich between different builds
+//= Resets both stats AND skill builds to the selected build.
+//= Warning: This script needs the gethotkey/sethotkey source mod to function.
+//===== Current Version: =====================================
+//= 1.0
+//===== TODO: ================================================
+//============================================================
+prontera,120,126,4	script	المدرّب جاسم	483,{
+OnInit:
+    setarray .Length,4,26; // Min. ~ Max. Words.
+    .debugmes = 0;
+    .zeny_cost = 1000000;
+    end;
+
+    function ManageBuild;
+	cutin "3rd_sura_master",2;
+	if(BaseLevel < 185 || JobLevel < 65) {
+		mes "[المدرّب جاسم]";
+		mes "يجب أن تكون في المستوى الأساسي الأقصى";
+		mes "لاستعمال هذهِ الوظيفة يابُني";
+		close3;
+	}
+	mes "[المدرّب جاسم]";
+	mes "أهلاً يا "+strcharinfo(0)+", كيف أستطيع مساعدتك اليوم؟";
+	next;
+	select("إدارة توزيع الحالة والمهارات");
+	for(.@i = 1; .@i < 5; .@i++) {
+		if(getd("BuildSlot_"+.@i+"$") == "") .@menu$ = .@menu$ + "^ff0000خانة فارغة^000000:";
+		else .@menu$ = .@menu$ + getd("BuildSlot_"+.@i+"$")+":";
+		// .@menu$ = .@menu$ + (getd("BuildSlot_"+.@i+"$") == "")? "^ff0000خانة فارغة^000000" : getd("BuildSlot_"+.@i+"$");
+		// .@menu$ = .@menu$ + ":";
+	}
+	.@slot = select(.@menu$);
+	mes "[المدرّب جاسم]";
+	if(getd("BuildSlot_"+.@slot+"$") == "") {
+		mes "^FF0000الخانة رقم "+.@slot+"^000000";
+		mes "هل تريد حفظ توزيعٍ جديد؟";
+		next;
+		if(select("إحفظ التوزيع الحالي:إلغاء") -1) close3;
+		mes "[المدرّب جاسم]";
+		//save new build
+		ManageBuild(.@slot,2); // save build
+		close3;
+	}
+	//there is a build
+	mes getd("BuildSlot_"+.@slot+"$");
+	.@option = select("التحويل إلى هذا التوزيع","","حذف التوزيع");
+	ManageBuild(.@slot,.@option);
+	close3;
+	// close3;
+
+function	ManageBuild	{
+    switch( getarg(1) ){
+        case 1:	//	Switch Build
+            ResetStatus;
+            set StatusPoint,getd( "STATS_"+getarg(0) );
+            statusup2 bStr,getd( "STR_"+getarg(0) ) - 1;
+            statusup2 bAgi,getd( "AGI_"+getarg(0) ) - 1;
+            statusup2 bVit,getd( "VIT_"+getarg(0) ) - 1;
+            statusup2 bInt,getd( "INT_"+getarg(0) ) - 1;
+            statusup2 bDex,getd( "DEX_"+getarg(0) ) - 1;
+            statusup2 bLuk,getd( "LUK_"+getarg(0) ) - 1;
+            ResetSkill;
+            freeloop(1);
+            clearhotkeys();
+            for(.@i = 0; .@i < getd("skilllist_count_"+getarg(0)); .@i++) {
+                skill getd("skilllist_id_"+getarg(0)+"["+.@i+"]"),getd("skilllist_lv_"+getarg(0)+"["+.@i+"]"),getd("skilllist_flag_"+getarg(0)+"["+.@i+"]");
+                if(.debug) debugmes "getting skill: "+getd("skilllist_id_"+getarg(0)+"["+.@i+"]")+" of level "+getd("skilllist_lv_"+getarg(0)+"["+.@i+"]")+" this is btw "+ getd("skilllist_count_"+getarg(0));
+            }
+            for(.@i = 0; .@i < @hotkey_count; .@i++) {
+                // updatehotkey(@hotkey_type[.@i],@hotkey_id[.@i],@hotkey_lv[.@i],@hotkey_pos[.@i]);
+                setd("hotkey_type_"+getarg(0)+"["+.@i+"]"),@hotkey_type[.@i];
+                setd("hotkey_id_"+getarg(0)+"["+.@i+"]"),@hotkey_id[.@i];
+                setd("hotkey_lv"+getarg(0)+"["+.@i+"]"),@hotkey_lv[.@i];
+                setd("hotkey_pos"+getarg(0)+"["+.@i+"]"),@hotkey_pos[.@i];
+            }
+            for(.@i = 0; .@i < getd("hotkey_count_"+getarg(0)); .@i++) {
+                updatehotkey(getd("hotkey_type_"+getarg(0)+"["+.@i+"]"),getd("hotkey_id_"+getarg(0)+"["+.@i+"]"),getd("hotkey_lv_"+getarg(0)+"["+.@i+"]"),getd("hotkey_pos_"+getarg(0)+"["+.@i+"]"));
+            }
+            freeloop(0);
+            set SkillPoint,getd("SKILLS_"+getarg(0));
+            message strcharinfo(0),"تم تحميل التوزيع بنجاح.";
+            break;
+        case 2:	//	Save Build
+            next;
+            mes "[المدرّب جاسم]";
+            mes "سيكلِّفك حفظ هذا التوزيع ^0000ff1,000,000 زيني^000000";
+            mes "هل تريد المتابعة؟";
+            if(select("أجل:دعني أفكر قليلاً") -1) close3;
+            next;
+            if(Zeny > .zeny_cost) {
+                Zeny = Zeny - .zeny_cost;
+            } else {
+                mes "[المدرّب جاسم]";
+                mes "ليس لديك زيني كافي.";
+                close3;
+            }
+            setd( "STR_"+getarg(0) ),readparam(bStr);
+            setd( "AGI_"+getarg(0) ),readparam(bAgi);
+            setd( "VIT_"+getarg(0) ),readparam(bVIT);
+            setd( "INT_"+getarg(0) ),readparam(bInt);
+            setd( "DEX_"+getarg(0) ),readparam(bDex);
+            setd( "LUK_"+getarg(0) ),readparam(bLuk);
+            setd( "STATS_"+getarg(0) ),StatusPoint;
+            gethotkeys();
+            getskilllist(getcharid(0));
+            setd("SKILLS_"+getarg(0)),SkillPoint;
+            setd("skilllist_count_"+getarg(0)),@skilllist_count;
+            setd("hotkey_count_"+getarg(0)),@hotkey_count;
+            freeloop(1);
+            for(.@i = 0; .@i < @skilllist_count; .@i++) {
+                setd("skilllist_id_"+getarg(0)+"["+.@i+"]"),@skilllist_id[.@i];
+                setd("skilllist_lv_"+getarg(0)+"["+.@i+"]"),@skilllist_lv[.@i];
+                setd("skilllist_flag_"+getarg(0)+"["+.@i+"]"),@skilllist_flag[.@i];
+            }
+            for(.@i = 0; .@i < @hotkey_count; .@i++) {
+                // updatehotkey(@hotkey_type[.@i],@hotkey_id[.@i],@hotkey_lv[.@i],@hotkey_pos[.@i]);
+                setd("hotkey_type_"+getarg(0)+"["+.@i+"]"),@hotkey_type[.@i];
+                setd("hotkey_id_"+getarg(0)+"["+.@i+"]"),@hotkey_id[.@i];
+                setd("hotkey_lv_"+getarg(0)+"["+.@i+"]"),@hotkey_lv[.@i];
+                setd("hotkey_pos_"+getarg(0)+"["+.@i+"]"),@hotkey_pos[.@i];
+            }
+            freeloop(0);		
+            if( .Length[0] < .Length[1] && .Length[0] ){
+                mes "يرجى اختيارٌ إسمٍ لهذا التوزيع.";
+                mes "طول الإسم : "+.Length[0]+" ~ "+.Length[1]+" أحرف";
+                do{
+                    input getd( "BuildSlot_"+getarg(0)+"$" );
+                }while( getstrlen( getd( "BuildSlot_"+getarg(0)+"$" ) ) < .Length[0] || getstrlen( getd( "BuildSlot_"+getarg(0)+"$" ) ) > .Length[1] );
+            }else{
+                setd( "BuildSlot_"+getarg(0)+"$" ),"التوزيع رقم "+getarg(0);
+            }
+            message strcharinfo(0),"تم حفظ التوزيع بنجاح.";
+            break;
+        case 3:	//	Remove Build
+            message strcharinfo(0),"تم حذف التوزيع بنجاح.";
+                setd( "STR_"+getarg(0) ),0;
+                setd( "AGI_"+getarg(0) ),0;
+                setd( "VIT_"+getarg(0) ),0;
+                setd( "INT_"+getarg(0) ),0;
+                setd( "DEX_"+getarg(0) ),0;
+                setd( "LUK_"+getarg(0) ),0;
+                setd( "STATS_"+getarg(0) ),0;
+                setd( "Slot_"+getarg(0)+"$" ),"";
+                setd("SKILLS_"+getarg(0)),0;
+                setd("skilllist_count_"+getarg(0)),0;
+                setd("hotkey_count_"+getarg(0)),0;
+                deletearray getd("skilllist_id_"+getarg(0));
+                deletearray getd("skilllist_lv_"+getarg(0));
+                deletearray getd("skilllist_flag_"+getarg(0));
+                deletearray getd("hotkey_type_"+getarg(0));
+                deletearray getd("hotkey_id_"+getarg(0));
+                deletearray getd("hotkey_lv_"+getarg(0));
+                deletearray getd("hotkey_pos_"+getarg(0));
+                setd("BuildSlot_"+getarg(0)+"$"),"";
+            break;
+    }
+    return;
+}
+
+}
+
+aimia,189,180,4	duplicate(المدرّب جاسم)	المدرّب جاسم#aimia	483
+ghouse01,116,172,5	duplicate(المدرّب جاسم)	المدرّب جاسم#gh1	483
+ghouse02,116,172,5	duplicate(المدرّب جاسم)	المدرّب جاسم#gh2	483
+ghouse03,116,172,5	duplicate(المدرّب جاسم)	المدرّب جاسم#gh3	483
+ghouse04,116,172,5	duplicate(المدرّب جاسم)	المدرّب جاسم#gh4	483
+ghouse05,116,172,5	duplicate(المدرّب جاسم)	المدرّب جاسم#gh5	483

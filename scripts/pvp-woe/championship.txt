@@ -1,0 +1,472 @@
+//===== rAthena Script ======================================= 
+//= Monthly Championship
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Monthly championship
+//= Player can register at the registration period.
+//= GMs can use @setmatch and @startround to begin the fight
+//= GMs can use @createwall to create walls to force the players to fight in a smaller area
+//= Players can use @spectate to spectate the fights
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+aimia,118,178,4	script	البطولة الشهرية	10084 ,{
+	mes .npc$;
+	mes "مرحباً بك أيها المغامر";
+	mes "أنا موظف التسجيل للبطولة الشهرية";
+	mes "لقد تم تعييني في هذه المدينة";
+	mes "لتسجيل المغامرين في البطولة ونشر أخبارها";
+	next;
+	mes .npc$;
+	if(!$championship) {
+		mes "لم يبدأ التسجيل في البطولة بعد";
+		mes "لاتقلق, سأقوم بتنبيهك عندما يحين الوقت.";
+		close;
+	}
+	switch($championship) {
+		case 1: // register period
+			mes "هناك بطولة يجري تنظيمها حالياً";
+			mes "ستكون بطولة هذه الشهر هي";
+			mes "^ff0000بطولة القتال الفردي^000000";
+			next;
+			.@choice = select("التسجيل في البطولة:معلومات البطولة:سأعود في وقتٍ لاحق");
+			mes .npc$;
+			if(.@choice == 3) {
+				mes "أراك لاحقاً إذاً.";
+				close;
+			}
+			if(.@choice == 2) callsub OnInfo;
+			if(.@choice == 1) callsub OnChampionshipRegister;
+			close;
+
+		case 2: // registeration period over
+			mes "لقد انتهت فترة التسجيل في البطولة";
+			mes "سأقوم بتنبيهك عند بدء النزالات !";
+			close;
+
+		case 3:
+			mes strcharinfo2(0,.playerone)+" VS "+strcharinfo2(0,.playertwo);
+			mes "هل تريد رؤية المباراة؟";
+			if(select("أجل:كلّا") -1) close;
+			if(checkhomcall() == 0) {
+				mes "لا يمكنك دخول المباراة إذا";
+				mes "كان معك هومنكلس, يرجى إزالته";
+				mes "قبل المتابعة.";
+				close;
+			}
+			if(getpetinfo(PETINFO_ID) != 0) {
+				mes "لايمكنك إحضار الحيوانات الأليفة";
+				mes "لرؤية المباراة, حيث أن فيها أحداثاً";
+				mes "عنيفة وغير مناسبة للحيوانات الرقيقة.";
+				close;
+			}
+			setarray .spectators[getarraysize(.spectators)],getcharid(3);
+			setpcblock PCBLOCK_ALL,true;
+			setoption 0x40;
+			warp .map$,100,100;
+			end;
+		default:
+			close;
+	}
+	
+
+OnInfo:
+	mes "حدث البطولة هو حدثٌ شهري";
+	mes "يتقاتل فيه اللاعبون حتى بقاء";
+	mes "فائزٍ واحد نهائي";
+	next;
+	mes .npc$;
+	mes "ستكون هناك قواعد مميزة للبطولة كل شهر";
+	mes "بطولة هذا الشهر هي بطولة القتال الفردي";
+	next;
+	mes .npc$;
+	mes "في هذه البطولة سيتقاتل اللاعبين";
+	mes "في سلسلة من المباريات";
+	mes "1v1";
+	mes "سيتكون كل نزال من ثلاث جولات";
+	mes "والفائز هو من ينتصر في جولتين على الأقل";
+	next;
+	switch(select("قواعد البطولة:الجوائز:إلغاء")) {
+		case 3:
+			close;
+		case 2:
+			mes .npc$;
+			mes "جائزة المركز الأول:";
+			mes "x2500 Gold Coin";
+			mes "x500 Spin2Win Ticket";
+			mes "x1 safe to +14 weapon ticket";
+			next;
+			mes .npc$;
+			mes "جائزة المركز الثاني:";
+			mes "x1000 Gold Coin";
+			mes "x300 Spin2Win Ticket";
+			next;
+			mes .npc$;
+			mes "جائزة المركز الثالث";
+			mes "x500 Gold Coin";
+			mes "x200 Spin2Win Ticket";
+			next;
+			mes .npc$;
+			mes "جائزة المشاركة:";
+			mes "x100 Spin2Win Ticket";
+			mes "x50 Gold Coin";
+			next;
+			mes .npc$;
+			mes "ملاحظة: لن يستلم اللاعب اي جوائز";
+			mes "إذا لم يحضر المباراة أو تم إقصاؤه";
+			mes "أو قام بخرق القوانين.";
+			close;
+		case 1:
+			mes "فيما يلي قائمة بقوانين بطولة القتال الفردي.";
+			next;
+			mes .npc$;
+			mes "أولاً, القوانين العامة:";
+			next;
+			mes .npc$;
+			mes "^ff00001. يمكن لكل لاعب المشاركة بشخصية واحدة";
+			mes "فقط في البطولة, ويجب ان تكون الشخصية";
+			mes "مستوى 180 على الأقل.^000000";
+			next;
+			mes .npc$;
+			mes "^ff00002. يمنع مشاركة الحسابات أثناء البطولة";
+			mes "فقط اللاعب الذي قام بالتسجيل بإمكانه المشاركة في المباراة^000000";
+			next;
+			mes .npc$;
+			mes "^ff00003. يجب على اللاعبين الحضور في زمن المباراة";
+			mes "سيتم إقصاء اللاعب في حالة تأخره خمسة دقائق عن الوقت المحدد^000000";
+			next;
+			mes .npc$;
+			mes "في حالة خرق أيٍ من القوانين المذكورة";
+			mes "سيتم إقصاء اللاعب من البطولة مباشرةً";
+			mes "كما سيتم منعه من التسجيل في";
+			mes "البطولات الثلاثة القادمة.";
+			next;
+			mes .npc$;
+			mes "ثانياً, قواعد القتال:";
+			next;
+			mes .npc$;
+			mes "^ff00001. يتكون القتال من ثلاثة جولات";
+			mes "تستمر الجولة لعشرة دقائق";
+			mes "كحدٍ أقصى, والفائز هو";
+			mes "من يفوز بجولتين على الأقل.^000000";
+			next;
+			mes .npc$;
+			mes "^ff00002. في حالة تسجيل الخروج أو انقطاع الاتصال";
+			mes "فسيتم إقصاء اللاعب من الجولة";
+			next;
+			mes .npc$;
+			mes "^ff00003. سيتم تضييق حجم الخريطة كل دقيقة";
+			mes "حتى يصبح حجمها النهائي";
+			mes "9x9";
+			mes "بعد مرور خمسة دقائق.";
+			next;
+			mes .npc$;
+			mes "سيتم اختيار الفائز بالقرعة";
+			mes "إذا انتهى زمن الجولة.";
+			next;
+			mes .npc$;
+			mes "ثالثاً, الأدوات المعطلة";
+			mes "سيتم تعطيل هذه الأدوات";
+			mes "والتأثيرات تلقائياً بمجرد";
+			mes "دخول اللاعب إلى الحلبة.";
+			next;
+			mes .npc$;
+			mes "^ff00001. Biolab 5 Headgear Enchants";
+			mes "2. All MVP Cards";
+			mes "3. Kafra Card";
+			mes "4. Restock Tickets^000000";
+			next;
+			mes .npc$;
+			mes "ثالثاً, البوفات والتأثيرات الخارجية";
+			next;
+			mes .npc$;
+			mes "^ff0000سيتم إزالة جميع البوفات والتأثيرات";
+			mes "الخارجية من اللاعب عند دخوله إلى البطولة.";
+			mes "وسيتم إعطاء اللاعب 30 ثانية";
+			mes "ليستعد قبل بداية كل جولة.^000000";
+			next;
+			mes .npc$;
+			mes "رابعاً, خريطة البطولة";
+			mes "ستكون البطولة في خريطة مشابهة";
+			mes "لخريطة حلبة الرهان.";
+			mes "وسيتمكن اللاعبين من مشاهدة البطولة";
+			mes "في الخريطة بشكلٍ مباشر.";
+			next;
+			mes .npc$;
+			mes "تتبع الخريطة قوانين الحلبة";
+			mes "-30% Damage";
+			mes "ويمكن استعمال دروع الحرب";
+			mes "وأسلحة الفيلوم فيها بحرية.";
+			close;
+	}
+
+OnChampionshipRegister:
+	.@discordId$ = callfunc("is_verified",getcharid(3));    // discord verification check
+	if(.@discordId$ == "") {
+		mes "يجب عليك تفعيل هذه الشخصية أولاً";
+		mes "لاستكمال عملية التسجيل.";
+		close;
+	}
+	.@sql$ = "SELECT id from rathena.championship where char_id = "+getcharid(0);
+	query_sql(.@sql$,.@id);
+	if(.@id) {
+		mes "أنت مسجلٌ في البطولة بالفعل.";
+		close;
+	}
+	if(BaseLevel < 180) {
+		mes "يجب أن يكون مستواك على الأقل 180 للمشاركة في البطولة";
+		close;
+	}
+	mes "هل أنت متأكد من أنك";
+	mes "تريد التسجيل في البطولة بهذه الشخصية؟";
+	next;
+	if(select("التسجيل:إلغاء")-1) close;
+	mes .npc$;
+	mes "هل قرأت جميع قوانين البطولة";
+	mes "وتعلن بأنك توافق عليها؟";
+	next;
+	if(select("لقد قرأت ووافقت على القوانين:لا أوافق") -1 ) close;
+	// if(inarray($championshipDiscordId$,.@discordId$) > -1) {
+	// 	mes .npc$;
+	// 	mes "لقد قمت بالتسجيل بشخصيةٍ أخرى بالفعل";
+	// 	mes "يسمح لك بالتسجيل بشخصية واحدة فقط.";
+	// 	close;
+	// }
+	setarray $championshipDiscordId$[getarraysize($championshipDiscordId$)],.@discordId$;
+	setarray $championshipID[getarraysize($championshipID)],getcharid(3);
+	setarray $championshipName$[getarraysize($championshipName$)],strcharinfo(0);
+	.@sql$ = "INSERT INTO `championship`(`account_id`, `char_id`, `name`, `class`, `level`) VALUES ("+getcharid(3)+", "+getcharid(0)+", '"+strcharinfo(0)+"', "+Class+", "+BaseLevel+")";
+	query_sql(.@sql$);
+	mes .npc$;
+	mes "لقد تم تسجيلك في البطولة بنجاح.";
+	close;
+
+OnSetMatch:
+	mes "choose player 1";
+	.@sql$ = "SELECT `char_id` FROM `championship`";
+	query_sql(.@sql$,.@players);
+    freeloop(1);
+	for(.@i = 0; .@i < getarraysize(.@players); .@i++) {
+		.@menu$ = .@menu$ + strcharinfo2(0,.@players[.@i])+":";
+	}
+    freeloop(0);
+	.playerone = .@players[select(.@menu$)-1];
+	next;
+	mes "choose player 2";
+	.playertwo = .@players[select(.@menu$)-1];
+	next;
+	mes "match set.";
+	close;
+
+OnAnnounceMatch:
+	function dispel;
+	mes strcharinfo2(0,.playerone)+" VS "+strcharinfo2(0,.playertwo);
+	mes "هل تريد بدء المباراة؟";
+	if(select("yes:no") -1) close;
+	close2;
+	$championship = 3;
+	announce callfunc("formatArabic","["+strcharinfo2(0,.playerone)+"] VS ["+strcharinfo2(0,.playertwo)+"] لقد بدأ النزال"),bc_all;
+	warp .map$, .playerone_coord[0], .playerone_coord[1], .playerone;
+	warp .map$, .playertwo_coord[0], .playertwo_coord[1], .playertwo;
+	dispel(getcharid(3,strcharinfo(0,.playerone)));
+	dispel(getcharid(3,strcharinfo(0,.playertwo)));
+	setwall .map$,120,96,8,0,0,"ChallengerWall";
+	setwall .map$,79,96,8,0,0,"ChallengeeWall";
+
+OnRoundStart:
+	killmonster .map$,strnpcinfo(3)+"::OnWallDied";
+	for(.@i = .wallsx[0]; .@i < .wallsx[1]; .@i++) {
+		setcell .map$, .@i,.wallsy[0],.@i,.wallsy[0],cell_walkable, 1;
+		setcell .map$, .@i,.wallsy[1],.@i,.wallsy[1],cell_walkable, 1;
+	}
+	for(.@i = .wallsy[0]; .@i < .wallsy[1]; .@i++) {
+		setcell .map$,.wallsx[0],.@i,.wallsx[0],.@i,cell_walkable, 1;
+		setcell .map$,.wallsx[1],.@i,.wallsx[1],.@i,cell_walkable, 1;
+	}
+	for(.@i = .wallsx[0]; .@i < .wallsx[1]; .@i++) {
+		// monster .map$,.@i,.wallsy[0],"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		// monster .map$,.@i,.wallsy[1],"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		setcell .map$, .@i,.wallsy[0],.@i,.wallsy[0],cell_walkable, 1;
+		setcell .map$, .@i,.wallsy[1],.@i,.wallsy[1],cell_walkable, 1;
+	}
+	for(.@i = .wallsy[0]; .@i < .wallsy[1]; .@i++) {
+		// monster .map$,.wallsx[0],.@i,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		// monster .map$,.wallsx[1],.@i,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		setcell .map$,.wallsx[0],.@i,.wallsx[0],.@i,cell_walkable, 1;
+		setcell .map$,.wallsx[1],.@i,.wallsx[1],.@i,cell_walkable, 1;
+	}
+	for(.@i = .wallsx2[0]; .@i < .wallsx2[1]; .@i++) {
+		// monster .map$,.@i,.wallsy[0],"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		// monster .map$,.@i,.wallsy[1],"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		setcell .map$, .@i,.wallsy[0],.@i,.wallsy[0],cell_walkable, 1;
+		setcell .map$, .@i,.wallsy[1],.@i,.wallsy[1],cell_walkable, 1;
+	}
+	for(.@i = .wallsy[0]; .@i < .wallsy[1]; .@i++) {
+		// monster .map$,.wallsx2[0],.@i,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		// monster .map$,.wallsx2[1],.@i,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		setcell .map$,.wallsx2[0],.@i,.wallsx2[0],.@i,cell_walkable, 1;
+		setcell .map$,.wallsx2[1],.@i,.wallsx2[1],.@i,cell_walkable, 1;
+	}
+	recovery 3,.map$;
+	setwall .map$,120,96,8,0,0,"ChallengerWall";
+	setwall .map$,79,96,8,0,0,"ChallengeeWall";
+	warp .map$, .playerone_coord[0], .playerone_coord[1], .playerone;
+	warp .map$, .playertwo_coord[0], .playertwo_coord[1], .playertwo;
+	sleep 10000;
+	mapannounce	.map$,"سيبدأ النزال بعد 10 ثوان",bc_map;
+	sleep 5000;
+	mapannounce	.map$,"سيبدأ النزال بعد 5 ثوان",bc_map;
+	for(.@i = 5; .@i >= 1; .@i--) {
+		sleep 1000;
+		mapannounce .map$,.@i+"",bc_map;
+	}
+	warp .map$, 87,100,.playerone;
+	warp .map$,112,99,.playertwo;
+	mapannounce .map$,"بدأ النزال !",bc_map;
+	delwall "ChallengerWall";
+	delwall "ChallengeeWall";
+	end;
+
+OnPCLogoutEvent:
+	if(inarray(.spectators,getcharid(3)) > -1) {
+		setpcblock PCBLOCK_ALL,false,getcharid(3);
+		if(checkoption(0x40)) setoption 0x40,0;
+		deletearray .spectators[inarray(.spectators,getcharid(3))];
+	}
+	end;
+
+OnMatchEnd:
+    freeloop(1);
+	for(.@i = 0; .@i < getarraysize(.spectators); .@i++) {
+		setpcblock PCBLOCK_ALL,false,.spectators[.@i];
+		attachrid(.spectators[.@i]);
+		if(checkoption(0x40)) setoption 0x40,0;
+		detachrid();
+	}
+    freeloop(0);
+	deletearray .spectators;
+	sleep 500;
+	mapwarp .map$,"aimia",109,172;
+	$championship = 2;
+	end;
+
+OnCreateWalls:
+	for(.@i = .wallsx[0]; .@i < .wallsx[1]; .@i++) {
+		monster .map$,.@i,.wallsy[0],"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		monster .map$,.@i,.wallsy[1],"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		setcell .map$, .@i,.wallsy[0],.@i,.wallsy[0],cell_walkable, 0;
+		setcell .map$, .@i,.wallsy[1],.@i,.wallsy[1],cell_walkable, 0;
+	}
+	for(.@i = .wallsy[0]; .@i < .wallsy[1]; .@i++) {
+		monster .map$,.wallsx[0],.@i,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		monster .map$,.wallsx[1],.@i,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		setcell .map$,.wallsx[0],.@i,.wallsx[0],.@i,cell_walkable, 0;
+		setcell .map$,.wallsx[1],.@i,.wallsx[1],.@i,cell_walkable, 0;
+	}
+	end;
+OnCreateWalls2:
+	for(.@i = .wallsx2[0]; .@i < .wallsx2[1]; .@i++) {
+		monster .map$,.@i,.wallsy[0],"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		monster .map$,.@i,.wallsy[1],"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		setcell .map$, .@i,.wallsy[0],.@i,.wallsy[0],cell_walkable, 0;
+		setcell .map$, .@i,.wallsy[1],.@i,.wallsy[1],cell_walkable, 0;
+	}
+	for(.@i = .wallsy[0]; .@i < .wallsy[1]; .@i++) {
+		monster .map$,.wallsx2[0],.@i,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		monster .map$,.wallsx2[1],.@i,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+		setcell .map$,.wallsx2[0],.@i,.wallsx2[0],.@i,cell_walkable, 0;
+		setcell .map$,.wallsx2[1],.@i,.wallsx2[1],.@i,cell_walkable, 0;
+	}
+	end;
+OnCreateWalls3:
+	for(.@i = 93; .@i < 107; .@i++) {
+		monster .map$, .@i,100,"wall",1906,1,strnpcinfo(3)+"::OnWallDied";
+	}
+	end;
+dispelPlayer:
+	function dispel;
+	mes "choose player 1";
+	.@sql$ = "SELECT `char_id` FROM `championship`";
+	query_sql(.@sql$,.@players);
+	for(.@i = 0; .@i < getarraysize(.@players); .@i++) {
+		.@menu$ = .@menu$ + strcharinfo2(0,.@players[.@i])+":";
+	}
+	.@id = .@players[select(.@menu$)-1];
+	dispel(getcharid(3,strcharinfo(0,.@id)));
+	close;
+	end;
+
+OnSetChampion:
+	mes "choose your champion.";
+	.@sql$ = "SELECT `char_id` FROM `championship`";
+	query_sql(.@sql$,.@players);
+	for(.@i = 0; .@i < getarraysize(.@players); .@i++) {
+		.@menu$ = .@menu$ + strcharinfo2(0,.@players[.@i])+":";
+	}
+	.@id = .@players[select(.@menu$)-1];
+	$champid = .@id;
+	close;
+
+OnPCLoginEvent:
+	if(getcharid(0) == $champid) {
+		debugmes "the champ's here.";
+		attachrid(getcharid(3));
+		hateffect(HAT_EF_GLOW_OF_NEW_YEAR,true);
+		detachrid();
+	}
+	if(checkoption(0x40) && getgroupid() < 99) setoption 0x40,0;
+	end;
+
+OnInit:	
+	.npc$ = "] موظّف البطولة الشهرية [";
+	bindatcmd("setmatch",strnpcinfo(3)+"::OnSetMatch",60,80);
+	bindatcmd("startmatch",strnpcinfo(3)+"::OnAnnounceMatch",60,80);
+	bindatcmd("startround",strnpcinfo(3)+"::OnRoundStart",60,80);
+	bindatcmd("endmatch",strnpcinfo(3)+"::OnMatchEnd",60,80);
+	bindatcmd("createwall",strnpcinfo(3)+"::OnCreateWalls",60,80);
+	bindatcmd("createwall2",strnpcinfo(3)+"::OnCreateWalls2",60,80);
+	bindatcmd("createwall3",strnpcinfo(3)+"::OnCreateWalls3",60,80);
+	bindatcmd("testdispel",strnpcinfo(3)+"::dispelPlayer",60,80);
+	bindatcmd("summonjawhar",strnpcinfo(3)+"::OnSummonJawhar",60,80);
+	bindatcmd("setchampion",strnpcinfo(3)+"::OnSetChampion",60,80);
+	.playerone = 0;
+	.playertwo = 0;
+	setarray .playerone_coord, 75, 100; 	// Challenger Map coord <X>, <Y>
+	setarray .playertwo_coord, 125, 100; 	// Challengee Map coord <X>, <Y>
+	.map$ = "wager01";					// Map name
+	setarray .wallsx[0],86,113;
+	setarray .wallsy[0],86,113;
+	setarray .wallsx2[0],92,107;
+	setarray .wallsy2[0],107,107;
+	function dispel;
+	//.@sql$ = "CREATE TABLE IF NOT"
+	end;
+function	dispel	{
+	attachrid(getarg(0));
+	while(.@i++ < SC_SPL_MATK) {
+		if(
+			.@i != SC_WEIGHT50 &&
+			.@i != SC_WEIGHT90 &&
+			.@i != SC_NOCHAT &&
+			.@i != SC_BABY &&
+			/*
+			.@i != SC_WEDDING &&
+			.@i != SC_XMAS &&
+			.@i != SC_SUMMER &&
+			.@i != SC_HANBOK &&
+			.@i != SC_OKTOBERFEST &&
+			*/
+			.@i != SC_JAILED &&
+			.@i != SC_EXPBOOST &&
+			.@i != SC_ITEMBOOST
+		)
+			sc_end .@i;
+	}
+	.@i = SC_FEAR;
+	while(.@i++ < SC_AKAITSUKI)
+		sc_end .@i;
+	detachrid();
+	return;
+}
+}

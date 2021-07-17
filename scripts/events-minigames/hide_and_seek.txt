@@ -1,0 +1,138 @@
+//===== rAthena Script ======================================= 
+//= Find the gm event (hide and seek)
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= The npc (GM sprite) will teleport to a random location on
+//= the map, and will open a waiting room. The first player to
+//= join that waiting room will win the round.
+//===== Current Version: =====================================
+//= 1.0
+//===== Featuers: ============================================
+//= Can set the number of rounds, map, item&zeny rewards.
+//= the event can start manually or automatically.
+//= There is another version of this script compatiable with 
+//===== TODO: ================================================
+//=	@restock SNAPSHOT
+//============================================================
+prontera,195,58,5	script	GM Masta#findgm	871,{
+
+OnInit:
+    //SETTINGS
+	.rounds = 3; // for how many rounds should the event last?
+    .map$ = "prontera"; // the event where the gm will hide
+    .itemReward = 1;  
+    setarray .rewards[0],909,5,716,2;   // [itemId, itemAmount, {....}]
+    .zenyReward = 0;
+    .zenyAmount = 1000;
+    .debugMode = 0;
+    .npcName$ = "GM Masta";
+    .countdown = 3; // the time between event announcements and when the event actually starts.
+	.automatic = 1;	// automatic event or does it need a gm to run it manually?
+	.runEvery = 2;	// (ignore if manual) run the event ever X hours 
+	.offset = 1;	// (ignore if manual) sometimes, you might have another event/announcement at the same time as the event announcement. you can set an offset (announce X minutes after event time.)
+    // Do not edit the code below.
+    if(.countdown < 0) .countdown = 1;
+    if(.rounds < 1) .rounds = 1;
+    if(.winnersPerRound < 1) .winnersPerRound = 1;
+	for(.@i = 0; .@i < getarraysize(.rewards); .@i = .@i+2) {
+		if(getitemname(.rewards[.@i]) == "null") {
+			debugmes "[Find GM]: Invalid item id provided "+.rewards[.@i]+" removing item from the rewards list..";
+			deletearray .rewards[.@i],2;
+			.@i -= 2;
+		}
+	}
+    .status = 0;
+	disablenpc strnpcinfo(3);
+    bindatcmd("findgmstart", strnpcinfo(3)+"::OnEventAnnounce",99,99);
+	end;
+
+if(.status == 1) {
+	mes "["+.npcName+"]";
+	mes "When the event begins, i will teleport to a random location on this map."
+	mes "And you need to find me to win!"
+	close;
+}
+end;
+
+OnMinute00:
+	if(!.automatic || gettime(DT_HOUR) % .runEvery != 0 || agitcheck() || agitcheck2() || agitcheck3()) end;
+	sleep .offset * 1000 * 60;
+
+OnEventAnnounce:
+	enablenpc strnpcinfo(3);
+    setnpcdisplay(strnpcinfo(3), .npcName$);
+	.status = 1;
+	for(.@i = .countdown; i > 0; i--) {
+    	announce "[Find "+.npcName$+"] : The event will begin in "+callfunc("F_InsertPlural",.@i,"minute")+"!",bc_all|bc_blue;
+		sleep 60000;
+	}
+	announce "[Find "+.npcName$+"] : The event has now begun!",bc_all|bc_blue;
+
+OnEventStart:
+	sleep 2000;
+	npctalk "I will now teleport to a random location";
+	sleep 2000;
+	npctalk "You must find me to win the event!";
+	sleep 2000;
+	npctalk "This event will last for "+callfunc("F_InsertPlural",.rounds,"round");
+	sleep 2000;
+	npctalk "Goodluck!";
+	donpcevent strnpcinfo(3)+"::OnRoundStart";
+	.status = 2;
+	.round = 1;
+	end;
+
+OnRoundStart:
+	initnpctimer;
+	do {
+		.@x = rand(0,450);
+		.@y = rand(0,450);
+	} while (!checkcell(,.@x,.@y,cell_chkpass));
+	unitwarp getnpcid(0),.map$,.@x,.@y;
+	if(.debugMode) debugmes "[Event]: npc is at: "+.@x+" & "+.@y;
+	announce "[Find "+.npcName$+"] :"+.npcName$+" is hiding in a random place in "+.map$+", Find him now!",bc_all|bc_blue;
+	delwaitingroom;
+	waitingroom "Here!", 2, strnpcinfo(3)+"::OnRoundEnd",1;
+	.status = 2;
+	end;
+
+OnRoundEnd:
+	//#TODO the winner should be already attached here no?
+	if(.status != 2) end;
+	.status = 1; 
+	announce .npcName$+": I've been found by "+strcharinfo(0)+"!",bc_all|bc_blue;
+	if(.itemReward) {
+		for(.@i = 0; .@i < getarraysize(.rewards); .@i = .@i +2 {
+			getitem .rewards[.@i],.rewards[.@i+1];
+		}
+	}
+	if(.zenyReward) {
+		Zeny += .zenyAmount;
+		dispbottom "You've gained "+.zenyAmount+" zeny for winning a round in the event.";
+	}
+	sleep 1000;
+	if(.round >= .rounds) {
+		announce "[Find "+.npcName$+"]: The event is over! thank you for participating.",bc_all|bc_blue;
+		donpcevent strnpcinfo(3)+"::OnEventEnd";
+		end;
+	}
+	.round++;
+	donpcevent strnpcinfo(3)+"::OnRoundStart";
+	end;
+
+OnEventEnd:
+	.status = 0;
+	unitwarp getnpcid(0),.map$,195,58;
+	delwaitingroom;
+	sleep 5000;
+	disablenpc strnpcinfo(3);
+	end;
+
+OnTimer1800000:
+	if(.status) {
+		stopnpctimer;
+		donpcevent strnpcinfo(3)+"::OnEventEnd";
+	}
+	end;
+}

@@ -1,0 +1,504 @@
+//===== rAthena Script ======================================= 
+//= Wager PvP
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrsailRO's Wager PvP script
+//= A player can challenge a specific player, or the entire server to a 1v1 duel.
+//= Players must wager zeny or gold coins to start the challenge.
+//= When a player accepts the challenge, both players will be teleported to a 1v1 PvP room.
+//= The winner in a best of 3 match gets all.
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= Really old script, may contain some bugs.
+//============================================================
+aimia,117,186,4	script	مدير حلبة الرهان	10525,{
+	function endWager; function endRound; function formatNumber; function setWager;
+	.@name$ = "[مدير حلبة الرهان]";
+	mes .@name$;
+	mes	"كيف يمكنني مساعدتك اليوم؟";
+	next;
+	.@choice = select("رهان مفتوح:رهان خاص:ماهي حلبة الرهان؟:إلغاء");
+	if(.@choice == 4) close;
+	if(.@choice == 3) callsub OnWagerInfo;
+	if(.@choice == 2 || .@choice == 1){
+		if(.wager == 2) {	// there's a match rn 
+			mes .@name$;
+			mes "هناك مباراة رهان جارية حالياً, انتظر دورك.";
+			close;
+		}
+		if(.wager == 0) { // no current bets
+			mes .@name$;
+			mes "يبدو أنه لا يوجد رهان حالي";
+			mes "هل تريد وضع رهان جديد؟";
+			next;
+			if(select("أجل:كلا") -1) {
+				mes .@name$;
+				mes "حسناً إذاً";
+				close;
+			}
+			if(.@choice == 1) setWager(0);
+			if(.@choice == 2) {
+				mes "ادخل اسم من تريد الرهان معه";
+				mes "^ff0000إذا لم يقبل اللاعب التحدي فتخسر 10% من قيمة الرهان^000000";
+				input .Challenged$;
+				set .Challengedid,getcharid(0,.Challenged$);
+				next;
+				if(.Challengedid == 0){
+					mes .@name$;
+					mes ".. يبدو انك ادخلت اسم خاطئ او اللاعب غير متصل حالياً,حاول مره اخرى";
+					close;
+				}
+				if(strtolower(.Challenged$) == strtolower(strcharinfo(0))){
+					mes "[GM Team]";
+					mes "مسوي فله ها؟";
+					atcommand "@mute 1 "+strcharinfo(0);
+					close;
+				}
+				setWager(1);
+			}
+			end;
+		}		
+		if(.wager == 1) {	// accept a wager
+		mes .@name$;
+		if(.Challenger$ == strcharinfo(0)) {
+			mes "لم يقبل أحد التحدي بعد.";
+			next;
+			mes .@name$;
+			mes "بيانات التحدي:";
+			if(.Challengedid == 0){
+				mes "Zeny wager: "+formatNumber(.zenyWager)+"z";
+				mes "Coins wager: "+formatNumber(.coinWager)+" coins";
+				mes "Status: Active";
+				close;
+			}
+			mes .Challenger$ +" VS "+.Challenged$;
+			mes "Zeny wager: "+formatNumber(.zenyWager)+"z";
+			mes "Coins wager: "+formatNumber(.coinWager)+" coins";
+			mes "Status: Active";
+			close;
+			// #TODO cancel option
+		}
+		if(.Challengedid == 0){
+			mes callfunc("formatArabic","المتحدي الحالي: "+.Challenger$+".");
+			mes "مبلغ الرهان : "+formatNumber(.zenyWager)+" زيني";
+			mes "عملات الرهان : "+formatNumber(.coinWager)+" عملة";
+			mes "هل تريد قبول هذا التحدي؟";
+			next;
+			if(select("قبول:إلغاء") -1 ) close;
+			if(Zeny < .zenyWager || countitem(50008) < .coinWager) {
+				mes .@name$;
+				mes "يبدو أنك لا تملك زيني أو";
+				mes "عملات كافية لقبول التحدي.";
+				close;
+			}
+			delitem 50008,.coinWager;
+			Zeny = Zeny - .zenyWager;
+			.Challengee$ = strcharinfo(0);
+			.wager = 2;
+			goto OnStart;
+			end;
+		}
+		mes "التحدي الحالي: "+.Challenger$+" Vs "+.Challenged$;
+		mes "مبلغ الرهان : "+formatNumber(.zenyWager)+" زيني";
+		mes "عملات الرهان : "+formatNumber(.coinWager)+" عملة";
+		mes "هل تريد قبول هذا التحدي؟";
+		next;
+		if(strtolower(.Challenged$) == strtolower(strcharinfo(0))){
+			if(select("قبول:إلغاء") -1 ) close;
+			if(Zeny < .zenyWager || countitem(50008) < .coinWager) {
+				mes .@name$;
+				mes "يبدو أنك لا تملك زيني أو";
+				mes "عملات كافية لقبول التحدي.";
+				close;
+			}
+			.wager = 2;
+			delitem 50008,.coinWager;
+			Zeny = Zeny - .zenyWager;
+			.Challengee$ = strcharinfo(0);
+			goto Onstart;
+		}
+		mes "هذا تحدي خاص بين لاعبين ";
+		close;
+		}
+	}
+
+OnWagerInfo:
+	.@name$ = "[مدير حلبة الرهان]";
+	mes .@name$;
+	mes "يتيح هذا النمط من القتال";
+	mes "للاعب بتحدي لاعبين آخرين في نزال";
+	mes "واحد ضد واحد";
+	next;
+	mes .@name$;
+	mes "يشترط أولاً أن يراهن المتحدي";
+	mes "بمبلغ من الزيني أو النقاط";
+	mes "أقل قيمة رهان هي مليون زيني";
+	mes "أو مئة عملة ذهبية";
+	next;
+	mes .@name$;
+	mes	"إذا كان التحدي مفتوحاً, يستطيع";
+	mes "أي لاعب أن يقبل التحدي, وفي تلك";
+	mes "الحالة فيجب عليه دفع مبلغ الرهان مقدماً";
+	next;
+	mes .@name$;
+	mes "ينتقل بعدها اللاعبين إلى حلبة قتال خاصة";
+	mes "ويبدأ بينهم قتال لثلاثة جولات";
+	mes "الفائز هو من يستطيع الفوز بجولتين على الأقل";
+	next;
+	mes .@name$;
+	mes "مدة كل جولة ثلاثة دقائق فقط";
+	mes "في حالة انتهاء الوقت بدون فائز";
+	mes "فسيفوز اللاعب ذو نسبة النقاط الصحية الأعلى";
+	next;
+	mes .@name$;
+	mes "في حالة خروج اللاعب من اللعبة لأي ظرف";
+	mes "أثناء التحدي, فسيتم إقصاؤه ويعتبر خاسراً";
+	next;
+	mes .@name$;
+	mes "هذا كل شيء, هل تريد إعادة الشرح؟";
+	select("لقد فهمت, شكراً لك");
+	next;
+	close;
+	end;	
+
+OnWager:	// a wager is set
+	.wager = 1;
+	.Challenger$ = strcharinfo(0);
+	announce callfunc("formatArabic","اللاعب "+.Challenger$+" يتحدى الجميع في حلبة الرهان على "+formatNumber(.zenyWager)+" زيني و "+formatNumber(.coinWager)+" عملات"),bc_all;
+	initnpctimer;
+	end;
+
+Onwager1v1:
+	.wager = 1;
+	.Challenger$ = strcharinfo(0);
+	announce callfunc("formatArabic","اللاعب "+.Challenger$+" يتحدى اللاعب "+.Challenged$+" على "+formatNumber(.zenyWager)+" زيني و "+formatNumber(.coinWager)+" عملات"),bc_all;
+	initnpctimer;
+	end;
+OnStart:
+	stopnpctimer;
+	set .round, 0;
+	set .Challenger_aid, getcharid(3,.Challenger$);
+	set .Challengee_aid, getcharid(3,.Challengee$);
+	set .Challenger_cid, getcharid(0,.Challenger$);
+	set .Challengee_cid, getcharid(0,.Challengee$);
+	set .Challengee_point, 0;
+	set .Challenger_point, 0;
+	warp .map$, .Challenger_coord[0], .Challenger_coord[1], .Challenger_cid;
+	warp .map$, .challengee_coord[0], .challengee_coord[1], .Challengee_cid;
+	setwall .map$,120,96,8,0,0,"ChallengerWall";
+	setwall .map$,79,96,8,0,0,"ChallengeeWall";
+	announce callfunc("formatArabic","["+.Challenger$+"] VS ["+.Challengee$+"] لقد بدأ النزال"),bc_all;
+	mapannounce	.map$,"ستكون المعركة من ثلاثة جولات",bc_map;
+	sleep 3000;
+	mapannounce	.map$,"سيتم إقصاء اللاعب في حالة تسجيل الخروج.",bc_map;
+	sleep 4000;
+	callsub OnRoundStart;
+	end;
+
+OnRoundStart:
+	recovery 3,.map$;
+	setwall .map$,120,96,8,0,0,"ChallengerWall";
+	setwall .map$,79,96,8,0,0,"ChallengeeWall";
+	//120/96 -> 120/103
+	//79/96 -> 79/103
+	sleep 10000;
+	mapannounce	.map$,"سيبدأ النزال بعد 10 ثوان",bc_map;
+	sleep 5000;
+	mapannounce	.map$,"سيبدأ النزال بعد 5 ثوان",bc_map;
+	for(.@i = 5; .@i >= 1; .@i--) {
+		sleep 1000;
+		mapannounce .map$,.@i+"",bc_map;
+	}
+	mapannounce .map$,"بدأ النزال !",bc_map;
+	initnpctimer;
+	delwall "ChallengerWall";
+	delwall "ChallengeeWall";
+	// #TODO enable/disable healer/kafra npc
+	end;
+
+
+OnPCKillEvent:
+	if(strcharinfo(3) == .map$ && .status == 2) {
+		if(.Challenger_aid == getcharid(3)) {
+			endRound(.Challenger_point);
+		} else if(.Challengee_aid == getcharid(3)) {
+			endRound(.Challengee_point);
+		}
+	}
+	end;
+
+OnTimer60000:
+	if(.wager == 2) {
+		if(getmapusers(.map$) == 1) { // one player left
+			if(strcharinfo(3,.Challengee_cid) == .map$) { //Challengee wins
+				attachrid(.Challengee_aid);
+				endRound(.Challengee_point);
+			} else {
+				attachrid(.Challenger_aid);
+				endRound(.Challenger_point);
+			}
+		}
+		mapannounce .map$,"ستنتهي الجولة بعد دقيقتان",bc_map;
+		end;
+	}
+	if(.wager == 1 && .Challengedid == 0){
+		announce callfunc("formatArabic","اللاعب "+.Challenger$+" يتحدى الجميع في حلبة الرهان على "+formatNumber(.zenyWager)+" زيني و "+formatNumber(.coinWager)+" عملات"),bc_all;
+		end;
+	}
+	stopnpctimer;
+	announce callfunc("formatArabic","لم يتجرأ اللاعب "+.Challenged$+" على قبول تحدي "+.Challenger$),bc_all;
+	.@charid = getcharid(0,.Challenger$);
+	.@sender$ = "[حلبة الرهان]";
+	.@title$ = "Refund";
+	.@body$ = "لم يقبل أحد تحديك في حلبة الرهان";
+	.@zeny = .Challengedid == 0 ? .zenyWager : .zenyWager*8/10;
+	setarray .@itemarray[0],50008;
+	setarray .@itemamtarray[0], .Challengedid == 0 ? .coinWager: 8/10*.coinWager;
+	if(.coinWager) mail .@charid,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+	else mail .@charid,.@sender$,.@title$,.@body$,.@zeny;
+	endWager();
+	end;
+	
+OnTimer120000:
+	if(.wager == 2) {
+		mapannounce .map$,"ستنتهي الجولة بعد دقيقة واحدة",bc_map;
+		end;
+	}
+	announce callfunc("formatArabic","اللاعب "+.Challenger$+" يتحدى الجميع في حلبة الرهان على "+formatNumber(.zenyWager)+" زيني و "+formatNumber(.coinWager)+" عملات"),bc_all;
+	end;
+
+	
+OnTimer150000:
+	if(.wager == 2) {
+		mapannounce .map$,"ستنتهي الجولة بعد 30 ثانية",bc_map;
+		end;
+	}
+	announce callfunc("formatArabic","اللاعب "+.Challenger$+" يتحدى الجميع في حلبة الرهان على "+formatNumber(.zenyWager)+" زيني و "+formatNumber(.coinWager)+" عملات"),bc_all;
+	end;
+
+OnTimer160000:
+	if(.wager == 2) {
+		mapannounce .map$,"ستنتهي الجولة بعد 20 ثانية",bc_map;
+		end;
+	}
+	end;
+
+OnTimer180000:	
+	stopnpctimer;
+	if(.wager == 2) {
+		mapannounce .map$,"لقد انتهى الوقت المخصص للجولة.",bc_map;
+		attachrid(.Challenger_aid);
+		.@hp1 = 100*Hp/Maxhp;
+		debugmes "char1 hp: "+.@hp1;
+		sleep 100;
+		attachrid(.Challengee_aid);
+		.@hp2 = 100*Hp/Maxhp;
+		debugmes "char2 hp: "+.@hp2;
+		mapannounce .map$,"سيتم احتساب الفائز حسب نسبة نقاط الصحة المتبقية.",bc_map;
+		sleep 1000;
+		if(.@hp1 >= .@hp2)  { attachrid(.Challenger_aid); endRound(.Challenger_point); }
+		else if(.@hp1 < .@hp2)  { attachrid(.Challengee_aid); endRound(.Challengee_point); }
+		end;
+	}
+	announce callfunc("formatArabic","لم يتجرأ أحد على قبول تحدي اللاعب "+.Challenger$+"."),bc_all;
+	.@charid = getcharid(0,.Challenger$);
+	.@sender$ = "[حلبة الرهان]";
+	.@title$ = "Refund";
+	.@body$ = "لم يقبل أحد تحديك في حلبة الرهان";
+	.@zeny = .Challengedid == 0 ? .zenyWager : .zenyWager*8/10;
+	setarray .@itemarray[0],50008;
+	setarray .@itemamtarray[0], .Challengedid == 0 ? .coinWager: 8/10*.coinWager;
+	if(.coinWager) mail .@charid,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+	else mail .@charid,.@sender$,.@title$,.@body$,.@zeny;
+	endWager();
+	end;
+    
+
+OnPCLogoutEvent:
+	if(.wager == 0) end;
+	deletearray .@itemamtarray[0];
+	deletearray .@itemarray[0];
+	if(strcharinfo(0) == .Challenger$ && .wager == 1) {
+		stopnpctimer;
+		.@charid = getcharid(0,.Challenger$);
+		.@sender$ = "[حلبة الرهان]";
+		.@title$ = "Refund";
+		.@body$ = "لقد تم إلغاء نزالك بسبب تسجيل خروجك من اللعبة.";
+		.@zeny = .Challengedid == 0 ? .zenyWager : .zenyWager*8/10;
+		setarray .@itemarray[0],50008;
+		setarray .@itemamtarray[0], .Challengedid == 0 ? .coinWager: 8/10*.coinWager;
+		if(.coinWager) mail .@charid,.@sender$,.@title$,.@body$,.@zeny,.@itemarray,.@itemamtarray;
+		else mail .@charid,.@sender$,.@title$,.@body$,.@zeny;
+		announce callfunc("formatArabic","لقد تم إلغاء النزال لان اللاعب "+strcharinfo(0)+" خرج من اللعبة"),bc_all;
+		endWager();
+		end;
+	}
+	if(strcharinfo(0) == .Challenger$ && .wager == 2) {
+		stopnpctimer;
+		announce callfunc("formatArabic","تم إقصاء اللاعب "+strcharinfo(0)+", الفائز هو "+.Challengee$),bc_all;
+		set zeny, zeny + (2*.zenyWager), .Challengee_cid;
+		getitem 50008, (2*.coinWager), .Challengee_aid;
+		sleep 1000;
+		endWager();
+		end;
+	}
+	if(strcharinfo(0) == .Challengee$ && wager == 2) {
+		stopnpctimer;
+		announce callfunc("formatArabic","تم إقصاء اللاعب "+strcharinfo(0)+", الفائز هو "+.Challenger$),bc_all;
+		set zeny, zeny + (2*.zenyWager), .Challenger_cid;
+		getitem 50008, (2*.coinWager), .Challenger_aid;
+		sleep 1000;
+		endWager();
+		end;
+	}
+	end;
+
+
+function	setWager	{
+	mes .@name$;
+	mes "هل تريد المراهنة بالزيني أم بالعملات الذهبية؟";
+	.@wagerType = select("زيني:عملات ذهبية:كلاهما");
+	next;
+	if(.@wagerType == 1 || .@wagerType == 3) {
+		mes .@name$;
+		mes "ماهو المبلغ الذي تريد المراهنة به؟";
+		mes "^ff0000الحد الأدنى هو 1,000,000 زيني^000000";
+		input .@zenyInput,1000000,1000000000;
+		next;
+		if(.@zenyWager > Zeny) {
+			mes .@name$;
+			mes "ليس لديك زيني كافي للمراهنة به.";
+			close;
+		}
+	}
+	if(.@wagerType == 2 || .@wagerType == 3) {
+		mes .@name$;
+		mes "كم عدد العملات التي تريد المراهنة بها؟";
+		mes "^ff0000الحد الأدنى هو 100 عملة ذهبية^000000";
+		input .@coinInput,100;
+		next;
+		if(.@coinWager > countitem(50008)) {
+			mes .@name$;
+			mes "ليس لديك عملات ذهبية كافية.";
+			close;
+		}
+	}
+	mes .@name$;
+	mes "هل أنت متأكد من رهانك؟";
+	mes "Zeny: "+formatNumber(.@zenyInput);
+	mes "Gold Coins: "+formatNumber(.@coinInput);
+	if(select("انا متأكد:إلغاء") == 2 ) { close; }
+	next;
+	if(.zenyWager || .coinWager){
+		mes .@name$;
+		mes "هناك رهان جارٍ حالياً,حاول مرة أخرى لاحقاً";
+		close;
+	}
+	.wager = 1;
+	delitem 50008,.@coinInput;
+	set Zeny, Zeny - .@zenyInput;
+	mes .@name$;
+	mes "تم وضع الرهان بنجاح";
+	set .zenyWager, .@zenyInput;
+	set .coinWager, .@coinInput;
+	callsub getarg(0) ? OnWager1v1 : OnWager;
+	close;
+}
+
+function	endWager	{
+	stopnpctimer;
+	sleep 1000;
+	mapwarp .map$,"aimia",109,172;
+	.Challenger_aid = 0;
+	.Challengee_aid = 0;
+	.Challenger_cid = 0;
+	.Challengee_cid = 0;
+	.coinWager = 0;
+	.Challengee$ = "";
+	.Challenger$ = "";
+	.wager = 0;
+	.zenyWager = 0;
+	.Challengee_point = .Challenger_point = 0;
+	.round = 0;
+	.Challengedid = 0;
+	.Challenged$ = "";
+	return;
+}	
+
+function	endRound	{	
+	.status = 10;
+	stopnpctimer;
+	set getarg(0),getarg(0)+1;	//give one point to the round winner.
+	set .round, .round+1;
+	if(getarg(0) == 2 ) {
+		announce "لقد انتهى النزال ! الفائز هو",bc_all;
+		sleep2 3000;
+		announce strcharinfo(0)+" !!",bc_all;
+		sleep2 3000;
+		dispbottom "You have received "+(2*.zenyWager)+"z from the wager.";
+		set Zeny, Zeny+2*.zenyWager;
+		getitem 50008,2*.coinWager;
+		recovery 3,.map$,4;
+		endWager();
+		end;
+	}
+	setarray .@round_name$[1],"الأولى","الثانية","الثالثة";
+	mapannounce .map$,"الفائز في الجولة "+.@round_name$[.round]+" هو",bc_map;
+	sleep2 3000;
+	mapannounce .map$, strcharinfo(0),bc_map;
+	sleep2 3000;
+	mapannounce .map$,"ستبدأ الجولة "+.@round_name$[.round+1]+" بعد 20 ثانية ",bc_map;
+	warp .map$, .Challenger_coord[0], .Challenger_coord[1], .Challenger_cid;
+	warp .map$, .challengee_coord[0], .challengee_coord[1], .Challengee_cid;
+	.status = 2;
+	donpcevent strnpcinfo(0)+"::OnRoundStart";
+	end;
+}
+
+function formatNumber {
+   set .@str$, getarg(0);
+   for(set .@i,getstrlen(.@str$)-3; .@i>0; set .@i,.@i-3)
+       set .@str$, insertchar(.@str$,",",.@i);
+   return .@str$;
+}
+ 
+OnInit:
+	.wager = 0;
+	// Start of config
+	.bet_item = 50008;						// Item used for bet
+	.map$ = "wager01";					// Map name
+	setarray .Challenger_coord, 75, 100; 	// Challenger Map coord <X>, <Y>
+	setarray .challengee_coord, 125, 100; 	// Challengee Map coord <X>, <Y>
+	.min_bet = 1000000;						// Minimum Zeny Bet
+	.min_bet_item = 500;					// Minimum Item Bet
+	// End of config
+	endWager();
+	setarray .mapflag,
+		mf_nowarp,	mf_nowarpto,		mf_nosave,
+		mf_nomemo,	mf_noteleport,		mf_nopenalty,
+		mf_noreturn,	mf_nobranch,		mf_nomobloot,
+		mf_nomvploot,	MF_NOZENYPENALTY,	MF_NOTRADE,
+		MF_NOCOMMAND;
+	for ( .@f = 0; .@f < .@size; .@f++ ) setmapflag .map$, .mapflag[.@f];	
+}
+
+wager01	mapflag	pvp
+wager01	mapflag	pvp_noguild
+wager01	mapflag	pvp_noparty
+wager01	mapflag	nowarp
+wager01	mapflag	nowarpto
+wager01	mapflag	nosave
+wager01	mapflag	nomemo
+wager01	mapflag	noteleport
+wager01	mapflag	nopenalty
+wager01	mapflag	noreturn
+wager01	mapflag	nobranch
+wager01	mapflag	nomobloot
+wager01	mapflag	nomvploot
+wager01	mapflag	NOZENYPENALTY
+wager01	mapflag	NOTRADE
+wager01	mapflag	NOCOMMAND	80
+
+// aimia,117,186,4	duplicate(مدير حلبة الرهان)	مدير حلبة الرهان#Aimia	483

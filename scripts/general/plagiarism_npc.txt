@@ -1,0 +1,139 @@
+//===== rAthena Script ======================================= 
+//= Tomb of The Forgotten
+//===== By: ==================================================
+//= KiNa
+//===== Description: =========================================
+//= Plagiarism NPC
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+aimia,103,165,5	script	المتعقب الناسخ	4_M_SHADOWCHASER,{
+    if(inarray(.rogueid, Class) == -1){
+        mes .NPC$;
+        mes "انا لا أتحدث إلا مع المحتالين";
+        close;
+    }
+    mes .NPC$;
+	mes "أهلاً بك, أنا أدعى نادر";
+	mes "وانا متعقب ظل مشهور جداً في";
+	mes "هذه الأنحاء";
+	next;
+	mes .NPC$;
+	mes "بدلاً من محاولة السرقة والاحتيال";
+	mes "على الآخرين, لقد قررت أن أكسب";
+	mes "المال بطريقةٍ شريفة !";
+	next;
+	mes .NPC$;
+	mes "لذلك فأنا هنا لأساعد المحتالين";
+	mes "على نسخ المهارات بسهولة";
+	mes "سيكلفك الأمر 1 مليون زيني فقط";
+	mes "إذاً ماهي المهارة التي تريد نسخها؟";
+	next;
+	set .@menu, select(.menu$) -1;
+	if ( getskilllv(.skill$[.@menu * 3 +1]) ) {
+        mes .NPC$;
+		mes "أنت تملك هذه المهارة بالفعل";
+		close;
+	}
+    if(!getskilllv(225)){
+        mes .NPC$;
+        mes "ليس لديك مهارة النسخ !";
+        close;
+    }
+    mes .NPC$;
+	mes "هل أنت متأكد من أنك تريد نسخ"; mes .skill$[.@menu * 3];  mes "مقابل "+callfunc("formatNumber",.price)+"z?";
+	mes "سيكون عليك إعادة تسجيل الدخول";
+	mes "بعد نسخ المهارة";
+	if ( select ( "نعم", "لا" ) == 2 ) close;
+    next;
+    mes .NPC$;
+	.@text$ = atoi( .skill$[.@menu * 3 +2] ) > 1 ? "-" + .skill$[.@menu * 3 +2] : "" ;
+	mes "إختر مستوى المهارة (1" + .@text$ + ")";
+	if ( input( .@input, 1, ( atoi( .skill$[.@menu * 3 +2] ) > 1 ? atoi( .skill$[.@menu * 3 +2] ) : 1 )) != 0 ) {
+		mes "لقد أدخلت قيمة خاطئة";
+		close;
+	}
+    if(Zeny<.@price){mes .NPC$; mes "ليس لديك زيني كافي"; close;}
+    set Zeny,Zeny-.price;
+	set CLONE_SKILL, atoi( .skill$[.@menu * 3 +1] );
+	set CLONE_SKILL_LV, .@input;
+	atcommand "@kick "+ strcharinfo(0);
+	end;
+OnInit:
+    set .NPC$, "^000fff["+strnpcinfo(1)+"]^000000";
+    set .price,1000000;
+    setarray .rogueid,17,4018,4072,4079,4040,4108;
+	setarray .skill$, 
+		// "< Remove >", 0, 0,
+		"Bash", 5, 10,
+		"Magnum Break", 7, 10,
+		"Napalm Beat", 11, 10,
+        "Soul Strike", 13, 10,
+        "Cold Bolt", 14, 10,
+        "Frost Diver", 15, 10,
+        "Fire Ball", 17, 10,
+        "Fire Wall", 18, 10,
+        "Fire Bolt", 19, 10,
+        "Thunderstorm", 21, 10,
+        "Ruwach", 24, 1,
+        "Heal", 28, 10,
+        "Mammonite", 42, 10,
+        "Double Strafe", 46, 10,
+        "Arrow Shower", 47, 10,
+        "Envenom", 52, 10,
+        "Resurrection", 54, 4,
+        "Bowling Bash", 62, 10,
+        "Sanctuary", 70, 10,
+        "Turn Undead", 77, 10,
+        "Magnus Exorcismus", 79, 10,
+        "Fire Pillar", 80, 10,
+        "Sightrasher", 81, 10,
+        "Meteor Storm", 83, 10,
+        "Jupitel Thunder", 84, 10,
+        "Lord of Vermilion", 85, 10,
+        "Water Ball", 86, 5,
+        "Frost Nova", 88, 10,
+        "Storm Gust", 89, 10,
+        "Earth Spike", 90, 5,
+        "Heaven's Drive", 91, 5,
+        "Land Mine", 116, 5,
+        "Freezing Trap", 121, 5,
+        "Blast Mine", 122, 5,
+        "Claymore Trap", 123, 5,
+        "Venom Splasher", 141, 10,
+        "Arrow Repel", 148, 1,
+        "Stone Fling", 152, 1,
+        "Holy Light", 156, 1,
+        "Back Stab", 212, 10,
+        "Bomb", 229, 5,
+        "Acid Terror", 230, 5,
+        "Shield Charge", 250, 5,
+        "Shield Boomerang", 251, 5,
+        "Holy Cross", 253, 10,
+        "Grand Cross", 254, 10,
+        "Triple Attack", 263, 10,
+        "Investigate", 266, 5,
+        "Throw Spirit Sphere", 267, 5,
+        "Asura Strike", 271, 5,
+        "Flying Kick", 421, 7,
+        "Vanishing Slash", 528, 10,
+        "Shadow Slash", 530, 5,
+        "Crimson Fire Petal", 534, 10,
+        "Crimson Fire Formation", 535, 10,
+        "Raging Fire Dragon", 536, 5,
+        "Spear of Ice", 537,10,
+        "Ice Meteor", 539,5,
+        "Wind Blade", 540,10,
+        "Lightning Strike of Destruction", 541,5,
+        "First Wind", 542,5,
+        "Charge Attack", 1001,1,
+        "Throw Venom Knife", 1004,1,
+        "Sight Blaster", 1006,1,  
+        "Phantasmic Arrow", 1009,1,
+        "Spiritual Bestowment ", 1015,1;
+	set .@skillsize, getarraysize(.skill$);
+	for ( set .@i,0; .@i < .@skillsize; set .@i, .@i +3 )
+		set .menu$, .menu$ + .skill$[.@i] +":";
+	end;
+}

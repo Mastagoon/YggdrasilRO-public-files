@@ -1,0 +1,62 @@
+//===== rAthena Script ======================================= 
+//= Referral Rewards
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrsailRO's Referral Rewards script
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+aimia,122,175,4	script	مسابقة نشر السيرفر	864,{
+	mes .name$;
+	mes "كيف أستطيع مساعدتك؟";
+	next;
+	if(select("إستلام جائزة:إلغاء") -1) close;
+	mes .name$;
+	.@disId$ = callfunc("is_verified",getcharid(3));
+	if(.@disId$ == "") {
+		mes "يرجى تفعيل حسابك أولاً قبل التحدث إلي";
+		close;
+	}
+	.@sql$ = "SELECT `discord_id` FROM `discord_referrals` WHERE `referral_id` = '"+.@disId$+"' AND `status` = 0";
+	query_sql(.@sql$, .@ids$);
+	if(!getarraysize(.@ids$)) { mes "ليس لديك أية جوائز"; close; }
+	for(.@i = 0; .@i < getarraysize(.@ids$); .@i++) {
+		.@sql$ = "SELECT `level`,`char_name` FROM `discord` WHERE `discord_id` = '"+.@ids$[.@i]+"'";
+		query_sql(.@sql$, .@level,.@name$);
+		if(.@level >= 130) {
+			mes "لقد حصلت على جائزة لدعوة اللاعب:"; mes .@name$[0];
+			REFERRAL_REWARDS++;
+			getitem 50034,5;
+			if(REFERRAL_REWARDS == 3) getitem 50008, 500;
+			if(REFERRAL_REWARDS == 5) getitem 50008, 500;
+			if(REFERRAL_REWARDS == 10) getitem 50008, 1000;
+			if(REFERRAL_REWARDS == 15) {getitem 50008, 1000; getitem 20448 ,1; announce callfunc("formatArabic","لقد حصل اللاعب "+strcharinfo(0)+" على اعلى جائزة في مسابقة نشر السيرفر !"),bc_all; }
+			mes "عدد اللاعبين الذين قمت بدعوتهم: ";
+			mes "^ff0000"+REFERRAL_REWARDS+"^000000";
+			.@sql$ = "UPDATE `discord_referrals` SET `status` = 1 WHERE `discord_id` = '"+.@ids$[.@i]+"'";
+			query_sql(.@sql$);
+			close;
+		}
+	}
+	mes "ليس لديك أية جوائز";
+	mes "يرجى التأكد من وصول اللاعبين";
+	mes "الذين دعوتهم إلى المستوى 130";
+	mes "على الأقل, بالإضافة إلى ذلك";
+	mes "يجب عليهم تفعيل حسابهم لكي تستطيع استلام جائزتك";
+	next;
+	mes .name$;
+	mes "يرجى التنويه بأن مستوى اللاعب";
+	mes "الذي دعوته يتم تحديثه كل";
+	mes "24 ساعة.";
+	mes "لذلك إن لم تحصل على جائزة";
+	mes "حاول مرة أخرى لاحقاً";
+	close;
+	
+	
+	
+OnInit:
+	.name$ = "[مسابقة نشر السيرفر]";
+	end;
+}

@@ -1,0 +1,664 @@
+//===== rAthena Script ======================================= 
+//= Custom Shops
+//===== By: ==================================================
+//= Mastagoon & KiNa
+//===== Description: =========================================
+//= YggdrasilRO's Custom shop items
+//============================================================
+
+//npcs
+-	script	custom_shops	-1,{
+	function Add;	
+OnInit:
+	setarray .shops$[1],"mvpshop1","mvpshop2","mvpshop3","mvpshop4","instanceshop","pvpshop1","fishingshop","woeshop","halloweenshop","bgshop1","bgshop2","mvpshop5","newmvpshop1","newmvpshop2","newmvpshop3","newmvpshop4","newmvpshop5","activityshop1","activityshop2","newpvpshop","bgshop3";
+	debugmes "init custom shops.";
+	// -----------------------------------------------------------
+	// 		Add(<shop ID(1,2,3,4)>,<reward ID>,<Coin cost>;
+	// -----------------------------------------------------------
+	// mvp shops
+	freeloop(1);
+	//C coin shop
+	Add(1,12214,1);		// convex mirror
+	/*Add(1,12202,2);		//str food
+	Add(1,12204,2);		//int food
+	Add(1,12205,2);		//dex food
+	Add(1,12206,2);		//luk food
+	Add(1,12203,2);		//agi food
+	Add(1,12207,2);		//vit food*/
+	//Add(1,13995,3);		// speed potion box (10x)
+	Add(1,12124,3);		//Rainbow Cake
+	Add(1,14601,3);		// Tyr's Blessing
+	Add(1,14536,3);		// Abrasive
+	Add(1,12210,4);		// Bubble gum
+	Add(1,12208,4);		// BM
+	Add(1,14592,4);		// JOB BM
+	Add(1,12646,5);		// takoyaki
+	Add(1,12122,5);		//Sesame Pastry 
+	Add(1,12535,5);		// berry box (15)
+	Add(1,50004,10);	// custom upper
+	Add(1,50005,10);	// custom mid
+	Add(1,50006,10);	// custom lower
+	Add(1,12887,100);	// infinite flywing
+	Add(1,12246,300);	// MCA
+	Add(1,50020,300);	// custom garment
+
+
+	//B coin shop
+	//Add(2,12679,1);		//siege white potion box
+	//Add(2,12680,1);		//siege blue potion box	
+
+	Add(2,50015,4);		//restock ticket box (10)
+	//Add(2,12676,3);		//siege violet potion box
+	Add(2,13973,4);		//30 poison bottle box
+	Add(2,14159,8);		//str food box
+	Add(2,14161,8);		//int food box
+	Add(2,14162,8);		//dex food box
+	Add(2,14163,8);		//luk food box
+	Add(2,14160,8);		//agi food box
+	Add(2,14164,8);		//vit food box
+	Add(2,12883,8);		//Almighty
+	Add(2,17069,10);	//acid bomb box
+	Add(2,12412,20);	//HE Bgum
+	Add(2,60017,15);	//3x BM
+	Add(2,60012,4);	//Sorcerer Supply(Flame Heart)
+	Add(2,60013,4);	//Sorcerer Supply(Mystic Frozen)
+	Add(2,60014,4);	//Sorcerer Supply(Great Nature)
+	Add(2,60015,4);	//Sorcerer Supply(Rough Wind)
+
+	//A coin shop
+	//Add(3,50021,10);	//pvp announcer ticket
+	Add(3,5286,10);		//Pecopeco Hairband
+	Add(3,5788,10);		//3D glasses
+	Add(3,2910,15);		//Bakonawa Agimat Tattoo
+	Add(3,2911,15);		//Bangungot Agimat Tattoo
+	Add(3,2907,15);		//Buwaya Agimat Tattoo
+	Add(3,18603,20);	//Black devil mask[1]
+	Add(3,2576,20);		//adventurer's backpack
+	Add(3,5518,30);		//defensive bapho horns
+	Add(3,18600,30);	//cat ear beret
+	Add(3,18601,30);	//red pom band
+	Add(3,15166,30);	//rosary's necklace
+	Add(3,5361,30);		//Gangster Scarf
+	Add(3,28429,40);        //Arquien's Necklace [1]
+    Add(3,28410,40);        //Sapphire Wrist [1]
+    Add(3,22064,40);        //THORNY SHOES
+    Add(3,28386,40);        //FALLEN MONK ROSARY
+    // Add(3,2192,40);        // ROSE OF EDEN
+    Add(3,5933,40);        // tengu mask
+    Add(3,19112,40);        // tengu scroll
+    Add(3,18561,40);        // BFB
+    Add(3,18878,40);        // palace guard hat
+
+	//S coin shop
+	Add(4,18670,5);			//handcurhcif in mouth
+	Add(4,18894,5);			//rainbow star
+	Add(4,5968,5);			//Clergy Nurse Cap
+	Add(4,18813,5);			//new wave sunglasses
+	Add(4,2589,10);			//FAW
+	Add(4,5497,10);			//king tiger doll 
+	Add(4,5464,10);			//Zaha doll hat
+	Add(4,16051,10);		//Valkyire Hammer
+	//Add(4,28717,15);		//valkyrie knife[4]
+	Add(4,28903,10);		//Scutum
+	Add(4,32242,15);		//ODR
+
+	//instance shop
+	//Add(5,14540,10);	//holy armor scroll
+	//Add(5,14539,10);	//shadow armor scroll
+	Add(5,17069,15);	//acid bomb box
+	Add(5,24035,5);		//power shaddow earring
+	Add(5,24041,5);		//power shaddow pendant
+	Add(5,24039,5);		//agi shaddow shield
+	Add(5,24045,5);		//agi shaddow shoes
+	Add(5,24044,5);		//vit shaddow shield
+	Add(5,24038,5);		//vit shaddow shoes
+	Add(5,24042,5);		//int shaddow earring
+	Add(5,24036,5);		//int shaddow pendant
+	Add(5,24037,5);		//dex shaddow armor
+	Add(5,24043,5);		//dex shaddow weapon
+	Add(5,24040,5);		//luk shaddow armor
+	Add(5,24034,5);		//luk shaddow weapon
+	Add(5,2349,20);		//Aebecee's Raging Typhoon Armor [1]
+	Add(5,2347,20);		//Saphien's Armor of Ocean [1]
+	Add(5,2345,20);		//Lucius's Fierce Armor of Volcano [1]
+	Add(5,2351,20);		//Claytos Cracking Earth Armor [1]
+	Add(5,12884,40);	//infinite Concentration potion
+	Add(5,12885,40);	//infinite awakening potion
+	Add(5,12886,40);	//infinite berserk potion
+	Add(5,12887,40);	//infinite fly wing
+	Add(5,28430,50);	//arch bishop ring
+	Add(5,2576,50);		//adventurer's backpack
+	Add(5,15346,80);	//crit suit
+	Add(5,15353,80);	//aspd suit
+	Add(5,15354,80);	//ranged suit
+	Add(5,15278,80);	//atk suit
+	Add(5,15347,80);	//hp suit
+	Add(5,15279,80);	//matk suit
+	Add(5,28513,80);	//Celine's Brooch
+	Add(5,28565,80);	//PDM
+	Add(5,19081,80);	//faceworm hat
+	Add(5,24245,100);	//reload armor
+	Add(5,24244,100);	//reload shield
+	Add(5,24243,100);	//reload boots
+	Add(5,19048,100);	//Elemental Tights [1]
+	Add(5,15169,100);	//Karudi Robe
+	Add(5,20799,100);	//Elemental Towel
+	//Add(5,28507,150);	//Magician's Glove
+	Add(5,18563,150);	//Heart wing headband
+	Add(5,28394,150);	//Spiriit king's Ring
+	Add(5,32262,150);	//fuma orb
+	Add(5,20944,150);	//anti magic garment
+	Add(5,20940,150);	//Violet Halo
+	Add(5,20943,150);	//magic garment
+	Add(5,50019,200);	//Kafra's blessing
+	Add(5,15204,200);	//abyss dress
+	Add(5,15352,200);	//Nature's dress
+	Add(5,15420,200);	//Icefall Dress
+	//Add(5,32204,200);	//Immortal dog Tag
+	Add(5,28492,200);	// Thief's guide
+	Add(5,32263,200);	// Shield Ring
+	Add(5,28531,200);	// Blacksmith's Gloves [1]
+	Add(5,28533,200);	// Chemical glove
+	Add(5,22120,200);	//Shoes of punishment
+	Add(5,15362,200);	//Apollo armor
+	Add(5,15366,200);	//Vulcanus armor
+
+	// pvp shop
+	Add(6,12016,2);		// speed pots
+	Add(6,13534,4);		// light whites
+	Add(6,13810,4);		// light blues
+	Add(6,13809,6);		// gemstone boxes
+	Add(6,12118,6);		// fireproof
+	Add(6,12120,6);		// earthproof
+	Add(6,12121,6);		// thunderproof
+	Add(6,12119,6);		// coldproof
+	Add(6,12549,10);		// condensed whites
+	Add(6,50015,20);	// restock ticket box
+	Add(6,50004,20);	// upper costume box
+	Add(6,969,20);		// gold
+	Add(6,50072,5);	// Vicious reset ticket
+	Add(6,50010,200);	// new outfit ticket
+	//Add(6,13973,15);	// poison box
+	//Add(6,17069,50);	// acid box
+	Add(6,24245,600);	//reload armor
+	Add(6,24244,600);	//reload shield
+	Add(6,24243,600);	//reload boots
+	Add(6,28513,600);	//Celine's Brooch
+	Add(6,28565,600);	//Perverse Demon Mask
+	Add(6,2781,600);	//Aumdura's Benefit [1]
+	Add(6,32244,600);	// Dictator's Neckalce
+	Add(6,28492,600);	// Thief's guide
+	Add(6,32263,600);	// Shield Ring
+	Add(6,28394,600);	//Spirit King's Ring
+	Add(6,32262,600);	//fuma orb
+	Add(6,28531,600);	// Blacksmith's Gloves [1]
+	Add(6,28533,600);	// Chemical glove
+	Add(6,50106,1500);	// special costume
+	Add(6,28942,1500);	// cursed knight shield
+
+	//Fishing shop
+	Add(7,50095,50);	// pine wood
+	Add(7,60000,50);	// low tier shadow gear
+	Add(7,23436,100);	// shadow refine hammer
+	Add(7,60003,150);	// skills shadow gear
+	Add(7,60001,150);	// mid tier shadow gear
+	Add(7,60076,150);	// class shadow gear box
+	Add(7,60002,200);	// high tier shadow gear
+	Add(7,60079,300);	// class shadow gear box
+	Add(7,60080,300);	// class shadow gear box
+	Add(7,60081,300);	// class shadow gear box
+	Add(7,60082,300);	// class shadow gear box
+	Add(7,60083,300);	// class shadow gear box
+	Add(7,60005,500);	// aimia box
+
+	//WoE Shop
+	Add(8,60060,30);
+	Add(8,60062,50);
+	Add(8,60064,120);
+	// Add(8,12679,5);		//WoE White Potion 30 Box 
+	Add(8,13995,5);		//speedy boy box
+	Add(8,60009,25);		//Genetic Supply(Plant Bottle)
+	Add(8,60010,25);		//Genetic Supply(Glistening Coat)
+	Add(8,60011,25);		//Genetic Supply(Mandragora)
+	Add(8,17069,25);		//Acidbomb Box(100)
+	Add(8,60012,25);		//Sorcerer Supply(Flame Heart)
+	Add(8,60013,25);		//Sorcerer Supply(Mystic Frozen)
+	Add(8,60014,25);		//Sorcerer Supply(Great Nature)
+	Add(8,60015,25);		//Sorcerer Supply(Rough Wind)
+	Add(8,12920,80);		//enriched elunium box
+	Add(8,12921,80);		//enriched oridecon box	
+	Add(8,16396,80);		///HD elunium box
+	Add(8,16394,80);		//HD oridecon box
+	Add(8,16261,100);		//HD Carnum box
+	Add(8,16260,100);		//HD Bradium box
+	Add(8,18509,200);		//RWC 2010 Indonesia
+	Add(8,18670,200);		//handcurhcif in mouth
+	Add(8,18894,200);		//rainbow star
+	Add(8,18813,200);		// new wave sunglasses
+	Add(8,23926,400);		// +9 refine hammer
+	Add(8,28942,500);		// cursed knight shield
+
+	//halloween
+	Add(9,60054,3000);
+	Add(9,60055,3000);
+	Add(9,50050,2000);
+	Add(9,41018,1000);
+	Add(9,41019,1000);
+	Add(9,41020,1000);
+	Add(9,41021,1000);
+	Add(9,41022,1000);
+	Add(9,41050,1000);
+	Add(9,41051,1000);
+	Add(9,41023,1000);
+	Add(9,41024,1000);
+	Add(9,41025,1000);
+	Add(9,41026,1000);
+	Add(9,41027,1000);
+	Add(9,41028,1000);
+	Add(9,41029,1000);
+	Add(9,41030,1000);
+	Add(9,41031,1000);
+	Add(9,41032,1000);
+	Add(9,41033,1000);
+	Add(9,41034,1000);
+	Add(9,41035,1000);
+	Add(9,41036,1000);
+	Add(9,41037,1000);
+	Add(9,41038,1000);
+	Add(9,41039,1000);
+	Add(9,41040,1000);
+	Add(9,41041,1000);
+	Add(9,41042,1000);
+	Add(9,41043,1000);
+	Add(9,41044,1000);
+	Add(9,41045,1000);
+	Add(9,41046,1000);
+	Add(9,41047,1000);
+	Add(9,41048,1000);
+	Add(9,41049,1000);
+	Add(9,41121,1000);
+	Add(9,41122,1000);
+	Add(9,41216,1000);
+	Add(9,41217,1000);
+	Add(9,41312,1000);
+	Add(9,41314,1000);
+	Add(9,41414,1000);
+	Add(9,41415,1000);
+
+	//bg weapons shop
+	Add(10,13042,300);
+	Add(10,13416,300);
+	Add(10,13418,300);
+	Add(10,1187,300);
+	Add(10,1426,300);
+	Add(10,1486,300);
+	Add(10,2002,300);
+	Add(10,1640,300);
+	Add(10,1641,300);
+	Add(10,1546,300);
+	Add(10,1310,300);
+	Add(10,1382,300);
+	Add(10,13307,300);
+	Add(10,1743,300);
+	Add(10,1281,300);
+	Add(10,1282,300);
+	Add(10,1927,300);
+	Add(10,1981,300);
+	Add(10,1576,300);
+	Add(10,1577	,300);
+	Add(10,1826,300);
+	Add(10,1827,300);
+	Add(10,13110,300);
+	Add(10,13176,300);
+	Add(10,13177,300);
+	Add(10,13178,300);
+	Add(10,13179,300);//here
+	Add(10,13036,100);
+	Add(10,13037,100);
+	Add(10,13411,100);
+	Add(10,13410,100);
+	Add(10,1183,100);
+	Add(10,1184,100);
+	Add(10,1425,100);
+	Add(10,1632,100);
+	Add(10,1633,100);
+	Add(10,1634,100);
+	Add(10,1635,100);
+	Add(10,1543,100);
+	Add(10,1542,100);
+	Add(10,1380,100);
+	Add(10,1379,100);
+	Add(10,13305,100);
+	Add(10,13306,100);
+	Add(10,1739,100);
+	Add(10,1738,100);
+	Add(10,1279,100);
+	Add(10,1280,100);
+	Add(10,1924,100);
+	Add(10,1923,100);
+	Add(10,1978,100);
+	Add(10,1977,100);
+	Add(10,1574,100);
+	Add(10,1575,100);
+	Add(10,1824,100);
+	Add(10,1823,100);
+	Add(10,13108,100);
+	Add(10,13171,100);
+	Add(10,13172,100);
+	Add(10,13173,100);
+	Add(10,13174,100);
+
+	//bg armor shop
+	Add(11,2394,300);
+	Add(11,2549,300);
+	Add(11,2444,300);
+	Add(11,2772,300);
+	Add(11,2395,100);
+	Add(11,2445,100);
+	Add(11,2773,100);
+	Add(11,2396,100);
+	Add(11,2446,100);
+	Add(11,2774,100);
+	Add(11,2538,100);
+	Add(11,2539,100);
+	Add(11,2540,100);
+	Add(11,2435,100);
+	Add(11,2436,100);
+	Add(11,2437,100);
+	Add(11,2376,100);
+	Add(11,2377,100);
+	Add(11,2378,100);
+	Add(11,2379,100);
+	Add(11,2380,100);
+	Add(11,2381,100);
+	Add(11,2382,100);
+	Add(11,2733,100);
+	Add(11,2720,100);
+	Add(11,2721,100);
+	Add(11,2722,100);
+	Add(11,2723,100);
+	Add(11,2724,100);
+	Add(11,2725,100);
+
+	//SS mvp shop
+	// Add(12,6878,3);
+	// Add(12,6872,3);
+
+	//new shops (21/11/2020)
+	// new mvp shop(D)
+	add(13,12214,1);
+	add(13,12124,3);
+	add(13,14601,3);
+	add(13,14536,3);
+	add(13,12210,4);
+	add(13,12208,4);
+	add(13,14592,4);
+	Add(13,60012,4);	//Sorcerer Supply(Flame Heart
+	Add(13,60013,4);	//Sorcerer Supply(Mystic Froz
+	Add(13,60014,4);	//Sorcerer Supply(Great Natur
+	Add(13,60015,4);	//Sorcerer Supply(Rough Wind)
+	add(13,12646,5);
+	add(13,12122,5);
+	add(13,50004,10);
+	add(13,50005,10);
+	add(13,50006,10);
+
+
+
+	
+	//new mvp shop(C)
+	Add(14,13973,4);		//30 poison bottle box
+	Add(14,14159,8);		//str food box
+	Add(14,14161,8);		//int food box
+	Add(14,14162,8);		//dex food box
+	Add(14,14163,8);		//luk food box
+	Add(14,14160,8);		//agi food box
+	Add(14,14164,8);		//vit food box
+	Add(14,12883,8);		//Almighty
+	Add(14,17069,10);		//acid bomb box
+	Add(14,12412,20);		//HE Bgum
+	Add(14,60017,15);		//3x BM
+	Add(14,24035,5);		//power shaddow earring
+	Add(14,24041,5);		//power shaddow pendant
+	Add(14,24039,5);		//agi shaddow shield
+	Add(14,24045,5);		//agi shaddow shoes
+	Add(14,24044,5);		//vit shaddow shield
+	Add(14,24038,5);		//vit shaddow shoes
+	Add(14,24042,5);		//int shaddow earring
+	Add(14,24036,5);		//int shaddow pendant
+	Add(14,24037,5);		//dex shaddow armor
+	Add(14,24043,5);		//dex shaddow weapon
+	Add(14,24040,5);		//luk shaddow armor
+	Add(14,24034,5);		//luk shaddow weapon
+	Add(14,2910,10);		//luk shaddow weapon
+	Add(14,2911,10);		//luk shaddow weapon
+	Add(14,2907,10);		//luk shaddow weapon
+	Add(14,15166,15);		//luk shaddow weapon
+
+	//new mvp shop(B)
+	Add(15,28430,10);		//arch bishop ring
+	Add(15,5286,10);		//Pecopeco Hairband
+	Add(15,5788,10);		//3D glasses
+	Add(15,18603,20);	//Black devil mask[1]
+	Add(15,2576,20);		//adventurer's backpack
+	Add(15,18600,30);	//cat ear beret
+	Add(15,18601,30);	//red pom band
+	Add(15,15166,30);	//rosary's necklace
+	Add(15,5361,30);		//Gangster Scarf
+	Add(15,12884,40);		//infinite Concentration potion
+	Add(15,12885,40);		//infinite awakening potion
+	Add(15,12886,40);		//infinite berserk potion
+	Add(15,28429,40);        //Arquien's Necklace [1]
+    Add(15,28410,40);        //Sapphire Wrist [1]
+    Add(15,22064,40);        //THORNY SHOES
+    Add(15,28386,40);        //FALLEN MONK ROSARY
+    // Add(15,2192,40);        // ROSE OF EDEN
+    Add(15,20728,40);        // water dragon coat
+    Add(15,18561,40);        // BFB
+	Add(15,12887,50);		//infinite fly wing
+
+	
+	//new mvp shop(A)
+    Add(16,5933,20);        // tengu mask
+    Add(16,19112,20);        // tengu scroll
+    Add(16,18878,20);        // palace guard hat
+	Add(16,5518,30);		//defensive bapho horns
+	Add(16,15346,30);	//crit suit
+	Add(16,15353,30);	//aspd suit
+	Add(16,15354,30);	//ranged suit
+	Add(16,15278,30);	//atk suit
+	Add(16,15347,30);	//hp suit
+	Add(16,15279,30);	//matk suit
+	Add(16,20955,40);	//Christmas Tree
+	Add(16,28513,40);	//Celine's Brooch
+	Add(16,28565,40);	//PDM
+	Add(16,19081,40);	//faceworm hat
+	Add(16,19048,40);	//Elemental Tights [1]
+	Add(16,15169,40);	//Karudi Robe
+	Add(16,20799,40);	//Elemental Towel
+	Add(16,28433,50);	//Luminous Blue Stone [1]
+	Add(16,32244,50);	//Dictator Necklace [1]
+	Add(16,28394,50);	//Spiriit king's Ring
+	Add(16,28533,50);	// Chemical glove
+	Add(16,32262,50);	//fuma orb
+	Add(16,20944,50);	//anti magic garment
+	Add(16,20943,50);	//magic garment
+	Add(16,450143,60);	//aSamael Dress
+	Add(16,15204,60);	//abyss dress
+	Add(16,15352,60);	//Nature's dress
+	Add(16,15420,60);	//Icefall Dress
+	Add(16,15362,60);	//Apollo armor
+	Add(16,15366,60);	//Vulcanus armor
+	Add(16,22120,60);	//Shoes of punishment
+
+	//new mvp shop(S)
+	
+	//S coin shop
+	Add(17,18670,5);			//handcurhcif in mouth
+	Add(17,18894,5);			//rainbow star
+	Add(17,5968,5);			//Clergy Nurse Cap
+	Add(17,18813,5);			//new wave sunglasses
+	Add(17,28575,5);			//Verus Core [1]
+	Add(17,28598,5);
+	Add(17,28507,10);	//Magician's Glove
+	Add(17,20797,10);	//Etran's Undershirt [1]
+	Add(17,28506,10);		//Storm Stone [1]
+	Add(17,2589,10);			//FAW
+	Add(17,5497,10);			//king tiger doll 
+	Add(17,5464,10);			//Zaha doll hat
+	Add(17,32263,10);		// Shield Ring
+	Add(17,28531,10);		// Blacksmith's Gloves [1]
+	Add(17,32204,10);		//Immortal dog Tag
+	Add(17,28492,10);	// Thief's guide
+	Add(17,16051,10);		//Valkyire Hammer
+	//Add(17,28717,15);		//valkyrie knife[4]
+	Add(17,28903,10);		//Scutum
+	Add(17,32242,15);		//ODR
+
+	//new mvp shop(SS)
+	//SS mvp shop
+	Add(12,28717,3);	//valk knife
+	Add(12,28594,3);	//temporal ring
+	Add(12,6870,3);	//safe to +12
+	Add(12,6876,3);	//safe to +12
+
+	//new pvp shop
+	Add(20,12124,5);
+	Add(20,12710,10);	// pudding
+	Add(20,14601,10);
+	Add(20,13973,15);	//p bottle box
+	Add(20,12883,15);
+	Add(20,60012,15);
+	Add(20,60013,15);
+	Add(20,60014,15);
+	Add(20,60015,15);
+	Add(20,14536,15);
+	Add(20,17069,20);	// acid bottle box
+	Add(20,12122,20);
+	Add(20,60011,25);
+	Add(20,60009,25);
+	Add(20,60010,30);
+	// Add(20,12679,30);
+	Add(20,12646,40);
+	Add(20,60062,40);	// +10 all stats potion
+	Add(20,12646,40);	
+	Add(20,12646,40);
+
+	//new battle shop
+	Add(21,12124,5);
+	Add(21,12679,10);
+	Add(21,13973,10);	// poison bottle box
+	Add(21,14601,10);
+	Add(21,12122,10);
+	Add(21,12883,15);
+	Add(21,60012,15);
+	Add(21,60013,15);
+	Add(21,60014,15);
+	Add(21,60015,15);
+	Add(21,14536,15);
+	// Add(21,60135,15);
+	// Add(21,60136,15);
+	// Add(21,60137,15);
+	Add(21,17069,20);	//acid bottle box
+	Add(21,12646,20);
+	Add(21,60009,25);
+	Add(21,60011,25);
+	Add(21,60010,30);
+
+	//activity shop(etc)
+	Add(19,12884,1);		//infinite potions
+	Add(19,12885,1);		//infinite potions
+	Add(19,12886,1);		//infinite potions
+	Add(19,12887,1);		//infinite potions
+	Add(19,60085,2);		//costume stone(upper)
+	Add(19,60086,2);		//costume stone(middle)
+	Add(19,60087,2);		//costume stone(lower)
+	Add(19,60088,3);		//costume stone(garment)
+	Add(19,60090,3);		//new name copoun
+	Add(19,60091,3);		//gender change coppoun
+	Add(19,60093,6);		//new storage copoun	
+	Add(19,60089,6);		//instance reset ticket
+
+	//activity shop(gear)
+	Add(18,24245,2);		//reload shadow set
+	Add(18,24244,2);		//reload shadow set
+	Add(18,24243,2);		//reload shadow set
+	Add(18,5898,6); 		//autumn headband
+	Add(18,5899,6); 		//black ribbon
+	Add(18,5900,6); 		//divine guard's helm
+	Add(18,5901,6); 		//focus beret
+	Add(18,5902,6); 		//harverter's hat
+	Add(18,5904,6); 		//inconspicuous Hat
+	Add(18,5905,6); 		//lyrica hat
+	Add(18,18795,6); 		//nightsparrow hat
+	Add(18,5906,6); 		//oni horns
+	Add(18,18791,6); 		//maiden hat
+	Add(18,18793,6); 		//magician's night cap
+	Add(18,18794,6); 		//ordinary black magician's hat
+	Add(18,5907,6); 		//sea captain's hat
+	Add(18,2589,6);			//FAW
+	Add(18,18563,6);		//HHHb
+	Add(18,19178,6);		//Spirit Crown [1]	
+	Add(18,28902,6);		//mad bunny
+	Add(18,28596,8);		//toy ring
+	Add(18,28379,8);		//shadow ring
+	Add(18,28377,8);		//mgaical ring
+	Add(18,28942,8);		//CKS
+	Add(18,20940,8);		//vHalo
+	Add(18,22131,8); 		//Spurred Shoes
+	Add(18,22067,8); 		//loliruri shoes
+	Add(18,32227,10);		//Fenrir Chain [1]
+	Add(18,28560,10);		//Yin Yang Talisman [1]
+	Add(18,42011,10);		//elemantal shoes
+	Add(18,22210,10);		//fluffy boots
+	Add(18,22172,10);		//Gray Wing Boots
+	Add(18,22106,10);		//Giant Boots [1]
+	Add(18,22103,10); 		//Excellion leg
+	Add(18,22104,10); 		//Porocona shoes
+	Add(18,22189,10);		//AB support shoes
+	Add(18,22198,10);		//Traveler Shoes
+	Add(18,50019,12);		//blessing of kafra
+
+
+
+	
+
+	freeloop(0);
+
+	function	Add	{
+		if (getitemname(getarg(1)) == "null") {
+			debugmes "custome shops: item reward #"+getarg(1)+" invalid (skipped).";
+			return;
+		}
+		npcshopadditem .shops$[getarg(0)],getarg(1),getarg(2);
+		return;
+	}
+	
+	for(.@i = 1; .@i <= getarraysize(.shops$); .@i++) {
+		npcshopdelitem .shops$[.@i],909;
+	}
+		
+	end;
+}
+
+-	itemshop	mvpshop1	-1,50003,909:1
+-	itemshop	mvpshop2	-1,50002,909:1
+-	itemshop	mvpshop3	-1,50001,909:1
+-	itemshop	mvpshop4	-1,50000,909:1
+-	itemshop	instanceshop	-1,50009,909:1
+-	itemshop	pvpshop1	-1,50035,909:1
+-	itemshop	fishingshop	-1,60004,909:1
+-	itemshop	woeshop	-1,60008,909:1
+-	itemshop	halloweenshop	-1,60040,909:1
+-	itemshop	bgshop1	-1,7829,909:1
+-	itemshop	bgshop2	-1,7829,909:1
+-	itemshop	mvpshop5	-1,49999,909:1
+-	itemshop	newmvpshop1	-1,60205,909:1
+-	itemshop	newmvpshop2	-1,60204,909:1
+-	itemshop	newmvpshop3	-1,60203,909:1
+-	itemshop	newmvpshop4	-1,60202,909:1
+-	itemshop	newmvpshop5	-1,60201,909:1
+-	itemshop	activityshop1	-1,60092,909:1
+-	itemshop	activityshop2	-1,60092,909:1
+-	itemshop	newpvpshop	-1,60206,909:1
+-	itemshop	bgshop3	-1,7829,909:1

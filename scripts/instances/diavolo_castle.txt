@@ -1,0 +1,341 @@
+//===== rAthena Script ======================================= 
+//= Diavolo's Castle
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Diavolo's Castle Instance
+//===== Current Version: =====================================
+//= 1.0
+//===== TODO: ================================================
+//= investigate a bug where players are not kicked after dying
+//============================================================
+aimia,144,131,0	script	تمثال المؤسس	111,{
+    .@name$ = "Diavolo's Castle";
+    .@tickets = 0;
+    .@cooldown = 86400;
+    .@quests$ = "";
+    .@partysize = 1;
+    .@minlevel = 175;
+    .@maxlevel = 185;
+	if($Diavolo_CD > gettimetick(2)) {
+		mes "- لقد تمت هزيمة سيّد الظلام حديثاً -";
+		mes "- يجب عليكم الانتظار -" + formatTime($Diavolo_CD - gettimetick(2));
+		close;
+	}
+    instanceDialoge(.@name$,.@tickets,.@cooldown,.@quests$,.@partysize,.@minlevel,.@maxlevel);
+    end;
+}
+
+//darklord instance
+-	script	darklord_instance_controller	-1,{
+OnInit:
+	end;
+OnInstanceInit:
+	'map$ = instance_mapname("1@hallow");
+	end;
+OnPCDieEvent:
+	.@id = instance_id(IM_PARTY);
+	.@map$ = instance_mapname("1@hallow",.@id);
+	if(strcharinfo(3) != .@map$) end;
+	mapannounce .@map$,"لقد تمت هزيمة اللاعب "+strcharinfo(0),bc_map;
+	sleep2 5000;
+	if( !getvariableofinstance('lives,.@id)) {
+		mapannounce .@map$,"سيّد الظلام: لقد انتهى أمركم",bc_map,"0xFF0000";
+		warp "SavePoint",0,0;
+		end;
+	}
+	set getvariableofinstance('lives,.@id), getvariableofinstance('lives,.@id)-1;
+	mapannounce .@map$,"عدد الأرواح المتبقية: ",bc_map;
+	sleep2 1000;
+	mapannounce .@map$,""+getvariableofinstance('lives,.@id),bc_map;
+	end;
+}
+
+1@hallow,338,68,4	script	الطبيب ماهر#diavolo	616,{
+	if(.buffs >= 10) end;
+	cutin "bu_mark1.bmp",2;
+	npctalk "Blessing !!";
+	specialeffect2 EF_BLESSING;
+	sc_start SC_BLESSING,240000,10;
+	sleep2 1000;
+	npctalk "Increase Agility !!";
+	specialeffect2 EF_INCAGILITY;
+	sc_start SC_INCREASEAGI,240000,10;
+	sleep2 1000;
+	npctalk "Kyrie Elesion !!";
+	specialeffect2 112;
+	sc_start SC_KYRIE,240000,10;
+	sleep2 1000;
+	npctalk "Heal !!";
+	percentheal 100,100;
+	specialeffect2 EF_HEAL2;
+	sleep2 1000;
+	cutin "",255;
+	.buffs++;
+	if(.buffs >= 10) {
+		npctalk "أشعر بالإرهاق, لقد استعملت كل طاقتي اليوم";
+		sleep2 1000;
+		npctalk "سأذهب لأستريح وأشحن طاقتي قليلاً.";
+		disablenpc strnpcinfo(3);
+		.buffs = 0;
+	}
+	end;
+
+OnSummon:
+	hideoffnpc strnpcinfo(3);
+	if('maher) { dispbottom "إن الطبيب ماهر يستريح الآن."; getitem 50062,1; end; }
+	npctalk "واه ! مالذي يجري هنا";
+	sleep2 2000;
+	npctalk "يبدو أنك بحاجةٍ إلى كل مساعدةٍ ممكنة";
+	sleep2 2000;
+	npctalk "سأدعمك بكل قوتي!";
+	sleep2 2000;
+	cutin "",255;
+	detachrid();
+	'maher = 1;
+	end;
+
+OnInstanceInit:
+OnInit:
+	hideonnpc strnpcinfo(3);
+	end;
+}
+
+1@hallow,336,66,4	script	سيّد الظلام#instance	31975,{
+	if(!is_party_leader(getcharid(1))) end;
+	switch('stage) {
+		default:
+		case 0:
+			'map$ = instance_mapname("1@hallow");
+			'lives = 10;
+			'stage = 1;
+			end;
+
+		case 1:
+			if('notalk) end;
+			mes .n$;
+			mes "كنت أريد الانتظار حتى اكتمال تجميع الطاقة";
+			mes "حتى أقضي عليكم, ولكن إن كنت مستعجلاً فلا";
+			mes "أمانع القضاء عليك هنا والآن.";
+			next;
+			close2;
+			showscript "هل ستتمكن من الصمود ضد أشباحي؟",getnpcid(0);
+			monster 'map$,0,0,"--ja--",31963,50,strnpcinfo(3)+"::OnWaveOneDead";
+			monster 'map$,0,0,"--ja--",31968,50,strnpcinfo(3)+"::OnWaveOneDead";
+			monster 'map$,0,0,"--ja--",31969,50,strnpcinfo(3)+"::OnWaveOneDead";
+			monster 'map$,0,0,"--ja--",31962,50,strnpcinfo(3)+"::OnWaveOneDead";
+			.mobs = 200;
+			end;
+		case 2:
+			if('notalk) end;
+			mes .n$;
+			mes "هه, كانت هذه مجردَ تحمية";
+			mes "لا تغتر بنفسك !";
+			monster 'map$,0,0,"--ja--",31961,50,strnpcinfo(3)+"::OnWaveTwoDead";
+			monster 'map$,0,0,"--ja--",31967,50,strnpcinfo(3)+"::OnWaveTwoDead";
+			monster 'map$,0,0,"--ja--",31976,50,strnpcinfo(3)+"::OnWaveTwoDead";
+			.mobs = 150;
+			end;
+		case 3:
+			mes .n$;
+			mes "أحسنتم !! أحسنتم !!";
+			mes "لم أرى بشراً بهذه القوة من قبل";
+			mes "سأقاتلكم أنا بنفسي !!";
+			mes "إنه لشرفُ عظيم !";
+			close2;
+			.mobs = 0;
+			initnpctimer;
+			'stage = 4;
+			hideonnpc strnpcinfo(3);
+			areamonster 'map$,336,66,336,66,"سيّد الظلام ديافولو",31975,1,strnpcinfo(3)+"::OnDiavoloDead";
+			'BOSS = $@mobid[0];
+			end;
+	}
+OnTimer1000:
+	debugmes "timer tick.";
+	'tick++;
+	if('stage != 4) end;
+	.@count = mobcount('map$,strnpcinfo(3)+"::OnHealerDead");
+	if(.@count > 0 && 'tick >= 20) {
+		killmonster 'map$,strnpcinfo(3)+"::OnHealerDead";
+		getunitdata 'BOSS, .@arr;
+		.@hp = .@arr[UMOB_HP];
+		.@hp += 10000000*.@count;
+		if(.@hp > 150000000) .@hp = 150000000;
+		setunitdata 'BOSS, UMOB_HP, .@hp;
+		'tick = 0;
+		mapannounce 'map$,"يقوم سيّد الظلام بامتصاص طاقة أتباعه. لقد تم شفاء "+10000000 * .@count+" من نقاطه الصحية.",bc_map,"0xff00ee";
+	}
+	getunitdata 'BOSS, .@arr;
+	debugmes "bosshp: "+.@arr[UMOB_HP];
+	if(.@arr[UMOB_HP] < 30000000)
+		donpcevent strnpcinfo(3)+"::OnStart3";
+	else if(.@arr[UMOB_HP] < 70000000)
+		donpcevent strnpcinfo(3)+"::OnStart2";
+	else if(.@arr[UMOB_HP] < 100000000) 
+		donpcevent strnpcinfo(3)+"::OnStart1";
+	initnpctimer;
+	end;
+
+OnStart1:
+	debugmes "doing event 1";
+	if( mobcount('map$,strnpcinfo(3)+"::OnMobDied") > 10) end;
+	mapannounce 'map$,"ديافولو: لن تصمدوا أمام قوةِ أتباعي !",bc_map,"0xFF0000";
+	monster 'map$,0,0,"--ja--",31961,15,strnpcinfo(3)+"::OnMobDied";
+	monster 'map$,0,0,"--ja--",31967,15,strnpcinfo(3)+"::OnMobDied";
+	monster 'map$,0,0,"--ja--",31976,15,strnpcinfo(3)+"::OnMobDied";
+	.mobs = 45;
+	end;
+
+OnMobDied:
+	end;
+
+OnStart2:
+debugmes "doing event 2";
+	if( mobcount('map$,strnpcinfo(3)+"::OnHealerDead") > 0) end;
+	getunitdata 'BOSS, .@arr;
+	.@x = .@arr[UMOB_X];
+	.@y = .@arr[UMOB_Y];
+	mapannounce 'map$,"لقد استدعى حارس الظلام الحرّاس لشفاء نقاطه الصحية !!",bc_map;
+	sleep 3000;
+	mapannounce 'map$,"إقضوا عليهم بسرعة قبل أن ينهوا تعويذة الشفاء !!",bc_map;
+	areamonster 'map$,.@x-5,.@y-5,.@x+5,.@y+5,"تابع سيّد الظلام",31960,2,strnpcinfo(3)+"::OnHealerDead";
+	'tick = 0;
+	initnpctimer;
+	end;
+
+OnStart3:
+debugmes "doing event 3";
+	if( mobcount('map$,strnpcinfo(3)+"::OnHealerDead2") > 0) end;
+	getunitdata 'BOSS, .@arr;
+	.@x = .@arr[UMOB_X];
+	.@y = .@arr[UMOB_Y];
+	areamonster 'map$,.@x-5,.@y-5,.@x+5,.@y+5,"تابع سيّد الظلام",31960,6,strnpcinfo(3)+"::OnHealerDead2";
+	if('guards) end;
+	mapannounce 'map$,"لقد استدعى سيّد الظلام الحرّاس الثلاثة لحمايته !",bc_map;
+	monster 'map$,316,36,"حارس سيّد الظلام (قريب المدى)",31978,1,strnpcinfo(3)+"::OnGuard1Dead";
+	monster 'map$,357,36,"حارس سيّد الظلام (سحري)",31978,1,strnpcinfo(3)+"::OnGuard2Dead";
+	monster 'map$,337,83,"حارس سيّد الظلام (بعيد المدى)",31978,1,strnpcinfo(3)+"::OnGuard3Dead";
+	'guards	 = 3;
+	setunitdata 'BOSS, UMOB_MODE,0x63F3695;
+	'tick = 0;
+	end;
+
+OnGuard1Dead:
+	'guards--;
+	debugmes "guards: "+'guards;
+	if('guards == 2) {
+		mapannounce 'map$,"لقد تمت هزيمة أحد الحرّاس, إنها فرصتكم للقضاء على ديافولو!",bc_map;
+		setunitdata 'BOSS, UMOB_MODE,0x63E3695;
+	} else {
+		mapannounce 'map$,"سيّد الظلام ديافولو: هاها! هؤلاء يمكن استبدالهم في أي وقت!",bc_map,"0xFF0000";
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard1Dead"; 
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard2Dead"; 
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard3Dead"; 
+		monster 'map$,316,36,"حارس سيّد الظلام (قريب المدى)",31978,1,strnpcinfo(3)+"::OnGuard1Dead";
+		monster 'map$,357,36,"حارس سيّد الظلام (سحري)",31978,1,strnpcinfo(3)+"::OnGuard2Dead";
+		monster 'map$,337,83,"حارس سيّد الظلام (بعيد المدى)",31978,1,strnpcinfo(3)+"::OnGuard3Dead";
+		setunitdata 'BOSS, UMOB_MODE,0x63F3695;
+		'guards = 3;
+	}
+	end;
+OnGuard2Dead:
+	'guards--;
+	debugmes "guards: "+'guards;
+	if('guards == 2) {
+		mapannounce 'map$,"لقد تمت هزيمة أحد الحرّاس, إنها فرصتكم للقضاء على ديافولو!",bc_map;
+		setunitdata 'BOSS, UMOB_MODE,0x63D3695;
+	} else {
+		mapannounce 'map$,"سيّد الظلام ديافولو: هاها! هؤلاء يمكن استبدالهم في أي وقت!",bc_map,"0xFF0000";
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard1Dead"; 
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard2Dead"; 
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard3Dead"; 
+		monster 'map$,316,36,"حارس سيّد الظلام (قريب المدى)",31978,1,strnpcinfo(3)+"::OnGuard1Dead";
+		monster 'map$,357,36,"حارس سيّد الظلام (سحري)",31978,1,strnpcinfo(3)+"::OnGuard2Dead";
+		monster 'map$,337,83,"حارس سيّد الظلام (بعيد المدى)",31978,1,strnpcinfo(3)+"::OnGuard3Dead";
+		setunitdata 'BOSS, UMOB_MODE,0x63F3695;
+		'guards = 3;
+	}
+	end;
+OnGuard3Dead:
+	'guards--;
+	debugmes "guards: "+'guards;
+	if('guards == 2) {
+		mapannounce 'map$,"لقد تمت هزيمة أحد الحرّاس, إنها فرصتكم للقضاء على ديافولو!",bc_map;
+		setunitdata 'BOSS, UMOB_MODE,0x63B3695;
+	} else {
+		mapannounce 'map$,"سيّد الظلام ديافولو: هاها! هؤلاء يمكن استبدالهم في أي وقت!",bc_map,"0xFF0000";
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard1Dead"; 
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard2Dead"; 
+		killmonster 'map$,strnpcinfo(3)+"::OnGuard3Dead"; 
+		monster 'map$,316,36,"حارس سيّد الظلام (قريب المدى)",31978,1,strnpcinfo(3)+"::OnGuard1Dead";
+		monster 'map$,357,36,"حارس سيّد الظلام (سحري)",31978,1,strnpcinfo(3)+"::OnGuard2Dead";
+		monster 'map$,337,83,"حارس سيّد الظلام (بعيد المدى)",31978,1,strnpcinfo(3)+"::OnGuard3Dead";
+		setunitdata 'BOSS, UMOB_MODE,0x63F3695;
+		'guards = 3;
+	}
+	end;
+
+OnHealerDead2:
+OnHealerDead:
+	end;
+	
+OnDiavoloDead:
+	if($Diavolo_CD > gettimetick(2)) end;
+	set MVP_Rank, MVP_Rank+1;
+	set MVP_Rank_Daily, MVP_Rank_Daily+1;
+	if (MVP_Rank == 1) query_sql("INSERT INTO `char_reg_num` (`char_id`,`key`,`index`,`value`) VALUES ("+getcharid(0)+",'MVP_Rank','0',1)");
+	dispbottom "~ You killed "+MVP_Rank+" MVP"+((MVP_Rank == 1)?"":"s")+". ~";
+	announce "player "+strcharinfo(0)+" has defeated the boss monster Diavolo",bc_all,"0xFFFFFF";
+	getitem 49999,1;
+	$diavoolodead = 1;
+	set $Diavolo_CD,gettimetick(2) + 14400;
+	$diavolokiller = getcharid(0);
+	$diavolokillerparty = getcharid(1);
+	sleep2 5000;
+	announce "لقد نجحت المجموعة "+getpartyname(getcharid(1))+" بهزيمة سيّد الظلام ديافولو !",bc_all;
+	killmonster 'map$,strnpcinfo(3)+"::OnGuard2Dead"; 
+	killmonster 'map$,strnpcinfo(3)+"::OnGuard3Dead"; 
+	killmonster 'map$,strnpcinfo(3)+"::OnHealerDead"; 
+	killmonster 'map$,strnpcinfo(3)+"::OnWaveTwoDead"; 
+	killmonster 'map$,strnpcinfo(3)+"::OnWaveOneDead"; 
+	stopnpctimer;
+	// callfunc("F_GetInstanceCoins",killedrid,killedgid);
+	end;
+
+
+OnWaveTwoDead:
+	'notalk = 1;
+	if(mobcount('map$,strnpcinfo(3)+"::OnWaveTwoDead") == 3) {
+		'stage = 3;
+		showscript "هاهاهاهاهاااه !! أنتم بارعون حقاً !!",getnpcid(0);
+		killmonster 'map$,strnpcinfo(3)+"::OnWaveTwoDead"; 
+		'notalk = 0;
+	}
+	end;
+OnWaveOneDead:
+	'notalk = 1;
+	if(mobcount('map$,strnpcinfo(3)+"::OnWaveOneDead") == 3) {
+		'stage = 2;
+		showscript "هممف, ليس سيئاً بالمرة",getnpcid(0);
+		killmonster 'map$,strnpcinfo(3)+"::OnWaveOneDead"; 
+		'notalk = 0;
+	}
+	end;
+OnInstanceInit:
+	'map$ = instance_mapname("1@hallow");
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	.n$ = "[^0000FFسيّد الظلام^000000]";
+	.map$ = "1@hallow";
+	if(!getmapflag(.map$,mf_noteleport)) setmapflag .map$,mf_noteleport;
+	if(!getmapflag(.map$,mf_nobranch)) setmapflag .map$,mf_nobranch;
+	if(!getmapflag(.map$,mf_monster_noteleport)) setmapflag .map$,mf_monster_noteleport;
+	if(!getmapflag(.map$,mf_nosave)) setmapflag .map$,mf_nosave;
+	if(!getmapflag(.map$,mf_nomemo)) setmapflag .map$,mf_nomemo;
+	if(!getmapflag(.map$,mf_nowarp)) setmapflag .map$,mf_nowarp;
+	if(!getmapflag(.map$,mf_partylock)) setmapflag .map$,mf_partylock;
+	if(!getmapflag(.map$,mf_noicewall)) setmapflag .map$,mf_noicewall;
+	end;
+}

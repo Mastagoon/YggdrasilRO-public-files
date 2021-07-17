@@ -1,0 +1,100 @@
+//===== rAthena Script ======================================= 
+//= PvP Happy Hour
+//===== By: ==================================================
+//= Mastagoon & KiNa
+//===== Description: =========================================
+//= YggdrasilRO's PvP Happy Hour.
+//= Grants pvp coins on kills
+//= double coins are granted during happy hour
+//= A simple Anti-cheat system is implemented
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+function	script	grantCoin	{
+	.@killer = getarg(0,0);
+	.@killed = getarg(1,0);
+	if(!.@killer || !.@killed) return false;
+	if(HH_BANNED || pvpcoins >= 60 || inarray(pvpbanlist,.@killed) > -1) return false;
+	.@counter = 0;
+	for(.@i = 0; .@i < getarraysize(pvpkilllist); .@i++) {
+		if(pvpkilllist[.@i] == .@killed) .@counter++;
+	}
+	if(.@counter >= 15) {
+		setarray pvpbanlist[getarraysize(pvpbanlist)],.@killed;
+		set pvpwarn, pvpwarn+1;
+	}
+	if(pvpwarn >= 3) {
+		pvpwarn = 0;
+		HH_BANNED = 1;
+		mes "[نظام ضبط الغش في الحلبة]";
+		mes "لقد تم حظرك من عملات وترتيب الحلبة";
+		mes "إذا كنت تظن بأن هناك خطأ";
+		mes "يرجى التواصل مع إدارة اللعبة";
+		close2;
+		return false;
+	}
+	.@amt = $hh ? 2 : 1;
+	getitem 60206,.@amt;
+	set pvpcoins, pvpcoins + 1;
+	if(pvpcoins == 60) dispbottom "لقد وصلت إلى الحد الأقصى من عملات الحلبة التي يمكنك جمعها خلال ساعةٍ واحدة.";
+	return true;
+}
+
+-	script	happy_hour	-1,{
+OnInit:
+	bindatcmd("starthappyhour",strnpcinfo(3)+"::OnHappyHour",60,80);
+	.pvpcoin = 60206;
+	bindatcmd("endhappyhour",strnpcinfo(3)+"::OnHappyHourEnd",60,80);
+	setarray .maps$[0],"guild_vs3", // sandwich
+						"pvp_n_7-5", // compass
+						"guild_vs4", //izlude
+						"guild_vs5", //gvs5
+						"pvp_n_7-3",
+						"guild_vs2-1",
+						"guild_vs2-3",
+						"matrix_dojo",
+						"grandarena";
+						//"guild_vs2"; //four room
+	end;
+	OnClock1500:
+		query_sql("DELETE FROM `char_reg_num` WHERE `key` = 'pvpwarn' OR `key` = 'HH_BANNED'");
+		addrid(0);
+		pvpwarn = 0;
+        HH_BANNED = 0;
+		end;
+	// rush hour
+	OnClock1301:
+	OnClock1701:
+	OnClock2201:
+	OnHappyHour:
+		if(agitcheck() || agitcheck2() || agitcheck3() || $invasion) end;
+		announce "لقد بدأت الساعة السعيدة في الحلبة ! أحصل على عملات الحلبة المضاعفة الآن !!",bc_all;
+		discord("لقد بدأت الساعة السعيدة في الحلبة ! أحصل على عملات الحلبة المضاعفة الآن !!", "pvp");
+		$hh = 1;
+		end;
+	OnMinute00:
+	OnHappyHourEnd:
+		query_sql("DELETE FROM `char_reg_num` WHERE `key` = 'pvpcoins' OR `key` = 'pvpbanlist'");
+		addrid(0);
+		pvpcoins = 0;
+		deletearray pvpbanlist[0];
+		sleep 1000;
+		if(!$hh) end;
+		announce "لقد انتهت ساعة الحلبة السعيدة",bc_all;
+		discord("لقد انتهت ساعة الحلبة السعيدة", "pvp");
+		$hh = 0;
+		end;
+
+	OnPCKillEvent:
+		if(inarray(.maps$,strcharinfo(3)) == -1 || is_verified(getcharid(3)) == "" || getcharip() == getcharip(killedrid)) end;
+		setarray pvpkilllist[getarraysize(pvpkilllist)],killedrid;
+		if(getarraysize(pvpkilllist) >= 20) deletearray pvpkilllist[0],1;
+		for(.@i = 0; .@i < getarraysize(pvpkilllist); .@i++) {
+			setarray .@array2[getarraysize(.@array2)],pvpkilllist[.@i];
+		}
+		.@amt = strcharinfo(3) == "guild_vs2" ? 2 : 1;
+		if(inarray(.maps$,strcharinfo(3)) > -1 && .rush && !HH_BANNED) getitem 60206,.@amt;
+		grantCoin(getcharid(3),killedrid);
+		end;
+}

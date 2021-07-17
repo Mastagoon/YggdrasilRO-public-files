@@ -1,0 +1,367 @@
+//===== rAthena Script ======================================= 
+//= Guildhouse System
+//===== By: ==================================================
+//= KiNa
+//===== Description: =========================================
+//= YggdrasilRO's Guildhouse System
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= This script needs to be loaded after guild_hs_functions.txt
+//= Really old scripts, use at your own discretion
+//============================================================
+
+//============================================================ 
+//= house dealer
+//============================================================ 
+aimia,135,131,4	script	السمسار بدر#house	903,{
+	setarray .@guildid,
+		getd("$house" + 1 + "_guild"),
+		getd("$house" + 2 + "_guild"),
+		getd("$house" + 3 + "_guild"),
+		getd("$house" + 4 + "_guild"),
+		getd("$house" + 5 + "_guild");
+	cutin "kh_kyel01",2;
+	mes .NPC$;
+	if(getguildmasterid(getcharid(2)) != getcharid(0)){
+		mes "انا ابيع البيوت لقادة النقابات فقط";
+		mes "عد إلي عندما تصبح قائداً";
+		close2;
+		cutin "",255;
+		end;
+	}
+	for ( .@i=0; .@i<5; .@i++ ){
+        if(.@guildid[.@i] == getcharid(2)){
+			mes "هل انت مرتاح في بيتك الجديد؟";
+			mes "عد إلي عندما ينتهي اجارك سأوفر لك عروض مناسبه";
+			close2;
+			cutin "",255;
+			end;
+		}
+	}
+    mes "مرحباً بك, أنا أدعى بدر بدر";
+    mes "هل انت مهتم باستئجار بيت؟";
+	next;
+	mes .NPC$;
+    mes "سوف اساعدك في استئجار بيت خاص بنقابتك";
+	mes "اختر البيت الذي تريد استئجاره";
+	.@i = select("House 1","House 2","House 3","House 4","House 5","close");
+	next;
+    if(getd("$house"+.@i + "_rent")){mes .NPC$; mes "هذا البيت غير متاح حالياً";  cutin "",255; close;}
+	if(.@i == 6) { cutin "",255; close;}
+	next;
+    mes .NPC$;
+    mes "تكلفة هذا البيت في الشهر الواحد هي";
+    mes callfunc("formatNumber",$houseprice) + "z";
+    mes "هل انت موافق على تأجير هذا البيت ؟";
+	next;
+    if(select("نعم انا موافق : لا انه مكلف جداً وانا فقير")-1){
+		mes .NPC$;
+        mes "هل انت فقير؟؟";
+        mes "لا بد انك تعبث معي";
+        mes "اللعنه عليك لقد ضيعت وقتي";
+		percentheal -50,-50;
+		specialeffect 20;
+		cutin "",255;
+        close;
+	}
+	mes .NPC$;
+    mes "يمكنك استئجار البيت لمدة شهر واحد فقط";
+    //mes "اطول مده هي 3 شهور";
+	/*L_next2:
+	input @mo;
+	if (@mo < 1) goto L_next2;
+	if (@mo > 3) goto L_next2;*/
+	//if(@mo == 1){menu " شهر واحد ",-,"تغيير مدة الأجار ",L_next2;}
+	//else menu @mo + " شهور ",-,"تغيير مدة الأجار ",L_next2;
+	//set @cost, @mo * $houseprice;
+	next;
+	if(select("حسناً","يبدو باهظ الثمن لا اريد شراءه")-1) {cutin "",255; close;}
+	if (Zeny < $houseprice){mes .NPC$; mes "ليس لديك زيني كافي لشراء البيت"; close2; cutin "",255; end; }
+	mes .NPC$;
+	mes "يمكنك استقبال ضيوف في منزلك";
+	mes "الضيوف هم اشخاص ليسو من نقابتك وتريد ادخالهم للبيت";
+	while (.@select != 1){
+	next;
+	mes .NPC$;
+	mes "ادخل كلمة سر خاصة بالضيوف";
+	while (.@pass < 1000 ){
+	next;
+	mes .NPC$;
+	mes "يفضل ان تتكون كلمة السر من اكثر من 4 ارقام";
+	input .@pass;
+	}
+	next;
+	mes .NPC$;
+	mes "كلمة سرك هي "+.@pass;
+	mes "هل انت متأكد من ذلك؟";
+	.@select = select("نعم انا متأكد","لا");
+		if(.@select == 1){
+				next;
+				mes .NPC$;
+				set Zeny, Zeny - $houseprice;
+				killmonster "ghouse0"+.@i,"All";
+				setd "$house"+.@i + "_rent",1;
+				setd "$house" + .@i + "_guild",getcharid(2);
+				setd "$house" + .@i + "_pass",.@pass;
+				setd "$house" + .@i + "_buy_day",gettime(5);
+				setd "$house" + .@i + "_buy_month",gettime(6);
+				setd "$house" + .@i + "_end_month",gettime(6) + 1;
+				setd "$house" + .@i + "_buy_year",gettime(7);
+				setd "$house" + .@i + "_end_year",gettime(7);
+				setd "$house" + .@i + "_basement",0;
+				setd "$house" + .@i + "_basementzeny",0;
+				setd "$house" + .@i + "_access",0;
+				if (getd("$house" + .@i + "_end_month") > 12) {
+					setd "$house" + .@i + "_buy_year", getd("$house" + .@i + "_end_year") + 1;
+					setd "$house" + .@i + "_end_month", getd("$house" + .@i + "_end_month") - 11;
+				}
+				for( set .@i,1; .@i <= 5; .@i++){if(getd("$house" + .@i + "_basement")>0){enablenpc "basement_warp#" + .@i + "";} else {disablenpc "basement_warp#"+.@i; }}
+				mes "مبروك .. لقد حصلت نقابتك على بيت جديد";
+				close2;
+				cutin "",255;
+				end;
+		}
+		set .@pass,0;
+	}
+	end;
+
+	
+OnInit:
+	set $houseprice,100000000; // houses price
+    set .NPC$,"^0000FF[السمسار بدر]^000000";
+	setarray .@mapflag$,"ghouse02","ghouse01","ghouse03","ghouse04","ghouse05";
+	setarray .@mapflag2$,"gh_garden01","gh_garden02","gh_garden03","gh_garden04","gh_garden05";
+	setarray .@flags, mf_noteleport,mf_nomemo,mf_nopenalty;
+	for(set .@i,0; .@i<getarraysize(.@mapflag$); .@i++){
+		for(.@j = 0; .@j < getarraysize(.@flags); .@j++) {
+			setmapflag .@mapflag$[.@i],.@flags[.@j];
+			setmapflag .@mapflag2$[.@i],.@flags[.@j];
+		}
+	end;
+	}
+setarray .mobidlv1[0],1147,1685,2483,1734,1785,1312,2105,1492,1623,1252,1630,1885,1272,1373,2156,2068,1251,1112,1157,1039,1150,
+	1046,1389,1159,1511,1038,1115,1086,1190,1087;
+setarray .mobidlv2[0],2362,1658,1768,1871,1719,2202,1708,1059,1583,1688;
+setarray .mobidlv3[0],1917,1832,1751,3074,1874,2251,2255,2253,2249,1646,1647,1648,1649,1650,2235,2236,2238,2239,2240,2241;
+for(.@i=1; .@i<6; .@i++){
+if(getd("$house" + .@i + "_basement") == 3){
+	mapannounce "ghouse0"+.@i,"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";
+	monster "ghouse0"+.@i,216,146,"وحش القبو",.mobidlv3[rand(getarraysize(.mobidlv3))],1,"mvplabels#"+.@i+"::Onlv3BossDead";
+	end;
+}
+if(getd("$house" + .@i + "_basement") == 2){
+	mapannounce "ghouse0"+.@i,"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";
+	monster "ghouse0"+.@i,216,146,"وحش القبو",.mobidlv2[rand(getarraysize(.mobidlv2))],1,"mvplabels#"+.@i+"::Onlv2BossDead";
+	end;
+}
+if(getd("$house" + .@i + "_basement") == 1){
+	mapannounce "ghouse0"+.@i,"لقد ظهر زعيم وحوش في قبو المنزل اذهبوا واقضوا عليه حالاً",bc_map,"0x70dbdb";
+	monster "ghouse0"+.@i,216,146,"وحش القبو",.mobidlv1[rand(getarraysize(.mobidlv1))],1,"mvplabels#"+.@i+"::Onlv1BossDead";
+	end;
+}
+}
+}
+
+//============================================================ 
+//= NPC(signboard)
+//============================================================ 
+
+aimia,132,131,2	script	Aimia House's Board#Rb	837,{ callfunc "board_houses","Aimia",$houseprice,5; end;}
+
+//============================================================ 
+//= warp aimia to garden + guildmaster options
+//============================================================ 
+
+aimia,88,129,0	script	house01#warp	45,3,3,{ callfunc "rent_enter","1",$houseprice,83,119; end;}
+aimia,102,125,0	script	house02#warp	45,3,3,{ callfunc "rent_enter","2",$houseprice,83,119; end;}
+aimia,188,120,0	script	house03#warp	45,3,3,{ callfunc "rent_enter","3",$houseprice,83,119; end;}
+aimia,202,125,0	script	house04#warp	45,3,3,{ callfunc "rent_enter","4",$houseprice,83,119; end;}
+aimia,210,103,0	script	house05#warp	45,3,3,{ callfunc "rent_enter","5",$houseprice,83,119; end;}
+
+
+//============================================================ 
+//= houses Board
+//============================================================ 
+
+aimia,86,124,0	script	House 1	835,{ callfunc "rent_board",1; end; }
+aimia,104,123,0	script	House 2	835,{ callfunc "rent_board",2; end; }
+aimia,190,117,0	script	House 3	835,{ callfunc "rent_board",3; end; }
+aimia,205,124,0	script	House 4	835,{ callfunc "rent_board",4; end; }
+aimia,207,101,0	script	House 5	835,{ callfunc "rent_board",5; end; }
+
+
+//============================================================ 
+//= Warps garden > aimia
+//============================================================ 
+
+gh_garden01,83,115,0	warp	gh_garden01-1	1,1,aimia,88,125
+gh_garden02,83,115,0	warp	gh_garden02-1	1,1,aimia,102,120
+gh_garden03,83,115,0	warp	gh_garden03-1	1,1,aimia,188,115
+gh_garden04,83,115,0	warp	gh_garden04-1	1,1,aimia,202,120
+gh_garden05,83,115,0	warp	gh_garden05-1	1,1,aimia,205,103
+
+//============================================================ 
+//= Warps garden > house
+//============================================================ 
+
+gh_garden01,67,153,0	warp	gh_garden01-2	1,1,ghouse01,121,141
+gh_garden02,67,153,0	warp	gh_garden02-2	1,1,ghouse02,121,141
+gh_garden03,67,153,0	warp	gh_garden03-2	1,1,ghouse03,121,141
+gh_garden04,67,153,0	warp	gh_garden04-2	1,1,ghouse04,121,141
+gh_garden05,67,153,0	warp	gh_garden05-2	1,1,ghouse05,121,141
+
+//============================================================ 
+//= Warps house > garden
+//============================================================ 
+
+ghouse01,121,134,0	warp	gh_garden01-3	1,1,gh_garden01,68,148
+ghouse02,121,134,0	warp	gh_garden02-3	1,1,gh_garden02,68,148
+ghouse03,121,134,0	warp	gh_garden03-3	1,1,gh_garden03,68,148
+ghouse04,121,134,0	warp	gh_garden04-3	1,1,gh_garden04,68,148
+ghouse05,121,134,0	warp	gh_garden05-3	1,1,gh_garden05,68,148
+
+//============================================================ 
+//= NPCs Outside
+//============================================================ 
+
+//============================================================ 
+//= Apple Tree
+//============================================================ 
+
+gh_garden01,43,156,1	script	Apple Tree#R1	111,{ callfunc "apple_tree"; OnManzana: specialeffect 363; end; }
+gh_garden02,43,156,1	script	Apple Tree#R2	111,{ callfunc "apple_tree"; OnManzana: specialeffect 363; end; }
+gh_garden03,43,156,1	script	Apple Tree#R3	111,{ callfunc "apple_tree"; OnManzana: specialeffect 363; end; }
+gh_garden04,43,156,1	script	Apple Tree#Rb4	111,{ callfunc "apple_tree"; OnManzana: specialeffect 363; end; }
+gh_garden05,43,156,1	script	Apple Tree#Rb5	111,{ callfunc "apple_tree"; OnManzana: specialeffect 363; end; }
+
+
+//============================================================ 
+//= PVP Switch
+//============================================================ 
+
+gh_garden01,73,149,5	script	Switch#R1	837,{ callfunc "rent_pvp"; end;}
+gh_garden02,73,149,5	script	Switch#R2	837,{ callfunc "rent_pvp"; end;}
+gh_garden03,73,149,5	script	Switch#R3	837,{ callfunc "rent_pvp"; end;}
+gh_garden04,73,149,5	script	Switch#Rb4	837,{ callfunc "rent_pvp"; end;}
+gh_garden05,73,149,5	script	Switch#Rb5	837,{ callfunc "rent_pvp"; end;}
+
+
+//============================================================ 
+//= Monsters Outside
+//============================================================ 
+
+gh_garden01,86,140,10,10	monster	Desert Wolf Baby	1107,2,1800000,900000,0
+gh_garden02,86,140,10,10	monster	Desert Wolf Baby	1107,2,1800000,900000,0
+gh_garden03,86,140,10,10	monster	Desert Wolf Baby	1107,2,1800000,900000,0
+gh_garden04,86,140,10,10	monster	Desert Wolf Baby	1107,2,1800000,900000,0
+gh_garden05,86,140,10,10	monster	Desert Wolf Baby	1107,2,1800000,900000,0
+
+
+//============================================================ 
+//= NPCs Indoors
+//============================================================ 
+
+//============================================================ 
+//= Beds
+//============================================================ 
+
+ghouse01,117,193,0	script	Bed#R1a	111,{ callfunc "rent_beds","1",117,193; end;}
+ghouse01,128,193,0	script	Bed#R1b	111,{ callfunc "rent_beds","1",128,193; end;}
+ghouse02,117,193,0	script	Bed#R2a	111,{ callfunc "rent_beds","2",117,193; end;}
+ghouse02,128,193,0	script	Bed#R2b	111,{ callfunc "rent_beds","2",128,193; end;}
+ghouse03,117,193,0	script	Bed#R3a	111,{ callfunc "rent_beds","3",117,193; end;}
+ghouse03,128,193,0	script	Bed#R3b	111,{ callfunc "rent_beds","3",128,193; end;}
+ghouse04,117,193,0	script	Bed#Rb4a	111,{ callfunc "rent_beds","4",117,193; end;}
+ghouse04,128,193,0	script	Bed#Rb4b	111,{ callfunc "rent_beds","4",128,193; end;}
+ghouse05,117,193,0	script	Bed#Rb5a	111,{ callfunc "rent_beds","5",117,193; end;}
+ghouse05,128,193,0	script	Bed#Rb5b	111,{ callfunc "rent_beds","5",128,193; end;}
+
+
+//============================================================ 
+//= Piano
+//============================================================ 
+
+ghouse01,113,180,0	script	Piano#R1	111,{ callfunc "rent_pianoStart","1"; OnTimer30000: callfunc "rent_pianoStop","1"; end;}
+ghouse02,113,180,0	script	Piano#R2	111,{ callfunc "rent_pianoStart","2"; OnTimer30000: callfunc "rent_pianoStop","2"; end;}
+ghouse03,113,180,0	script	Piano#R3	111,{ callfunc "rent_pianoStart","3"; OnTimer30000: callfunc "rent_pianoStop","3"; end;}
+ghouse04,113,180,0	script	Piano#Rb4	111,{ callfunc "rent_pianoStart","4"; OnTimer30000: callfunc "rent_pianoStop","4"; end;}
+ghouse05,113,180,0	script	Piano#Rb5	111,{ callfunc "rent_pianoStart","5"; OnTimer30000: callfunc "rent_pianoStop","5"; end;}
+
+
+//============================================================ 
+//= Cleaning Service
+//============================================================ 
+
+ghouse01,88,151,6	script	Cleaning Service#R1	858,{ callfunc "rent_serviceCall","1"; OnTimer28800000: callfunc "rent_serviceFinish","1"; end;}
+ghouse02,88,151,6	script	Cleaning Service#R2	858,{ callfunc "rent_serviceCall","2"; OnTimer28800000: callfunc "rent_serviceFinish","2"; end;}
+ghouse03,88,151,6	script	Cleaning Service#R3	858,{ callfunc "rent_serviceCall","3"; OnTimer28800000: callfunc "rent_serviceFinish","3"; end;}
+ghouse04,88,151,6	script	Cleaning Service#Rb4	858,{ callfunc "rent_serviceCall","4"; OnTimer28800000: callfunc "rent_serviceFinish","4"; end;}
+ghouse05,88,151,6	script	Cleaning Service#Rb5	858,{ callfunc "rent_serviceCall","5"; OnTimer28800000: callfunc "rent_serviceFinish","5"; end;}
+
+//============================================================ 
+//= Alice Cleaning Service
+//============================================================ 
+
+ghouse01,98,161,3	script	Alice::AliceR1	1275,{ callfunc "rent_aliceTalk","1"; OnEmpezar: callfunc "rent_aliceStart"; OnTimer4000: callfunc "rent_aliceWalk","1"; OnTerminar: callfunc "rent_aliceStop";  OnInit: disablenpc "AliceR" + 1 + ""; end;}
+ghouse02,98,161,3	script	Alice::AliceR2	1275,{ callfunc "rent_aliceTalk","2"; OnEmpezar: callfunc "rent_aliceStart"; OnTimer4000: callfunc "rent_aliceWalk","2"; OnTerminar: callfunc "rent_aliceStop";  OnInit: disablenpc "AliceR" + 2 + ""; end;}
+ghouse03,98,161,3	script	Alice::AliceR3	1275,{ callfunc "rent_aliceTalk","3"; OnEmpezar: callfunc "rent_aliceStart"; OnTimer4000: callfunc "rent_aliceWalk","3"; OnTerminar: callfunc "rent_aliceStop";  OnInit: disablenpc "AliceR" + 3 + ""; end;}
+ghouse04,98,161,3	script	Alice::AliceR4	1275,{ callfunc "rent_aliceTalk","4"; OnEmpezar: callfunc "rent_aliceStart"; OnTimer4000: callfunc "rent_aliceWalk","b4"; OnTerminar: callfunc "rent_aliceStop"; OnInit: disablenpc "AliceR" + 4 + ""; end; }
+ghouse05,98,161,3	script	Alice::AliceR5	1275,{ callfunc "rent_aliceTalk","5"; OnEmpezar: callfunc "rent_aliceStart"; OnTimer4000: callfunc "rent_aliceWalk","b5"; OnTerminar: callfunc "rent_aliceStop"; OnInit: disablenpc "AliceR" + 5 + ""; end; }
+
+
+//============================================================ 
+//= Clothes
+//============================================================ 
+
+ghouse01,123,194,0	script	Clothes#R1a	111,{ callfunc "rent_clothes"; end;}
+ghouse02,123,194,0	script	Clothes#R2a	111,{ callfunc "rent_clothes"; end;}
+ghouse03,123,194,0	script	Clothes#R3a	111,{ callfunc "rent_clothes"; end;}
+ghouse04,123,194,0	script	Clothes#Rb4a	111,{ callfunc "rent_clothes"; end;}
+ghouse05,123,194,0	script	Clothes#Rb5a	111,{ callfunc "rent_clothes"; end;}
+
+
+ghouse01,63,194,0	script	Clothes#R1b	111,{ callfunc "rent_clothes"; end;}
+ghouse02,63,194,0	script	Clothes#R2b	111,{ callfunc "rent_clothes"; end;}
+ghouse03,63,194,0	script	Clothes#R3b	111,{ callfunc "rent_clothes"; end;}
+ghouse04,63,194,0	script	Clothes#Rb4b	111,{ callfunc "rent_clothes"; end;}
+ghouse05,63,194,0	script	Clothes#Rb5b	111,{ callfunc "rent_clothes"; end;}
+//============================================================ 
+//= kafra
+//============================================================ 
+ghouse01,103,190,4	script	Kafra Employee#gh1	115,{ callfunc "rent_kafra",1; end;}
+ghouse02,103,190,4	script	Kafra Employee#gh2	115,{ callfunc "rent_kafra",2; end;}
+ghouse03,103,190,4	script	Kafra Employee#gh3	115,{ callfunc "rent_kafra",3; end;}
+ghouse04,103,190,4	script	Kafra Employee#gh4	115,{ callfunc "rent_kafra",4; end;}
+ghouse05,103,190,4	script	Kafra Employee#gh5	115,{ callfunc "rent_kafra",5; end;}
+
+
+//============================================================ 
+//= Basement
+//============================================================ 
+
+//============================================================ 
+//= Basement npc
+//============================================================ 
+ghouse01,64,145,4	script	Old-Man#1	120,{ callfunc ("basement_npc",1); OnInit: for( set .@i,1; .@i <= 5; .@i++){if(getd("$house" + .@i + "_basement")>0){enablenpc "basement_warp#" + .@i + "";} else {disablenpc "basement_warp#"+.@i; }}end;}
+ghouse02,64,145,4	script	Old-Man#2	120,{ callfunc ("basement_npc",2);end;}
+ghouse03,64,145,4	script	Old-Man#3	120,{ callfunc ("basement_npc",3);end;}
+ghouse04,64,145,4	script	Old-Man#4	120,{ callfunc ("basement_npc",4);end;}
+ghouse05,64,145,4	script	Old-Man#5	120,{ callfunc ("basement_npc",5);end;}
+//============================================================  
+//= ghouse --> Basement warp
+//============================================================ 
+ghouse01,59,138,0	script	basement_warp#1	45,3,3,{ callfunc "basement_enter",1,203,126; end;}
+ghouse02,59,138,0	script	basement_warp#2	45,3,3,{ callfunc "basement_enter",2,203,126; end;}
+ghouse03,59,138,0	script	basement_warp#3	45,3,3,{ callfunc "basement_enter",3,203,126; end;}
+ghouse04,59,138,0	script	basement_warp#4	45,3,3,{ callfunc "basement_enter",4,203,126; end;}
+ghouse05,59,138,0	script	basement_warp#5	45,3,3,{ callfunc "basement_enter",5,203,126; end;}
+
+//============================================================ 
+//= Basement --> ghouse warp
+//============================================================ 
+ghouse01,202,124,0	warp	basement01-2	1,1,ghouse01,69,138
+ghouse02,202,124,0	warp	basement02-2	1,1,ghouse02,69,138
+ghouse03,202,124,0	warp	basement03-2	1,1,ghouse03,69,138
+ghouse04,202,124,0	warp	basement04-2	1,1,ghouse04,69,138
+ghouse05,202,124,0	warp	basement05-2	1,1,ghouse05,69,138

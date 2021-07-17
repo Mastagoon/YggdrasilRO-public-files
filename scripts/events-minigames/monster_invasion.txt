@@ -1,0 +1,498 @@
+//===== rAthena Script ======================================= 
+//= Monster Invasion
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Monster invasion
+//= Monsters will appear in aimia field for an entire hour
+//= Every 15 minutes, the difficulty and amount of the monsters will increase
+//= In the last 15 minutes, Boss monsters will appear and break into aimia town
+//= Players with the most invasion points will be rewarded when the event ends
+//= Points are earned through killing monsters(1 ~ 10 per kill, depending on the difficulty), boss monsters(100 ~ 1000 per kill),
+//= or helping with bandaging the wounded city guards, which would also earn you some EXP points.
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= Really old scripts, use at your own discretion
+//============================================================
+
+-	script	monsterInvasion	-1,{
+
+OnEventStart:
+	announce "سيبدأ غزو الوحوش بعد قليل",bc_all|bc_blue;
+	sleep 5000;
+	for(.@i = 5; .@i >= 1; .@i--) {
+		announce "سيبدأ غزو الوحوش بعد "+.@i+" دقائق",bc_all|bc_blue;
+		sleep 60000;
+	}
+	announce "ظهرت العديد من الوحوش في حقل إيميا, ساعد حراس المدينة في الدفاع عنها !",bc_all|bc_blue;
+	sleep 5000;
+	announce "اتجه إلى حقل إيميا الآن لمساعدة الجنود في التصدي إلى الوحوش",bc_all|bc_blue;
+	deletearray $invasionTopFive[0];
+	deletearray $invasionPoints[0];
+	for(.@i = 1; .@i <= 21; .@i++) {
+		enablenpc "soldier"+.@i;
+	}
+	//set .mobs, 12000;
+	$invasion = 1;
+	donpcevent "غزو الوحوش::OnInvasionStart";
+	for(.@i = 0; .@i < 3; .@i++) {
+		monster "aim_fild01",0,0,"وحش شرير",.newbs[rand(getarraysize(.newbs))],4000,strnpcinfo(3)+"::OnNewbDead";
+	}
+	initnpctimer;
+	end;
+
+OnNewbDead:
+	if($invasion) {
+		.@invasionPoints = callfunc("getInvasionPoints",.points[0]);
+		if(.@invasionPoints%50 == 0) { //every 50 points
+			dispbottom "نقاط الغزو: "+.@invasionPoints;
+			specialeffect2 EF_SPHERE;
+		}
+	}
+	if($invasion == 1) {
+		//.mobs--;
+		if(rand(100) < 5) getitem 50061,1;
+		//if(.mobs < 500)	{ for(.@i = 0; .@i < 3; .@i++) monster "aim_fild01",0,0,"وحش شرير",.newbs[rand(getarraysize(.newbs))],1000,strnpcinfo(3)+"::OnNewbDead"; .mobs = .mobs + 900; }
+	}
+	end;
+
+OnMediumDead:
+	if($invasion) {
+		.@invasionPoints = callfunc("getInvasionPoints",.points[1]);
+		if(.@invasionPoints%10 == 0) { //every 10 points
+			dispbottom "نقاط الغزو: "+.@invasionPoints;
+			specialeffect2 EF_SPHERE;
+		}
+	}
+	if($invasion == 2) {
+		//.mobs--;
+		if(rand(100) < 5) getitem 50061,1;
+		//if(.mobs < 500) { for(.@i = 0; .@i < 3; .@i++) monster "aim_fild01",0,0,"وحش شرير",.medium[rand(getarraysize(.medium))],1000,strnpcinfo(3)+"::OnMediumDead"; .mobs = .mobs + 900; }
+	}
+	end;
+
+OnHardDead:
+	if($invasion) {
+		.@invasionPoints = callfunc("getInvasionPoints",.points[2]);
+		if(.@invasionPoints%10 == 0) { //every 10 points
+			dispbottom "نقاط الغزو: "+.@invasionPoints;
+			specialeffect2 EF_SPHERE;
+		}
+	}
+	if($invasion == 3) {
+	//	.mobs--;
+		if(rand(100) < 5) getitem 50061,1;
+	//	if(.mobs < 500) { for(.@i = 0; .@i < 3; .@i++) monster "aim_fild01",0,0,"وحش شرير",.hard[rand(getarraysize(.hard))],1000,strnpcinfo(3)+"::OnHardDead"; .mobs = .mobs + 3000; }
+	}
+	end;
+
+OnTimer900000: // phase 2, 15mins
+//OnTimer60000:
+	announce "لقد ظهرت موجة جديدة من الوحوش, لاتدعهم يدخلون إلى المدينة !",bc_all|bc_blue;
+	sleep 3000;
+	announce callfunc("formatArabic","يمكنك استعمال الأمر @ranking لمعرفة ترتيبك في غزو الوحوش"),bc_all|bc_blue;
+	$invasion = 2;
+	//set .mobs, 5000;
+	for(.@i = 0; .@i < 3; .@i++) 
+		monster "aim_fild01",0,0,"وحشُ شرير",.medium[rand(getarraysize(.medium))],4000,strnpcinfo(3)+"::OnMediumDead";
+	end;
+
+OnTimer1800000:	// phase 3
+//OnTimer120000:
+	announce "لقد ازدادت الوحوش عدداً وشراسة ! دافعوا عن إيميا مهما كان الثمن",bc_all|bc_blue;
+	$invasion = 3;
+	//set .mobs, 5000;
+	for(.@i = 0; .@i < 3; .@i++) 
+		monster "aim_fild01",0,0,"وحشُ شرير",.hard[rand(getarraysize(.hard))],4000,strnpcinfo(3)+"::OnHardDead";
+	end;
+
+OnTimer2700000:
+//OnTimer180000:
+	announce "لقد اخترقت الوحوش الدفاعات ودخلت إلى المدينة",bc_all|bc_blue;
+	sleep 5000;
+	announce "دافعو عن إيميا من زعماء الوحوش !!",bc_all|bc_blue;
+	$invasion = 4;
+	.mobs = 51;
+	for(.@i = 0; .@i < 30; .@i++) {
+		monster "aimia",0,0,"--ja--",.crank[rand(getarraysize(.crank))],1,strnpcinfo(3)+"::OnCRankBossDead";
+	}
+	for(.@i = 0; .@i < 15; .@i++) {
+		monster "aimia",0,0,"--ja--",.brank[rand(getarraysize(.brank))],1,strnpcinfo(3)+"::OnBRankBossDead";
+	}
+	for(.@i = 0; .@i < 5; .@i++) {
+		monster "aimia",0,0,"--ja--",.arank[rand(getarraysize(.arank))],1,strnpcinfo(3)+"::OnARankBossDead";
+	}
+	monster "aimia",0,0,"--ja--",2165,1,strnpcinfo(3)+"::OnSRankBossDead";
+	enablenpc "mvp_invasion";
+	end;
+
+OnSpawnMore:
+	switch($invasion) {
+		default:
+		case 0:
+		case 4:
+			break;
+		case 3:
+			for(.@i = 0; .@i < 3; .@i++) 
+				monster "aim_fild01",0,0,"وحشُ شرير",.hard[rand(getarraysize(.hard))],4000,strnpcinfo(3)+"::OnHardDead";
+			break;
+		case 2:
+			for(.@i = 0; .@i < 3; .@i++) 
+				monster "aim_fild01",0,0,"وحشُ شرير",.medium[rand(getarraysize(.medium))],4000,strnpcinfo(3)+"::OnMediumDead";
+			break;
+		case 1:
+			for(.@i = 0; .@i < 3; .@i++) 
+				monster "aim_fild01",0,0,"وحشُ شرير",.newbs[rand(getarraysize(.newbs))],4000,strnpcinfo(3)+"::OnNewbDead";
+			break;
+	}
+	end;
+OnTimer3600000:
+	donpcevent strnpcinfo(3)+"::OnEventEnd";
+	end;
+
+OnEventEnd:
+	announce "لقد انتهت فعالية غزو الوحوش",bc_all|bc_blue;
+	stopnpctimer;
+	sleep 5000;
+	announce "شكراً لمشاركتكم في الدفاع عن المدينة",bc_all|bc_blue;
+	sleep 5000;
+	announce "يمكنكم استلام جوائز الغزو في المنطقة الرئيسية",bc_all|bc_blue;
+	$invasion = 0;
+	.mob = 0;
+	for(.@i = 1; .@i <= 21; .@i++) {
+		disablenpc "soldier"+.@i;
+	}
+	disablenpc "mvp_invasion";
+	callfunc("setTopFive");
+	end;
+OnCRankBossDead:
+	if($invasion == 4) {
+		.@invasionPoints = callfunc("getInvasionPoints",.points[3]);
+		dispbottom "لقد حصلت على 500 نقطة غزو";
+		dispbottom "نقاط الغزو: "+.@invasionPoints;
+		.mobs--;
+		if(.mobs == 0) donpcevent strnpcinfo(3)+"::OnEventEnd";
+		.@amt = $doublemvpdropevent ? 2 : 1;
+		getitem 60204,.@amt;
+		specialeffect2 313;
+		announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة أحد الزعماء, تبقى "+.mobs+" زعيم وحوش"), bc_all|bc_blue;
+	}
+	end;
+
+OnBRankBossDead:
+	if($invasion == 4) {
+		.@invasionPoints = callfunc("getInvasionPoints",.points[4]);
+		dispbottom "لقد حصلت على 1000 نقطة غزو";
+		dispbottom "نقاط الغزو: "+.@invasionPoints;
+		.mobs--;
+		if(.mobs == 0) donpcevent strnpcinfo(3)+"::OnEventEnd";
+		.@amt = $doublemvpdropevent ? 2 : 1;
+		getitem 60203,.@amt;
+		specialeffect2 313;
+		announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة أحد الزعماء, تبقى "+.mobs+" زعيم وحوش"), bc_all|bc_blue;
+	}
+	end;
+
+OnARankBossDead:
+	if($invasion == 4) {
+		.@invasionPoints = callfunc("getInvasionPoints",.points[5]);
+		dispbottom "لقد حصلت على 2000 نقطة غزو";
+		dispbottom "نقاط الغزو: "+.@invasionPoints;
+		.mobs--;
+		if(.mobs == 0) donpcevent strnpcinfo(3)+"::OnEventEnd";
+		.@amt = $doublemvpdropevent ? 2 : 1;
+		getitem 60202,.@amt;
+		specialeffect2 313;
+		announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة أحد الزعماء, تبقى "+.mobs+" زعيم وحوش"), bc_all|bc_blue;
+	}
+	end;
+OnSRankBossDead:
+	if($invasion == 4) {
+		.@invasionPoints = callfunc("getInvasionPoints",.points[6]);
+		dispbottom "لقد حصلت على 3000 نقطة غزو";
+		dispbottom "نقاط الغزو: "+.@invasionPoints;
+		.mobs--;
+		if(.mobs == 0) donpcevent strnpcinfo(3)+"::OnEventEnd";
+		getitem 60201,1;
+		specialeffect2 313;
+		announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة أحد الزعماء, تبقى "+.mobs+" زعيم وحوش"), bc_all|bc_blue;
+	}
+	end;
+
+
+OnRanking:
+	if(!$invasion) end;
+	callfunc("setTopFive");
+	.@rank = 1;
+	for(.@i = 0; .@i < getarraysize($invasionTopFive); .@i = .@i+2) {
+		dispbottom "["+.@rank+"] "+callfunc("getCharName",$invasionTopFive[.@i])+" Points: "+$invasionTopFive[.@i+1];
+		.@rank++;
+	}
+	end;
+
+OnInit:
+	//Towns to Invade
+	setarray .Maps$[0],"aim_fild01","aim_fildb","aim_fildc";
+
+	// Run Event Command to manually run event
+	bindatcmd("startinvasion",strnpcinfo(3)+"::OnEventStart",60,99);
+
+	// End Event Command to manually end event
+	bindatcmd("stopinvasion",strnpcinfo(3)+"::OnEventEnd",60,99);
+
+	//spawn more monsters
+	bindatcmd("invasionmobs",strnpcinfo(3)+"::OnSpawnMore",60,99);
+
+	// Check the top five players
+	// bindatcmd("ranking",strnpcinfo(3)+"::OnRanking",0,99);
+	
+	$invasion = 0; // 0 = off, 1 = newbs, 2 = medium, 3 = med-hard, 4 = hard, 5 = mvp
+	setarray .points[0],1,2,5,300,1000,2000,5000; // points per mob of each group
+
+	//MvPs to summon
+	setarray .crank[0],1147,1685,2483,1734,1785,1312,2105,1492,1623,1252,1630,1885,1272,1373,2156,2068,
+	1251,1112,1157,1039,1150,1046,1389,1159,1511,1038,1115,1086,1190,1087;
+	setarray .brank[0],2362,1658,1768,1871,1719,2202,1708,1059,1583,1688,3633,3758;
+	setarray .arank[0],1917,1832,1751,3074,1874,2251,2255,2253,2249,1646,1647,1648,1649,1650,2235,2236,2238,2239,
+	2240,2241;
+
+	//Normal mobs to summon
+	setarray .newbs[0],1153,1213,1023,1117,1192,1291; // orc zombie,evil druid, wraith, wraith dead, dark priest
+	setarray .medium[0],1772,1771,1676,1679,1678,1677,2086,2085; // venatus, isilla/vanberk
+	setarray .hard[0],2367,2368,2369,2370,3249,3247,3154,3153,3156,3252;  // lichtern mobs from eclage tower, antler/rake scaraba
+	//setarray .hard[0],1634,1636,1635,1638,1637; // bio3
+
+}
+
+function	script	getInvasionPoints	{
+	if(invasion_reward) invasion_reward = 0;
+	.@gain = getarg(0);
+	.@playerindex = inarray($invasionPoints,getcharid(0));
+	.@points = $invasionPoints[.@playerindex+1];
+	if(.@playerindex == -1) { setarray $invasionPoints[getarraysize($invasionPoints)],getcharid(0); setarray $invasionPoints[getarraysize($invasionPoints)],.@gain; .@points = .@gain; return .@points;}
+	else { setarray $invasionPoints[.@playerindex+1],.@points+.@gain; }
+	return .@points+.@gain;
+}
+
+//guards
+-	script	جندي	8W_SOLDIER,1,1,{
+if(!countitem(.healingitem) || !$invasion) end;
+	mes "[جندي]";
+	mes "دافعو عن المدينة بأي ثمن !";
+	next;
+	.@hp = getd(".HP"+strnpcinfo(3));
+	mes "- النقاط الصحية -";
+	mes "^ff0000"+.@hp+"%^000000";
+	if(.@hp < 100 && countitem(.healingitem)) {
+		mes "- هل تريد استعمال ضمادة لشفاء -";
+		mes "- هذا الجندي؟ -";
+		next;
+		if(select("نعم:لا") -1) close;
+		progressbar "",5;
+		delitem .healingitem,1;
+		if(.@hp > 85) set .@hp, 85;
+		setd ".HP"+strnpcinfo(3),.@hp+15;
+		getexp2 1000000,1000000;
+		mes "- لقد استعملت ضمادة لشفاء الجندي -";
+		mes "- النقاط الصحية الحالية -";
+		mes "- النقاط الصحية -";
+		mes "^ff0000"+(.@hp+15)+"%^000000";
+		.@invasionPoints = callfunc("getInvasionPoints",rand(30, 200));
+		dispbottom "نقاط الغزو :"+.@invasionPoints;
+	}
+	close;
+	end;
+OnTouchNPC:
+	npctalk .qoutes$[rand(getarraysize(.qoutes$))];
+	specialeffect EF_ATTACKENERGY2;
+	unitwarp 0,"aim_fild01",-1,-1;
+	setd ".HP"+strnpcinfo(3),(getd(".HP"+strnpcinfo(3))-rand(15));
+	if(getd(".HP"+strnpcinfo(3)) < 1) {
+		donpcevent strnpcinfo(3)+"::OnGuardDead";
+	}
+	end;
+
+OnGuardDead:
+	npctalk "اللعنة..";
+	sleep 1000;
+	disablenpc strnpcinfo(3);
+	mapannounce strnpcinfo(4),"لقد سقط جندي وهو يدافع عن المدينة ببسالة",bc_map|bc_blue;
+	end;
+
+
+OnInit:
+	setarray .qoutes$[0],"هااااا","لن أدعك تقترب من المدينة","من أجل إيميا !","تشه";
+	.healingitem = 50061;
+	setd ".HP"+strnpcinfo(3) ,100;
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+//left
+aim_fild01,176,371,2	duplicate(جندي)	جندي::soldier1	8W_SOLDIER,1,1
+aim_fild01,176,375,2	duplicate(جندي)	جندي::soldier2	8W_SOLDIER,1,1
+aim_fild01,176,379,2	duplicate(جندي)	جندي::soldier3	8W_SOLDIER,1,1
+aim_fild01,174,377,2	duplicate(جندي)	جندي::soldier4	8W_SOLDIER,1,1
+aim_fild01,174,373,2	duplicate(جندي)	جندي::soldier5	8W_SOLDIER,1,1
+//down
+aim_fild01,178,369,4	duplicate(جندي)	جندي::soldier6	8W_SOLDIER,1,1
+aim_fild01,182,369,4	duplicate(جندي)	جندي::soldier7	8W_SOLDIER,1,1
+aim_fild01,186,369,4	duplicate(جندي)	جندي::soldier8	8W_SOLDIER,1,1
+aim_fild01,190,369,4	duplicate(جندي)	جندي::soldier9	8W_SOLDIER,1,1
+aim_fild01,194,369,4	duplicate(جندي)	جندي::soldier10	8W_SOLDIER,1,1
+aim_fild01,198,369,4	duplicate(جندي)	جندي::soldier11	8W_SOLDIER,1,1
+aim_fild01,180,367,4	duplicate(جندي)	جندي::soldier12	8W_SOLDIER,1,1
+aim_fild01,184,367,4	duplicate(جندي)	جندي::soldier13	8W_SOLDIER,1,1
+aim_fild01,188,367,4	duplicate(جندي)	جندي::soldier14	8W_SOLDIER,1,1
+aim_fild01,192,367,4	duplicate(جندي)	جندي::soldier15	8W_SOLDIER,1,1
+aim_fild01,196,367,4	duplicate(جندي)	جندي::soldier16	8W_SOLDIER,1,1
+
+//right
+aim_fild01,200,371,6	duplicate(جندي)	جندي::soldier17	8W_SOLDIER,1,1
+aim_fild01,200,375,6	duplicate(جندي)	جندي::soldier18	8W_SOLDIER,1,1
+aim_fild01,200,379,6	duplicate(جندي)	جندي::soldier19	8W_SOLDIER,1,1
+aim_fild01,202,377,6	duplicate(جندي)	جندي::soldier20	8W_SOLDIER,1,1
+aim_fild01,202,373,6	duplicate(جندي)	جندي::soldier21	8W_SOLDIER,1,1
+
+
+aimia,101,186,4	script	غزو الوحوش	835,{
+	doevent "invasion reward::OnMenu";
+	end;
+OnInvasionStart:
+	while($invasion) {
+		sleep 425;
+		specialeffect EF_BEGINSPELL6;
+	}
+	end;
+}
+
+-	script	invasion reward	-1,{
+OnMenu:
+	if($invasion > 0) {
+		mes "هل تريد الانضمام إلى حامية المدينة؟";
+		if(select("اجل:لا") -1) close;
+		warp "aimia",143,48;
+		close;
+	} else {
+		.name$ = "[غزو الوحوش]";
+		mes .name$;
+		mes "مرحباً بك أيها المغامر, أنا هنا";
+		mes "لأوزع جوائز على المغامرين الذين";
+		mes "قاتلو ببسالة للدفاع عن إيميا";
+		mes "من غزو الوحوش.";
+		next;
+		mes .name$;
+		mes "جميع المشاركين سيحصلون على جائزة";
+		mes "وهناك جائزة مميزة لأكثر اللاعبين مساهمة";
+		mes "في الغزو";
+		next;
+		switch(select("الحصول على جائزتي:ترتيب اللاعبين:إلغاء")) {
+			case 3:
+				close;
+			case 1:
+				.@index = inarray($invasionPoints,getcharid(0));
+				if(.@index == -1) {
+					mes .name$;
+					mes "أنت لم تشارك في غزو الوحوش";
+					close;
+				}
+				.@points = $invasionPoints[.@index+1];
+				mes .name$;
+				mes "شكراً على مشاركتك في غزو الوحوش";
+				mes "نقاط الغزو الخاصة بك هي";
+				mes callfunc("formatNumber",.@points);
+				next;
+				if(invasion_reward) {
+					mes "لقد حصلت على جائزتك بالفعل";
+					close;
+				}
+				for(.@i = 0; .@i < getarraysize(.rewards); .@i++) {
+					getitem .rewards[.@i],.rewardsqnt[.@i];
+				}
+				.@rank = inarray($invasionTopFive,getcharid(0));
+				set invasion_reward,1;
+				if(.@rank == -1) close;
+				//.@rank = .@rank / 2;
+				setarray .@rankname$[0],"الأول","الثاني","الثالث","الرابع","الخامس";
+				mes .name$;
+				mes "مبروك, أنت من الخمسة الأوائل";
+				mes " ترتيبك هو "+.@rankname$[.@rank/2];
+				next;
+				for(.@i = 0; .@i < getarraysize(.topfive); .@i++) {
+					getitem .topfive[.@i],.topfiveqnt[.@i];
+				}
+				if(.@rank == 0) {
+					mes .name$;
+					mes "تهانينا على حصولك على المركز الأول";
+					mes "في غزو الوحوش لهذا الأسبوع";
+					mes "ستحصل على جائزة إضافية";
+					mes "كشكرٍ منا على جهودك الباسلة";
+					getitem 50020,1;
+				}
+				close;
+
+
+			case 2:
+				mes "[ترتيب اللاعبين]";
+				.@rank = 1;
+				for(.@i = 0; .@i < getarraysize($invasionTopFive); .@i = .@i+2) {
+					.@points = $invasionPoints[(inarray($invasionPoints,$invasionTopFive[.@i]))+1];
+					mes "["+(.@rank)+"] "+callfunc("getCharName",$invasionTopFive[.@i])+" ~ "+callfunc("formatNumber",$invasionTopFive[.@i+1])+" نقطة";
+					.@rank++;
+				}
+				close;
+		}
+	}
+	end;
+OnInit:
+	setarray .rewards[0],50007,50004,522;
+	setarray .rewardsqnt[0],20,2,200;
+	setarray .topfive[0],50007,50016;
+	setarray .topfiveqnt[0],200,6;
+	end;
+}
+
+function	script	setTopFive	{	// fix me
+	freeloop(1);
+	for(.@i = 0; .@i < getarraysize($invasionPoints); .@i++) setarray .@points[.@i],$invasionPoints[.@i];
+	for(.@i = 0; .@i < 10; .@i = .@i+2) {
+		.@max = 0;
+		.@id = 0;
+		.@index = 0;
+		for(.@j = 1; .@j < getarraysize(.@points); .@j = .@j+2) {
+			if (.@points[.@j] > .@max) {
+				.@max = .@points[.@j];
+				.@id = .@points[.@j-1];
+				.@index = .@j;
+			}
+		}
+		// now max has the highest value, winnerid has the player's id
+		if(.@index && .@max) {
+			setarray $invasionTopFive[.@i],.@id;
+			setarray $invasionTopFive[.@i+1],.@max;
+			deletearray .@points[.@index-1],2;
+		}
+	}
+	debugmes "invasion top five: "+$invasionTopFive;
+	freeloop(0);
+	return $invasionTopFive;
+}
+
+aimia,192,62,4	script	mvp_invasion	835,{
+	mes "هل تريد الانتقال إلى الداخل؟";
+	if(select("نعم:لا")-1) close;
+	warp "aimia",187,75;
+	close;
+
+OnInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+/*
+aimia,187,75,0	script	ward	-1,10,10{
+	OnTouchNPC:
+	npctalk .qoutes$[rand(getarraysize(.qoutes$))];
+	specialeffect EF_ATTACKENERGY2;
+	unitwarp 0,"aim_fild01",-1,-1;
+}*/

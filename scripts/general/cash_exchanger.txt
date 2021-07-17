@@ -1,0 +1,64 @@
+//===== rAthena Script ======================================= 
+//= Cash Exchanger
+//===== By: ==================================================
+//= Mastagoon & KiNa
+//===== Description: =========================================
+//= YggdrasilRO's Cash Exchanger.
+//= Exchange gold coins to cash points.
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+prontera,128,126,5	script	Cash Exchanger	721,{
+    mes .NPC$;
+    mes "بإمكاني تبديل عملاتك الذهبية";
+	mes "بنقاط كابرا, كما يمكنني";
+	mes "اعطاؤك عملات مقابل نقاط ايضاً";
+	mes "هل تريد الاستبدال؟";
+    next;
+    if (select("نعم:لا") - 1) close;
+    mes .NPC$;
+	mes "هل تريد استبدال العملات أم النقاط؟";
+	.@choice = select("استبدال العملات:استبدال النقاط");
+	mes .NPC$;
+	mes "يرجى اختيار الكمية";
+	next;
+	input .@amount;
+	if(.@amount < 1) {
+		mes .NPC$;
+		mes "يرجى إدخال رقم صالح";
+		close;
+	}
+	switch(.@choice) {
+		case 1: // coins to points
+			if(countitem(.ID) < .@amount) {
+				mes .NPC$;
+				mes "ليس لديك عملات كفاية";
+				close;
+			}
+			delitem .ID,.@amount;
+			set #CASHPOINTS, #CASHPOINTS + .@amount;
+			mes .NPC$;
+			mes "تمت العملية بنجاح.";
+			close;
+			break;
+		case 2:
+			if(#CASHPOINTS < .@amount) {
+				mes .NPC$;
+				mes "ليس لديك نقاط كافية";
+				close;
+			}
+			getitem .ID,.@amount;
+			set #CASHPOINTS, #CASHPOINTS - .@amount;
+			mes .NPC$;
+			mes "تمت العملية بنجاح.";
+			close;
+	}
+    
+    OnInit:
+        set .NPC$,"[موظفة استبدال العملات]"; // NPC Name
+        set .ID,50008; // Requirement
+        end;
+}
+
+aimia,189,175,4	duplicate(Cash Exchanger)	Cash Exchanger#aimia	721

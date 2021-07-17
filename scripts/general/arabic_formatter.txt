@@ -1,0 +1,42 @@
+//===== rAthena Script ======================================= 
+//= Arabic formatter
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= Formats strings with arabic and english words
+//= Basically, it rearranges the message into its intended purpose.
+//= example: LeTo لقد قام اللاعب بهزيمة Masta -> Masta بهزيمة اللاعب LeTo لقد قام اللاعب
+//===== Current Version: =====================================
+//= 1.1
+//===== Notes: ===============================================
+//= version 1.1
+//= fixed a problem formatting sentances with more than 2 english words.
+//= this function does not work well with special characters(#!$%^&&*..etc) currently
+//===== TODO: ================================================
+//= detect special characters.
+//============================================================
+
+function	script	formatArabic	{
+	.@string$ = getarg(0);
+	if(.@string$ == "") return .@string$;
+	explode(.@formatarray$,.@string$," ");
+	.@j = 0;
+	while(.@i < getarraysize(.@formatarray$)) {
+		if(preg_match("[a-zA-Z]",.@formatarray$[.@i])) { // catch the english character.
+			setarray .@english_strings$[getarraysize(.@english_strings$)],.@formatarray$[.@i]+" ";
+			.@found = 1;
+			.@j++;
+		} else {
+			setarray .@arabic_strings$[.@j],.@arabic_strings$[.@j]+.@formatarray$[.@i]+" ";
+		}
+		.@i++;
+	}
+	if(!.@found) return .@string$;
+	set .@message$,"";
+	for(.@i = getarraysize(.@arabic_strings$); .@i >= 0; .@i--) {
+		set.@message$, .@message$+.@arabic_strings$[.@i];
+		if(.@i > 0)set.@message$, .@message$+.@english_strings$[.@i-1];
+	}
+	return .@message$;
+	end;
+}

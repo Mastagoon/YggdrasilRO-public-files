@@ -1,0 +1,117 @@
+//===== rAthena Script ======================================= 
+//= Cat's Paw Minigame
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= Basically a Doram version of Rock/Paper/Scissors
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+aimia,200,75,4	script	كف القطة	496,3,3,{
+OnMenu:
+OnTouch:
+	CATPAW_WAGER = 0;
+	mes .n$;
+	mes "هل تريد اللعب معي؟";
+	next;
+	if(select("بالطبع:لا شكراً") -1 ) close;
+	mes .n$;
+	mes "قواعد اللعبة بسيطة";
+	mes "عندما تبدأ اللعبة عليك الاختيار";
+	mes "إما أن تكشف يدك أو تقلبها";
+	next;
+	mes .n$;
+	mes "أن كانت يدك بنفس اتجاه يدي";
+	mes "فأنت الفائز.";
+	next;
+	mes .n$;
+	mes "في هذه الحالة, سوف تحصل على";
+	mes "^f00000ضعف كمية الزيني التي راهنت بها^000000";
+	next;
+	mes .n$;
+	mes "لكن إن كان الاتجاه مختلفاً";
+	mes "فستخسر كل أموالك";
+	next;
+	mes .n$;
+	mes "هل تريد اللعب؟";
+	next;
+	if(select("لفد فهمت, فلتبدأ اللعبة:لا") -1) close;
+	mes "- ضع رهانك -";
+	mes "- 1,000,000 الحد الأدنى -";
+	input .@wager,1000000,1000000000;
+	if(.@wager > zeny) {
+		mes "- انت لا تملك مالاً كافياً -";
+		close;
+	}
+	set CATPAW_WAGER,.@wager;
+	zeny = zeny - .@wager;
+	mes "- اختر وضعية يدك -";
+	.@position = select("مكشوفة:مقلوبة");
+	next;
+	mes .n$;
+	mes "هل أنت مستعد ؟؟";
+	sleep2 1000;
+	emotion ET_DELIGHT;
+	mes "1";
+	sleep2 1000;
+	mes "2";
+	sleep2 1000;
+	mes "3";
+	emotion ET_FLASH;
+	.@rand = .@position == 1 ? rand(0,2) : rand(3,5);
+	cutin .cutins$[.@rand],4;
+	next;
+	if(.@rand == 2 || .@rand == 3 ) { // player win
+		mes .n$;
+		mes "...................";
+		next;
+		mes .n$;
+		mes "....................................";
+		emotion ET_SWT;
+		next;
+		mes .n$;
+		cutin "cat_g_lose",4;
+		mes "هذا فظيييييييييييييييع";
+		zeny = zeny + 2*CATPAW_WAGER;
+		CATPAW_WAGER = 0;
+		close2;
+		cutin "",255;
+		announce callfunc("formatArabic","لقد كسب اللاعب "+strcharinfo(0)+" "+callfunc("formatNumber",.@wager)+" زيني في لعبة كف القط"),bc_all|bc_blue;
+		end; 
+	}
+	announce callfunc("formatArabic","لقد خسر اللاعب "+strcharinfo(0)+" "+callfunc("formatNumber",.@wager)+" زيني في كف القط"),bc_all|bc_blue;
+	mes .n$;
+	mes "نيهاهاهاهاهاهاها";
+	mes "يالك من إنسان مغفل";
+	mes "لقد خسرت جميع أموالك";
+	cutin "cat_g_win",4;
+	next;
+	cutin "cat_g_win",4;
+	mes .n$;
+	mes "هل تشعر بالحزن؟ هل أنت حزين؟";
+	mes "لاتقلق كل ماعليك فعله هو المحاولة";
+	mes "مرة أخرى";
+	next;
+	cutin "cat_g_win",4;
+	mes .n$;
+	mes "من يعلم, ربما ستفوز هذه";
+	mes "المرة";
+	close2;
+	cutin "",255;
+	CATPAW_WAGER = 0;
+	end;
+
+OnCallName:
+	npctalk "القط حمادة:... كيف عرفت اسمي؟";
+	end;
+
+OnInit:
+	// ================ Settings ==================================
+	set .n$,"^0000FF[كف القطة]^000000";
+	setarray .cutins$, "cat_g_03.bmp","cat_g_04.bmp","cat_g_01.bmp","cat_g_02.bmp";
+	// ============== End of Settings =============================
+	defpattern 1,"([^:]+):.\\s*حمادة.*", "OnCallName";
+	activatepset 1;
+	end;
+}

@@ -1,0 +1,210 @@
+//===== rAthena Script ======================================= 
+//= Instance Functions
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Instance System.
+//= Helper functions for creating new instances
+//= Allows specifying the Instance cooldown with no quest needed
+//= Allows setting a number of re-entry tickets per instance
+//= Allows resetting instance cooldowns using an item, either for a specific instance or all of them
+//= Allows using @cooldown command to display remainig cooldown for instances
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= Example usage:
+//= .@name$ = "Diavolo's Castle";
+//= .@tickets = 0;
+//= .@cooldown = 86400;
+//= .@quests$ = "";
+//= .@partysize = 1;
+//= .@minlevel = 175;
+//= .@maxlevel = 185;
+//= instanceDialoge(.@name$,.@tickets,.@cooldown,.@quests$,.@partysize,.@minlevel,.@maxlevel);
+//============================================================
+
+function	script	getInstanceCooldown	{
+	.@time = getarg(0);
+	.@cooldown = .@time - gettimetick(2);
+	if(.@cooldown < 0) .@cooldown = 0;
+	return .@cooldown;
+}
+
+function	script	formatTime	{
+	.@cooldown = getarg(0);
+	.@d = .@cooldown / 86400;
+	.@d$ = .@d ? ""+.@d : "";
+	.@h = .@cooldown / 3600;
+	.@h$ = .@h > 10 ? ""+.@h : "0"+.@h;
+	.@cooldown -= .@h * 3600;
+	.@m = .@cooldown / 60;
+	.@m$ = .@m > 10 ? ""+.@m : "0"+.@m;
+	.@cooldown -= .@m * 60;
+	.@s = .@cooldown;
+	.@s$ = .@s > 10 ? ""+.@s : "0"+.@s;
+	return .@d$ + "d " +.@h$ + ":" + .@m$ + ":" + .@s$;
+
+}
+
+function	script	setInstanceCooldown	{
+	.@id = getarg(0); // instance id
+	.@cooldown = getarg(1);	//cd in seconds
+	setd "instance_cd_"+.@id,gettimetick(2)+.@cooldown;
+	return 1;
+}
+// cooldown & tickets available
+function	script	getInstanceStatus	{
+	.@id = getarg(0);
+	.@mode = getarg(1,0);	// 0 = return 1 or 0, 1 = return exact time remaining, 2 = return #of tickets.
+	.@cooldown = getInstanceCooldown(getd("instance_cd_"+.@id));
+	switch(.@mode) {
+		case 0:
+		default:
+			if(.@cooldown) return 1;
+			return 0;
+		case 1:
+			if(!.@cooldown) return "";
+			.@d = .@cooldown / 86400;
+			.@cooldown -= .@d * 86400;
+			.@d$ = .@d ? ""+.@d : "";
+			.@h = .@cooldown / 3600;
+			.@h$ = .@h > 10 ? ""+.@h : "0"+.@h;
+			.@cooldown -= .@h * 3600;
+			.@m = .@cooldown / 60;
+			.@m$ = .@m > 10 ? ""+.@m : "0"+.@m;
+			.@cooldown -= .@m * 60;
+			.@s = .@cooldown;
+			.@s$ = .@s > 10 ? ""+.@s : "0"+.@s;
+			return .@d$ + "d " +.@h$ + ":" + .@m$ + ":" + .@s$;
+	}
+}
+
+function	script	instanceCooldownReset	{
+	if(getarg(0)) {
+		setd "instance_cd_"+getarg(0),0;
+		return 1;
+	}
+	for(.@i = 1; .@i < 48; .@i++) {
+		setd "instance_cd_"+.@i,0;
+	}
+	return 1;
+}
+
+// set/get instance tickets system
+function	script	setInstanceTickets	{
+	.@liveId = getarg(0); // id of LIVE instance
+	.@tickets = getarg(1);
+	setd "instance_tickets_"+.@liveId,.@tickets;
+	return 1;
+}
+function	script	getInstanceTickets	{
+	.@liveId = getarg(0);
+	return getd("instance_tickets_"+.@liveId);
+}
+
+function	script	instanceDialoge	{
+	.@name$ = getarg(0);
+	.@tickets = getarg(1);
+	.@cooldown = getarg(2);
+	.@quests$ = getarg(3);
+	.@minparty = getarg(4);	
+	.@minlevel = getarg(5);
+	.@maxlevel = getarg(6);
+	.@party_id = getcharid(1);
+	if(getInstanceStatus(instance_info(.@name$,IIT_ID),1) == "") {
+		if(!instance_check_party(.@party_id,.@minparty,.@minlevel,.@maxlevel)) {
+			mes "- لا تستوفي مجموعتك -";
+			mes "- الشروط لدخول هذا الإنستانس -";
+			next;
+			mes "المستوى الادنى المطلوب: "+.@minlevel+" - "+.@maxlevel;
+			mes "عدد الأعضاء الادنى المطلوب للدخول: "+.@minparty;
+			close;
+		}
+		if (getcharid(0) == getpartyleader(.@party_id,2))
+			.@menu$ = "فتح بوابة الإنستانس";
+		switch(select(.@menu$,"دخول الإنستانس:إلغاء")) {
+			case 3:
+				close;
+			case 2:
+				switch(instance_enter(.@name$)) {
+					case IE_OTHER:
+						mes "- لقد حدث خطأ مجهول -";
+						mes "- يرجى التواصل مع فريق الإدارة -";
+						close;
+					case IE_NOINSTANCE:
+						mes "- يرجى فتح بوابة الإنستانس -";
+						mes "- اولاً قبل محاولة الدخول -";
+						close;
+					case IE_NOMEMBER:
+						mes "- أنت لست في مجموعة -";
+						close;
+					case IE_OK:
+						setInstanceTickets(instance_id(IM_PARTY),.@tickets);
+						setInstanceCooldown(instance_info(.@name$,IIT_ID),.@cooldown);
+						explode(.@questlist$,.@quests$,"|");
+						for(.@i = 0; .@i < getarraysize(.@questlist$);.@i++) {
+							if(isbegin_quest(atoi(.@questlist$[.@i])) != 1)
+								setquest atoi(.@questlist$[.@i]);
+						}
+						mapannounce strcharinfo(3), "" + strcharinfo(0) + " of the party, " + getpartyname(.@party_id) + ", is entering "+.@name$,bc_map,"0x00FF99";
+						end;
+				}
+			case 1:
+				switch(instance_create(.@name$)) {
+					case -3:
+						dispbottom "هذا الإنستانس مفتوحٌ بالفعل.",0xFFFFFF;
+						close;
+					case -4:
+					case -2:
+					case -1:
+						mes "Party Name: " + getpartyname( getcharid(1) );
+						mes "Party Leader: " + strcharinfo(0);
+						mes "^0000ff" + .@name$ + "^000000 - time gap generation failed.";
+						close;
+					}
+					mes "لقد تم فتح بوابة الإنستانس بنجاح.";
+					close;
+				}
+		}
+		if(instance_live_info(ILI_NAME,instance_id(IM_PARTY)) == .@name$) {
+			.@remainingTickets = getInstanceTickets(instance_id(IM_PARTY));
+			if(!.@remainingTickets) {
+				mes "- لا يمكنك إعادة دخول هذا الدهليز -";
+				mes "- مرّةً أخرى. -";
+				close;
+			}
+			mes "- عدد التذاكر المتبقية لديك هي: -";
+			mes "- ^0000ff"+.@remainingTickets+"^000000 -";
+			mes "- هل تريد الدخول مجدداً؟ -";
+			if(select("نعم:كلّا") -1) close;
+			setInstanceTickets(instance_id(IM_PARTY),.@remainingTickets - 1);
+			instance_enter(.@name$);
+			close;
+		}
+		mes "- لا يمكنك دخول هذا الإنستانس -";
+		mes "- بعد, يجب عليك الانتظار: -";
+		mes "- ^0000ff"+getInstanceStatus(instance_info(.@name$,IIT_ID),1)+" ^000000-";
+		close;
+}
+
+-	script	instance_manager	-1,{
+OnInit:
+	bindatcmd("cooldown",strnpcinfo(3)+"::OnCommand",0,99);
+	end;
+
+OnCommand:
+	debugmes "on command summoned.";
+	setarray .@instances$[1],"Endless Tower","Sealed Catacomb","Orc's Memory","Nidhoggur's Nest","Mistwood Maze","Culvert","Octopus Cave","Bangungot Hospital 2F","Buwaya Cave","Bakonawa Lake","Wolfchev's Laboratory","Old Glast Heim","Eclage Interior","Sara's Memories","Geffen Magic Tournament","Horror Toy Factory","Faceworm's Nest","Ghost Palace","Devil's Tower","Assault on the Airship","Fenrir and Sarah","Nightmarish Jitterbug","Isle of Bios","Morse's Cave","Temple of Demon God","Central Laboratory","Last room","Charleston Crisis","Ritual of Blessing","Room of Consciousness","Sky Fortress Invasion","Heart Hunter War Base 1","Heart Hunter War Base 2","Werner Laboratory central room#1","Werner Laboratory central room#2","Old Glast Heim Hard","Emp Breaker","Tutorial","Ghost Track","Halloween Tower","Halloween Tower Hard","Diavolo's Castle", "Tomb of The Forgotten";
+	setarray .@alter$[0],"Heart Hunter War Base 1","","Werner Laboratory central room#1","","Werner Laboratory central room#1","Werner's Lab";
+	for(.@i = 1; .@i < getarraysize(.@instances$); .@i++) {
+		.@name$ = .@instances$[.@i];
+		if(inarray(.@alter$,.@instances$[.@i]) != -1) .@name$ = .@alter$[inarray(.@alter$,.@instances$[.@i])+1];
+		if(.@name$ == "") continue;
+		.@cooldown$ = getInstanceStatus(instance_info(.@instances$[.@i],IIT_ID),1);
+		if(.@cooldown$ == "") .@cooldown$ = "Available";
+		.@string$ = .@name$+" : "+.@cooldown$;
+		if(.@cooldown$ == "Available") dispbottom .@string$,65280;
+		else dispbottom .@string$,16711680;
+	}
+	end;
+}

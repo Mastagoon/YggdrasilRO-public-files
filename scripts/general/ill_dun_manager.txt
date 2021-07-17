@@ -1,0 +1,1289 @@
+//===== rAthena Script ======================================= 
+//= Illusion Dungeons Manager
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Illusion Dungeons Manager.
+//= A single NPC for all of the illusion dungeons' quests, crafting, and enchantment
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= This script needs YggdrsailRO's Illusion quests to work (see quest_db.yml)
+//===== TODO: ================================================
+//= Code can be simplifed further. Maybe someday i'll actually do it.
+//============================================================
+
+aimia,176,190,4	script	مهام الإيلوجن	4_F_03,{
+    set .NPC$,"[مدير مهام الإيلوجن]";
+    mes .NPC$;
+	if(BaseLevel < 175) {
+		mes "لايمكنك استلام هذه المهام بعد";
+		mes "عد إلي مجدداً عندما تصل";
+		mes "إلى مستوى 175 على الأقل";
+		close;
+	}
+	mes "كيف يمكنني مساعدتك؟";
+	.@type = select("تسليم المهام:استلام المهام:صنع الأدوات:سحر الأدوات:إغلاق");
+	next;
+	if(.@type == 5) close;
+	if(.@type == 4) goto L_Enchant;
+	mes .NPC$;
+    mes "يرجى اختيار الدهليز";
+    .@dungeon = select("كهف بايون","دهليز جيفين","كهف الجليد","جزيرة السلاحف","المنجم","دهليز كومودو","دهليز المتاهة","دهليز تحت الماء","الغاء");//Luanda","Labyrinth","إلغاء");
+	next;
+	if(.@dungeon == 9) close;
+	switch(.@dungeon) {
+		case 1:	// moonlight
+			if(.@type == 1) {	// submit all
+				for(.@i = 0; .@i < getarraysize(.moonlight_quest); .@i++) {
+					mes .NPC$;
+					mes "مهمة صيد";
+					mes .moonlight_qname$[.@i];
+					next;
+					mes .NPC$;
+					if(checkquest(.moonlight_quest[.@i],HUNTING) == 2) {
+						mes "تم إنهاء المهمة بنجاح";
+						getitem .reward,1;
+						erasequest .moonlight_quest[.@i];
+						setquest .moonlight_cooldown[.@i];
+					}
+					mes "لم تنهي هذه المهمة بعد";
+					next;
+				}
+			} else if(.@type == 2){	//recieve all
+				for(.@i = 0; .@i < getarraysize(.moonlight_quest); .@i++) {
+					switch(checkquest(.moonlight_cooldown[.@i],PLAYTIME)) {
+						case -1: //no cooldown
+							mes .NPC$;
+							mes "استلم المهمة لصيد";
+							mes .moonlight_qname$[.@i];
+							mes "جائزة هذه المهمة هي";
+							mes .moonlight_reward[.@i] + " حجر إيلوجن";
+							setquest(.moonlight_quest[.@i]);
+							next;
+							break;
+						case 0:	// cooldown active
+						case 1:
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .moonlight_qname[.@i];
+							mes "لا يمكنك استلام هذه المهمة بعد";
+							next;
+							break;
+						case 2:	// cooldown over
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .moonlight_qname[.@i];
+							mes "يمكنك استلام هذه المهمة مرةً أخرى";
+							erasequest .moonlight_cooldown[.@i];
+							next;
+							break;
+					}
+				}
+			} else if(.@type == 3) { // create items 
+				mes .NPC$;
+				mes "يرجى اختيار الأداة التي تريد صناعتها";
+				.@menu$ = "";
+				for(.@i = 0; .@i < getarraysize(.moonlight_equips$); .@i = .@i + 3) {
+					.@menu$ = .@menu$ + getitemname(atoi(.moonlight_equips$[.@i]))+":";
+				}
+				.@choice = (select(.@menu$)-1)*3;
+				.@itemId = atoi(.moonlight_equips$[.@choice]);
+				.@oldItemId = atoi(.moonlight_equips$[.@choice+1]);
+				if(inarray(.norefine,.@itemId) == -1) .@refine = 1;
+				next;
+				mes .NPC$;
+				mes "<ITEM>"+getitemname(.@itemId)+"<INFO>"+.@itemId+"</INFO></ITEM> :متطلبات صناعة";
+				.@mes$ = .@refine ? "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM> +9" 
+				: "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM>";
+				mes .@mes$;
+				explode(.@reqs$,.moonlight_equips$[.@choice+2],",");
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					mes .@reqs$[.@i+1]+"x "+getitemname(atoi(.@reqs$[.@i]));
+				}
+				next;
+				if(select("صنع الاداة:إلغاء") -1) close;
+				for(.@i = 0; .@i <getarraysize(.@reqs$); .@i = .@i +2) {
+					if(countitem(atoi(.@reqs$[.@i])) < atoi(.@reqs$[.@i+1])) {
+						mes .NPC$;
+						mes "ليس  لديك جميع المكونات لهذه الأداة";
+						close;
+						break;
+					}
+				}
+				// has all items
+				getinventorylist;
+				.@oldItem = inarray(@inventorylist_id, .@oldItemId);
+				if(.@oldItem == -1) {
+					mes .NPC$; 
+					mes "لا يوجد لديك المكون الأساسي لهذه الأداة"; 
+					close;
+				}
+				if(.@refine && @inventorylist_refine[.@oldItem] < 9) {
+					mes .NPC$;
+					mes "يجب أن تكون الأداة القديمة";
+					mes "مطورة إلى +9 على الأقل";
+					close;
+				}
+				mes .NPC$;
+				mes "يبدو أن لديك جميع المتطلبات";
+				mes "هل تريد صناعة الأداة؟";
+				next;
+				if(select("أجل:دعني أفكر قليلاً") -1) close;
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					delitem atoi(.@reqs$[.@i]), atoi(.@reqs$[.@i+1]);
+				}
+				delitem .@oldItemId, 1;
+				specialeffect2 EF_SPHERE; 
+				getitem .@itemId,1;
+				close;
+			}
+			close;
+		case 2:	//vampire
+			if(.@type == 1)	{ // submit all
+				for(.@i = 0; .@i < getarraysize(.vampire_quest); .@i++) {
+					mes .NPC$;
+					mes "مهمة صيد ";
+					mes .vampire_qname$[.@i];
+					next;
+					mes .NPC$;
+					if(checkquest(.vampire_quest[.@i],HUNTING) == 2) {
+						mes "تم إنهاء المهمة بنجاح";
+						getitem .reward,.vampire_reward[.@i];
+						erasequest .vampire_quest[.@i];
+						setquest .vampire_cooldown[.@i];
+					}
+					mes "لم تنهي هذه المهمة بعد";
+					next;
+				}
+			} else if(.@type == 2) { // recieve all
+				for(.@i = 0; .@i < getarraysize(.vampire_quest); .@i++) {
+					switch(checkquest(.vampire_cooldown[.@i],PLAYTIME)) {
+						case -1: //no cooldown
+							mes .NPC$;
+							mes "استلم المهمة لصيد";
+							mes .vampire_qname$[.@i];
+							mes "جائزة هذه المهمة هي";
+							mes .vampire_reward[.@i] + " حجر إيلوجن";
+							setquest(.vampire_quest[.@i]);
+							next;
+							break;
+						case 0:	// cooldown active
+						case 1:
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .vampire_qname[.@i];
+							mes "لا يمكنك استلام هذه المهمة بعد";
+							next;
+							break;
+						case 2:	// cooldown over
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .vampire_qname[.@i];
+							mes "يمكنك استلام هذه المهمة مرة أخرى";
+							erasequest .vampire_cooldown[.@i];
+							next;
+							break;
+					}
+				}
+			} else {
+				mes .NPC$;
+				mes "يرجى اختيار الأداة التي تريد صناعتها";
+				.@menu$ = "";
+				for(.@i = 0; .@i < getarraysize(.vampire_equips$); .@i = .@i + 3) {
+					.@menu$ = .@menu$ + getitemname(atoi(.vampire_equips$[.@i]))+":";
+				}
+				.@choice = (select(.@menu$)-1)*3;
+				.@itemId = atoi(.vampire_equips$[.@choice]);
+				.@oldItemId = atoi(.vampire_equips$[.@choice+1]);
+				next;
+				mes .NPC$;
+				if(inarray(.norefine,.@itemId) == -1) .@refine = 1;
+				next;
+				mes .NPC$;
+				mes "<ITEM>"+getitemname(.@itemId)+"<INFO>"+.@itemId+"</INFO></ITEM> :متطلبات صناعة";
+				.@mes$ = .@refine ? "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM> +9" 
+				: "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM>";
+				mes .@mes$;
+				explode(.@reqs$,.vampire_equips$[.@choice+2],",");
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					mes .@reqs$[.@i+1]+"x "+getitemname(atoi(.@reqs$[.@i]));
+				}
+				next;
+				if(select("صنع الاداة:إلغاء") -1) close;
+				for(.@i = 0; .@i <getarraysize(.@reqs$); .@i = .@i +2) {
+					if(countitem(atoi(.@reqs$[.@i])) < atoi(.@reqs$[.@i+1])) {
+						mes .NPC$;
+						mes " لا يوجد لديك أدوات كافية للصناعة";
+						close;
+						break;
+					}
+				}
+				// has all items
+				getinventorylist;
+				.@oldItem = inarray(@inventorylist_id, .@oldItemId);
+				if(.@oldItem == -1) {
+					mes .NPC$; 
+					mes "لا يوجد لديك المكون الأساسي لهذه الأداة"; 
+					close;
+				}				
+				if(.@refine && @inventorylist_refine[.@oldItem] < 9) {
+					mes .NPC$;
+					mes "يجب أن تكون الأداة القديمة";
+					mes "مطورة إلى +9 على الأقل";
+					close;
+				}
+				mes .NPC$;
+				mes "يبدو أن لديك جميع المتطلبات";
+				mes "هل تريد صناعة الأداة؟";
+				next;
+				if(select("صناعة:دعني أفكر قليلاً") -1) close;
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					delitem atoi(.@reqs$[.@i]), atoi(.@reqs$[.@i+1]);
+				}
+				delitem .@oldItemId, 1;
+				specialeffect2 EF_SPHERE; 
+				getitem .@itemId,1;
+				close;
+			}
+			close;
+		case 3: // frozen
+			if(.@type == 1)	{ // submit all
+				for(.@i = 0; .@i < getarraysize(.frozen_quest); .@i++) {
+					mes .NPC$;
+					mes "مهمة صيد ";
+					mes .frozen_qname$[.@i];
+					next;
+					mes .NPC$;
+					if(checkquest(.frozen_quest[.@i],HUNTING) == 2) {
+						mes "تم إنهاء المهمة بنجاح";
+						getitem .reward,.frozen_reward[.@i];
+						erasequest .frozen_quest[.@i];
+						setquest .frozen_cooldown[.@i];
+					}
+					mes "لم تنهي هذه المهمة بعد";
+					next;
+				}
+			} else if(.@type == 2) { // recieve all
+				for(.@i = 0; .@i < getarraysize(.frozen_quest); .@i++) {
+					switch(checkquest(.frozen_cooldown[.@i],PLAYTIME)) {
+						case -1: //no cooldown
+							mes .NPC$;
+							mes "استلم المهمة لصيد";
+							mes .frozen_qname$[.@i];
+							mes "جائزة هذه المهمة هي";
+							mes .frozen_reward[.@i] + " حجر إيلوجن";
+							setquest(.frozen_quest[.@i]);
+							next;
+							break;
+						case 0:	// cooldown active
+						case 1:
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .frozen_qname[.@i];
+							mes "لا يمكنك استلام هذه المهمة بعد";
+							next;
+							break;
+						case 2:	// cooldown over
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .frozen_qname[.@i];
+							mes "يمكنك استلام هذه المهمة مرة أخرى";
+							erasequest .frozen_cooldown[.@i];
+							next;
+							break;
+					}
+				}
+			} else {
+				mes .NPC$;
+				mes "يرجى اختيار الأداة التي تريد صناعتها";
+				.@menu$ = "";
+				for(.@i = 0; .@i < getarraysize(.frozen_equips$); .@i = .@i + 3) {
+					.@menu$ = .@menu$ + getitemname(atoi(.frozen_equips$[.@i]))+":";
+				}
+				.@choice = (select(.@menu$)-1)*3;
+				.@itemId = atoi(.frozen_equips$[.@choice]);
+				.@oldItemId = atoi(.frozen_equips$[.@choice+1]);
+				next;
+				mes .NPC$;
+				mes "<ITEM>"+getitemname(.@itemId)+"<INFO>"+.@itemId+"</INFO></ITEM> :متطلبات صناعة";
+				mes "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM> +9";
+				explode(.@reqs$,.frozen_equips$[.@choice+2],",");
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					mes .@reqs$[.@i+1]+"x "+getitemname(atoi(.@reqs$[.@i]));
+				}
+				next;
+				if(select("صنع الاداة:إلغاء") -1) close;
+				for(.@i = 0; .@i <getarraysize(.@reqs$); .@i = .@i +2) {
+					if(countitem(atoi(.@reqs$[.@i])) < atoi(.@reqs$[.@i+1])) {
+						mes .NPC$;
+						mes " لا يوجد لديك أدوات كافية للصناعة";
+						close;
+						break;
+					}
+				}
+				// has all items
+				getinventorylist;
+				.@oldItem = inarray(@inventorylist_id, .@oldItemId);
+				if(.@oldItem == -1 || @inventorylist_refine[.@oldItem] < 9) {mes .NPC$; mes "لا يوجد لديك أدوات كافية للصناعة"; close;}
+				mes .NPC$;
+				mes "يبدو أن لديك جميع المتطلبات";
+				mes "هل تريد صناعة الأداة؟";
+				next;
+				if(select("صناعة:دعني أفكر قليلاً") -1) close;
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					delitem atoi(.@reqs$[.@i]), atoi(.@reqs$[.@i+1]);
+				}
+				delitem .@oldItemId, 1;
+				specialeffect2 EF_SPHERE; 
+				getitem .@itemId,1;
+				close;
+			}
+			close;
+		case 4:	// abyss
+			if(.@type == 1)	{ // submit all
+				for(.@i = 0; .@i < getarraysize(.abyss_quest); .@i++) {
+					mes .NPC$;
+					mes "مهمة صيد ";
+					mes.abyss_qname$[.@i];
+					next;
+					mes .NPC$;
+					if(checkquest(.abyss_quest[.@i],HUNTING) == 2) {
+						mes "تم إنهاء المهمة بنجاح";
+						getitem .reward,.abyss_reward[.@i];
+						erasequest .abyss_quest[.@i];
+						setquest .abyss_cooldown[.@i];
+					}
+					mes "لم تنهي هذه المهمة بعد";
+					next;
+				}
+			} else if(.@type == 2) { // recieve all
+				for(.@i = 0; .@i < getarraysize(.abyss_quest); .@i++) {
+					switch(checkquest(.abyss_cooldown[.@i],PLAYTIME)) {
+						case -1: //no cooldown
+							mes .NPC$;
+							mes "استلم المهمة لصيد";
+							mes .abyss_qname$[.@i];
+							mes "جائزة هذه المهمة هي";
+							mes .abyss_reward[.@i] + " حجر إيلوجن";
+							setquest(.abyss_quest[.@i]);
+							next;
+							break;
+						case 0:	// cooldown active
+						case 1:
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .abyss_qname[.@i];
+							mes "لا يمكنك استلام هذه المهمة بعد";
+							next;
+							break;
+						case 2:	// cooldown over
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .abyss_qname[.@i];
+							mes "يمكنك استلام هذه المهمة مرة أخرى";
+							erasequest .abyss_cooldown[.@i];
+							next;
+							break;
+					}
+				}
+			} else {
+				mes .NPC$;
+				mes "يرجى اختيار الأداة التي تريد صناعتها";
+				.@menu$ = "";
+				for(.@i = 0; .@i < getarraysize(.abyss_equips$); .@i = .@i + 3) {
+					.@menu$ = .@menu$ + getitemname(atoi(.abyss_equips$[.@i]))+":";
+				}
+				.@choice = (select(.@menu$)-1)*3;
+				.@itemId = atoi(.abyss_equips$[.@choice]);
+				.@oldItemId = atoi(.abyss_equips$[.@choice+1]);
+				next;
+				mes .NPC$;
+				mes "<ITEM>"+getitemname(.@itemId)+"<INFO>"+.@itemId+"</INFO></ITEM> :متطلبات صناعة";
+				mes "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM> +9";
+				explode(.@reqs$,.abyss_equips$[.@choice+2],",");
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					mes .@reqs$[.@i+1]+"x "+getitemname(atoi(.@reqs$[.@i]));
+				}
+				next;
+				if(select("صنع الاداة:إلغاء") -1) close;
+				for(.@i = 0; .@i <getarraysize(.@reqs$); .@i = .@i +2) {
+					if(countitem(atoi(.@reqs$[.@i])) < atoi(.@reqs$[.@i+1])) {
+						mes .NPC$;
+						mes " لا يوجد لديك أدوات كافية للصناعة";
+						close;
+						break;
+					}
+				}
+				// has all items
+				getinventorylist;
+				.@oldItem = inarray(@inventorylist_id, .@oldItemId);
+				if(.@oldItem == -1 || @inventorylist_refine[.@oldItem] < 9) {mes .NPC$; mes "لا يوجد لديك أدوات كافية للصناعة"; close;}
+				mes .NPC$;
+				mes "يبدو أن لديك جميع المتطلبات";
+				mes "هل تريد صناعة الأداة؟";
+				next;
+				if(select("صناعة:دعني أفكر قليلاً") -1) close;
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					delitem atoi(.@reqs$[.@i]), atoi(.@reqs$[.@i+1]);
+				}
+				delitem .@oldItemId, 1;
+				specialeffect2 EF_SPHERE; 
+				getitem .@itemId,1;
+				close;
+			}
+			close;
+		case 6: // luanda
+			if(.@type == 1)	{ // submit all
+				for(.@i = 0; .@i < getarraysize(.luanda_quest); .@i++) {
+					mes .NPC$;
+					mes "مهمة صيد ";
+					mes .luanda_qname$[.@i];
+					next;
+					mes .NPC$;
+					if(checkquest(.luanda_quest[.@i],HUNTING) == 2) {
+						mes "تم إنهاء المهمة بنجاح";
+						getitem .reward,.luanda_reward[.@i];
+						erasequest .luanda_quest[.@i];
+						setquest .luanda_cooldown[.@i];
+					}
+					mes "لم تنهي هذه المهمة بعد";
+					next;
+				}
+			} else if(.@type == 2) { // recieve all
+				for(.@i = 0; .@i < getarraysize(.luanda_quest); .@i++) {
+					switch(checkquest(.luanda_cooldown[.@i],PLAYTIME)) {
+						case -1: //no cooldown
+							mes .NPC$;
+							mes "استلم المهمة لصيد";
+							mes .luanda_qname$[.@i];
+							mes "جائزة هذه المهمة هي";
+							mes .luanda_reward[.@i] + " حجر إيلوجن";
+							setquest(.luanda_quest[.@i]);
+							next;
+							break;
+						case 0:	// cooldown active
+						case 1:
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .luanda_qname[.@i];
+							mes "لا يمكنك استلام هذه المهمة بعد";
+							next;
+							break;
+						case 2:	// cooldown over
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .luanda_qname[.@i];
+							mes "يمكنك استلام هذه المهمة مرة أخرى";
+							erasequest .luanda_cooldown[.@i];
+							next;
+							break;
+					}
+				}
+			} else {
+				mes .NPC$;
+				mes "يرجى اختيار الأداة التي تريد صناعتها";
+				.@menu$ = "";
+				for(.@i = 0; .@i < getarraysize(.luanda_equips$); .@i = .@i + 3) {
+					.@menu$ = .@menu$ + getitemname(atoi(.luanda_equips$[.@i]))+":";
+				}
+				.@choice = (select(.@menu$)-1)*3;
+				.@itemId = atoi(.luanda_equips$[.@choice]);
+				.@oldItemId = atoi(.luanda_equips$[.@choice+1]);
+				next;
+				mes .NPC$;
+				mes "<ITEM>"+getitemname(.@itemId)+"<INFO>"+.@itemId+"</INFO></ITEM> :متطلبات صناعة";
+				mes "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM> +9";
+				explode(.@reqs$,.luanda_equips$[.@choice+2],",");
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					mes .@reqs$[.@i+1]+"x "+getitemname(atoi(.@reqs$[.@i]));
+				}
+				next;
+				if(select("صنع الاداة:إلغاء") -1) close;
+				for(.@i = 0; .@i <getarraysize(.@reqs$); .@i = .@i +2) {
+					if(countitem(atoi(.@reqs$[.@i])) < atoi(.@reqs$[.@i+1])) {
+						mes .NPC$;
+						mes " لا يوجد لديك أدوات كافية للصناعة";
+						close;
+						break;
+					}
+				}
+				// has all items
+				getinventorylist;
+				.@oldItem = inarray(@inventorylist_id, .@oldItemId);
+				if(.@oldItem == -1 || @inventorylist_refine[.@oldItem] < 9) {mes .NPC$; mes "لا يوجد لديك أدوات كافية للصناعة"; close;}
+				mes .NPC$;
+				mes "يبدو أن لديك جميع المتطلبات";
+				mes "هل تريد صناعة الأداة؟";
+				next;
+				if(select("صناعة:دعني أفكر قليلاً") -1) close;
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					delitem atoi(.@reqs$[.@i]), atoi(.@reqs$[.@i+1]);
+				}
+				delitem .@oldItemId, 1;
+				specialeffect2 EF_SPHERE; 
+				getitem .@itemId,1;
+				close;
+			}
+			close;
+		case 5: // teddy bear
+			if(.@type == 1)	{ // submit all
+				for(.@i = 0; .@i < getarraysize(.teddy_quest); .@i++) {
+					mes .NPC$;
+					mes "مهمة صيد ";
+					mes .teddy_qname$[.@i];
+					next;
+					mes .NPC$;
+					if(checkquest(.teddy_quest[.@i],HUNTING) == 2) {
+						mes "تم إنهاء المهمة بنجاح";
+						getitem .reward,.teddy_reward[.@i];
+						erasequest .teddy_quest[.@i];
+						setquest .teddy_cooldown[.@i];
+					}
+					mes "لم تنهي هذه المهمة بعد";
+					next;
+				}
+			} else if(.@type == 2) { // recieve all
+				for(.@i = 0; .@i < getarraysize(.teddy_quest); .@i++) {
+					switch(checkquest(.teddy_cooldown[.@i],PLAYTIME)) {
+						case -1: //no cooldown
+							mes .NPC$;
+							mes "استلم المهمة لصيد";
+							mes .teddy_qname$[.@i];
+							mes "جائزة هذه المهمة هي";
+							mes .teddy_reward[.@i] + " حجر إيلوجن";
+							setquest(.teddy_quest[.@i]);
+							next;
+							break;
+						case 0:	// cooldown active
+						case 1:
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .teddy_qname[.@i];
+							mes "لا يمكنك استلام هذه المهمة بعد";
+							next;
+							break;
+						case 2:	// cooldown over
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .teddy_qname[.@i];
+							mes "يمكنك استلام هذه المهمة مرة أخرى";
+							erasequest .teddy_cooldown[.@i];
+							next;
+							break;
+					}
+				}
+			} else {
+				mes .NPC$;
+				mes "يرجى اختيار الأداة التي تريد صناعتها";
+				.@menu$ = "";
+				for(.@i = 0; .@i < getarraysize(.teddybear_equips$); .@i = .@i + 3) {
+					.@menu$ = .@menu$ + getitemname(atoi(.teddybear_equips$[.@i]))+":";
+				}
+				.@choice = (select(.@menu$)-1)*3;
+				.@itemId = atoi(.teddybear_equips$[.@choice]);
+				.@oldItemId = atoi(.teddybear_equips$[.@choice+1]);
+				next;
+				mes .NPC$;
+				mes "<ITEM>"+getitemname(.@itemId)+"<INFO>"+.@itemId+"</INFO></ITEM> :متطلبات صناعة";
+				mes "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM> +9";
+				explode(.@reqs$,.teddybear_equips$[.@choice+2],",");
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					mes .@reqs$[.@i+1]+"x "+getitemname(atoi(.@reqs$[.@i]));
+				}
+				next;
+				if(select("صنع الاداة:إلغاء") -1) close;
+				for(.@i = 0; .@i <getarraysize(.@reqs$); .@i = .@i +2) {
+					if(countitem(atoi(.@reqs$[.@i])) < atoi(.@reqs$[.@i+1])) {
+						mes .NPC$;
+						mes " لا يوجد لديك أدوات كافية للصناعة";
+						close;
+						break;
+					}
+				}
+				// has all items
+				getinventorylist;
+				.@oldItem = inarray(@inventorylist_id, .@oldItemId);
+				if(.@oldItem == -1 || @inventorylist_refine[.@oldItem] < 9) {mes .NPC$; mes "لا يوجد لديك أدوات كافية للصناعة"; close;}
+				mes .NPC$;
+				mes "يبدو أن لديك جميع المتطلبات";
+				mes "هل تريد صناعة الأداة؟";
+				next;
+				if(select("صناعة:دعني أفكر قليلاً") -1) close;
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					delitem atoi(.@reqs$[.@i]), atoi(.@reqs$[.@i+1]);
+				}
+				delitem .@oldItemId, 1;
+				specialeffect2 EF_SPHERE; 
+				getitem .@itemId,1;
+				close;
+			}
+			close;
+		case 7: //Labyrinth
+			if(.@type == 1)	{ // submit all
+				for(.@i = 0; .@i < getarraysize(.labyrinth_quest); .@i++) {
+					mes .NPC$;
+					mes "مهمة صيد ";
+					mes .labyrinth_qname$[.@i];
+					next;
+					mes .NPC$;
+					if(checkquest(.labyrinth_quest[.@i],HUNTING) == 2) {
+						mes "تم إنهاء المهمة بنجاح";
+						getitem .reward,.labyrinth_reward[.@i];
+						erasequest .labyrinth_quest[.@i];
+						setquest .labyrinth_cooldown[.@i];
+					}
+					mes "لم تنهي هذه المهمة بعد";
+					next;
+				}
+			} else if(.@type == 2) { // recieve all
+				for(.@i = 0; .@i < getarraysize(.labyrinth_quest); .@i++) {
+					switch(checkquest(.labyrinth_cooldown[.@i],PLAYTIME)) {
+						case -1: //no cooldown
+							mes .NPC$;
+							mes "استلم المهمة لصيد";
+							mes .labyrinth_qname$[.@i];
+							mes "جائزة هذه المهمة هي";
+							mes .labyrinth_reward[.@i] + " حجر إيلوجن";
+							setquest(.labyrinth_quest[.@i]);
+							next;
+							break;
+						case 0:	// cooldown active
+						case 1:
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .labyrinth_qname[.@i];
+							mes "لا يمكنك استلام هذه المهمة بعد";
+							next;
+							break;
+						case 2:	// cooldown over
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .labyrinth_qname[.@i];
+							mes "يمكنك استلام هذه المهمة مرة أخرى";
+							erasequest .labyrinth_cooldown[.@i];
+							next;
+							break;
+					}
+				}
+			} else {
+				mes .NPC$;
+				mes "يرجى اختيار الأداة التي تريد صناعتها";
+				.@menu$ = "";
+				for(.@i = 0; .@i < getarraysize(.labrynth_equips$); .@i = .@i + 3) {
+					.@menu$ = .@menu$ + getitemname(atoi(.labrynth_equips$[.@i]))+":";
+				}
+				.@choice = (select(.@menu$)-1)*3;
+				.@itemId = atoi(.labrynth_equips$[.@choice]);
+				.@oldItemId = atoi(.labrynth_equips$[.@choice+1]);
+				if(inarray(.norefine,.@itemId) == -1) .@refine = 1;
+				next;
+				mes .NPC$;
+				mes "<ITEM>"+getitemname(.@itemId)+"<INFO>"+.@itemId+"</INFO></ITEM> :متطلبات صناعة";
+				.@mes$ = .@refine ? "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM> +9" 
+				: "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM>";
+				explode(.@reqs$,.labrynth_equips$[.@choice+2],",");
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					mes .@reqs$[.@i+1]+"x "+getitemname(atoi(.@reqs$[.@i]));
+				}
+				next;
+				if(select("صنع الاداة:إلغاء") -1) close;
+				for(.@i = 0; .@i <getarraysize(.@reqs$); .@i = .@i +2) {
+					if(countitem(atoi(.@reqs$[.@i])) < atoi(.@reqs$[.@i+1])) {
+						mes .NPC$;
+						mes " لا يوجد لديك أدوات كافية للصناعة";
+						close;
+						break;
+					}
+				}
+				// has all items
+				getinventorylist;
+				.@oldItem = inarray(@inventorylist_id, .@oldItemId);
+				if(.@oldItem == -1 || (.@refine && @inventorylist_refine[.@oldItem] < 9)) {mes .NPC$; mes "لا يوجد لديك أدوات كافية للصناعة"; close;}
+				mes .NPC$;
+				mes "يبدو أن لديك جميع المتطلبات";
+				mes "هل تريد صناعة الأداة؟";
+				next;
+				if(select("صناعة:دعني أفكر قليلاً") -1) close;
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					delitem atoi(.@reqs$[.@i]), atoi(.@reqs$[.@i+1]);
+				}
+				delitem .@oldItemId, 1;
+				specialeffect2 EF_SPHERE; 
+				getitem .@itemId,1;
+				close;
+			}
+			close;
+		case 8: // underwater
+			if(.@type == 1)	{ // submit all
+				for(.@i = 0; .@i < getarraysize(.underwater_quest); .@i++) {
+					mes .NPC$;
+					mes "مهمة صيد ";
+					mes .underwater_qname$[.@i];
+					next;
+					mes .NPC$;
+					if(checkquest(.underwater_quest[.@i],HUNTING) == 2) {
+						mes "تم إنهاء المهمة بنجاح";
+						getitem .reward,.underwater_reward[.@i];
+						erasequest .underwater_quest[.@i];
+						setquest .underwater_cooldown[.@i];
+					}
+					mes "لم تنهي هذه المهمة بعد";
+					next;
+				}
+			} else if(.@type == 2) { // recieve all
+				for(.@i = 0; .@i < getarraysize(.underwater_quest); .@i++) {
+					switch(checkquest(.underwater_cooldown[.@i],PLAYTIME)) {
+						case -1: //no cooldown
+							mes .NPC$;
+							mes "استلم المهمة لصيد";
+							mes .underwater_qname$[.@i];
+							mes "جائزة هذه المهمة هي";
+							mes .underwater_reward[.@i] + " حجر إيلوجن";
+							setquest(.underwater_quest[.@i]);
+							next;
+							break;
+						case 0:	// cooldown active
+						case 1:
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .underwater_qname[.@i];
+							mes "لا يمكنك استلام هذه المهمة بعد";
+							next;
+							break;
+						case 2:	// cooldown over
+							mes .NPC$;
+							mes "مهمة صيد";
+							mes .underwater_qname[.@i];
+							mes "يمكنك استلام هذه المهمة مرة أخرى";
+							erasequest .underwater_cooldown[.@i];
+							next;
+							break;
+					}
+				}
+			} else {
+				mes .NPC$;
+				mes "يرجى اختيار الأداة التي تريد صناعتها";
+				.@menu$ = "";
+				for(.@i = 0; .@i < getarraysize(.underwater_equips$); .@i = .@i + 3) {
+					.@menu$ = .@menu$ + getitemname(atoi(.underwater_equips$[.@i]))+":";
+				}
+				.@choice = (select(.@menu$)-1)*3;
+				.@itemId = atoi(.underwater_equips$[.@choice]);
+				.@oldItemId = atoi(.underwater_equips$[.@choice+1]);
+				next;
+				mes .NPC$;
+				mes "<ITEM>"+getitemname(.@itemId)+"<INFO>"+.@itemId+"</INFO></ITEM> :متطلبات صناعة";
+				mes "1x <ITEM>"+getitemname(.@oldItemId)+"<INFO>"+.@oldItemId+"</INFO></ITEM> +9";
+				explode(.@reqs$,.underwater_equips$[.@choice+2],",");
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					mes .@reqs$[.@i+1]+"x "+getitemname(atoi(.@reqs$[.@i]));
+				}
+				next;
+				if(select("صنع الاداة:إلغاء") -1) close;
+				for(.@i = 0; .@i <getarraysize(.@reqs$); .@i = .@i +2) {
+					if(countitem(atoi(.@reqs$[.@i])) < atoi(.@reqs$[.@i+1])) {
+						mes .NPC$;
+						mes " لا يوجد لديك أدوات كافية للصناعة";
+						close;
+						break;
+					}
+				}
+				// has all items
+				getinventorylist;
+				.@oldItem = inarray(@inventorylist_id, .@oldItemId);
+				if(.@oldItem == -1 || @inventorylist_refine[.@oldItem] < 9) {mes .NPC$; mes "لا يوجد لديك أدوات كافية للصناعة"; close;}
+				mes .NPC$;
+				mes "يبدو أن لديك جميع المتطلبات";
+				mes "هل تريد صناعة الأداة؟";
+				next;
+				if(select("صناعة:دعني أفكر قليلاً") -1) close;
+				for(.@i = 0; .@i < getarraysize(.@reqs$); .@i = .@i +2) {
+					delitem atoi(.@reqs$[.@i]), atoi(.@reqs$[.@i+1]);
+				}
+				delitem .@oldItemId, 1;
+				specialeffect2 EF_SPHERE; 
+				getitem .@itemId,1;
+				close;
+			}
+			close;
+		close;
+	}
+
+L_Enchant:
+	mes .NPC$;
+	mes "هل تريد سحر الأسلحة أم الدروع؟";
+	switch(select("سحر الأسلحة:سحر الدروع:إلغاء")) {
+		case 3: close;
+		case 2:
+			disable_command;
+			disable_items;
+			mes .NPC$;
+			mes "كيف يمكنني مساعدتك؟";
+			next;
+			.@choice = select("سحر الدروع:إعادة سحر الدروع");
+			if(.@choice == 1) {
+				mes .NPC$;
+				mes "سيكلفك سحر الدروع";
+				mes "^ff0000x"+.costStones+"^000000 Illusion Stone";
+				mes "أو";
+				mes "1,000,000z";
+				mes "هل تريد الاستمرار؟";
+				next;
+				.@cost = 1;
+				.@zenyCost = 1000000;
+				.@method = select("الدفع بالأحجار:الدفع بالزيني:إلغاء");
+				if(.@method == 3) close;
+				mes .NPC$;
+				for(.@i=0;.@i<10;.@i++){
+					if (!getequipisequiped(.@i))
+						continue;
+					.@eqId = getequipid(.@i);
+					if (inarray(.AccessoryIds,.@eqId) == -1 && 	inarray(.ArmorIds,.@eqId) == -1)
+						continue;
+					.@eqSlots[getarraysize(.@eqSlots)] = .@i;
+					.@cItems[getarraysize(.@cItems)] = .@eqId;
+					.@menu$ += getitemname(.@eqId) + ":";
+					.@count++;
+				}
+				if(.@count == 0){
+					mes "يجب عليك ارتداء الدرع أولاً.";
+					close;
+				}
+				mes "إختر الأداة التي تريد سحرها";
+				.@s = select(.@menu$) - 1;
+				.@slot = .@eqSlots[.@s];
+				.@equip_id = .@cItems[.@s];
+				.@equip_name$ = getitemname(.@equip_id);
+				setarray .@card[0],
+					getequipcardid(.@slot,0),
+					getequipcardid(.@slot,1),
+					getequipcardid(.@slot,2),
+					getequipcardid(.@slot,3);
+				copyarray .@equip_card[0], .@card[0], 4;	// for final check
+				.@equip_refine = getequiprefinerycnt(.@slot);
+				
+				if (.@card[3] > 0) {
+					mes "هذه الأداة مسحورة بالكامل بالفعل.";
+					close;
+				}
+				if(.@card[2] == 0)
+					.@cardSlot = 2;
+				else if(.@card[3] == 0)
+					.@cardSlot = 3;
+				if (.@card[.@cardSlot] == 0) {
+					.@cost = .costStones;
+					.@zenyCost = 1000000;
+					mes .NPC$;
+					mes "سيتم سحر الأداة :";
+					mes .@equip_name$;
+					next;
+					if(select("متابعة:إلغاء") -1) close;
+					if (inarray(.AccessoryIds,.@equip_id) != -1)
+						.@card[.@cardSlot] = .AccessoryEnchants[rand(0,getarraysize(.AccessoryEnchants)-1)];
+					else if (inarray(.ArmorIds,.@equip_id) != -1)
+						.@card[.@cardSlot] = .ArmorEnchants[rand(0,getarraysize(.ArmorEnchants)-1)];
+					//.@string$ = "enchant number ^630000" + (.@cardSlot - 1) + "^000000.";
+					if((.@method == 1 && countitem(.reward) < .@cost) || (.@method == 2 && Zeny < .@zenyCost)) {
+						mes .NPC$;
+						mes "ليس لديك الزيني أو الأحجار اللازمة";
+						mes "لسحر الأداة. يرجى إحضار";
+						mes "^ff0000x"+.@cost+" Illusion Stones";
+						mes "1,000,000 Zeny^000000";
+						close;
+					}
+					specialeffect2 EF_REPAIRWEAPON;
+					if(.@method == 1 ) delitem 25271,.@cost;// Illusion Stones
+					else Zeny -= .@zenyCost;
+					if (callfunc("F_IsEquipIDHack", .@slot, .@equip_id) || callfunc("F_IsEquipCardHack", .@slot, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || 
+						callfunc("F_IsEquipRefineHack", .@slot, .@equip_refine))
+						close;
+					delequip .@slot;
+					mes .NPC$;
+					mes "تمت العملية بنجاح.";
+					getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+					close;
+				}
+			} else {
+				mes "ستكلفك إزالة السحر";
+				//mes "^ff0000x"+.costStones+"^000000 Illusion Stone";
+				mes "500,000z";
+				mes "هل تريد الاستمرار؟";
+				next;
+				if(select("نعم:كلّا") -1 ) close;
+				mes .NPC$;
+				for(.@i=0;.@i<10;.@i++){
+					if (!getequipisequiped(.@i))
+						continue;
+					.@eqId = getequipid(.@i);
+					if (inarray(.AccessoryIds,.@eqId) == -1 && 	inarray(.ArmorIds,.@eqId) == -1)
+						continue;
+					.@eqSlots[getarraysize(.@eqSlots)] = .@i;
+					.@cItems[getarraysize(.@cItems)] = .@eqId;
+					.@menu$ += getitemname(.@eqId) + ":";
+					.@count++;
+				}
+				if(.@count == 0){
+					mes "يجب عليك ارتداء الدرع أولاً.";
+					close;
+				}
+				.@s = select(.@menu$) - 1;
+				.@slot = .@eqSlots[.@s];
+				.@equip_id = .@cItems[.@s];
+				.@equip_name$ = getitemname(.@equip_id);
+				setarray .@card[0],
+					getequipcardid(.@slot,0),
+					getequipcardid(.@slot,1),
+					getequipcardid(.@slot,2),
+					getequipcardid(.@slot,3);
+				copyarray .@equip_card[0], .@card[0], 4;	// for final check
+				.@equip_refine = getequiprefinerycnt(.@slot);
+				if (.@card[2] == 0) {
+					mes "هذه الأداة ليست مسحورة بالفعل...";
+					close;
+				}
+				//.@cost = .costStones;
+				.@zenyCost = 500000;
+				if(Zeny < .@zenyCost) {
+					mes "ليس لديك الزيني أو الأحجار اللازمة";
+					mes "لإعادة السحر. يرجى إحضار";
+					//mes "^ff0000x"+.@cost+" Illusion Stones";
+					mes "1,000,000 Zeny^000000";
+					close;
+				}
+				Zeny -= .@zenyCost;
+				//delitem .reward,.@cost;
+				if (callfunc("F_IsEquipIDHack", .@slot, .@equip_id) || callfunc("F_IsEquipCardHack", .@slot, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || 
+					callfunc("F_IsEquipRefineHack", .@slot, .@equip_refine))
+					close;
+				specialeffect2 EF_REPAIRWEAPON;
+				delequip .@slot;
+				mes .NPC$;
+				mes "تمّت العملية بنجاح.";
+				getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],0,0;
+				close;
+			}
+			break;
+		case 1: // weap enchants
+			mes .NPC$;
+			mes "يمكنني اعطاؤك أحجاراً سحرية";
+			mes "لسحر الأسلحة الخاصة بك !";
+			next;
+			mes .NPC$;
+			mes "ماهو نوع السحر الذي تريده؟";
+			next;
+			switch(select("سحر الأسلحة الجسدية:سحر الأسلحة السحرية:سحر كاتار الغول:إلغاء")) {
+				case 4: close;
+				case 3:
+					mes .NPC$;
+					if(!getequipisequiped(9) || getequipid(9) != 28023) {
+						mes "يجب عليك ارتداءالكاتار أولاً";
+						close;
+					}
+					.@slot = 9;
+					setarray .@card[0],
+						getequipcardid(.@slot,0),
+						getequipcardid(.@slot,1),
+						getequipcardid(.@slot,2),
+						getequipcardid(.@slot,3);
+					copyarray .@equip_card[0], .@card[0], 4;	// for final check
+					.@equip_refine = getequiprefinerycnt(.@slot);
+					if (.@card[3] > 0) {
+						mes "هذا السلاح مسحور بالكامل بالفعل";
+						mes "هل تريد إعادة سحره؟";
+						next;
+						if(select("أجل:إلغاء") -1) close;
+						mes .NPC$;
+						mes "ستكلفك إزالة السحر";
+						//mes "^ff0000x"+.costStones+"^000000 Illusion Stone";
+						mes "500,000z";
+						mes "هل تريد الاستمرار؟";
+						next;
+						if(select("إستمرار:إلغاء") -1) close;
+						.@cost = .costStones;
+						.@zenyCost = 500000;
+						mes .NPC$;
+						if(Zeny < .@zenyCost) {
+							mes "ليس لديك الزيني أو الأحجار اللازمة";
+							mes "لإعادة السحر. يرجى إحضار";
+							//mes "^ff0000x"+.@cost+" Illusion Stones";
+							mes "3,000,000 Zeny^000000";
+							close;
+						}
+						Zeny -= .@zenyCost;
+					//	delitem .reward,.@cost;
+						if (callfunc("F_IsEquipIDHack", .@slot, .@equip_id) || callfunc("F_IsEquipCardHack", .@slot, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || 
+							callfunc("F_IsEquipRefineHack", .@slot, .@equip_refine))
+							close;
+						specialeffect2 EF_REPAIRWEAPON;
+						delequip .@slot;
+						mes .NPC$;
+						mes "تمّت العملية بنجاح.";
+						getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],0,0;
+						close;
+					} else {
+						if(.@card[2] == 0)
+							.@cardSlot = 2;
+						else if(.@card[3] == 0)
+							.@cardSlot = 3;
+						if (.@card[.@cardSlot] == 0) {
+							.@cost = .costStones;
+							.@zenyCost = 1000000;
+							mes "سيتم سحر الأداة :";
+							next;
+							.@cost = 1;
+							//.@zenyCost = 2000000;
+							.@method = select("الدفع بالأحجار:الدفع بالزيني:إلغاء");
+							if(.@method == 3 ) close;
+							.@card[.@cardSlot] = .MeleeWeaponEn[rand(0,getarraysize(.MeleeWeaponEn)-1)];
+							//.@string$ = "enchant number ^630000" + (.@cardSlot - 1) + "^000000.";
+							if((.@method == 1 && countitem(.reward) < .@cost) || (.@method == 2 && Zeny < .@zenyCost)) {
+								mes .NPC$;
+								mes "ليس لديك الزيني أو الأحجار اللازمة";
+								mes "لسحر الأداة. يرجى إحضار";
+								mes "^ff0000x"+.@cost+" Illusion Stones";
+								mes "1,000,000 Zeny^000000";
+								close;
+							}
+							specialeffect2 EF_REPAIRWEAPON;
+							if(.@method == 1) delitem 25271,.@cost;// Illusion Stones
+							else Zeny -= .@zenyCost;
+							if (callfunc("F_IsEquipIDHack", .@slot, .@equip_id) || callfunc("F_IsEquipCardHack", .@slot, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || 
+								callfunc("F_IsEquipRefineHack", .@slot, .@equip_refine))
+								close;
+							delequip .@slot;
+							mes .NPC$;
+							mes "تمت العملية بنجاح.";
+							getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+							close;
+						}
+					}
+					break;
+				case 2: //magic enchants
+					mes .NPC$;
+					mes "سيكلفك حجر سحر الأسلحة";
+					mes "^ff0000x2 Illusion Stone";
+					mes "كما يمكنك بدلاً عن ذلك دفع";
+					mes "2,000,000z^000000";
+					mes "هل تريد الاستمرار؟";
+					next;
+					mes .NPC$;
+					.@cost = 2;
+					.@zenyCost = 2000000;
+					.@method = select("الدفع بالأحجار:الدفع بالزيني:إلغاء");
+					if(.@method == 3 ) close;
+					if((.@method == 1 && countitem(.reward) < .@cost) || (.@method == 2 && Zeny < .@zenyCost)) {
+						mes .NPC$;
+						mes "ليس لديك الزيني أو الأحجار اللازمة";
+						mes "لسحر الأداة. يرجى إحضار";
+						mes "^ff0000x"+.@cost+" Illusion Stones";
+						mes "1,000,000 Zeny^000000";
+						close;
+					}
+					if(.@method == 1) delitem .reward,.@cost;
+					else Zeny -= .@zenyCost;
+					getitem 60007,1;
+					close;
+				case 1: // physical weaps
+					mes .NPC$;
+					mes "سيكلفك حجر سحر الأسلحة";
+					mes "^ff0000x2 Illusion Stone";
+					mes "كما يمكنك بدلاً عن ذلك دفع";
+					mes "2,000,000z^000000";
+					next;
+					mes .NPC$;
+					.@cost = 2;
+					.@zenyCost = 2000000;
+					.@method = select("الدفع بالأحجار:الدفع بالزيني:إلغاء");
+					if(.@method == 3 ) close;
+					if((.@method == 1 && countitem(.reward) < .@cost) || (.@method == 2 && Zeny < .@zenyCost)) {
+						mes .NPC$;
+						mes "ليس لديك الزيني أو الأحجار اللازمة";
+						mes "لسحر الأداة. يرجى إحضار";
+						mes "^ff0000x"+.@cost+" Illusion Stones";
+						mes "1,000,000 Zeny^000000";
+						close;
+					}
+					if(.@method == 1) delitem .reward,.@cost;
+					else Zeny -= .@zenyCost;
+					getitem 60006,1;
+					close;
+			}
+	}
+
+
+OnInit:
+	//moonlight
+	setarray .moonlight_quest[0],7786,7784,7782,7780;
+	setarray .moonlight_cooldown[0],7787,7785,7783,7781;
+	setarray .moonlight_reward[0],1,1,1,3;
+	setarray .moonlight_qname$[0],"Bongon, Munak, Archer Skeleton","Ninetails, Sohee","High Wizard, Furius Hero","Moonlight Flower";
+	//vampire
+	setarray .vampire_quest[0],14667,14669,14671,14675;
+	setarray .vampire_cooldown[0],14668,14670,14674,14676;
+	setarray .vampire_reward[0],1,1,1,2;
+	setarray .vampire_qname$[0],"Ghoul, Zombie, Zombieic","Nightmare","Drainler, Black mushroom","Dracula,Bomi";
+	//teddy bear
+	setarray .teddy_quest[0],100524,100526,100528,100530;
+	setarray .teddy_cooldown[0],100525,100527,100529,100531;
+	setarray .teddy_reward[0],1,1,1,1;
+	setarray .teddy_qname$[0],"Teddy Bear Red/Yellow","Teddy Bear Green/White","Teddy Bear Blue/Silver","Mineral, Obsedian";
+	//luanda
+	setarray .luanda_quest[0],100516,100518,100520,100522;
+	setarray .luanda_cooldown[0],100517,100519,100521,100523;
+	setarray .luanda_reward[0],1,1,1,2;
+	setarray .luanda_qname$[0],"Tri Joint, Stalastic Golem","Megalith, Stone Shooter","Wootan Shooter, Wootan Fighter","Tao Gunka, Wootan Defender";
+	//frozen
+	setarray .frozen_quest[0],100500,100502,100504,100506;
+	setarray .frozen_cooldown[0],100501,100503,100505,100507;
+	setarray .frozen_reward[0],1,1,1,2;
+	setarray .frozen_qname$[0],"Icicle","Gazeti, Snowier","Ice Titan","Ktullanux";
+	//abyss
+	setarray .abyss_quest[0],100508,100510,100512,100514;
+	setarray .abyss_cooldown[0],100509,100511,100513,100515;
+	setarray .abyss_reward[0],1,1,1,2;
+	setarray .abyss_qname$[0],"Perimeter, Solider","Heater, Freezer, Snowier","Assaulter","Turtle General";
+	//labrynth
+	setarray .labyrinth_quest[0],100532,100534,100536,100538;
+	setarray .labyrinth_cooldown[0],100533,100535,100537,100539;
+	setarray .labyrinth_reward[0],1,1,1,1;
+	setarray .labyrinth_qname$[0],"Andrea, Anes","Silvano, Cecilia","Baphomet Jr. , Sidewinder","Mantis, Killer mantis";
+	//underwater
+	setarray .underwater_quest[0],100300,100302,100304,100306;
+	setarray .underwater_cooldown[0],100301,100303,100305,100307;
+	setarray .labyrinth_reward[0],1,1,1,2;
+	setarray .labyrinth_qname$[0],"Sropho , Deviace","Obean, Marse","Deep Sea Phen , Deep Sea Strouf","Kraken";
+
+
+	// items
+	setarray .norefine[0],28508,28509,32238,32239, 490069, 490070;
+	//Illusion of Moonlight
+	setarray .moonlight_equips$[0],
+	16063,1525,"25271,20,25256,500", //+9
+	26007,1477,"25271,20,25256,500",//+9
+	26109,1648,"25271,20,25256,500",//+9
+	28725,1234,"25271,10,25256,500",
+	19209,2277,"25271,10,25257,500",
+	19210,2285,"25271,10,25258,500",
+	15195,15012,"25271,10,25256,500",
+	20838,2504,"25271,10,23228,500",
+	22133,2404,"25271,10,23228,500";
+	//Illusion of Vampire
+	setarray .vampire_equips$[0],
+	2039,1473,"25271,20,25267,500",
+	18149,1727,"25271,20,25265,500",
+	28022,1266,"25271,20,25267,500",
+	28023,1260,"25271,20,25264,500",
+	28612,1557,"25271,20,25262,500",
+	20840,2525,"25271,10,25263,500",//+9
+	28508,2715,"25271,10,25266,500", // acc
+	28509,2621,"25271,10,25267,500"; // acc
+	//Illusion of Frozen
+	setarray .frozen_equips$,
+	1846,1822,"25271,20,25299,500", //+9
+	13337,13314,"25271,20,25300,5",//+9
+	19223,2227,"25271,10,25297,500",//+9
+	20847,2509,"25271,20,25297,500",//+9
+	28922,2128,"25271,10,25298,500";//+9
+	//Illusion of Abyss
+	setarray .abyss_equips$,
+	1326,1306,"25271,20,25311,500", //+9
+	13338,13300,"25271,20,25313,500",//+9
+	13469,1141,"25271,20,25314,500",//+9
+	16065,1529,"25271,20,25313,500",//+9
+	32005,1417,"25271,20,25311,500",//+9
+	19247,2207,"25271,20,25312,500";
+	//Illusion of Luanda
+	setarray .luanda_equips$,
+	18174,1726,"25271,20,54018,50,54016,50,54019,50", //+9
+	28626,1552,"25271,20,54025,100",//+9
+	15348,2354,"25271,10,54022,100,54017,150",//+9
+	20923,2520,"25271,10,54016,30,54017,150",//+9
+	22192,2419,"25271,10,54023,50,54017,150",//+9
+	19366,5128,"25271,10,54022,150,54017,150";//+9
+	//Illusion of Teddy Bear
+	setarray .teddybear_equips$,
+	2051,1618,"25271,20,54029,2,54030,250,54027,250",
+	28244,13167,"25271,20,54027,250,54028,250",//+9
+	28745,1242,"25271,20,54026,250,54027,250",//+9
+	19344,5070,"25271,10,54029,2,54027,250,54028,250",//+9
+	22190,2406,"25271,10,54026,250,54030,250";//+9
+	//Illusion of Labyrinth
+	setarray .labrynth_equips$,
+	28762,1231,"25271,20,54042,150",
+	21050,1181,"25271,20,54043,150",//+9
+	32301,13106,"25271,20,54041,150",//+9
+	28254,13159,"25271,20,54033,150",//+9
+	19428,5126,"25271,10,54031,100,54032,50",//+9
+	20948,2518,"25271,10,54033,100,54034,50",//+9
+	32238,2648,"25271,10,54035,100,54036,50,54037,2",//+9
+	32239,2649,"25271,10,54038,100,54039,50,54037,2";//+9
+	//Illusion of Labyrinth
+	setarray .underwater_equips$,
+	580008,1972,"25271,20,25895,150", //+9
+	570008,1913,"25271,20,25895,150",//+9
+	630006,1470,"25271,20,25893,150",//+9
+	610012,1275,"25271,20,25896,150",//+9
+	600011,1186,"25271,20,25894,150",//+9
+	630007,1481,"25271,20,25898,150",//+9
+	450144,2326,"25271,10,25895,150",//+9
+	450146,2315,"25271,10,25893,150",//+9
+	400053,5127,"25271,10,25896,150",//+9
+	480054,2519,"25271,10,25895,150",//+9
+	490069,2650,"25271,10,25898,150",
+	490070,2651,"25271,10,25894,150";
+	.reward = 25271;
+
+	//enchanting
+		.costStones = 2;
+	setarray .AccessoryIds,		28508,28509,32238,32239, 490069, 490070;
+	setarray .ArmorIds,			15348,22192,15195,22133,20840,
+								19210,20838,19209,28922,20847,
+								19223,22190,19344,20948,19428,19247,20923,19366,
+								480054,400053,450146,450144;
+	
+	setarray .AccessoryEnchants,4795,4796,4797,4798,	//HP 100~400
+								4928,4870,4800,4871,	//SP 10~75
+								4700,4701,4702,4703,	//STR 1~4
+								4730,4731,4732,4733,	//AGI 1~4
+								4740,4741,4742,4743,	//VIT 1~4
+								4710,4711,4712,4713,	//INT 1~4
+								4720,4721,4722,4723,	//DEX 1~4
+								4750,4751,4752,4753;	//LUK 1~4
+	
+	setarray .ArmorEnchants,	4861,4862,4863,4864,	//Max HP 1~4%
+								4993,29208,4992,29210,	//HP/SP Absorption  1~2%
+								4994,4995,4997,4998,	//strength/agility Lv 1~2
+								29009,29010,29000,29001,//Vitality/Intellect Lv 1~2
+								29003,29004,29006,29007,//Dexterity/Luck Lv 1~2
+								4700,4701,4702,4703,	//STR 1~4
+								4730,4731,4732,4733,	//AGI 1~4
+								4740,4741,4742,4743,	//VIT 1~4
+								4710,4711,4712,4713,	//INT 1~4
+								4720,4721,4722,4723,	//DEX 1~4
+								4750,4751,4752,4753;	//LUK 1~4
+								
+	setarray .MeleeWeaponEn,	4811,4810,4809,4808,4820,		//Fighting Spirit 1~5
+								29081,29082,29083,29084,29085,	//Acute Lv 1~5
+								29061,29062,29063,29064,29065,	//Mettle Lv 1~5
+								4807,4842,						//ASPD 1 2
+								4700,4701,4702,4703,			//STR 1~4
+								4720,4721,4722,4723,			//DEX 1~4
+								4750,4751,4752,4753;			//LUK 1~4
+	
+	setarray .RangeWeaponEn,	4832,4833,4834,4835,4836,		// Expert Archer 1~5
+								29091,29092,29093,29094,29095,	//Master Archer Lv 1~5
+								29071,29072,29073,29074,29075,	//Magic Essence Lv 1~5
+								4807,4842,						//ASPD 1 2
+								4730,4731,4732,4733,			//AGI 1~4
+								4720,4721,4722,4723,			//DEX 1~4
+								4750,4751,4752,4753;			//LUK 1~4
+								
+	setarray .MagicWeaponEn,	4815,4814,4813,4812,4826,	//Spell 1~5
+								4805,4850,					// Archbishop Lv 1~2
+								4710,4711,4712,4713,		//INT 1~4
+								4720,4721,4722,4723,		//DEX 1~4
+								4750,4751,4752,4753;		//LUK 1~4
+end;
+	end;
+}

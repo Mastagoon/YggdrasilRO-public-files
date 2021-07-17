@@ -1,0 +1,214 @@
+//===== rAthena Script ======================================= 
+//= Imitate Event
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= When the event starts, players will recieve a set of random skills that will replace their typical hotkey bar
+//= Each round, Eddga will cast a random skills. Players who cast the same skill in time will win the round.
+//= If you fail to use the exact skill, use more than one skill, or use the wrong skill you will be disqualified
+//= Each round, the time window to use the skill will get shorter and shorter, until only 1 player remains.
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= This script requires the set/clear hotkey source mod
+//= Items used for this script:
+//= 50063,Skill_Stone1,Skill Stone 1,2,10,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ doevent("فعالية التقليد::OnUseItem");},{},{}
+//= 50064,Skill_Stone1,Skill Stone 1,2,10,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ doevent("فعالية التقليد::OnUseItem");},{},{}
+//= 50065,Skill_Stone1,Skill Stone 1,2,10,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ doevent("فعالية التقليد::OnUseItem");},{},{}
+//= ......etc
+//============================================================
+
+aimia,210,73,4	script	فعالية التقليد	2095,{
+	if(.status == 1 && inarray(.participents,getcharid(3)) == -1) {
+		mes "[إيدجا]";
+		mes "هل تريد التسجيل في الفعالية؟";
+		if(select("التسجيل:إلغاء") -1) close;
+		gethotkeys();
+		clearhotkeys();
+		for(.@i = 0; .@i < getarraysize(.items); .@i++) {
+			getitem .items[.@i],1;
+			do {
+				.@index = rand(getarraysize(.items));
+			} while (.@shuffle[.@index] != 0);
+			setarray .@shuffle[.@index], .items[.@i];
+		}
+		for(.@i = 0; .@i < getarraysize(.@shuffle); .@i++) {
+			updatehotkey(0,.@shuffle[.@i],1,.@i);
+		}
+		//warp "aimia",.entryxy[0],.entryxy[1];
+		setarray .participents[getarraysize(.participents)],getcharid(3);
+		sleep2 100;
+		npctalk strcharinfo(0)+" تم تسجيلك في الفعالية";
+		@IMITATE_VAR = 0;
+		end;
+	}
+	end;
+
+OnInit:
+	.rounds = 15;
+	.round = 1;
+	.reward = 50007;
+	.status = 0;
+	.skill = 0;
+	.map$ = "aimia";
+	.correctItem = 0;
+	setarray .skills[0],406,366,29,8,261,24,2051,10,7,138,2206,276,425,2337,66,45,2001,361;
+	setarray .items[0],50063,50064,50065,50066,50067,50068,50069,50070,50071,50085,50086,50087,50088,50089,50090,50091,50092,50093;
+	disablenpc strnpcinfo(3);
+	setarray .wallsx,205,215;
+	setarray .wallsy,68,78;
+	setarray .entryxy,206,69;
+	.maxsleep = 10000;
+	.leaveX = 208;
+	.leaveY = 66;
+	function removeItems;
+	function PlayerLost;
+	end;
+
+OnPCLogoutEvent:
+	if(inarray(.participents,getcharid(3)) == -1) end;
+	deletearray .participents[inarray(.participents,getcharid(3))],1;
+	removeItems();
+	end;
+
+OnUseItem:
+	if(!.status || @IMITATE_VAR > 0) end;
+	for(.@i = 0; .@i < getarraysize(.items); .@i++) {
+		if(!countitem(.items[.@i])) { // this is the item you used
+			if(.status == 1) { getitem .items[.@i],1; end; }// pre-game stage
+			unitskilluseid getcharid(3),.skills[.@i],1;
+			if(.items[.@i] == .correctItem) {
+				@IMITATE_VAR = 1; //win if first scroll used.
+			} else {
+				@IMITATE_VAR = 2; // lose if use anything else
+			}
+		}
+	}
+	end;
+
+function	PlayerLost	{
+	npctalk strcharinfo(0)+" لقد تم إقصاؤك.";
+	removeItems();
+	//warp "aimia",.leaveX,.leaveY;
+	unitkill getcharid(3);
+	if(inarray(.participents,getcharid(3)) > -1) deletearray .participents[inarray(.participents,getcharid(3))],1;
+	return;
+}
+
+function	removeItems	{
+	for(.@i = 0; .@i < getarraysize(.items); .@i++) {
+		if(countitem(.items[.@i]) > 0) delitem .items[.@i],countitem(.items[.@i]);
+	}
+	for(.@i = 0; .@i < @hotkey_count; .@i++){
+		updatehotkey(@hotkey_type[.@i],@hotkey_id[.@i],@hotkey_lv[.@i],@hotkey_pos[.@i]);
+	}
+	return;
+}
+
+function	giveItems	{
+	for(.@i = 0; .@i < getarraysize(.items); .@i++) {
+		delitem .items[.@i],countitem(.items[.@i]);
+		getitem .items[.@i],1;
+	}
+}
+
+function	endRound	{
+	npctalk "إنتهت الجولة";
+	.state = 1;
+	sleep 800;
+	npctalk "سيتم الآن إقصاء الخاسرين";
+	for(.@i = 0; .@i < getarraysize(.participents); .@i++) {
+		attachrid(.participents[.@i]);
+		// no scrolls used
+		if(@IMITATE_VAR == 0 || @IMITATE_VAR == 2) {
+			PlayerLost();
+		} else { // player used correct skill
+			giveItems();
+			getitem 50007,2;
+			@IMITATE_VAR = 0;
+		}
+		detachrid();
+	}
+	if(getarraysize(.participents) == 1) {
+		.@winnerId = .participents[0];
+		npctalk callfunc("formatArabic","الفائز هو "+rid2name(.@winnerId));
+		announce callfunc("formatArabic","الفائز في فعالية التقليد هو "+rid2name(.@winnerId)),bc_all|bc_blue;
+		attachrid(.@winnerId);
+		WonEvents++;
+		MWonEvents++;
+		WonEventsDaily++;
+		getitem 50007,10;
+		removeitems();
+		sleep 500;
+		donpcevent strnpcinfo(3)+"::OnEventEnd";
+		end;
+	} else if(getarraysize(.participents) < 1 || .round > .rounds) {
+		npctalk "لا يوجد فائز."; 
+		sleep 3000;
+		donpcevent strnpcinfo(3)+"::OnEventEnd";
+		end;
+	}
+	sleep 3000;
+	.state = 2;
+	return;
+}
+
+OnEventEnd:
+	sleep 1000;
+	disablenpc strnpcinfo(3);
+	deletearray .participents[0];
+	.status = 0;
+	.round = 1;
+	.maxsleep = 10000;
+	donpcevent "مدير الفعاليات::OnImitateStart";
+	end;
+
+OnGameAnnounce:
+	enablenpc strnpcinfo(3);
+	.status = 1;
+	end;
+
+OnEventStart:
+	if(!getarraysize(.participents)) {
+		npctalk "لا يوجد مشاركين.";
+		donpcevent strnpcinfo(3)+"::OnEventEnd";
+		end;
+	}
+	npctalk "هه, أهلاً بكم";
+	sleep 2000;
+	npctalk "في هذه الفعالية, كل ماعليكم فعله هو";
+	sleep 2000;
+	npctalk "تقليدي أنا, إيدجا !";
+	sleep 2000;
+	npctalk "في كل جولة سأستعمل مهارة عشوائية, ويجب عليكم تقليدي واستعمال نفس المهارة عبر المخطوطات";
+	sleep 4000;
+	npctalk "إذا لم تنجحوا في تقليدي فسأقتلـ....";
+	enablenpc "GM Masta#0";
+	donpcevent "GM Masta#0::OnEvent";
+	sleep 100;
+	emotion ET_PANIC;
+	sleep 3000;
+	emotion ET_SWEAT;
+	npctalk "احم, كـ..كما كنت أقول, إن لم تنجحو في تقليدي";
+	sleep 2000;
+	npctalk "فسيتم إقصاؤكم من الجولة";
+	sleep 2000;
+	npctalk "يجب عليك استعمال المهارة الصحيحة فقط, وعدم استعمال اكثر من مخطوطة واحدة.";
+	sleep 3000;
+	npctalk "فلتبدأ اللعبة الآن !";
+	sleep 5000;
+	.status = 2;
+	do {
+		.round++;
+		.@skill = rand(getarraysize(.skills));
+		unitskilluseid getnpcid(0),.skills[.@skill],1; // use skill
+		.correctItem = .items[.@skill];
+		sleep .maxsleep;
+		.maxsleep -= 1000;
+		if(.maxsleep < 2000) .maxsleep = 2000;
+		// check players
+		endRound();
+		npctalk "الجولة رقم "+.round;
+		sleep 1000;
+	} while(.round < .rounds);
+}

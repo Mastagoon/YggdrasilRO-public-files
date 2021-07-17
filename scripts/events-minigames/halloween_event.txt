@@ -1,0 +1,2549 @@
+//===== rAthena Script ======================================= 
+//= Halloween Event
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrasilRO's Halloween events
+//= Halloween's main quest
+//= Halloween candy donation contest
+//= Luthadel, city halloween
+//= Halloween invasion
+//= Hell's Gate
+//= Halloween's treasure boxes
+//= Halloween exchanger shop
+//= Daily quests
+//= Pumpkin collector
+//= Halloween Shop
+//= Card Exchanger - KiNa
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ================================================
+//= Really old script, outdated.
+//============================================================
+
+aimia,99,177,6	script	شبح الهالوين 	950,{
+switch(halloween_quest_main) {
+		case 0:
+			break;
+
+		case 1:
+			mes "- أنت تحاول التحدث مع الشبح -";
+			mes "- لكنه يتجاهلك تماماً -";
+			mes "- وكأنه لا يراك إطلاقاً -";
+			close;
+
+		case 2:
+			cutin "bu_mark1.bmp",2; 
+			mes "..........";
+			mes "- يحاول الطبيب ماهر التحدث -";
+			mes "- إلى الشبح -";
+			next;
+			mes "- ولكنه مايزال صامتاً ويرفض -";
+			mes "- التحدّث -";
+			next;
+			cutin "bu_mark2.bmp",2; 
+			mes "- يبتسم الطبيب ماهر -";
+			mes "- إبتسامةً متفهمة ! -";
+			mes "- يبدو أنه يريد أن يشعر  الشبح -";
+			mes "- بانه ليس عدواً له -";
+			next;
+			mes "- يقترب الطبيب ماهر من الشبح -";
+			mes "- ربما يريد ان يطمئنه -";
+			sleep2 1000;
+			mes " ربما يريد أن يــ....";
+			showscript "Adoramus",getnpcid(0,"الطبيب ماهر#halloween"); 
+			specialeffect2 907;
+			specialeffect 721;
+			emotion 23,getcharid(3);
+			emotion 23,getnpcid(0);
+			emotion 23,getnpcid(0,"حارس المدينة#hallow");
+			emotion 23,getnpcid(0,"حارس المدينة#hallow2");
+			next;
+			showscript "مالّذي تفعله !!",getnpcid(0,"حارس المدينة#hallow"); 
+			showscript "يا إلهي",getnpcid(0,"حارس المدينة#hallow2"); 
+			sleep2 500;
+			mes "[الطبيب ماهر]";
+			mes "مازلت لا تريد التحدث؟؟";
+			close2;
+			// showscript "مالّذي تفعله !!",getnpcid(0,"الطبيب ماهر#halloween"); 
+			sleep2 1000;
+			showscript "Ashura Strike !!",getnpcid(0,"الطبيب ماهر#halloween"); 
+			specialeffect 191;
+			specialeffect 510,AREA,"الطبيب ماهر#halloween";
+			emotion 23,getcharid(3);
+			emotion 23,getnpcid(0);
+			emotion 23,getnpcid(0,"حارس المدينة#hallow");
+			emotion 23,getnpcid(0,"حارس المدينة#hallow2");
+			showscript "الرحمة !!",getnpcid(0);
+			sleep2 1000;
+			emotion 28;
+			showscript "هذا تعذيب !",getnpcid(0,"حارس المدينة#hallow"); 
+			showscript "يبدو أن الشبح...يبكي؟؟",getnpcid(0,"حارس المدينة#hallow2"); 
+			cutin "bu_mark3.bmp",2; 
+			mes "- يزداد ماهر غضباً, رغم أن الشبح -";
+			mes "- يطلب منه الرحمة -";
+			close2;
+			showscript "Lord Of Vermillion !!",getnpcid(0,"الطبيب ماهر#halloween"); 
+			specialeffect 90;
+			specialeffect2 90;
+			percentheal -50,0;
+			specialeffect 90,AREA,"الطبيب ماهر#halloween";
+			emotion 23,getcharid(3);
+			emotion 23,getnpcid(0);
+			emotion 23,getnpcid(0,"حارس المدينة#hallow");
+			emotion 23,getnpcid(0,"حارس المدينة#hallow2");
+			showscript "الرحمة! سأتحدث !! توقف أرجوك !!",getnpcid(0);
+			sleep2 1000;
+			while(.@i < 5) { emotion 28; .@i++; }
+			showscript "أليس في قلبك أيةٌ رحمة؟",getnpcid(0,"حارس المدينة#hallow"); 
+			sleep2 1000;
+			showscript "لقد آذيتني أيضاً بهذه الضربة",getnpcid(0,"حارس المدينة#hallow2"); 
+			mes "- ربما عليك الابتعاد عن المكان -";
+			mes "- يبدو أن ماهر خارجٌ عن السيطرة -";
+			close2;
+			showscript "Crimson Rock !!",getnpcid(0,"الطبيب ماهر#halloween"); 
+			specialeffect 727;
+			// specialeffect2 90;
+			// percentheal -50,0;
+			// specialeffect 90,AREA,"الطبيب ماهر#halloween";
+			emotion 23,getcharid(3);
+			emotion 23,getnpcid(0);
+			emotion 23,getnpcid(0,"حارس المدينة#hallow");
+			emotion 23,getnpcid(0,"حارس المدينة#hallow2");
+			showscript "وااااااااااااااااااااااء";
+			sleep2 1000;
+			showscript "ماهر, توقف ! إن الشبح يبكي ويطلب الرحمة !";
+			sleep2 2000;
+			cutin "",255;
+			sleep2 2000;
+			mes "- تقوم بتهدئة الطبيب ماهر -";
+			mes "- يبدو أنه يعود إلى طبيعته -";
+			halloween_quest_main = 3;
+			close;
+
+		case 3:
+			break;
+
+		case 4:
+			if(!halloween_intro) {
+				
+				emotion 32;
+				mes .n$;
+				mes "ليكن بعلمك , أنا شبحٌ قويٌ جداً";
+				mes "ولقد جئت لعالمكم هذا بسبب الهالويين";
+				next;
+				select("وماهو الهالويين؟");
+				mes .n$;
+				mes "مرةً واحدةً كل مئة عام, تصطف العوالم التسعة";
+				mes "ويصبح الإنتقال بين عالم الاحياء";
+				mes "وعالم الأمواتِ ممكناً";
+				next;
+				mes .n$;
+				mes "تأتي الاشباح من مدينة لوثاديل";
+				mes "أثناء الهالويين";
+				next;
+				mes .n$;
+				mes "لقد حان وقت الهالويين لهذا القرن";
+				mes "سيغزو الأموات جميع أنحاء عالمكم هذا";
+				mes "هاهاهاهاها.";
+				next;
+				select("ولماذا تريدون غزو عالمنا؟");
+				mes .n$;
+				mes "..............";
+				mes "- ينظر إليك الشبح وكأنك قلت -";
+				mes "- أمراً غبياً للغاية -";
+				select("ماذا؟؟ مالأمر؟");
+				next;
+				mes .n$;
+				mes "هل أنت مغفل؟ الجميع يعلم";
+				mes "أن الأشباح تهاجم البشر لاجل";
+				mes "حلوى الهالويين !";
+				next;
+				mes .n$;
+				mes "على أيةِ حال, هذا ماجئت لأجله";
+				mes "أنصحك بالذهاب والمشاركة في أحداث";
+				mes "الهالويين للحصول على الحلوى";
+				mes "وإعطاؤها لي.";
+				halloween_intro = 1;
+				next;
+				mes .n$;
+			}
+			callsub OnInfo;
+	}
+	end;
+OnInit:
+	.n$ = "[شبحٌ سجين]";
+	while(true) {
+		specialeffect 802;
+		sleep 30000;
+	}
+	end;
+
+OnInfo:
+    switch(select("الإنتقال إلى لوثاديل:ماهي أحداث الهالوين؟:إعطاء الشبح حلوى الهالوين:على ماذا سأحصل مقابل اعطائك الحلوى؟:إغلاق")) {
+        case 5:
+            close;
+        case 4:
+            if(halloween_candy_ask >= 5) {
+                mes "حسناً حسناً أنا أستسلم";
+                mes "لقد أخبرني الجي إم ماستا";
+                mes "بانه ستكون هناك جائزةٌ مميزة";
+                mes "للاعب الذي سيعطيني أكبر";
+                mes "قدرٍ من حلوى الهالويين";
+                next;
+                mes "لكني لا أعلم ماهي الجائزة";
+                mes "لم لا تتحدث إليه لتكتشف ذلك؟";
+                close;
+            }
+            mes "ماهي مشكلتكم أيها الأحياء !!";
+            mes "لاتفعلون شيئاً إلا بمقابل؟؟";
+            mes "أعطني الحلوى فحسب, إنها خدمة";
+            mes "ومساعدة بين البشر والأشباح.";
+            halloween_candy_ask++;
+            close;
+        case 3:
+            if(countitem(60047)) {
+                mes "أنت طيبٌ القلب حقاً";
+                mes "كم قطعة حلوى تريد إعطائي؟";
+                input .@amt,1,countitem(60047);
+                delitem 60047,.@amt;
+                mes "شكراً لك ! أنت جيد.";
+                halloween_candy_amt += .@amt;
+                close;
+            }
+            mes " ليس لديك أية حلوى.";
+            close;
+        case 2:
+            mes "هناك العديد من الاحداث المتفرقة";
+            mes "بمناسبة الهالوين !";
+            next;
+            mes .n$;
+            mes "أحداث الهالوين لهذا العام هي:";
+            mes "~ مهام الهالويين اليومية";
+            mes "~ غزو الأشباح";
+            mes "~ مدينة لوثاديل";
+            mes "~ قتال ملك الظلام";
+            mes "~ بوابة الجحيم";
+            next;
+            mes .n$;
+            mes "اسألني عن الفعاليّة";
+            mes "وسأخبرك بتفاصيلها";
+            next;
+            while(true) {
+                .@choice = select("مهام الهالوين اليومية:غزو الأشباح:قتال ملك الظلام:مدينة لوثاديل:بوابة الجحيم:إلغاء");
+                if(.@choice == 6) close;
+                mes .n$;
+                if(.@choice == 1) {
+                    mes "أعثر على ماريونيت في";
+                    mes "لوثاديل لاستلام مهام";
+                    mes "الهالوين اليومية.";
+                    next;
+                    mes .n$;
+                    mes "ستحصل على عملات الهالوين";
+                    mes "عند إكمالك لهذه المهام.";
+                    next;
+                }
+                if(.@choice == 2) {
+                    mes "مرةً واحدة كل ثلاثة ساعات";
+                    mes "ستقوم الاشباح بغزو مدينةٍ عشوائية";
+                    mes "من مدن رون ميدجارد !";
+                    next;
+                    mes .n$;
+                    mes "سيتم الإعلان قبل دقيقتين من الغزو";
+                    mes "عن مكان هجوم الاشباح";
+                    mes "وسيحصل اللاعبين على عملات الهالويين";
+                    mes "عند القضاء عليهم !";
+                    next;
+                }
+                if(.@choice == 3) {
+                    mes "بإمكانك تحدّي ملك الظلام";
+                    mes "في قصره بداخل مدينة لوثاديل";
+                    next;
+                    mes .n$;
+                    mes "سيكون هذا تحدٍ صعب للغاية";
+                    mes "وتحتاج لمساعدة العديد من الأصدقاء";
+                    mes "لهزيمته !";
+                    next;
+                    mes .n$;
+                    mes "إذا قام أحد بهزيمة ملك الظلام";
+                    mes "فسيحصل على عملة الزعيم من تصنيف SS";
+                    next;
+                }
+                if(.@choice == 4) {
+                    mes "لوثاديل هي مدينة سيد الظلام";
+                    mes "تقع مدينة لوثاديل في عالم الاموات";
+                    mes "ولكن بسبب الهالوين, يمكن للأحياء";
+                    mes "الإنتقال إلى هناك.";
+                    next;
+                    mes .n$;
+                    mes "تحتوي مدينة لوثاديل على العديد";
+                    mes "من الوحوش التي تسقط عملات الهالوين";
+                    mes "بالإضافة إلى قصر سيذ الظلام";
+                    mes "والعديد من الاشباح القوية !";
+                    next;
+                }
+                if(.@choice == 5) {
+                    mes "عند قتل 1000 وحش في لوثاديل";
+                    mes "فسيظهر شبح بوابة الجحيم في المدينة.";
+                    next;
+                    mes .n$;
+                    mes "عند قتل هذا الشبح, فسيتم فتح بوابة";
+                    mes "الجحيم في المكان الذي قٌتل فيه.";
+                    next;
+                    mes .n$;
+                    mes "تحتوي بوابة الجحيم على نسخة أقوى";
+                    mes "من الوحوش في لوثاديل.";
+                    next;
+                    mes .n$;
+                    mes "يمكن لأربعة لاعبين كحدِّ أقصى";
+                    mes "دخول بوابة الجحيم.";
+                    mes "وستختفي البوابة بعد دخول 4 لاعبين";
+                    mes "من خلالها.";
+                    next;
+                    mes .n$;
+                    mes "يمكن أن يدخل اللاعبين لوحدهم أو في مجموعات";
+                    mes "مكونة من لاعبين اثنين كحدِّ أقصى.";
+                    mes .n$;
+                    mes "يستطيع اللاعبين قتال بعضهم البعض";
+                    mes "كما أن ضرر اللاعبين في بوابة الجحيم";
+                    mes "يكون أقل بنسبة 50%";
+                    next;
+                    mes .n$;
+                    mes "عند هزيمة جميع الوحوش في بوابة الجحيم";
+                    mes "يتوجب على جميع الأطراف قتال بعضهم البعض";
+                    mes "حتى تبقى مجموعة واحدة أو لاعب واحد";
+                    mes "على قيد الحياة.";
+                    next;
+                    mes .n$;
+                    mes "وبعد ذلك, سيحصل اللاعب أو اللاعبان الأخيران";
+                    mes "على جائزة مميزة لإتمامهم لبوابة الجحيم.";
+                    next;
+                }
+            }
+            close;
+        case 1: // warp to luthadel
+            warp "luthadel",100,100;
+            end;
+    }
+	end;
+
+// OnInit:
+//     .n$ = "[^0000FFشبح الهالوين^000000]";
+//     60047 = 909;
+//     .luthadel_map$ = "aimia";
+//     .main_quest_id = 16140;
+//     end;
+}
+
+aimia,104,178,3	script	الطبيب ماهر#halloween	616,{
+OnStart:
+	switch(halloween_quest_main) {
+		case 0:
+			break;
+		case 1:
+			cloakoffnpc strnpcinfo(3),getcharid(0);
+			.@n$ = "[الطبيب ماهر]";
+			cutin "bu_mark1.bmp",2;
+			mes .@n$;
+			mes "واه, مالذي يجري هنا؟";
+			mes "لماذا استدعيتني وأنت";
+			mes "لست في قتالٍ مهم كالعادة؟";
+			next;
+			.@choice = select("أخبر ماهر بشان الشبح:أخبر ماهر بأنك تفتقده فحسب");
+			if(.@choice == 2) {
+				cutin "bu_mark4.bmp",2;
+				mes "- ينظر إليك الطبيب ماهر -";
+				mes "- بنظرة اشمئزاز -";
+				mes "- وكأنك أكثر منظرٍ -";
+				mes "- مقرفٍ رآه في حياته -";
+				next;
+				mes "- أنت تشعر بالخزي وتتمنى -";
+				mes "- لو أنك اتبّعت نص المهمة -";
+				mes "- فحسب, بدلاً من محاولة -";
+				mes "- استكشاف الخيارات الأخرى -";
+				close2;
+				cloakonnpc strnpcinfo(3);
+				end;
+			}
+			mes .@n$;
+			mes "أوه؟ هذا مثير للاهتمام حقاً";
+			mes "حسناً إذاً, لنتحدث إلى هذا الشبح";
+			mes "ونرى ماذا يريد.";
+			close2;
+			cutin "",255;
+			showscript "إنه لا يستجيب لكلامنا....",getnpcid(0,"حارس المدينة#hallow");
+			halloween_quest_main = 2;
+			end;
+		case 2:
+			cutin "bu_mark1.bmp",2;
+			mes "[الطبيب ماهر]";
+			mes "لنتحدث إلى الشبح ونرى ماذا";
+			mes "يريد.";
+			close3;
+		case 3:
+			cutin "bu_mark1.bmp",2;
+			.@n$ = "[الطبيب ماهر]";
+			mes .@n$;
+			mes "أنا أعتذر يا "+strcharinfo(0);
+			mes "لقد كنت في مزاجٍ سيء, لأنني";
+			mes "لم اتناول وجبة الإفطار اليوم";
+			next;
+			switch(select("لا بأس, الأمر ليس مهماً:ماذا تتناول على الفطور؟:إلغاء")) {
+				case 1:
+					mes .@n$;
+					mes "شكراً لك.";
+					sleep2 500;
+					npctalk "Blessing !!";
+					specialeffect2 EF_BLESSING;
+					sc_start SC_BLESSING,240000,10;
+					sleep2 1000;
+					npctalk "Increase Agility !!";
+					specialeffect2 EF_INCAGILITY;
+					sc_start SC_INCREASEAGI,240000,10;
+					sleep2 1000;
+					npctalk "Kyrie Elesion !!";
+					specialeffect2 112;
+					sc_start SC_KYRIE,240000,10;
+					sleep2 1000;
+					npctalk "Heal !!";
+					percentheal 100,100;
+					specialeffect2 EF_HEAL2;
+					sleep2 1000;
+					mes "سأذهب لأستريح قليلاً";
+					mes "يمكنك استدعائي إذا احتجت";
+					mes "شيئاً مرةً أخرى.";
+					halloween_quest_main = 4;
+					maher_halloween_quest = 1;
+					cloakonnpc strnpcinfo(3);
+					close3;
+				case 2:
+					mes .@n$;
+					mes "همم؟ أحب تناول البطاطا مع كوبٍ";
+					mes "من الحليب في الصباح.";
+					next;
+					mes "- يبدو أنه يحب البطاطا حقاً -";
+					maher_halloween_quest = 1;
+					cloakonnpc strnpcinfo(3);
+					halloween_quest_main = 4;
+					close3;
+				default:
+				case 3:
+					close;
+			}
+	}
+	
+
+OnInit:
+	cloakonnpc strnpcinfo(3);
+	end;
+}
+// invasion event
+// -	script	halloween_invasion	-1,{
+// OnInit:
+//     setarray .maps$[0],"aimia","geffen","manuk","prontera","payon","umbala","alberta","izlude","comodo";
+// 	setarray .mapnames$[0],"إيميا","جيفين","مانوك","برونتيرا","بايون","أومبالا","ألبيرتا","إيزلود","كومودو";
+// 	setarray .mobs[0],31963,31968,31969,31962;
+// 	.coinId = 60040;
+// 	bindatcmd("halloweeninvasion",strnpcinfo(3)+"::OnAtCmd",99,99);
+// 	end;
+// //every 4 hours
+// OnClock8000:
+// OnClock1200:
+// OnClock1600:
+// OnClock2000:
+// OnClock0000:
+// OnClock0400:
+// OnAtCmd:
+// 	if(agitcheck() || agitcheck2() || $invasion) end;
+// 	.@rand = rand(getarraysize(.maps$));
+// 	.invasion_map$ = .maps$[.@rand];
+// 	.map_name$ = .mapnames$[.@rand];
+// 	announce "تحاصر مجموعةٌ من الأشباح والوحوش مدينة "+.map_name$,bc_all|bc_blue;
+// 	sleep 5000;
+// 	announce "ستهجم الوحوش على مدينة "+.map_name$+" بعد دقيقتان !",bc_all|bc_blue;
+// 	sleep 60000;
+// 	announce "ستهجم الوحوش على مدينة "+.map_name$+" بعد دقيقة واحدة !",bc_all|bc_blue;
+// 	sleep 60000;
+// 	announce "لقد هاجمت الوحوش مدينة "+.map_name$+" !! إقضوا عليهم بسرعة !",bc_all|bc_blue;
+// 	for(.@i = 0; .@i < getarraysize(.mobs); .@i++) {
+// 		monster .invasion_map$,0,0,"شبحٌ شرير",.mobs[.@i],200,strnpcinfo(3)+"::OnMyMobDead";
+// 	}
+// 	.mobcount = 800;
+// 	end;
+
+// OnMyMobDead:
+// 	.mobcount--;
+// 	// getitem 60040,1;
+// 	if(.mobcount == 500) {
+// 		announce "تبقى 500 وحش في المدينة ! إقضوا عليهم الآن !!",bc_all|bc_blue;
+// 	}
+// 	if(.mobcount == 100) {
+// 		announce "تبقى 100 وحش في المدينة ! إقضوا عليهم الآن !!",bc_all|bc_blue;
+// 		getitem .coinId,2;
+// 	}
+// 	if(.mobcount < 50 && .mobcount > 0) {
+// 		announce "لقد تبقى "+.mobcount+" وحش في المدينة !",bc_all|bc_blue;
+// 		getitem .coinId,3;
+// 	}
+// 	if(.mobcount == 0) {
+// 		sleep 5000;
+// 		announce "لقد تم القضاء على جميع الأشباح ! أحسنتم عملاً !!",bc_all|bc_blue;
+// 		.@rand = rand(1,1000);
+// 		if(.@rand < 150) {
+// 			sleep 5000;
+// 			announce "لقد ظهر زعيم الوحوش لينتقم من اللاعبين !!",bc_all|bc_blue;
+// 			sleep 3000;
+// 			monster .invasion_map$,0,0,"زعيم الأشباح",31974,1,strnpcinfo(3)+"::OnInvasionBossDead";
+// 			announce "لديكم عشرة دقائق للعثور على زعيم الاشباح والقضاء عليه !!",bc_all|bc_blue;
+// 			initnpctimer;
+// 		}
+// 		addrid(5,0,.invasion_map$);
+// 		getitem .coinId,10;
+// 		sleep 500;
+// 	}
+// 	end;
+
+// OnTimer600000:
+// 	killmonster .invasion_map$,strnpcinfo(3)+"OnInvasionBossDead";
+// 	announce "لقد فشل اللاعبين في هزيمة زعيم الأشباح خلال عشرة دقائق.",bc_all|bc_blue;
+// 	stopnpctimer;
+// 	end;
+
+// OnInvasionBossDead:
+// 	announce callfunc("formatArabic","لقد قام اللاعب "+strcharinfo(0)+" بهزيمة زعيم الأشباح !!"),bc_all|bc_blue;
+// 	getitem .coinId,500;
+// 	end;
+// }
+
+//luthadel mobs
+-	script	luthadel_mobs	-1,{
+OnInit:
+	setarray .mobs[0],31963,31968,31969,31962;
+	.mapname$ = "luthadel";
+	$hellgatestatus = 0; // 0 no hell gate, 1 = miniboss spawn, 2 = hell gate active awaiting players, 3 = hell gate active with players inside
+	monster .mapname$,0,0,"--ja--",31963,50,strnpcinfo(3)+"::OnLuthadelMobDead";
+	monster .mapname$,0,0,"--ja--",31968,50,strnpcinfo(3)+"::OnLuthadelMobDead";
+	monster .mapname$,0,0,"--ja--",31969,50,strnpcinfo(3)+"::OnLuthadelMobDead";
+	monster .mapname$,0,0,"--ja--",31962,50,strnpcinfo(3)+"::OnLuthadelMobDead";
+	//luthadel mapflags
+	if(!getmapflag(.mapname$,mf_loadevent)) setmapflag .mapname$,mf_loadevent;
+	if(!getmapflag(.mapname$,mf_partylock)) setmapflag .mapname$,mf_partylock;
+	if(!getmapflag(.mapname$,mf_monster_noteleport)) setmapflag .mapname$,mf_monster_noteleport;
+	end;
+OnLuthadelMobDead:
+	// if(!$hellgatestatus) .kills++;
+	// if(.kills >= 800) {
+	// 	$hellgatestatus = 1;
+	// 	.kills = 0;
+	// 	monster .mapname$,106,98,"حارس بوابة الجحيم",31959,1,strnpcinfo(3)+"::OnHellgateMobDead";
+	// 	announce "لقد ظهر حارس بوابة الجحيم في لوثاديل !!",bc_all|bc_blue;
+	// }
+	monster .mapname$,0,0,"--ja--",.mobs[rand(getarraysize(.mobs))],1,strnpcinfo(3)+"::OnLuthadelMobDead";
+	end;
+
+OnHellgateMobDead:
+	announce "لقد تم القضاء على حارس بوابة الجحيم !! أسرعوا الآن بدخول البوابة !!",bc_all|bc_blue;
+	enablenpc "بوابة الجحيم";
+	end;
+}
+
+//hellgate
+//entrance npc
+luthadel,106,98,4	script	بوابة الجحيم	10540,{
+	if(!getcharid(1)) {
+		mes .n$;
+		mes "أنت لست في مجموعة !";
+		mes "يرجى إنشاء مجموعة قبل المتابعة.";
+		close;
+	}
+	getpartymember getcharid(1),0;
+	getpartymember getcharid(1),1;
+	getpartymember getcharid(1),2;
+	if($@partymembercount > 2) {
+		mes .n$;
+		mes "مجموعتك تحتوي على أكثر من لاعبين";
+		mes "يرجى إحضار مجموعة مكونة من لاعبين اثنين فقط.";
+		close;
+	}
+	for ( .@i = 0; .@i < $@partymembercount; .@i++ ) {
+		if ( !isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i] ) ) {
+			mes .n$;
+			mes "أحد اللاعبين في مجموعتك";
+			mes "غيرٌ متصل, يرجى إحضار مجموعة";
+			mes "بها لاعبين متصلين فقط.";
+			close;
+		}
+			if(is_verified($@partymemberaid[.@i]) == "") {
+				mes .n$;
+				mes "يجب أن يكون كلا أعضاء المجموعة مفعّلان";
+				mes "للمشاركة في بوابة الجحيم.";
+				next;
+				mes .n$;
+				mes "إستعمل الأمر @verify";
+				mes "لتفعيل الحساب.";
+				close;
+			}
+		if(strcharinfo(3,$@partymembercid[.@i]) != "luthadel") {
+			mes .n$;
+			mes "يجب أن يكون جميع أعضاء";
+			mes "المجموعة في لوثاديل للمتابعة.";
+			close;
+		}
+	}
+	.@id = getcharid(1);
+	.@name$ = getpartyname(getcharid(1));
+	.@members = $@partymembercount;
+	mes .n$;
+	mes "عدد اللاعبين في الجحيم: ";
+	mes "^ff0000"+$hellgateplayercount+"^000000/4";
+	mes "هل تريد دخول بوابة الجحيم؟";
+	if(select("نعم:لا") -1) close;
+	if($hellgatestatus == 3) close;
+	do {
+		.@x = rand(0,500);
+		.@y = rand(0,500);
+	} while (!checkcell("hallow01",.@x,.@y,cell_chkpass));
+	warpparty "hallow01",.@x,.@y,getcharid(1);
+	announce "لقد دخلت المجموعة "+.@name$+" إلى بوابة الجحيم.",bc_all|bc_blue;
+	$hellgateplayercount += .@members;
+	if($hellgateplayercount >= 4) {
+		$hellgatestatus = 3;
+		sleep 500;
+		disablenpc strnpcinfo(3);
+		mapannounce "luthadel","تم إغلاق بوابة الجحيم, حظاً موفقاً للّاعبين في الداخل.",bc_blue;
+		donpcevent "hellgate_main::OnStart";
+	}
+	end;
+	
+
+OnInit:
+	.n$ = "[بوابة الجحيم]";
+	$hellgatestatus = 0;
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+// //hellgate main
+// -	script	hellgate_main	-1,{
+// OnInit:
+// 	.map$ = "hallow01";
+// 	bindatcmd("mobcount",strnpcinfo(3)+"::OnMobCount",0,99);
+// 	setarray .mobs[0],31961,31967,31976;
+// 	.coinId = 60040;
+// 	if(!getmapflag(.map$,mf_loadevent)) setmapflag .map$,mf_loadevent;
+// 	if(!getmapflag(.map$,mf_partylock)) setmapflag .map$,mf_partylock;
+// 	if(!getmapflag(.map$,mf_monster_noteleport)) setmapflag .map$,mf_monster_noteleport;
+// 	if(!getmapflag(.map$,mf_nosave)) setmapflag .map$,mf_nosave;
+// 	if(!getmapflag(.map$,mf_noreturn)) setmapflag .map$,mf_noreturn;
+// 	if(!getmapflag(.map$,mf_noteleport)) setmapflag .map$,mf_noteleport;
+// 	if(!getmapflag(.map$,mf_nowarpto)) setmapflag .map$,mf_nowarpto;
+// 	// if(!getmapflag(.map$,mf_pvpnoguild)) setmapflag .map$,mf_pvpnoguild;
+// 	if(!getmapflag(.map$,mf_noicewall)) setmapflag .map$,mf_noicewall;
+// 	removemapflag(.map$,mf_pvp);
+// 	function endhellgate;
+// 	mapwarp .map$,"aimia",109,172;
+// 	killmonster .map$,strnpcinfo(3)+"::OnHellgateMobDead";
+// 	deletearray $hellgate_players[0];
+// 	$hellgatestatus = 0;
+// 	$hellgateplayercount = 0;
+// 	.timer = 0;
+// 	stopnpctimer;
+// 	// .timer = 0;
+// 	end;
+
+// OnStart:
+// 	sleep 5000;
+// 	for(.@i = 0; .@i < getarraysize(.mobs); .@i++) {
+// 		monster .map$,0,0,"--ja--",.mobs[.@i],300,strnpcinfo(3)+"::OnHellgateMobDead";
+// 	}
+// 	.mobcount = 900;
+// 	if(!getmapflag(.map$,mf_pvp)) setmapflag .map$,mf_pvp;
+// 	initnpctimer;
+// 	mapannounce .map$,"لقد بدأت بوابة الجحيم ! حظاً موفقاً لكم...",bc_blue;
+// 	for(.@i = 1; .@i < 4; .@i++) {
+// 		enablenpc "صندوق كنز#hell"+.@i;
+// 		donpcevent "صندوق كنز#hell"+.@i+"::OnStart";
+// 	}
+// 	end;
+
+// OnTimer10000:
+// 	for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+// 		if(attachrid($hellgate_players[.@i])) {
+// 			for(.@j = 0; .@j < getarraysize($hellgate_players); .@j++) {
+// 				getmapxy(.@map$,.@x,.@y,BL_PC,$hellgate_players[.@j]);
+// 				if($hellgate_players[.@j] != getcharid(3)) viewpoint 1,.@x,.@y,.@j,"0xFF0000";
+// 			}
+// 			detachrid();
+// 		}
+// 	}
+// 	.timer++;
+// 	initnpctimer;
+// 	if(.timer >= 360) endhellgate();
+// 	end;
+
+// OnMobCount:
+// 	if(strcharinfo(3) != .map$) end;
+// 	dispbottom "عدد الوحوش المتبقي في الخريطة: "+.mobcount;
+// 	end;
+
+// OnHellgateMobDead:
+// 	.mobcount--;
+// 	if(.mobcount == 450) {
+// 		mapannounce .map$,"لقد تم القضاء على نصف الوحوش في بوابة الجحيم !",bc_blue;
+// 		sleep 5000;
+// 		mapannounce .map$,"لقد ظهرت صناديق الكنز في الخريطة مرةً أخرى",bc_blue;
+// 		for(.@i = 1; .@i < 4; .@i++) {
+// 			enablenpc "صندوق كنز#hell"+.@i;
+// 			donpcevent "صندوق كنز#hell"+.@i+"::OnStart";
+// 		}
+// 	}
+// 	// if(.mobcount == 50) {
+// 	// 	mapannounce .map$,"تبقى 50 وحشاً في بوابة الجحيم !",bc_blue;
+// 	// 	sleep 5000;
+// 	// 	mapannounce .map$,"لقد ظهرت صناديق الكنز في الخريطة مرةً أخرى",bc_blue;
+// 	// 	for(.@i = 1; .@i < 4; .@i++) {
+// 	// 		enablenpc "صندوق كنز#hell"+.@i;
+// 	// 		donpcevent "صندوق كنز#hell"+.@i+"::OnStart";
+// 	// 	}
+// 	// }
+// 	if($hellgatestatus && .mobcount == 80) {
+// 		announce "لقد تم القضاء على جميع الوحوش في بوابة الجحيم.",bc_all;
+// 		killmonster .map$,strnpcinfo(3)+"::OnHellgateMobDead";
+// 		sleep 5000;
+// 		mapannounce "hallow01","لقد ظهر زعيم الجحيم في الخريطة ! أقضوا عليه الآن !!",bc_blue;
+// 		do {
+// 			.x = rand(0,500);
+// 			.y = rand(0,500);
+// 		} while (!checkcell("hallow01",.x,.y,cell_chkpass));
+// 		monster .map$,.@x,.@y,"زعيم الجحيم",31974,1,strnpcinfo(3)+"::OnHellgateBossDead";
+// 		for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+// 			if(attachrid($hellgate_players[.@i])) {
+// 				viewpoint 1,.@x,.@y,10,0x0000FF;
+// 				dispbottom "يمكنك الآن رؤية زعيم الجحيم في الخريطة.";
+// 				detachrid();
+// 			}
+// 		}
+// 	}
+// 	end;
+
+// function	endhellgate	{
+// 	mapwarp .map$,"aimia",109,172;
+// 	killmonster .map$,strnpcinfo(3)+"::OnHellgateMobDead";
+// 	deletearray $hellgate_players[0];
+// 	$hellgatestatus = 0;
+// 	$hellgateplayercount = 0;
+// 	.timer = 0;
+// 	stopnpctimer;
+// 	removemapflag(.map$,mf_pvp);
+// 	return;
+// }
+
+// OnHellgateBossDead:
+// 	mapannounce .map$,"لقد تم القضاء على زعيم الجحيم !",bc_blue;
+// 	getitem 50000,1;
+// 	sleep 10000;
+// 	mapannounce .map$,"احسنتم عملاً !!",bc_blue;
+// 	setarray .@rewards[0],60040,60047,60050;
+// 	freeloop(1);
+// 	for(.@i = 0; .@i < 1000; .@i++) {
+// 		makeitem .@rewards[rand(getarraysize(.@rewards))],1,.map$,rand(500),rand(500);
+// 	}
+// 	freeloop(0);
+// 	.@playercount = getarraysize($hellgate_players);
+// 	debugmes "player count: "+.@playercount;
+// 	for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+// 		debugmes "giving "+$hellgate_players[.@i]+" "+1000/.@playercount+" rewards.";
+// 		getitem .coinId,2000/.@playercount,$hellgate_players[.@i];
+// 	}
+// 	sleep 60000;
+// 	endhellgate();
+// 	end;
+
+// OnPCLoadMapEvent:
+// 	if(strcharinfo(3) != .map$ || inarray($hellgate_players,getcharid(3)) > -1) end;
+// 	setarray $hellgate_players[getarraysize($hellgate_players)],getcharid(3);
+// 	dispbottom "أهلاً بك في بوابة الجحيم";
+// 	dispbottom "وحظاً موفقاً, ستظهر الوحوش بمجرد دخول 4 لاعبين إلى الخريطة";
+// 	dispbottom "سيظهر أيضاً أربعة صناديق كنز في مكانٍ عشوائي";
+// 	dispbottom "ستتمكن من رؤية اللاعبين باللون الأحمر في الخريطة, وصناديق الكنز باللون الأخضر.";
+// 	dispbottom "بإمكانك استعمل الأمر @mobcount لرؤية الوحوش المتبقية في الخريطة.";
+// 	dispbottom "ستتمكن من رؤية اللاعبين في الخريطة عند بدء الفعالية.";
+// 	end;
+
+// OnPCLogoutEvent:
+// 	if(strcharinfo(3) != .map$) end;
+// 	if(inarray($hellgate_players,getcharid(3)) > -1) deletearray $hellgate_players[inarray($hellgate_players,getcharid(3))],1;
+// 	$hellgateplayercount--;
+// 	if(!getarraysize($hellgate_players)) endhellgate();
+// 	for(.@j = 0; .@j < getarraysize($hellgate_players); .@j++) {
+// 		getmapxy(.@map$,.@x,.@y,BL_PC,$hellgate_players[.@j]);
+// 		if($hellgate_players[.@j] != getcharid(3)) viewpoint 2,.@x,.@y,.@index,"0xFF0000";
+// 	}
+// 	end;
+
+// OnPCDieEvent:
+// 	if(strcharinfo(3) != .map$) end;
+// 	.@index = inarray($hellgate_players,getcharid(3));
+// 	for(.@j = 0; .@j < getarraysize($hellgate_players); .@j++) {
+// 		getmapxy(.@map$,.@x,.@y,BL_PC,$hellgate_players[.@j]);
+// 		if($hellgate_players[.@j] != getcharid(3)) viewpoint 2,.@x,.@y,.@index,"0xFF0000";
+// 	}
+// 	deletearray $hellgate_players[inarray($hellgate_players,getcharid(3))],1;
+// 	$hellgateplayercount--;
+// 	sleep2 500;
+// 	warp "SavePoint",0,0;
+// 	mapannounce .map$,"لقد تمت هزيمة اللاعب "+strcharinfo(0),bc_blue;
+// 	if(!getarraysize($hellgate_players)) endhellgate();
+// 	end;
+// }
+
+// //halloween main quest
+aimia,92,115,4	script	شبحٌ سجين	950 ,{
+	switch(halloween_quest_main) {
+		case 0:
+			break;
+
+		case 1:
+			mes "- أنت تحاول التحدث مع الشبح -";
+			mes "- لكنه يتجاهلك تماماً -";
+			mes "- كأنه لا يراك إطلاقاً -";
+			close;
+	}
+	end;
+OnInit:
+	.n$ = "[شبحٌ سجين]";
+	while(true) {
+		specialeffect 802;
+		sleep 30000;
+	}
+	end;
+}
+
+aimia,101,175,5	script	حارس المدينة#hallow	8W_SOLDIER,{
+	switch(halloween_quest_main) {
+		case 0:
+			mes "- ياله من منظرٍ غريب -";
+			mes "- هناك شبحٌ محبوس داخل قفص -";
+			next;
+			mes "- يبدو أن حامية المدينة -";
+			mes "- تقوم بحراسته -";
+			next;
+			if(select("اسأل الحامية عن الشبح:تظاهر بأنك لم ترَ شيئاً") -1) {
+				mes "- أنت عارٌ على المغامرين -";
+				close;
+			}
+			showscript "مالذي يجري هنا؟";
+			sleep2 500;
+			mes .n$;
+			mes "مرحباً أيها المغامر";
+			mes "لابد أنك سمعت بالإشاعات التي";
+			mes "انتشرت في المدينة مؤخراً";
+			next;
+			mes .n$;
+			mes "يبدو أن هناك العديد من الأشباح";
+			mes "التي تظهر وتجوب المدينة وتخيف";
+			mes "السكان مؤخراً";
+			next;
+			mes .n$;
+			mes "لقد استطعنا الإمساك بهذا الشبح";
+			mes "بغرضِ استجوابه ومعرفة سبب";
+			mes "ظهور الأشباح بكثرة في المدينة";
+			mes "ولكنه لم يخبرنا بشيءٍ حتى الآن";
+			next;
+			mes .n$;
+			mes "فقط لو كان لدينا وسيطٌ روحي";
+			mes "ليستجوب الشبح ويكتشف السر...";
+			halloween_quest_main = 1;
+			close;
+		
+		case 1:
+			mes .n$;
+			mes "كيف أستطيع مساعدتك؟";
+			next;
+			select("بشان الوسيط الروحي...");
+			mes .n$;
+			mes "الوسطاء الروحيون هم أٌناسٌ متخصصون";
+			mes "في مخاطبة الموتى والأشباح";
+			next;
+			mes .n$;
+			mes "لسببٍ ما, يبدو أن الأشباح";
+			mes "تتجاوب معهم أكثر من الناس العادية";
+			next;
+			select("أين يمكنني العثور على وسيطٍ روحي؟");
+			mes .n$;
+			mes "لقد كان أحدهم يسكن في المدينة";
+			mes "لكن يبدو أنه رحل منها مؤخراً";
+			next;
+			mes .n$;
+			mes "لقد كان طبيباً يرتدي ملابساً زرقاء";
+			mes "وشعراً أشقر, ويحمل معه حقيبةً";
+			mes "بنية طوال الوقت.";
+			next;
+			mes "- هذا الوصف يبدو مألوفاً -";
+			mes "- إليك -";
+			halloween_quest_main_h1++;
+			if(halloween_quest_main_h1 >= 5) {
+				mes "- لابد أنه يتحدث عن الطبيب ماهر -";
+				mes "- ربما يمكنني استدعاؤه باستعمال -";
+				mes "- مخطوطة الطبيب ماهر -";
+			}
+			close;
+	}
+OnInit:
+	.n$ = "[حامية المدينة]";
+	questinfo QTYPE_QUEST,QMARK_PURPLE,"BaseLevel >= 100 && !halloween_quest_main";
+	end;
+}
+
+aimia,97,175,3	duplicate(حارس المدينة#hallow)	حارس المدينة#hallow2	8W_SOLDIER
+
+// aimia,x,y,z	script	الطبيب ماهر	maher,{
+
+// OnInit:
+// 	.main_quest_id = 16140;
+// 	questinfo QTYPE_QUEST,QMARK_PURPLE,"BaseLevel >= 100 && !isbegin_quest(16140)";
+
+// }
+
+//treasure chests
+
+//items chest
+hallow01,100,100,0	script	صندوق كنز#hell1	10005,{
+	disablenpc strnpcinfo(3);
+	for(.@i = 0; .@i < 10; .@i++) {
+		makeitem 60040,10,"hallow01", .x,.y;
+	}
+	mapannounce "hallow01","لقد حصل اللاعب "+strcharinfo(0)+" على صندوق كنز !",bc_blue;
+	sleep2 500;
+	for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+		if(attachrid($hellgate_players[.@i])) {
+			viewpoint 2,.x,.y,7,0x00FF00;
+			detachrid();
+		}
+	}
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	.x = 0;
+	.y = 0;
+	end;
+OnStart:
+	do {
+		.x = rand(0,500);
+		.y = rand(0,500);
+	} while (!checkcell("hallow01",.x,.y,cell_chkpass));
+	unitwarp getnpcid(0),"hallow01",.x,.y;
+	for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+		if(attachrid($hellgate_players[.@i])) {
+			viewpoint 1,.x,.y,7,0x00FF00;
+			dispbottom "بإمكانك رؤية صندوق كنز في الإحداثيات "+.x+"/"+.y;
+			detachrid();
+		}
+	}
+	end;
+}
+// buff chest
+hallow01,100,100,0	script	صندوق كنز#hell2	10005,{
+	disablenpc strnpcinfo(3);
+	.@r = rand(0,3);
+	switch(.@r) {
+		case 0:
+			bonus_script "{ bonus bStr,20; bonus bAgi,20; bonus bVit,20; bonus bInt,20; bonus bDex,20; bonus bLuk,20; }",3600,31;
+			dispbottom "لقد حصلت على زيادة 20 لجميع الحالات الخاصة بك.";
+			specialeffect2 EF_SPHERE;
+			break;
+		case 1:
+			bonus_script "{ bonus bDelayrate,-30; }",3600,31;
+			dispbottom "سيتم تقليل تأخير المهارات الخاصة بك بنسبة 30%";
+			specialeffect2 37;
+			break;
+		case 2:
+			bonus_script "{ bonus bAtk,100; bonus bMatk,100; bonus bLongAtkRate,30; }",3600,31;
+			dispbottom "لقد حصلت على زيادة في الهجوم, الهجوم السحري, والضرر بعيد المدى.";
+			specialeffect2 220;
+			break;
+		case 3:
+			bonus_script "{ bonus bFixedCast,-1; }",3600,31;
+			dispbottom "تم تقليل وقت الإلقاء الثابت الخاص بك بمعدل ثانية كاملة";
+			specialeffect2 389;
+			break;
+	}
+	mapannounce "hallow01","لقد حصل اللاعب "+strcharinfo(0)+" على صندوق كنز !",bc_blue;
+	sleep2 500;
+	for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+		if(attachrid($hellgate_players[.@i])) {
+			viewpoint 2,.x,.y,8,0x00FF00;
+			detachrid();
+		}
+	}
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	.x = 0;
+	.y = 0;
+	end;
+OnStart:
+	do {
+		.x = rand(0,500);
+		.y = rand(0,500);
+	} while (!checkcell("hallow01",.x,.y,cell_chkpass));
+	unitwarp getnpcid(0),"hallow01",.x,.y;
+	for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+		if(attachrid($hellgate_players[.@i])) {
+			viewpoint 1,.x,.y,8,0x00FF00;
+			dispbottom "بإمكانك رؤية صندوق كنز في الإحداثيات "+.x+"/"+.y;
+			detachrid();
+		}
+	}
+	end;
+}
+// rare chest
+hallow01,100,100,0	script	صندوق كنز#hell3	10005,{
+	disablenpc strnpcinfo(3);
+	makeitem 60047,10,"hallow01", .x,.y;
+	makeitem 60050,15,"hallow01", .x,.y;
+	mapannounce "hallow01","لقد حصل اللاعب "+strcharinfo(0)+" على صندوق كنز !",bc_blue;
+	sleep2 500;
+	for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+		if(attachrid($hellgate_players[.@i])) {
+			viewpoint 2,.x,.y,9,0x00FF00;
+			detachrid();
+		}
+	}
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	.x = 0;
+	.y = 0;
+	end;
+OnStart:
+	do {
+		.x = rand(0,500);
+		.y = rand(0,500);
+	} while (!checkcell("hallow01",.x,.y,cell_chkpass));
+	unitwarp getnpcid(0),"hallow01",.x,.y;
+	for(.@i = 0; .@i < getarraysize($hellgate_players); .@i++) {
+		if(attachrid($hellgate_players[.@i])) {
+			viewpoint 1,.x,.y,9,0x00FF00;
+			dispbottom "بإمكانك رؤية صندوق كنز في الإحداثيات "+.x+"/"+.y;
+			detachrid();
+		}
+	}
+	end;
+}
+
+// exchanger
+luthadel,92,111,6	script	شبحٌ مريب	10142 ,{
+	mes .n$;
+	if(!ha_exchanger_intro) {
+		mes "أوه؟ لقد أصبح بإمكان البشر";
+		mes "دخول مدينة الأشباح بسهولة.";
+		next;
+		mes .n$;
+		mes "لا تسئ فهم الامر, إنني أرى وجودكم";
+		mes "في لوثاديل كأمرٍ إيجابي.";
+		next;
+		select("ولكننا جئنا هنا لهزيمتكم...");
+		mes .n$;
+		mes "بالضبط !!";
+		mes "الحرب والصراع هو فرصةٌ ذهبية";
+		mes "لتاجرٍ مثلي ليجني الكثير من الأرباح !";
+		next;
+		select("مالّذي تعرضه؟");
+		mes .n$;
+		mes "يمكنني مبادلة العديد من الأدوات";
+		mes "مقابل أدوات ذات قيمة أعلى !";
+		next;
+		mes .n$;
+		mes "هل تريد رؤية متجري؟";
+		ha_exchanger_intro = 1;
+		if(select("أرني المتجر:لا شكراً") -1) {
+			clear;
+			mes .n$;
+			mes "حسناً إذاً. كما تشاء";
+			next;
+			mes .n$;
+			mes "هل هذا ماتظن بأنني سأقوله؟؟";
+			mes "هل تظن أنني سأدعك تنجوا بحياتك الآن؟؟";
+			mes "ياللوقاحة !";
+			percentheal -100,-100;
+			close;
+		}
+	}
+	close2;
+	callfunc "qshop",1,2,3,4;
+	end;
+
+OnInit:
+	.n$  = "[شبحٌ مريب]";
+	end;
+}
+
+//daily quests
+luthadel,117,109,4	script	ماريونيت#hallow	1143,{
+	mes .n$;
+	mes "كيكيكيكيه, لقد انتهى الهالوين";
+	mes "سأصرخ حتى ينتهي اصطفاف العوالم";
+	next;
+	mes "- تقوم ماريونيت بالصراخ -";
+	mes "- بصوتٍ عالٍ جداً -";
+	sc_start SC_STUN,10000,1000;
+	close;
+	if(!halloween_daily_intro1) {
+		mes .n$;
+		mes "كيكيكيكي, بشريٌ أحمق";
+		next;
+		if(select("ماذا قلتي؟؟:تجاهل الأمر") -1) close;
+		mes .n$;
+		mes "ماذا؟ إنني أدعو أحمقاً بالأحمق فحسب";
+		next;
+		if(select("هاجم الشبح:تجاهل الشبح وابتعد") == 1 ) {
+			mes "- أنت تحاول لكم الشبح -";
+			mes "- لكنك تمر من خلالها فحسب -";
+			next;
+			mes .n$;
+			mes "هاهاهاهاهاها !!";
+			mes "أنت أغبى حتى مما تبدو عليه !";
+			close;
+		}
+		mes .n$;
+		mes "مهلاً مهلاً, لا تستاء بهذه السرعة";
+		mes "لن أهينك مرةً اخرى, لذا تعال لنتحدث";
+		next;
+		select("عم تريدين التحدث؟");
+		mes .n$;
+		mes "مؤخراً, أتى الكثير من البشر";
+		mes "الحـ..أعني من البشر إلى لوثاديل";
+		next;
+		select("وماذا في ذلك؟");
+		mes .n$;
+		mes "أصبحت المدينة مكتظة ومزعجة !";
+		mes "لا يمكن لأحد سماع صراخي المخيف";
+		mes "في وسط هذا الإزعاج";
+		next;
+		emotion 4;
+		select("ولماذا تريدين الصراخ...");
+		mes .n$;
+		mes "ياللوقاحة !!";
+		mes "كيف تجرؤ على سؤال سيدةٍ جميلة";
+		mes "عن سبب رغبتها في الصراخ ؟؟؟";
+		mes "ألم يعلمك والداك الأدب؟؟";
+		percentheal -50,0;
+		specialeffect2 413;
+		next;
+		mes .n$;
+		mes "على أيةٍ حال, ما أريد أقوله هو";
+		mes "أن المدينة أصبحت مكتظة";
+		mes "مارأيك أن تساعدني على تفريغها؟";
+		next;
+		select("ماذا تريدين؟");
+		mes .n$;
+		mes "الأمر بسيط, أريد منك القضاء";
+		mes "على بعض الأشباح في المدينة";
+		next;
+		mes .n$;
+		mes "قم بهزيمة: ";
+		mes "^ff0000100x Undead Knight";
+		mes "100x Undead Spearman";
+		mes "100x Halloween Necromancer";
+		mes "100x Ghost Baron^000000";
+		next;
+		mes .n$;
+		mes "بالطبع, ساكافئك بسخاء عند إتمام";
+		mes "المهمة";
+		setquest .quest_id1;
+		setquest .quest_id2;
+		//set
+		halloween_daily_intro1 =  1;
+		close;
+	}
+	switch(checkquest(.quest_id1,HUNTING)) {
+		case 2:
+			if(checkquest(.quest_id2,HUNTING) != 2) {
+				mes "عد إلي بعد هزيمة";
+				mes "^ff0000100x Undead Knight";
+				mes "100x Undead Spearman";
+				mes "100x Halloween Necromancer";
+				mes "100x Ghost Baron^000000";
+			}
+			mes .n$;
+			mes "أحسنت عملاً , لقد قضيت";
+			mes "على الوحوش كلها !";
+			next;
+			mes .n$;
+			mes "أستطيع الصراخ كما أشاء";
+			mes "الآن !!";
+			for(.@i = 0; .@i < getarraysize(.quest_rewards); .@i = .@i + 2) {
+				getitem .quest_rewards[.@i],.quest_rewards[.@i+1];
+			}
+			erasequest .quest_id1;
+			erasequest .quest_id2;
+			setquest .quest_cd_id;
+			close;
+		case -1:
+			if(checkquest(.quest_cd_id,PLAYTIME) == 2  || checkquest(.quest_cd_id,PLAYTIME) == 1){
+				mes "- يمكنك الآن استلام مهمة ماريونيت -";
+				mes "من جديد.";
+				erasequest .quest_cd_id;
+				close;
+			}
+			if(checkquest(.quest_cd_id,PLAYTIME) == 0) {
+				mes .n$;
+				mes "شكراً على مساعدتك لي";
+				mes "أستطيع الصراخ كما أشاء الآن !";
+				next;
+				mes "- تقوم ماريونيت بالصراخ -";
+				mes "- بصوتٍ عالٍ جداً -";
+				sc_start SC_STUN,10000,1000;
+				close;
+			}
+			mes .n$;
+			mes "أوه !! إنه أنت مرة أخرى !";
+			mes "المغامر الأحـ..البارع الذي";
+			mes "ساعدني في قتل الأشباح !";
+			next;
+			mes .n$;
+			mes "هل يمكنك مساعدتي مرة أخرى؟";
+			next;
+			if(select("بالطبع:لا شكراً") -1) close;
+			mes .n$;
+			mes "ممتاز !";
+			mes "عد إلي بعد هزيمة";
+			mes "^ff0000100x Undead Knight";
+			mes "100x Undead Spearman";
+			mes "100x Halloween Necromancer";
+			mes "100x Ghost Baron^000000";
+			setquest .quest_id1;
+			setquest .quest_id2;
+			close;
+		default:
+			mes .n$;
+			mes "عد إلي بعد أن تقضي على";
+			mes "^ff0000100x Undead Knight";
+			mes "100x Undead Spearman";
+			mes "100x Halloween Necromancer";
+			mes "100x Ghost Baron^000000";
+			close;
+	}
+
+OnInit:
+	.n$ = "[ماريونيت]";
+	.quest_id1 = 100297;
+	.quest_id2 = 100289;
+	setarray .quest_rewards[0],60040,100;
+	.quest_cd_id = 100298;
+	end;
+}
+
+luthadel,113,111,4	script	الجلو الشبح	950,{	
+	mes .n$;
+	mes "بوووووو !!";
+	next;
+	mes "- يبدو الشبحٌ سعيداً رغم أنه -";
+	mes "- لم يقم بإخافتك حقاً. -";
+	close;
+	if(!halloween_daily_intro2) {
+		mes .n$;
+		mes "بووووووووووو !!";
+		next;
+		mes .n$;
+		mes "...................";
+		mes "بووووووووووووووووووو !!!!!!";
+		next;
+		mes "- يبدو أن هذا الشبح يحاول إخافتك -";
+		next;
+		if(select("تظاهر بالخوف:تجاهل الشبح") == 1) {
+			if(#halloween_ghost_ee1 == 5 && !gepard_int_get("hallowghostreward")) {
+				mes "- لقد تظاهرت بالخوف أمام الشبح -";
+				mes "- فقط لتجعله يصبح سعيداً -";
+				mes "- يالك من شخصٍ جيد. -";
+				getitem 60047,1;
+				// getitem 60040,10;
+				getitem 50007,50;
+				#halloween_ghost_ee1++;
+				gepard_int_set("hallowghostreward",1);
+				close;
+			}
+			emotion 18;
+			showscript "كياااااااااااه !!";
+			sleep2 2000;
+			showscript "إنني خائفٌ جداً جداً !!!";
+			sleep2 2000;
+			emotion 23,getcharid(3);
+			mes "- يبتسم الشبح بفخر -";
+			mes "- إنه يبدوا سعيداً جداً -";
+			mes "- ربما عليك التظاهر بالخوف -";
+			mes "- كلما يحاول إخافتك, لتسعد الشبح -";
+			mes "- اللطيف. -";
+			#halloween_ghost_ee1++;
+			close;
+		}
+		emotion 28,getnpcid(0);
+		mes "- يبدو الشبح محبطاً -";
+		mes "- لأنه لم يستطع إخافتك -";
+		next;
+		select("هل أنت بخير؟");
+		mes "- أنت تحاول التحدث إلى الشبح -";
+		mes "- ولكنه يبدو خجولاً وخائفاً منك -";
+		emotion 19,getnpcid(0);
+		next;
+		mes "- أنت تشعر بالرغبة بمساعدة -";
+		mes "- هذاا الشبح ليصبح مخيفاً -";
+		mes "- يبدو بأنه حزينٌ حقاً -";
+		next;
+		mes "- ربما عليك جمع بعض الأغراض -";
+		mes "- التي تسقط من الوحوش المخيفة -";
+		mes "- في لوثاديل, وإعطاؤها إليه -";
+		next;
+		mes "- أجل تبدو كفكرةٍ جيدة -";
+		mes "- قم بجمع الأدوات التالية -";
+		mes "^ff0000- 50x Black Spear -";
+		mes "- 50x Black Sword - ";
+		mes "- 50x Necromancer's Cane -";
+		mes "- 50x Black Hat -";
+		setquest .quest_id;
+		halloween_daily_intro2 = 1;
+		close;
+	}
+	if(checkquest(.quest_id) > -1 ) {
+		if(countitem(60041) >= 50 &&  countitem(60042) >= 50 && countitem(60043) >= 50 && countitem(60044) >= 50) {
+			erasequest .quest_id;
+			setquest .quest_cd_id;
+			delitem 60041,50;
+			delitem 60042,50;
+			delitem 60043,50;
+			delitem 60044,50;
+			mes "- لقد أحضرت للشبح جميع الأغراض -";
+			mes "- يبدو الشبح سعيداً بالحصول عليها -";
+			for(.@i = 0; .@i < getarraysize(.quest_rewards); .@i = .@i + 2) {
+				getitem .quest_rewards[.@i],.quest_rewards[.@i+1];
+			}
+			close;
+		}
+		mes "- قم بجمع الأدوات التالية -";
+		mes "^ff0000- 50x Black Spear -";
+		mes "- 50x Black Sword - ";
+		mes "- 50x Necromancer's Cane -";
+		mes "- 50x Black Hat -";
+		close;
+	}
+	if(checkquest(.quest_cd_id,PLAYTIME) == 2  || checkquest(.quest_cd_id,PLAYTIME) == 1){
+		mes "- يمكنك الآن استلام مهمة الشبح -";
+		mes "- من جديد. -";
+		erasequest .quest_cd_id;
+		close;
+	}
+	if(checkquest(.quest_cd_id,PLAYTIME) == 0) {
+		mes "- يرتدي الشبح قبعةً سوداء -";
+		mes "- ويحمل بيديه سيفاً ورمحاً -";
+		mes "- من الوحوش في المدينة -";
+		mes "- كما أنه يضع عصا سحرية -";
+		mes "- فوق رأسه -";
+		next;
+		mes .n$;
+		mes "بوووووووو !";
+		next;
+		mes "- مازال الشبح لا يبو مخيفاً -";
+		mes "- ولكنك تتظاهر بالخوف على أيةٍ حال -";
+		emotion 18,getnpcid(0);
+		emotion 23,getcharid(3);
+		sc_start SC_STUN,2000,1000;
+		close;
+	}
+	mes "- قم بجمع الأدوات التالية -";
+	mes "^ff0000- 50x Black Spear -";
+	mes "- 50x Black Sword - ";
+	mes "- 50x Necromancer's Cane -";
+	mes "- 50x Black Hat -";
+	setquest .quest_id;
+	close;
+
+
+OnInit:
+	.n$ = "[الجلو الشبح]";
+	.quest_id = 100291;
+	setarray .quest_rewards[0],60040,200,60047,1;
+	.quest_cd_id = 100292;
+	end;
+
+}
+
+luthadel,119,105,4	script	رأس اليقطين	1130 ,{
+	mes .n$;
+	mes "يقطين..يقطين يقطين يقطين! يقطين";
+	emotion 26,getnpcid(0);
+	mes "يقطين.....يقطين";
+	next;
+	mes .n$;
+	mes "يقطين يقطين..يقطين...يقطين";
+	next;
+	mes "- لسببٍ ما, أنت تشعر أن رأس -";
+	mes "- اليقطين يقوم بشكرك على إعطائه -";
+	mes "- الكثير من اليقطين أثناء الهالوين -";
+	next;
+	mes "- يبدو حزيناً لانتهاء الهالوين -";
+	close;
+	if(!halloween_daily_intro3) {
+		mes .n$;
+		mes "يقطين !!";
+		next;
+		select("يقطين؟");
+		mes .n$;
+		for(.@i = 0; .@i < 5; .@i++) {
+			mes "يقطين يقطين يقطين يقطين يقطين";
+			sleep2 500;
+		}
+		next;
+		if(select("أعطهِ اليقطين:ليس لدي أي يقطين") == 1) {
+			if(countitem(60050)) {
+				mes .n$;
+				mes "يقطين !!";
+				next;
+				delitem 60050,countitem(60050);
+				getitem 60040,20;
+				halloween_daily_intro3 = 1;
+				close;
+			}
+			mes .n$;
+			mes "كاذب !";
+			sleep2 1000;
+			for(.@i = 0; .@i < 10; .@i++) {
+				mes "كاذب كاذب كاذب كاذب كاذب";
+				sleep2 500;
+			}
+			percentheal -100,-100;
+			close;
+		}
+		mes .n$;
+		mes "يقطين.";
+		setquest .quest_id;
+		halloween_daily_intro3 = 1;
+		close;
+	}
+	mes .n$;
+	mes "يقطين !";
+	next;
+	if(select("يقطين !:إلغاء")-1) close;
+	if(checkquest(.quest_id) > -1) {
+		if(!countitem(60050)) {
+			mes .n$;
+			mes "كاذب !";
+			sleep2 1000;
+			for(.@i = 0; .@i < 10; .@i++) {
+				mes "كاذب كاذب كاذب كاذب كاذب";
+				sleep2 500;
+			}
+			percentheal -100,-100;
+			close;
+		}
+		if(countitem(60050) > 100) {
+			mes .n$;
+			mes "هاهاهااااا يقطييييين !";
+			mes "الكثير من اليقطين !!";
+			erasequest .quest_id;
+			setquest .quest_cd_id;
+			delitem 60050,countitem(60050);
+			getitem 60040,200;
+			close; 
+		}
+		if(countitem(60050) > 50) {
+			mes .n$;
+			mes "يقطين ! اليقطين !!";
+			mes "هاها هاهاها !";
+			erasequest .quest_id;
+			setquest .quest_cd_id;
+			delitem 60050,countitem(60050);
+			getitem 60040,100;
+			close; 
+		}
+		if(countitem(60050) > 10) {
+			mes .n$;
+			mes "يقطين ! يقطينٌ جيد";
+			erasequest .quest_id;
+			setquest .quest_cd_id;
+			delitem 60050,countitem(60050);
+			getitem 60040,50;
+			close; 
+		}
+		mes .n$;
+		mes "يقطينٌ جيد";
+		erasequest .quest_id;
+		setquest .quest_cd_id;
+		delitem 60050,countitem(60050);
+		getitem 60040,20;
+		close; 
+	}
+	if(checkquest(.quest_cd_id,PLAYTIME) == 2  || checkquest(.quest_cd_id,PLAYTIME) == 1){
+		mes .n$;
+		mes "احضر اليقطين !";
+		next;
+		mes .n$;
+		mes "أحضر اليقطين !!";
+		erasequest .quest_cd_id;
+		close;
+	}
+	if(checkquest(.quest_cd_id,PLAYTIME) == 0) {
+		mes .n$;
+		mes "هممم لا يقطين..لا يقطين !";
+		for(.@i = 0; .@i < 5; .@i++) {
+			mes "ليس الآن ليس الآن ليس الآن";
+		}
+		close;
+	}
+	setquest .quest_id;
+	close;
+
+OnInit:
+	.n$ = "[رأس اليقطين]";
+	.quest_id = 100295;
+	.quest_cd_id = 100296;
+	setarray .quest_rewards[0],60040,200,60047,1;
+	end;
+
+}
+
+//pumbkin
+// -	script	يقطين#0	-1,{
+// 	specialeffect2 413;
+// 	progressbar "FFFFFF",5;
+// 	getitem 60050,1;
+// 	initnpctimer;
+// 	disablenpc strnpcinfo(3);
+// 	end;
+
+// OnTimer30000:
+// 	enablenpc strnpcinfo(3);
+// 	stopnpctimer;
+// 	end;
+// }
+
+// luthadel,131,104,0	duplicate(يقطين#0)	يقطين#1	111
+// luthadel,137,106,0	duplicate(يقطين#0)	يقطين#2	111
+// luthadel,117,128,0	duplicate(يقطين#0)	يقطين#3	111
+// luthadel,98,111,0	duplicate(يقطين#0)	يقطين#4	111
+// luthadel,99,69,0	duplicate(يقطين#0)	يقطين#5	111
+// luthadel,72,77,0	duplicate(يقطين#0)	يقطين#6	111
+// luthadel,88,67,0	duplicate(يقطين#0)	يقطين#7	111
+// luthadel,55,70,0	duplicate(يقطين#0)	يقطين#8	111
+// luthadel,55,54,0	duplicate(يقطين#0)	يقطين#9	111
+// luthadel,111,40,0	duplicate(يقطين#0)	يقطين#10	111
+// luthadel,102,40,0	duplicate(يقطين#0)	يقطين#11	111
+// luthadel,55,54,0	duplicate(يقطين#0)	يقطين#12	111
+// luthadel,55,54,0	duplicate(يقطين#0)	يقطين#13	111
+// luthadel,55,54,0	duplicate(يقطين#0)	يقطين#14	111
+
+luthadel,119,89,6	script	متجر الهالوين 	801 ,{
+	callshop "halloweenshop",1;
+	end;
+}
+-	shop	Card Exchanger	-1,909:40,502:200
+
+luthadel,91,103,6	script	تاجرة البطاقات#0	10532,{ 
+	.@n$ = "[تاجرة البطاقات]";
+	if(!#cardmerchant_intro) {
+		if(cardmerchant_annoy >= 3) {
+			mes "- تجهش تاجرة البطاقات بالبكاء -";
+			mes "- كل ما كانت تريده هو أن -";
+			mes "- تتحدث إليك قليلاً فقط -";
+			emotion 28,getnpcid(0);
+			next;
+			.@choice = select("إعتذر للتاجرة:قم بركل التاجرة بقوة:تجاهل التاجرة");
+			if(.@choice == 3) close;
+			if(.@choice == 1) {
+				mes .@n$;
+				mes "لـ-لا بأس حقاً...";
+				mes "أ-أنت لطيف..شـ-شكراً لك.";
+				emotion 15,getnpcid(0);
+				next;
+				mes "- يبدو أنها توقفت عن البكاء -";
+				next;
+				mes "- يبدو أنها تريد إعطائك شيئاً ما -";
+				next;
+				getitem 616,1;
+				mes "- أنت تحاول سؤال التاجر عن -";
+				mes "- سبب الهدية, ولكنها لاتستجيب -";
+				#cardmerchant_intro = 1;
+				close;
+			}
+			//kick her
+			mes "- انت تقوم بركل التاجرة بكل قوتك -";
+			next;
+			mes "- لقد فقدت عقلك حقاً -";
+			next;
+			emotion 23,getnpcid(0);
+			showscript "كـ-كياااااااه",getnpcid(0);
+			sleep2 500;
+			emotion 28,getnpcid(0);
+			next;
+			mes .@n$;
+			mes "تـ-توقف, توقف أرجوك";
+			emotion 28,getnpcid(0);
+			mes "سـ-سأعطيك أي شيء فقط توقف";
+			sleep2 500;
+			emotion 28,getnpcid(0);
+			next;
+			enablenpc "GM Masta#luthadel";
+			donpcevent "GM Masta#luthadel::OnStart";
+			sleep2 5000;
+			atcommand "@mute 1 "+strcharinfo(0);
+		}
+		mes .@n$;
+		mes "هـ-هلّا أعطيتني لحظةً من وقتك؟";
+		next;
+		if(select("أجل بالطبع:لا") -1) {
+			switch(cardmerchant_annoy) {
+				case 0:
+					mes .@n$;
+					mes "أوه...";
+					showscript "أوه...",getnpcid(0);
+					emotion 57,getnpcid(0);
+					cardmerchant_annoy++;
+					next;
+					mes "- إنها تبدو محبطة -";
+					mes "- ربما لم يكن عليك -";
+					mes "- رفض طلبها -";
+					close;
+				case 1:
+					mes .@n$;
+					showscript "واه..هذا...";
+					mes "لـ-لا بأس...";
+					emotion 57,getnpcid(0);
+					next;
+					mes "- إنها تبدو أكثر حزناً -";
+					mes "- يبدو أن عيناها تدمعان -";
+					mes "- يبدو أن رفضك لها يجعلها -";
+					mes "- تشعر بحزنٍ وألمٍ عميق -";
+					next;
+					mes "- لكنك ستفعلها مرةً أخرى -";
+					mes "- أليس كذلك؟ -";
+					next;
+					mes "- أتعلم؟ أنت متوحشٌ حقاً -";
+					mes "- وقاسِ القلب -";
+					cardmerchant_annoy++;
+					close; 
+				case 2:
+					mes .@n$;
+					showscript "لـ-لستُ أبكي !!";
+					mes "لـ-لستُ أبكي !!";
+					emotion 28,getnpcid(0);
+					next;
+					mes "- إنها حتماً تبكي -";
+					mes "- لقد فعلتها حقاً -";
+					mes "- لقد جعلتها تبكي -";
+					next;
+					mes "- أنت حتماً تعاني من -";
+					mes "- خطبٍ ما -";
+					cardmerchant_annoy++;
+					close;
+
+				default:
+					close;
+			}
+			
+		}
+	}
+	mes .@n$;
+	mes "يـ- يمكنني استبدال الـ- البطاقات التي";
+	mes "لا تحتاجها مقابل نقاط البطاقات.";
+	emotion 40,getnpcid(0);
+	next;
+	.@select = select("إستبدل البطاقات:إغلاق");
+	if(.@select == 3) close;
+	if(.@select == 1){ 
+	callshop "Card Exchanger",2;
+	npcshopattach "Card Exchanger";
+	close2;
+	end;
+
+OnSellItem:
+	for (.@i = 0; .@i < getarraysize(@sold_nameid); .@i++) {
+		if (countitem(@sold_nameid[.@i]) < @sold_quantity[.@i] || @sold_quantity[.@i] <= 0) {
+			mes "omgh4x!";
+			close;
+		} else if (inarray(.bcard,@sold_nameid[.@i]) > -1){
+			debugmes ""+@sold_nameid[.@i];
+			delitem @sold_nameid[.@i], @sold_quantity[.@i];
+			getitem 60052,@sold_quantity[.@i];
+			
+		} else if (inarray(.ncard,@sold_nameid[.@i]) > -1){
+			debugmes ""+@sold_nameid[.@i];
+			delitem @sold_nameid[.@i], @sold_quantity[.@i];
+			getitem 60051,@sold_quantity[.@i];
+			
+		} else {
+			mes "معذرةً, لا أريد هذه الأغراض";
+			close;
+		}
+	}
+	deletearray @sold_quantity[0],getarraysize(@sold_quantity);
+	deletearray @sold_nameid[0],getarraysize(@sold_nameid);
+	dispbottom "تمت الصفقة بنجاح";
+	end;
+	}
+OnInit:
+npcshopitem "Card Exchanger",909,40,502,200;
+setarray .ncard,4001,4002,4003,4004,4005,4006,4007,4008,4009,4010,4011,4012,4013,4014,4015,4016,4017,4019,4020,4021,4022,4023,
+				4024,4025,4026,4027,4028,4029,4030,4031,4032,4033,4034,4035,4036,4037,4038,4039,4041,4042,4043,4044,4045,4046,4048,
+				4049,4050,4051,4052,4053,4055,4056,4057,4058,4060,4061,4062,4063,4064,4065,4066,4067,4068,4069,4070,4071,4072,4073,
+				4074,4075,4076,4077,4078,4079,4080,4081,4082,4083,4084,4085,4086,4087,4088,4089,4090,4091,4092,4093,4094,4095,4096,
+				4097,4098,4099,4100,4101,4102,4103,4104,4105,4106,4107,4108,4109,4110,4111,4112,4113,4114,4115,4116,4117,4118,
+				4119,4120,4122,4125,4127,4129,4133,4136,4141,4149,4150,4151,4152,4153,4154,4156,4157,4158,4159,4160,4161,4162,4164,4165,
+				4166,4167,4170,4172,4173,4175,4176,4177,4178,4180,4181,4182,4184,4185,4186,4187,4188,4189,4190,4191,4192,4193,4194,4195,4196,
+				4199,4200,4201,4202,4204,4205,4206,4208,4209,4210,4212,4213,4214,4215,4216,4217,4218,4219,4220,4221,4222,4223,4224,4225,4226,
+				4227,4228,4229,4230,4231,4232,4233,4234,4235,4237,4238,4239,4240,4242,4243,4244,4245,4246,4247,4248,4249,4251,4252,4253,
+				4255,4256,4257,4258,4259,4260,4261,4262,4264,4265,4267,4268,4269,4270,4271,4272,4273,4274,4275,4277,4278,4279,4280,4281,
+				4282,4283,4284,4285,4286,4287,4288,4289,4290,4292,4293,4294,4295,4296,4297,4298,4299,4300,4301,4304,4307,4308,4309,4310,4311,
+				4312,4313,4314,4315,4316,4319,4321,4322,4323,4325,4326,4327,4328,4329,4331,4332,4333,4334,4335,4336,4337,4338,4339,4340,4341,4343,
+				4344,4345,4346,4347,4348,4349,4350,4351,4353,4354,4355,4356,4358,4360,4362,4366,4368,4369,4370,4371,4373,4375,4377,4378,4379,4380,
+				4381,4382,4383,4384,4385,4387,4388,4389,4390,4391,4392,4393,4394,4395,4396,4397,4400,4401,4402,4404,4405,4409,4410,4411,4412,4413,
+				4414,4415,4416,4417,4418,4420,4421,4422,4423,4424,4426,4427,4428,4429,4431,4432,4433,4434,4435,4436,4437,4438,4439,4440,4442,4443,
+				4444,4445,4447,4448,4449,4450,4452,4453,4460,4461,4464,4465,4466,4467,4468,4469,4470,4471,4472,4473,4474,4475,4476,4477,4505,4506,
+				4508,4510,4511,4512,4513,4514,4515,4516,4517,4518,4519,4521,4522,4523,4524,4530,4531,4532,4533,4545,4582,4583,4584,4585,4586,4587,
+				4588,4589,4593,4594,4595,4596,4597,4598,4599,4600,4607,4626,4627,4628,4629,4630,4631,4632,4633,4634,4637,4638,4639,4640,4641,4653,
+				4654,4655,4656,4657,4658,4659,4660,4661,4663,4664,4665,4666,4667,4668,4669,4670,4698,4699,27012,27013,27014,27015,27016,27017,27018,
+				27019,27026,27027,27028,27029,27030,27082,27083,27084,27085,27086,27087,27088,27101,27102,27103,27105,27107,27108,27110,27111,27112,
+				27114,27115,27116,27117,27118,27120,27121,27122,27123,27124,27125,27147,27148,27149,27157,27158,27159,27160,27161,27163,27165,27166,
+				27167,27168,27169,27170,27171,27172,27173,27174,27175,27176,27177,27178,27179,27181,27249,27250,27251,27252,27253,27254,27255,27256,
+				27257,27258,27259,27260,27261,27264,27286,27288,27289,27347,27348,27349,27350,27351,27352,27353,31016,31017,31018,31019,31020,31021,
+				31022,27335,27336,27337,27338,27340,27341,27342,27343,27354,27355,27356,27357,27358,27359,27360,27361,4138;
+
+setarray .bcard,4047,4054,4163,4169,4174,4179,4183,4197,4198,4203,4207,4211,4237,4238,4241,4250,4254,4266,
+					4284,4285,4290,4291,4300,4306,4320,4336,4354,4384,4395,4396,4397,4684,4685,4686,4687,4688,4689,
+						4690,4691,4692,4693,4694,4695,4696;
+}
+
+luthadel,96,105,4	script	GM Masta#luthadel	871,{
+OnStart:
+	showscript "مالذي يجري هنا؟",getnpcid(0);
+	sleep 1000;
+	showscript "مضايقة الآخرين ضد قوانين الخادم !",getnpcid(0);
+	sleep 2000;
+	showscript "يرجى التحلي بالآداب والأخلاق العامة !";
+	sleep 2000;
+	disablenpc strnpcinfo(3);
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+//halloween mvp instance
+luthadel,105,147,4	script	مدخل قصر سيد الظلام#halinstance	PORTAL,{
+	mes "- لم يحن الوقت لدخول -";
+	mes "- قصر سيّد الظلام بعد. -";
+	close;
+OnInit:
+	disablenpc strnpcinfo(3);
+	end;
+}
+
+// luthadel,100,100,0	script	صندوق كنز#luthadel	10005,{
+// 	disablenpc strnpcinfo(3);
+// 	for(.@i = 0; .@i < 10; .@i++) {
+// 		makeitem 60040,5,"luthadel", .x,.y;
+// 	}
+// 	mapannounce "luthadel","لقد حصل اللاعب "+strcharinfo(0)+" على صندوق كنز !",bc_blue;
+// 	sleep2 500;
+// 	initnpctimer;
+// 	disablenpc strnpcinfo(3);
+// 	end;
+// OnInit:
+// OnTimer120000:
+// 	.x = 0;
+// 	.y = 0;
+// 	do {
+// 		.x = rand(0,500);
+// 		.y = rand(0,500);
+// 	} while (!checkcell("luthadel",.x,.y,cell_chkpass));
+// 	debugmes "chest at "+.x+" & "+.y;
+// 	unitwarp getnpcid(0),"luthadel",.x,.y;
+// 	end;
+// }
+
+//halloween finale quests
+-	script	aimia	-1,{
+OnInit:
+	setarray .mobs[0],31963,31968,31969,31962;
+	.mapname$ = "aimia";
+	monster .mapname$,0,0,"--ja--",31963,5,strnpcinfo(3)+"::OnAimiaMobDead";
+	monster .mapname$,0,0,"--ja--",31968,5,strnpcinfo(3)+"::OnAimiaMobDead";
+	monster .mapname$,0,0,"--ja--",31969,5,strnpcinfo(3)+"::OnAimiaMobDead";
+	monster .mapname$,0,0,"--ja--",31962,5,strnpcinfo(3)+"::OnAimiaMobDead";
+	end;
+OnAimiaMobDead:
+	if(halloween_finale == 1) {
+		finale_mobs++;
+		if(finale_mobs < 50)
+			dispbottom "لقد قمت بهزيمة "+finale_mobs+" وحش, ولم تكتشف شيئاً مثيراً للريبة.";
+		else {
+			mes "- لقد وجدّت خريطةً في جيبِ هذا الوحش -";
+			mes "- تبدو كخريطةٍ لمدينة إيميا, مع علامة -";
+			mes "- إكس كبيرة في المنطقة السكنية -";
+			halloween_finale = 2;
+			close;
+		}
+	}
+	if($diavoolodead) end;
+	monster .mapname$,0,0,"--ja--",.mobs[rand(getarraysize(.mobs))],1,strnpcinfo(3)+"::OnAimiaMobDead";
+	end;
+
+OnHellgateMobDead:
+	announce "لقد تم القضاء على حارس بوابة الجحيم !! أسرعوا الآن بدخول البوابة !!",bc_all|bc_blue;
+	enablenpc "بوابة الجحيم";
+	end;
+}
+
+aimia,110,165,6	script	الطبيب ماهر#finaleh	616,{
+	doevent "halloween_finale_quest::OnQuest";
+	end;
+
+OnInit:
+	.n$ = "[^0000FFالطبيب ماهر ^000000]";
+	questinfo QTYPE_QUEST,QMARK_PURPLE,"BaseLevel >= 100 && halloween_quest_main == 4 && !hallloween_finale";
+	end;
+}
+aimia,110,161,6	script	المستكشف جوهر#finaleh	4_M_MINSTREL1,{
+	doevent "halloween_finale_quest::OnQuest";
+	end;
+
+OnInit:
+	.n$ = "[^0000FFالمستكشف جوهر ^000000]";
+	questinfo QTYPE_QUEST,QMARK_PURPLE,"BaseLevel >= 100 && halloween_quest_main == 4 && !hallloween_finale";
+	end;
+}
+
+-	script	halloween_finale_quest	-1,{
+OnQuest:
+	switch(halloween_finale) {
+		case 0:	// maher and jawhar at aimia
+			cutin "3rd_mins_song01",2;
+			mes .jawhar$;
+			mes "مالّذي...مالذي يجري هنا...";
+			mes "لماذا تبدو مدينة إيميا مخيفةً هكذا";
+			emotion 23,getnpcid(0,"المستكشف جوهر#finaleh");
+			next;
+			mes .jawhar$;
+			mes "ولماذا تبدو المياه في النهر غريبة";
+			mes "وهل سقط جسر منطقة التدريب أيضاً؟";
+			emotion 23,getnpcid(0,"المستكشف جوهر#finaleh");
+			next;
+			cutin "3rd_mins_song03",2;
+			mes .jawhar$;
+			mes "وهـ-هل هذه أشباحٌ تجوب المدينة؟؟";
+			emotion 23,getnpcid(0,"المستكشف جوهر#finaleh");
+			next;
+			cutin "bu_mark1",2;
+			mes .maher$;
+			mes "حقاً...هناك أمرٌ غريبٌ يجري في المدينة";
+			mes "لقد كنت غائباً عن إيميا لفترةٍ طويلة";
+			mes "الم تلحظ أن هناك شيئاً غريباً يجري";
+			mes "فيها؟";
+			next;
+			if(select("لم ألحظ أي شيء:لقد لاحظت, ولكنني كنت منشغلاً") == 1) {
+				cutin "bu_mark4",2;
+				mes "- يعطيك الطبيب ماهر -";
+				mes "- تلك النظرة التي تشعرك -";
+				mes "- بانك مخلوقٌ مثيرٌ للشفقة -";
+				next;
+			}
+			mes .maher$;
+			mes "حسناً لابد أنك كنت منشغلاً";
+			mes "لكن علينا فعلٌ شيءٍ بهذا الشأن";
+			next;
+			mes .jawhar$;
+			cutin "3rd_mins_song03",2;
+			mes "تـ-تبدو كفكرةٍ رائعة!";
+			mes "نعم لنفعل شيئاً بشأن الأشـ-الأشباح";
+			mes "والآن عذراً يجب علي الذهاب لاستكشاف";
+			mes "دهليزِ الأورك";
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "إلى أين تظن نفسك ذاهباً";
+			mes "تخاف من الأشباح في هذا العمر؟";
+			mes "هل انت طفل؟";
+			next;
+			mes .jawhar$;
+			cutin "3rd_mins_song03",2;
+			mes "لـ- لستٌ خائفاً !";
+			next;
+			mes "- جوهر خائفٌ حتماً. -";
+			next;
+			select("إذاً ماذا سنفعل الآن؟");
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "لنبدأ بهزيمةِ واستجواب الأشباح";
+			mes "التي تجوب المدينة";
+			mes "أيها المغامر, هل يمكنك";
+			mes "^ff0000هزيمة 50 شبح^000000 بسرعة؟";
+			mes "لاتنسى استجوابهم قبل هزيمتهم";
+			next;
+			if(select("أمرٌ سهل, أتركها علي:أنا لستٌ مناسباً للقتال..") == 1) {
+				mes .maher$;
+				cutin "bu_mark2",2;
+				mes "هذا مطَمئِنٌ حقاً";
+				mes "حسناً إذاً, أعتمد عليك !";
+				next;
+				mes .maher$;
+				mes "سنقوم أنا وجوهر بالتحقيق أيضاً";
+				mes "هناك شيءٌ مثيرٌ للريبة في نهر إيميا";
+				mes "عد إلي هنا عندما تنتهي من الاستجواب";
+				next;
+				npctalk "Blessing !!","الطبيب ماهر#finaleh";
+				specialeffect2 EF_BLESSING;
+				sc_start SC_BLESSING,240000,10;
+				sleep2 1000;
+				npctalk "Increase Agility !!","الطبيب ماهر#finaleh";
+				specialeffect2 EF_INCAGILITY;
+				sc_start SC_INCREASEAGI,240000,10;
+				sleep2 1000;
+				npctalk "Kyrie Elesion !!","الطبيب ماهر#finaleh";
+				specialeffect2 112;
+				sc_start SC_KYRIE,240000,10;
+				sleep2 1000;
+				npctalk "Heal !!","الطبيب ماهر#finaleh";
+				percentheal 100,100;
+				specialeffect2 EF_HEAL2;
+				sleep2 1000;
+				npctalk "الطبيب ماهر: فليبارك بك الرب","الطبيب ماهر#finaleh";
+				// emotion 78;
+				halloween_finale = 1;
+				close3;
+			}
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "اوه؟ حسناً لا عيبَ في ذلك";
+			mes "يمكن ان يتكفل جوهر بـ";
+			next;
+			cutin "3rd_mins_song03",2;
+			mes .jawhar$;
+			mes "أنا لا أجيد القتااااااااال!!";
+			next;
+			mes .maher$;
+			mes "................";
+			mes "................";
+			next;
+			mes .jawhar$;
+			mes "وخاصةً ضد الأشباح";
+			emotion 28,getnpcid(0,"المستكشف جوهر#finaleh");
+			next;
+			mes .maher$;
+			cutin "bu_mark3",2;
+			mes "حسناً يبدو أنني سأتكفل";
+			mes "بهزيمة واستجواب الوحوش بنفسي";
+			next;
+			mes .maher$;
+			mes "جوهر يمكنه استكشاف المدينة";
+			mes "للبحث عن أي شيءٍ مثيرٌ للريبة";
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "وأنت أيها المغامر";
+			mes "إذهب واجمع بعض العينات";
+			mes "من نهر إيميا.";
+			next;
+			mes .maher$;
+			mes "يمكنني تحليل المياه لمعرفة";
+			mes "سبب تغير شكلها ولونها.";
+			next;
+			mes .maher$;
+			mes "فقط املأ هذه القوارير الفارغة";
+			mes "بمياهٍ من نهر إيميا, ثم عد إلي";
+			getitem 713,10;
+			halloween_finale = 1;
+			close3;
+		case 1:	//eiter didn't kill mobs yet, or took fishing route.
+			mes .maher$;
+			cutin "bu_mark1",2;
+			if(countitem(6386) < 10) {
+				mes "أبذل جهدك أيها المغامر";
+				mes "عد إلي بعد انتهاء المهمة";
+				mes "الموكلة إليك.";
+				close3;
+			}
+			delitem 6386,10;
+			// got 10 samples
+			mes "لقد أحضرت العينات";
+			mes "أحسنت عملاً !";
+			halloween_finale = 4;
+			mes "دعني ألقي نظرةً عليها";
+			getexp 5000000,5000000;
+			close3;
+		case 2:	//finished hunting qusest.
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "لقد قضيت على الكثير من الأشباح";
+			mes "احسنت عملاً أيها المغامر!";
+			getexp 5000000,5000000;
+			next;
+			mes .maher$;
+			mes "والآن لنرى ماذا اكتشفنا حتى الآن";
+			halloween_finale = 3;
+			close3;
+		case 3:	//finished hutning quest
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "إذاً, ماذا اكتشفت؟";
+			next;
+			select("لقد عثرت على خريطة للمدينة");
+			mes .maher$;
+			mes "هوه؟ يبدو أن هناك علامة إكس";
+			mes "في هذه الخريطة";
+			next;
+			mes .maher$;
+			mes "إنها في بقعةٍ بالمنطقة السكنية";
+			mes "ربما علينا الذهاب إلى هناك";
+			next;
+			mes .maher$;
+			mes "لقد كنت أجمع بعض العيّنات من";
+			mes "نهر إيميا";
+			next;
+			mes .maher$;
+			mes "لقد وجدت آثاراً لقوى ظلامية";
+			mes "داخل مياه النهر.";
+			next;
+			mes .maher$;
+			mes "لاشك أن هذه القوى الظلامية";
+			mes "هي ماتسبب ظهور الأشباح وتلوّث الجو";
+			mes "في إيميا";
+			next;
+			mes .maher$;
+			mes "يمكنني استعمال سحر التعقّب لمعرفة";
+			mes "أصل هذه القوى الظلامية";
+			mes "ولكن الأمر سيتطلب بعض الوقت";
+			next;
+			mes .maher$;
+			mes "جوهر, ماذا عنك؟ هل عثرت على شيءٍ مفيد؟";
+			halloween_finale = 5;
+			close3;
+
+		case 4:	//finished gathering
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "سأقوم الآن بتحليل المياه";
+			mes "لأرى مالغريب فيها";
+			next;
+			while(.@i < 5) {
+				specialeffect 39,AREA,"الطبيب ماهر#finaleh";
+				sleep2 1000;
+				.@i++;
+			}
+			mes .maher$;
+			mes "هذا.....";
+			mes "كما توقعت !";
+			next;
+			select("ماذا هناك؟");
+			mes .maher$;
+			mes "هناك آثارٌ لقوىً ظلامية في هذه المياه";
+			mes "أحدهم يقوم بتخريب المياه والجو";
+			mes "بشكلٍ متعمد";
+			next;
+			mes .maher$;
+			mes "يمكنني استعمال سحر التعقّب";
+			mes "لمعرفة أصل هذه الآثار";
+			mes "ولكن الآمر سيتطلب بعض الوقت";
+			next;
+			mes .maher$;
+			mes "ماذا عن جوهر؟ هل عثرت على شيءٍ مفيد؟";
+			halloween_finale = 5;
+			close3;
+
+		case 5:
+			mes .jawhar$;
+			cutin "3rd_mins_song01",2;
+			mes "لقد استعملت العديد من أجنحة";
+			mes "الطيران لاستكشاف المدينة";
+			mes "يبدو أن الأشباح تجوب المدينة في كل مكان";
+			next;
+			mes .jawhar$;
+			mes "الأنهار ملوثة, والجسور بدأت في";
+			mes "التآكل, إن لم نفعل شيئاً";
+			mes "فستنهار الجسور مع الوقت";
+			next;
+			cutin "bu_mark1",2;
+			mes .maher$;
+			mes "حسناً...يبدو أن صاحب هذه التعويذة";
+			mes "هو بلا شك المسؤول عن تلوث المدينة";
+			mes "وغزو الأشباح لها";
+			next;
+			mes .maher$;
+			mes "لنبدأ بالبحث عن المكان المعلّم";
+			mes "في الخريطة";
+			mes "ولكن يجب أن نكون حذرين جداً";
+			next;
+			mes .jawhar$;
+			cutin "3rd_mins_song02",2;
+			mes "آآه..بشأن ذلك...";
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "قد يكون الامر خطيراً جداً";
+			mes "ربما سنجد صاحب هذه التعويذة";
+			mes "هناك";
+			next;
+			mes .jawhar$;
+			cutin "3rd_mins_song01",2;
+			mes "بشأن هذا المكان....";
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2; 
+			mes "ربما علينا الاستعانة بحامية";
+			mes "المدينة.";
+			mes "أو طلب المساعدة من مغامري عدن";
+			next;
+			mes .jawhar$;
+			cutin "3rd_mins_song01",2;
+			mes "أنا أعرف مايوجد المكان المعلّم في الخريطة";
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "هاه";
+			showscript "هاه";
+			next;
+			mes .maher$;
+			cutin "bu_mark3",2;
+			mes "لمَ لَم تتحدث منذ البداية؟";
+			mes "ماذا يوجد في المكان المعلم على الخريطة؟";
+			next;
+			mes .jawhar$;
+			cutin "3rd_mins_song04",2;
+			mes "أوه";
+			mes "ويل أنتما تعلمان أني أحب التجول";
+			mes "والاستكشاف حول المدن والدهاليز";
+			next;
+			mes .jawhar$;
+			mes "لقد حفظت كل معالِم ومناطق";
+			mes "مدينة إيميا عن ظهرِ قلب";
+			next;
+			mes .jawhar$;
+			mes "ولذلك فانا أعلم أن هذه العلامة";
+			mes "تقع في تمثال المؤسس الأول";
+			mes "للمدينة.";
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "أهذا صحيح...";
+			mes "إذاً, هل هناك أي شيءٍ";
+			mes "مريب بخصوص هذا التمثال؟";
+			next;
+			mes .jawhar$;
+			cutin "3rd_mins_song04",2;
+			mes "اوه ! هناك العديد من الأشياء";
+			mes "عند المرور بجانب التمثال, فإنه";
+			mes "يمتص نقاطك الصحية ببطئ";
+			emotion 23,getnpcid(0,"الطبيب ماهر#finaleh");
+			showscript "مـ- ماذا؟",getnpcid(0,"الطبيب ماهر#finaleh");
+			next;
+			mes .jawhar$;
+			mes "هذا ليس كل شيء !";
+			mes "إذا لمست التمثال بيدك اليمنى";
+			mes "فسيمتص نقاطك الذهنية أيضاً";
+			showscript "هذا يبدو خطيراً...",getnpcid(0,"الطبيب ماهر#finaleh");
+			next;
+			mes .jawhar$;
+			mes "كما أن الهواء حول التمثال";
+			mes "يبدو مسموماً للغاية";
+			mes "كدت أموت أثناء مروري بهذا التمثال!";
+			showscript "تبدو سعيداً...";
+			showscript "هل أنت بخير....",getnpcid(0,"الطبيب ماهر#finaleh");
+			next;
+			mes .jawhar$;
+			mes "وإذا قمتَ برقصةٍ غريبة أمام التمثال";
+			mes "فستظهر العديد من الأشباح";
+			mes "وسيحاولون إعطائك الحلوى";
+			showscript "همممم..هممم..أجل الرقص خطير",getnpcid(0,"الطبيب ماهر#finaleh");
+			showscript "هل أنت جاد...";
+			next;
+			showscript "هل تظنني احمقاً؟؟؟",getnpcid(0,"الطبيب ماهر#finaleh");
+			cutin "bu_mark3",2;
+			mes .maher$;
+			mes "جوهر, إن لم تكفَّ عن المزاح";
+			mes "فسأقتلك";
+			specialeffect 1,AREA,"الطبيب ماهر#finaleh";
+			showscript "ولكنني أتحدّث بجدية!",getnpcid(0,"المستكشف جوهر#finaleh");
+			emotion 23,getnpcid(0,"الطبيب ماهر#finaleh");
+			next;
+			mes .jawhar$;
+			cutin "3rd_mins_song03",2;
+			mes "على أيةٍ حال, كنت أظن بأن";
+			mes "هذا أمرٌ طبيعي, ربما هو";
+			mes "قطعةُ أثريةٌ نادرة أو ماشابه";
+			showscript "ألم تظن بأن الأمر مريب....",getnpcid(0,"الطبيب ماهر#finaleh");
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "حسناً إذاً, يبدو أن القوى الظلامية";
+			mes "والوحوش مرتبطتان بهذا التمثال الغريب";
+			mes "لنذهب ونرى مالأمر.";
+			halloween_finale = 6;
+			close3;
+
+		case 6:
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "لنتقابل عند تمثال مؤسس إيميا";
+			mes "في المنطقة السكنية.";
+			close3;
+
+		case 9:	//after solo dungeon
+			mes .jawhar$;
+			cutin "3rd_mins_song03",2;
+			mes "من كان ذلك الشخص!";
+			mes "لقد استطعت الهرب من ذلك المكانِ بالكاد!";
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "على الأغلب, إنه المسؤول عن تلوّث المدينة";
+			mes "يجب ان نقوم بإيقافه";
+			mes "ولكنه قويٌ جداً...ربما علينا";
+			mes "تجهيز مجموعةٍ لهزيمته";
+			next;
+			select("سأكوّن مجموعة لهزيمته");
+			mes .maher$;
+			mes "حقاً...حسناً إذاً";
+			mes "إن كان أنت فستتمكن حتماً من";
+			mes "هزيمته مع أصدقائك";
+			next;
+			mes .maher$;
+			mes "حظاً موفقاً أيها المغامر.";
+			halloween_finale = 10;
+			next;
+			cutin "",255;
+			mes "- لقد أنهيت مهمة الهالوين -";
+			mes "- بإمكانك تحدّي سيّد الظلام -";
+			mes "- عن طريق تمثال المؤسس -";
+			getexp 1000000,1000000;
+			getitem 60047,10;
+			getitem 50007,30;
+			close;
+		default:
+			end;
+			
+	}
+	end;
+
+OnQuestScnd:	//statue
+	switch(halloween_finale) {
+		case 6:
+			enablenpc "الطبيب ماهر#finaleh2";
+			enablenpc "المستكشف جوهر#finaleh2";
+			doevent "الطبيب ماهر#finaleh2::OnEnable";
+			doevent "المستكشف جوهر#finaleh2::OnEnable";
+			mes .jawhar$;
+			cutin "3rd_mins_song01",2;
+			mes "هذا هو التمثال الذي أقصده";
+			mes "أخبرتكم بانه جميلٌ ورائع!";
+			next;
+			mes .maher$;
+			cutin "bu_mark3",2;
+			mes "من يهتم لجمال وروعةِ التمثال";
+			mes "حسناً, لنرى ماقصةٌ هذا التمثال.";
+			halloween_finale = 7;
+			close3;
+		case 7:
+		case 8:
+			mes "- انت تقترب من التمثال -";
+			mes "- تشعرٌ بأن جسدك يضعف -";
+			mes "- لابد أنه تأثير السم -";
+			sc_start SC_POISON,10000,1000;
+			while(true) {
+				next;
+				mes "- ماذا ستفعل؟ -";
+				next;
+				switch(select("الاقتراب من التمثال:لمس التمثال بيدك اليمنى:الرقص أمام التمثال:التحقق من التمثال")) {
+					case 1:
+						mes "- انت تقترب من التمثال -";
+						mes "- أنت تشعر بنقاطك الصحيةوهي تنخفض -";
+						showscript "هل أنت بخير؟ يمكنني شفاؤك",getnpcid(0,"الطبيب ماهر#finaleh2");
+						showscript "لاتكن متهوراً!",getnpcid(0,"المستكشف جوهر#finaleh2");
+						percentheal -20,0;
+						break;
+					case 2:
+						mes "- انت تلمس التمثال بيدك اليمنى -";
+						mes "- يبدو انه يقوم بامتصاص نقاطك الذهنية -";
+						showscript "واه, إنه يمتص نقاطك الذهنية حقاً",getnpcid(0,"الطبيب ماهر#finaleh2");
+						showscript "بالطبع, هل تظنني أكذب؟",getnpcid(0,"المستكشف جوهر#finaleh2");
+						percentheal 0,-20;
+						break;
+					case 3:
+						mes "- انت تقوم برقصةٍ غريبة أمام التمثال -";
+						mes "- ينظر إليك الطبيب ماهر بنظرته -";
+						mes "- المشهورة مرةً أخرى -";
+						cutin "bu_mark4",2;
+						showscript "هل أنت جاد...",getnpcid(0,"الطبيب ماهر#finaleh2");
+						next;
+						cutin "",255;
+						if(!#halloween_finale_candy) {
+							mes "- لقد ظهرَ شبحٌ بجانبك ! -";
+							enablenpc "شبح#finale";
+							doevent "شبح#finale::OnStart";
+							showscript "مستحيل!!!",getnpcid(0,"الطبيب ماهر#finaleh2");
+							emotion 23,getnpcid(0,"الطبيب ماهر#finaleh2");
+							showscript "ها ! أخبرتكم بذلك",getnpcid(0,"المستكشف جوهر#finaleh2");
+							close3;
+						}
+						break;
+					case 4:
+						mes .maher$;
+						cutin "bu_mark1",2;
+						mes "كن حذراً, يمكنني الشعور بطاقةٍ سلبية";
+						mes "كبيرة تنبعث من التمثال";
+						next;
+						cutin "",255;
+						mes "- انت تشعر بقوةٍ مظلمة من هذا -";
+						mes "- التمثال, وكأن هناك صوتاً -";
+						mes "- يناديك للدخول إليه -";
+						next;
+						specialeffect 622;
+						showscript "هل كان هذا برقاً؟",getnpcid(0,"الطبيب ماهر#finaleh2");
+						emotion 23,getnpcid(0,"الطبيب ماهر#finaleh2");
+						showscript "مالذي يجري...",getnpcid(0,"المستكشف جوهر#finaleh2");
+						next;
+						for(.@i = 0; .@i < 5; .@i++) {
+							specialeffect 622;
+							sleep2 500;
+						}
+						mes "- أنت تشعر بأن التمثال يقوم بامتصاصك -";
+						mes "- إلى الداخل -";
+						if(select("الاستمرار:الهروب") -1) close;
+						// halloween_finale = 8;
+						warp "1@hallow",336,38;
+						end;
+				}
+			}
+			break:
+		case 10:	//can now enter instance
+			if($diavoolodead) {
+				mes "لقد قام اللاعب "+strcharinfo2(0,$diavolokiller);
+				mes "من المجموعة "+getpartyname($diavolokillerparty);
+				mes "بهزيمة سيّد الظلام.";
+				close;
+			}
+			set .@cooldown, checkquest(100299,PLAYTIME); //cooldown quest, 72hrs time limit
+			if( .@cooldown == 2 ) {
+				erasequest 100299;
+				mes "يمكنك دخول القصر الآن.";			
+				close;
+			}
+			if(.@cooldown == 1 || .@cooldown == 0) {
+				mes "- يمكنك دخول هذا القصر مرّة واحدة -";
+				mes "- فقط كل ساعة. -";
+				close;
+			}
+			mes "هل تريد الدخول إلى قصر";
+			mes "سيّد الظلام؟";
+			next;
+			if(select("نعم:كلّا") -1 )close;
+			set .@cooldown, checkquest(100299,PLAYTIME); //cooldown quest, 72hrs time limit
+			set .@party_id,getcharid(1);
+			set .@p_name$,getpartyname(.@party_id);
+			set .@md_name$,"Diavolo's Castle";
+			if (!instance_check_party(.@party_id,1)) {
+				mes "يجب عليك إنشاء مجموعةٍ اولاً";
+				close;
+			}
+			if (getcharid(0) == getpartyleader(.@party_id,2)){
+				set .@menu$, "فتح البوابة:دخول القصر:إلغاء";
+			} else {	// not the party leader
+				set .@menu$, ":دخول القصر";
+			}
+			switch(select(.@menu$)) {
+				case 1:
+					set .@instance, instance_create(.@md_name$);
+					if(.@instance < 0) {
+						mes "Party's name: "+.@p_name$;
+						mes "Leader's name: "+strcharinfo(0);
+						mes "^0000ff"+.@md_name$+" ^000000- Can't create instance!";
+						close;
+					}
+					mes "^ff0000لقد تم فتحٌ البوابة!^000000";
+					close;
+				case 2:
+					switch(instance_enter(.@md_name$)) {
+						case 0:
+							mes "[Teleport Machine]";
+							mes "Get ready to enter!";
+							setquest 100299;
+							// LAST_ENTRY_SF = instance_id(IM_PARTY);
+							specialeffect2 EF_WARP;	
+							announce "لقد دخل اللاعب "+strcharinfo(0)+" إلى قصرِ سيّد الظلام",bc_all|bc_blue;
+							close;
+							break;
+						case 1:
+							mes "Only the registered members can enter the instance "+.@md_name$+".";
+							close;
+							break;
+						case 2:
+							mes "The memorial dungeon "+.@md_name$+" does not exist.";
+							mes "The party leader did not generate the dungeon yet.";
+							close;
+							break;
+						case 3:
+							mes "Unknown Error...!";
+							close;
+							break;
+					}
+			}
+			end;
+		default:
+			mes "- إنه تمثالٌ لمؤسس مدينة -";
+			mes "- إيميا. -";
+			if(!#halloween_finale_freebie) {
+				mes "- انت تشعر بالتنوير لتعلّمك -";
+				mes "- المزيد عن تاريخ إيميا -";
+				getexp 1000000,1000000;
+				getitem 12208,1;
+				#halloween_finale_freebie = 1;
+			}
+			close;
+
+	}
+	end;
+OnQuestThrd:
+	switch(halloween_finale) {
+		case 7:
+			mes .jawhar$;
+			cutin "3rd_mins_song04",2;
+			mes "أوووووووووه !!!!";
+			mes "لم أرى هذا المكان من قبل !";
+			next;
+			mes "- يبدو جوهر سعيداً لرؤيته -";
+			mes "- لمكان جديد لاستكشافه -";
+			next;
+			mes .maher$;
+			cutin "bu_mark1",2;
+			mes "هذا المكان لا يبدو طبيعياً";
+			mes "كونا حذرين.";
+			halloween_finale = 8;
+			close3;
+
+		case 8:
+			mes .jawhar$;
+			cutin "3rd_mins_song04",2;
+			mes "لنستكشف هذا المكان !";
+			close3;
+		default:
+			warp "SavePoint",0,0;
+			end;
+	}
+
+OnInit:
+	.maher$ = "[^0000FFالطبيب ماهر ^000000]";
+	.jawhar$ = "[^0000FFالمستكشف جوهر ^000000]";
+	end;
+}
+
+1@hallow,337,67,0	script	hidden_spawner#hallo	-1,5,5,{
+OnTouch:
+	if(.status) end;
+	.status = 1;
+	mapannounce strcharinfo(3),"؟؟؟؟:من يجرؤ على دخول قصري",bc_map,"0xFF0000";
+	sleep2 5000;
+	mapannounce strcharinfo(3),"؟؟؟؟:سأقضي عليك الآن",bc_map,"0xFF0000";
+	enablenpc "سيّد الظلام#quest";
+	// monster "1@hallow",0,0,"--ja--",31968,50,strnpcinfo(3)+"::OnMobDead";
+	.mobs = 100;
+	.status = 1;
+	end;
+OnStart:
+	.status = 0;
+	end;
+OnMobDead:
+	.mobs--;
+	if(.mobs == 5) {
+		// .status = 0;
+		killmonster "1@hallow",strnpcinfo(3)+"::OnMobDead";
+		mapannounce strcharinfo(3),"؟؟؟؟:هووه؟ يبدو أنك لست مجرّد بشريٍ ضعيف",bc_map,"0xFF0000";
+		sleep2 5000;
+		mapannounce strcharinfo(3),"؟؟؟؟:تقدّم إلى الامام وواجهني",bc_map,"0xFF0000";
+		enablenpc "سيّد الظلام#quest";
+	}
+	end;
+
+OnInstanceInit:
+	disablenpc strnpcinfo(3);
+	end;
+// OnPCDieEvent:
+// 	mapannounce strcharinfo(3),"؟؟؟؟:ضعيف ! أخرج من قصري الآن",bc_map,"0xFF0000";
+// 	killmonster "1@hallow",strnpcinfo(3)+"OnMobDead";
+// 	sleep2 5000;
+// 	warp "SavePoint",0,0;
+// 	end;
+}
+
+1@hallow,337,81,4	script	سيّد الظلام#quest	31975,{
+	if(halloween_finale != 8) end;
+	mes "[وحشٌ غامض]";
+	mes "هاهاها, إذاً أنت هو البشري";
+	mes "الذي تغلّب على أتباعي بهذه السهولة";
+	next;
+	mes .n$;
+	mes "أنا سيّدُ الظلام ديافولو, ملكُ";
+	mes "عالمِ الأموات, وزعيم الأشباح";
+	next;
+	mes .n$;
+	mes "أنت مجرّدُ بشريٍ فضوليٍ عثر على";
+	mes "قصري عن طريق الخطأ";
+	next;
+	mes .n$;
+	mes "أقدِّر شغفك وقوتك, ولكن هذه";
+	mes "ليست معركةً تستطيع الانتصار فيها";
+	percentheal -50,0;
+	specialeffect2 578;
+	next;
+	mes .n$;
+	mes "سأقوم بسحبِ الطاقة من عالمك";
+	mes "حتى أجمع طاقةً كافية لدمج العوالم!";
+	mes "ساجعل الهالوين يستمر للأبد";
+	mes "عد إلى مدينتك ولاتحاول معارضتي";
+	mes "فليس لك أي فرصةٍ للانتصار.";
+	next;
+	if(select("العودة إلى المدينة:الاستعداد للقتال") == 1) {
+		mes .n$;
+		mes "هه, أحسنت الاختيار.";
+		next;
+		halloween_finale = 9;
+		warp "SavePoint",0,0;
+		// disablenpc strnpcinfo(3);
+		// donpcevent "hidden_spawner#hallo::OnStart";
+		end;
+	}
+	mes .n$;
+	mes "أنت أغبى حتى مما تبدو عليه";
+	next;
+	mes .n$;
+	mes "الوداع";
+	halloween_finale = 9;
+	atcommand("@die");
+	// disablenpc strnpcinfo(3);
+	warp "SavePoint",0,0;
+	close2;
+	// donpcevent "hidden_spawner#hallo::OnStart"; 
+	end;
+OnInstanceInit:
+OnInit:
+	disablenpc strnpcinfo(3);
+	.n$ = "[^0000FFسيّد الظلام^000000]";
+	end;
+}
+
+aimia,150,132,4	script	شبح#finale	950,{
+	if(#halloween_finale_candy) end;
+	mes "- يبدو أن الشبح يحاول إعطائك الحلوى -";
+	if(select("اخذ الحلوى:إلغاء") -1 )close;
+	getitem 60047,10;
+	#halloween_finale_candy = 1;
+	disablenpc strnpcinfo(3);
+	end;
+OnInit:
+	disablenpc strnpcinfo(3);
+	end;
+OnStart:
+	enablenpc strnpcinfo(3);
+	specialeffect 386,area,strnpcinfo(3);
+	initnpctimer;
+	end;
+OnTimer20000:
+	disablenpc strnpcinfo(3);
+	end;
+} 
