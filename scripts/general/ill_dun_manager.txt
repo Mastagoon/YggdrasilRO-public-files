@@ -1,7 +1,7 @@
 //===== rAthena Script ======================================= 
 //= Illusion Dungeons Manager
 //===== By: ==================================================
-//= Mastagoon
+//= Mastagoon & KiNa
 //===== Description: =========================================
 //= YggdrasilRO's Illusion Dungeons Manager.
 //= A single NPC for all of the illusion dungeons' quests, crafting, and enchantment
