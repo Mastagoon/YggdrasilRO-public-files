@@ -1,0 +1,270 @@
+// Cash Shop Database
+// Contains the items sold in the ingame cash shop.
+//
+// Structure of Database:
+// Type,ItemID,Price
+//
+// Type:
+//    0: New
+//    1: Hot
+//    2: Limited
+//    3: Rental
+//    4: Gear
+//    5: Buff
+//    6: Heal
+//    7: Other
+//    8: Sale
+//
+// Price:
+//    Item cost, in cash points (#CASHPOINTS).
+
+//sales
+// 8,2589,750		//FAW
+// // 8,7619,25		//enriched elunium
+// 8,12920,200		//enriched elunium box
+// // 8,7620,25		//enriched oridecon
+// 8,12921,200		//enriched oridecon box	
+// // 8,6241,20		//HD elunium
+// 8,16396,175		//HD elunium box
+// // 8,6240,20		//HD oridecon
+// 8,16394,175		//HD oridecon box
+// //8,6225,25		//HD Carnium
+// 8,16261,200		//HD Carnum box
+// //8,6226,25		//HD Bradium
+// 8,16260,200		//HD Bradium box
+// 8,60093,750		//new storage copoun
+// 8,18813,500	//New wave sunglasses
+// 8,28902,750	//mad bunny
+
+//gear
+//new
+// 0,60034,100     //yggdrasil egg
+0,19141,1500     //Maero Mask
+0,19170,1500    //Guardian Processor
+0,20955,1500    //Christmas Guardian Tree
+0,28941,1500    //Excelion_Shield,E
+0,28951,1500    //Nero_Shield,Nero 
+0,28955,1500    //Fotia_Shield,Foti
+0,18526,1000         //Yummy Lollipop
+0,18536,1000         //Foxtail
+0,60093,1500		//new storage copoun
+0,60090,1500		//new name copoun
+0,60091,1500		//gender change coppoun
+0,15165,1500     //cellphone
+0,60058,1500     //cellphone
+0,60059,4000     //cellphone
+0,28551,1500	//Imperial Glove [1]
+0,18823,1500	//	Imperial Feather
+0,19296,1500	//fancy feather
+0,19343,1500	//fucker's hat
+0,19496,1500	//Aquarius Crown
+0,19098,1500	//piammette hood
+0,19249,1000	//spell circuit
+0,19308,1000	//amister beret
+0,19300,1000	//ruff officer
+0,19125,1000	//Cylinder hat
+0,60108,1000	// winter headband
+0,19116,1000	// red baby dragon hat
+0,5963,1000		//Wing Headphone [1]
+0,5457,1000
+0,28573,1000	//Emerald Ring [1]
+0,28521,1000	//Giant's Protection [1]
+0,18933,1000
+0,28564,1000	//Valkyrie Drop [1]
+
+
+1,5898,1000 //autumn headband
+1,5899,1000 //black ribbon
+1,5900,1000 //divine guard's helm
+1,5901,1000 //focus beret
+1,5902,1000 //harverter's hat
+1,5904,1000 //inconspicuous Hat
+1,5905,1000 //lyrica hat
+1,18795,1000 //nightsparrow hat
+1,5906,1000 //oni horns
+1,18791,1000 //maiden hat
+1,18793,1000 //magician's night cap
+1,18794,1000 //ordinary black magician's hat
+1,5907,1000 //sea captain's hat
+
+//refinement
+5,7619,50		//enriched elunium
+5,12920,400		//enriched elunium box
+5,7620,50		//enriched oridecon
+5,12921,400	//enriched oridecon box	
+5,6241,40		//HD elunium
+5,16396,350		//HD elunium box
+5,6240,40		//HD oridecon
+5,16394,350		//HD oridecon box
+5,6225,50		//HD Carnium
+5,16261,400		//HD Carnum box
+5,6226,50		//HD Bradium
+5,16260,400		//HD Bradium box
+
+//equipments
+//upper headgear
+1,19171,600	//Magician Knit Hat [1]
+1,5778,600	//Turkey On Your Head [1]
+1,19163,600	//Catherina Von Blood [1]
+1,5469,600	//Musketeer Hat
+1,5973,600	//Ancient Elven Ear
+// 1,5457,600	//Moon Rabbit Hat [1]
+1,5876,600	//Star-Spangled Bandana [1]
+1,18522,500	//evil marching hat
+1,18597,500	//mercury raiser
+1,18651,500	//ignis cap
+1,18934,500	//fox ear ribbons
+1,5765,500		//Pitch black ribbon
+1,5564,500		//crown of deceit
+1,5278,500		//yellow ribbon
+1,5276,500		//Fantastic Wig
+1,5208,500		//rideword hat
+1,18542,500	//Benevolent guardian
+1,5465,500		//hat of fortune
+1,5467,500		//dragon helm
+1,5311,500		//large hibiscus
+1,5420,500		//ifrit mask
+1,5359,500		//ship captain's hat
+1,5466,500		//Wind's guide
+1,5311,500		//large hibiscus
+1,5388,500		//snake head hat
+1,5283,500		//chick hat
+1,5563,500		//dolor hat
+1,18539,500	//skull cap
+//4,19098,500	//piammette hood
+1,5389,500		//agnle spirit
+
+
+// lower/middle headgears
+1,18737,600		//Fortier Masque (fire)
+// 1,18786,600		//Fortier Masque(wind)
+1,18799,600		//Fortier Masque(water)
+1,18611,600		//Black Frame Glasses [1]
+1,18968,600		//Jinn Marin Balloon
+1,5072,600		//Incubus Horn
+1,18540,600		//Demon Mask
+1,18908,600		//Isabella Red Ear
+1,18892,600		//UFO Poring Hat [1]
+1,19082,600	//Bio Protector
+1,19095,600	//Happy Balloon
+
+
+1,18564,500		//Love Piece
+// 1,18540,500		//demon mask
+1,18750,500		//poker card
+1,5800,500		//blush of groom
+1,5377,500		//gentlman's pipe
+1,18787,500		//hockey mask
+1,5483,500		//odin mask
+1,5462,500		//spiked scarf
+1,5641,500		//robo eyes
+1,5592,500		//sigrun's wings
+1,5463,500		//rainbow scarf
+1,5361,500		//gangster scarf
+1,5574,500		//well chewed pencil
+1,5305,500		//pirate dagger
+1,18666,500		//CD in mouth
+1,18754,500		//blood sucker
+1,5933,500		//Crow Tengu Mask
+1,19112,500		//Tengu scroll
+1,18813,1000	//New wave sunglasses
+//1,19439,1000	//vicious mind aura
+
+// other gear
+1,28902,1500	//mad bunny
+1,28929,1500	//happy shield
+1,2576,1000		//backpack
+// 1,20837,1000	//Skin of Gwiber [1]
+1,2589,1500		//FAW
+// 1,20949,1500	//Skin of Ladon [1]
+1,28921,1500	//Anemos shield
+1,28916,1500	//Gaia shield
+1,28941,1500    //Excelion_Shield,E
+1,28951,1500    //Nero_Shield,Nero 
+1,28955,1500    //Fotia_Shield,Foti
+
+//consumables
+2,60060,100      //potions 
+2,60062,300      //potions 
+2,60064,600      //potions 
+2,12215,5	//blessing scroll
+2,12216,5	//increase Agi scroll
+2,14588,10	//party blessing scroll
+2,14589,10	//party agi scroll scroll
+2,12218,10	//Assumption scroll scroll
+2,12220,7	//adrenalin rush scroll
+2,12219,5	//windwalker scroll
+//2,50017,20	//FCP Scroll
+2,14536,7	//abrasive
+2,12710,15	//juyak pudding
+2,12212,5	//Giant Flywing
+2,50062,5	//Maher Scroll
+
+//foods
+2,12202,10	//str food
+2,12204,10	//int food
+2,12205,10	//dex food
+2,12206,10	//luk food
+2,12203,10	//agi food
+2,12207,10	//vit food
+
+//boosters
+2,12210,50	//bubble gum
+2,14533,40	//battle manual
+2,14592,40	//job manual
+//2,14545,150	//3x Battle manual
+
+//consuable boxes
+2,12913,40		//blessing scroll box
+2,12914,40		//agi scroll box
+2,13913,75		//party blessing scroll box
+2,13914,75		//party agi scroll box
+2,13700,40		//adrenalin rush scroll box
+2,12917,40		//windwalker scroll box
+//2,50018,150		//FCP Scroll box
+2,14159,80		//str food box
+2,14161,80		//int food box
+2,14162,80		//dex food box
+2,14163,80		//luk food box
+2,14160,80		//agi food box
+2,14164,80		//vit food box
+2,12902,400		//bubble gum box
+2,12900,350		//battle manual box
+2,13717,40		//abrasive box
+2,12910,40		//Giant Flywing Box
+
+
+//recovery
+2,13749,40	//big def potion box
+2,14091,40	//big mdef potion box
+2,14542,5	//big def potion
+2,14544,5	//big def potion
+2,14537,5	//regen potion
+2,12221,10  	//Megaphone
+2,14175,80 	//Megaphone 10 Box 
+
+//misc
+3,50014,5		//restock ticket
+3,50021,500		//change announcer ticket
+3,50015,40		//restock ticket box (10)
+3,50016,200		//restock ticket box (50)
+3,50008,1		//gold coins
+3,14505,50		//Ticket Entry Ticket
+3,50010,500		//change outfit ticket
+3,50072,5		//Vicious reset ticket
+3,12211,5		//kafra card
+3,12909,40		//kafra card box
+3,7776,120		//Gym pass
+3,13710,1000	//Gym pass box
+3,7621,15		//Token of seigfried
+3,12922,120		//ToS box
+3,6417,15		//Silvervine fruit
+3,16770,120		//silvervine fruit bo
+3,12622,500	//riding hatler
+
+//costumes
+4,20500,1500	//custom arch angel wing
+4,20514,1500	//custom Thanatos Swords
+4,20515,1500	//custom magic circle
+4,20519,1500	//custom cherry blossom
+4,50020,2000	// custom garment

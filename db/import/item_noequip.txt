@@ -1,0 +1,144 @@
+// Forbidden Items Database
+// Defines restrictions on equipment, items, and cards in map types and zones.
+//
+// Structure of Database:
+// ItemID,Flag
+//
+// Legend for 'Flag' field (bitmask):
+// 1    - restricted in normal maps
+// 2    - restricted in PVP
+// 4    - restricted in GVG
+// 8    - restricted in Battlegrounds
+// Restricted zones - configured by 'restricted <number>' mapflag
+// 32   - restricted in zone 1
+// 64   - restricted in zone 2
+// 128  - restricted in zone 3
+// 256  - restricted in zone 4
+// 512  - restricted in zone 5
+// 1024 - restricted in zone 6
+// 2048 - restricted in zone 7
+//
+// Passing negative value as flag will unset the flag instead.
+//
+// Examples:
+// 1201,1   // Knife can't be worn on normal maps
+// 608,4    // Yggdrasil Seed can't be consumed in both GvG and WoE Castles
+// 4174,6   // Deviling Card has no effect in every PVP or GVG map, and during WoE
+// 501,32   // Red Potion can't be consumed on maps marked as 'restricted zone 1'
+// 519,322  // Milk can't be consumed in PVP and maps marked as 'restricted zone 2' or 'restricted zone 4' (256+64+2)
+// 519,-2   // Unset `restricted in PVP` flag from Milk. Making it usable in PVP again.
+
+//zone-2 1@hallow/diavolo castle
+4128,64     //goldenthiefbug card
+
+
+//11592,512
+//11593,512
+//11594,512
+//11595,512
+//60036,512
+//60037,512
+
+//pvp AND gvg
+22198,6     //Traveler Shoes
+12700,6     //Inside-out Shirt 
+12636,6     //Malang Sp Can 
+//24307,6      //guillotine-cross-shield-shadow
+24310,6     //sorcerer-shield-shadow
+24243,6 // reload shadow set
+24244,6
+24245,6
+22104,6
+28594,6     //Temporal Ring
+25067,6    //Fixed Cast Stone(Garment)
+25170,6    //Minor Fixed Cast Stone(Garment)
+32204,6     //mortal dog tag
+15352,6     //Nature Dress
+28531,6     //Blacksmith's Gloves
+19343,6     //Circlet of Phoenix 
+32242,6     //Old Detachments Ring 
+15420,6     // Icefall Dress 
+28394,6     // Spirit King's Ring [1] 
+20797,6     //Etran's Undershirt [1]
+28506,6     //Storm Stone [1]
+22172,6     //Gray Wing Boots
+
+
+12211,2
+
+//bio5 cards
+4684,6       //Eremes_Card,Tr
+4685,6       //Magaleta_Card,
+4686,6       //Katrinn_Card,T
+4687,6       //Shecil_Card,Tr
+4688,6       //Harword_Card,T
+4689,6       //Seyren_Card,Tr
+4690,6       //Randel_Card,Tr
+4691,6       //Flamel_Card,Tr
+4692,6       //Celia_Card,Tru
+4693,6       //Chen_Card,True
+4694,6       //Gertie_Card,Tr
+4695,6       //Trentini_Card,
+4696,6       //Alphoccio_Card
+
+//bio5 headgear enchants
+29061,6
+29062,6
+29063,6
+29064,6
+29065,6
+29066,6
+29067,6
+29068,6
+29069,6
+29070,6
+29071,6
+29072,6
+29073,6
+29074,6
+29075,6
+29076,6
+29077,6
+29078,6
+29079,6
+29080,6
+29081,6
+29082,6
+29083,6
+29084,6
+29085,6
+29086,6
+29087,6
+29088,6
+29089,6
+29090,6
+29091,6
+29092,6
+29093,6
+29094,6
+29095,6
+29096,6
+29097,6
+29098,6
+29099,6
+29100,6
+29101,6
+29102,6
+29103,6
+29104,6
+29105,6
+29106,6
+29107,6
+29108,6
+29109,6
+29110,6
+29111,6
+29112,6
+29113,6
+29114,6
+29115,6
+29116,6
+29117,6
+29118,6
+29119,6
+29120,6

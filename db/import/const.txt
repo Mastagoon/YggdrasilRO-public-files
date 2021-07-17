@@ -1,0 +1,50 @@
+// Script Constant Database
+//
+// Structure of Database:
+// Identifier	Value[	Type]
+//
+// Alternatively:
+// Identifier,Value[,Type]
+//
+// 01. Identifier   Unique name for the constant, must not have same name as script commands, functions or variables.
+// 02. Value        Value assigned to the constant. This value cannot be changed during the runtime of the server.
+// 03. Type         Specifies whether the identifier is a constant (0) or a parameter (1) (optional, defaults to 0).
+//
+// NOTE:            Parameters are special in that they retrieve certain runtime values depending on the specified ID
+//                  in field Value. Depending on the implementation values assigned by scripts to parameters will affect
+//                  runtime values, such as Zeny, as well (see pc_readparam/pc_setparam).
+//IG_S2W1 1000
+//IG_S2W2 1001
+//IG_S2W3 1002
+IG_C_Gerement 1050
+IG_C_Upper 1051
+IG_C_Middle 1052
+IG_C_Lower 1053
+cell_pvp	10	// Addon Cell PVP [Ize]
+cell_chkpvp	16		// Addon Cell PVP [Ize]
+IG_Yggbox 1054
+IG_T3SHADOW	1055
+IG_T2SHADOW	1056
+IG_T1SHADOW	1057
+IG_SKILLBOX	1058
+IG_aimbox	1059
+IG_Yggegg   1060
+IG_CHallow  1061
+IG_CLASS_SHADOW 1062
+IG_CLASS_SHADOW_ACC 1063
+IG_CLASS_SHADOW_SHOES 1064
+IG_CLASS_SHADOW_ARMOR 1065
+IG_CLASS_SHADOW_WEAPON 1066
+IG_CLASS_SHADOW_SHEILD 1067
+IG_STONE_UPPER 1068
+IG_STONE_MIDDLE 1069
+IG_STONE_LOWER 1070
+IG_STONE_GARMENT 1071
+IG_Bs_Item_M_S_12 1072
+IG_Bs_Item_M_S_15 1073
+IG_Bs_Item_M_S_5 1074
+IG_Bs_Making_S 1075
+IG_racing_cap 1076
+IG_OS_WEAPON    1077
+IG_Modification_Moodule 1078
+IG_S2WBOX 1079

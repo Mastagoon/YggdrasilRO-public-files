@@ -1,0 +1,98 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2019 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Instance Database
+###########################################################################
+#
+# Instance Settings
+#
+###########################################################################
+# - Id                Instance ID.
+#   Name              Instance Name.
+#   TimeLimit         Total lifetime of instance in seconds. (Default: 3600)
+#   IdleTimeOut       Time before an idle instance is destroyed in seconds. (Default: 300)
+#   Enter:            Instance entrance coordinates.
+#     Map             Map Name where players start.
+#     X               X Coordinate where players start.
+#     Y               Y Coordinate where players start.
+#   AdditionalMaps:   List of maps that are part of an instance. (Optional)
+###########################################################################
+
+Header:
+    Type: INSTANCE_DB
+    Version: 1
+
+Body:
+    - Id: 35
+      Name: Old Glast Heim Hard
+      Enter:
+          Map: 1@gl_k
+          X: 150
+          Y: 20
+      AdditionalMaps:
+          2@gl_k: true
+    - Id: 40
+      Name: Emp Breaker
+      TimeLimit: 900
+      IdleTimeOut: 300
+      Enter:
+          Map: sword_1-1
+          X: 215
+          Y: 206
+    - Id: 41
+      Name: Tutorial
+      Enter:
+          Map: beginner01
+          X: 128
+          Y: 52
+    - Id: 42
+      Name: Ghost Track
+      Enter:
+          Map: 2@hallow
+          X: 27
+          Y: 343
+    - Id: 43
+      Name: Halloween Tower
+      Enter:
+          Map: ytower
+          X: 44
+          Y: 111
+    - Id: 44
+      Name: Halloween Tower Hard
+      Enter:
+          Map: ytower
+          X: 44
+          Y: 111
+    - Id: 45
+      Name: Diavolo's Castle
+      Enter:
+          Map: 1@hallow
+          X: 336
+          Y: 38
+    - Id: 46
+      Name: Tomb of The Forgotten
+      Enter:
+          Map: ordeal_a00
+          X: 150
+          Y: 149
+    - Id: 47
+      Name: OS Mission 2
+      Enter:
+          Map: 1@os_a
+          X: 334
+          Y: 31

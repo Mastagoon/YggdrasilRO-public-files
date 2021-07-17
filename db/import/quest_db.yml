@@ -1,0 +1,1074 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2019 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Quest Database
+###########################################################################
+#
+# Quest Settings
+#
+###########################################################################
+# - Id              Quest ID.
+#   Title           Quest title.
+#   TimeLimit       Amount of time before the quest expires. (Default: 0)
+#                   Use a number following by "d" for day(s), "h" for hour(s), "mn" for minute(s), and "s" for second(s).
+#                   Specify with "+" for how long until the quest expires.
+#                   Specify without "+" for the exact time the quest expires using "d" (optionnal), [0-23]"h" (required), [0-59]"mn" (optionnal), [0-59]"s" (optionnal) format.
+#                   Please note the number before "d" only shift the exact timer to the given day(s).
+#   Targets:        Quest objective target. (Default: null)
+#     - Mob         Monster to kill.
+#       Count       Amount of monsters to kill.
+#   Drops:          Quest item drop targets. (Default: null)
+#     - Mob         Monster to kill. 0 will apply to all monsters. (Default: 0)
+#       Item        Item to drop.
+#       Count       Amount of items that will drop. Non-stackable items default to 1. (Default: 1)
+#       Rate        Item drop rate. (10000 = 100%)
+###########################################################################
+Header:
+    Type: QUEST_DB
+    Version: 1
+
+Body:
+    - Id: 12336
+      Title: Corrupted Soul Hunt
+      Targets:
+          - Mob: MG_CORRUPTION_ROOT_H
+            Count: 1
+    - Id: 12337
+      Title: Amdarais Soul Hunt
+      Targets:
+          - Mob: MG_AMDARAIS_H
+            Count: 1
+    - Id: 100125
+      Title: Sky Fortress Cooldown
+      TimeLimit: +24h
+    - Id: 52500
+      Title: Defeat Morocc
+      Targets:
+          - Mob: MM_MOROCC_ADT
+            Count: 1
+    - Id: 52501
+      Title: Aweakens Morocc
+      Targets:
+          - Mob: MM_BRINARANEA
+            Count: 1
+          - Mob: MM_MUSPELLSKOLL
+            Count: 1
+      TimeLimit: +24h
+    - Id: 100100
+      Title: Jawhar1
+    - Id: 100101
+      Title: Jawhar2
+    - Id: 100102
+      Title: Jawhar3
+    - Id: 100103
+      Title: Jawhar4
+      Targets:
+          - Mob: _GOLDEN_BUG
+            Count: 1
+    - Id: 100104
+      Title: Jawhar5
+    - Id: 100105
+      Title: Jawhar6
+    - Id: 100106
+      Title: Jawhar7
+    - Id: 100107
+      Title: Jawhar8
+      Targets:
+          - Mob: KTULLANUX
+            Count: 1
+    - Id: 100108
+      Title: Jawhar9
+      Targets:
+          - Mob: S_NYDHOG
+            Count: 1
+    - Id: 8541
+      Title: Nothing to see
+      Targets:
+          - Mob: RAYDRIC_H
+            Count: 20
+          - Mob: RAYDRICARCHER_H
+            Count: 20
+    - Id: 8542
+      Title: Nothing to see - Wait
+      TimeLimit: +24h
+    - Id: 8544
+      Title: High Freezing Point
+      Targets:
+          - Mob: GARGOYLE_H
+            Count: 5
+          - Mob: RAGGEDZOMBIE_H
+            Count: 5
+    - Id: 8545
+      Title: High Freezing Point - Wait
+      TimeLimit: +24h
+    - Id: 8547
+      Title: A Mirror
+      Targets:
+          - Mob: ICEGHOST_H
+            Count: 10
+          - Mob: FLAMEGHOST_H
+            Count: 10
+    - Id: 8548
+      Title: A Mirror - Wait
+      TimeLimit: +24h
+    - Id: 8541
+      Title: Nothing to see
+      Targets:
+          - Mob: RAYDRIC_H
+            Count: 20
+          - Mob: RAYDRICARCHER_H
+            Count: 20
+    - Id: 8542
+      Title: Nothing to see - Wait
+      TimeLimit: +24h
+    - Id: 8544
+      Title: High Freezing Point
+      Targets:
+          - Mob: GARGOYLE_H
+            Count: 5
+          - Mob: RAGGEDZOMBIE_H
+            Count: 5
+    - Id: 8545
+      Title: High Freezing Point - Wait
+      TimeLimit: +24h
+    - Id: 8547
+      Title: A Mirror
+      Targets:
+          - Mob: ICEGHOST_H
+            Count: 10
+          - Mob: FLAMEGHOST_H
+            Count: 10
+    - Id: 8548
+      Title: A Mirror - Wait
+      TimeLimit: +24h
+    - Id: 14652
+      Title: Detailed Account 01
+    - Id: 14653
+      Title: Detailed Account 02
+    - Id: 14654
+      Title: Detailed Account 03
+    - Id: 14655
+      Title: I'm Ready
+    - Id: 14656
+      Title: Finding Father Grimm's Colleagues
+    - Id: 14657
+      Title: Jojo Is the Mage's Name
+    - Id: 14658
+      Title: Jubilee Is the Priest's Name
+    - Id: 14659
+      Title: Lost in Thought
+    - Id: 14660
+      Title: Ingredients for Fake Blood
+      Targets:
+          - Mob: ILL_DRAINLIAR
+            Count: 5
+          - Mob: ILL_BLACKMUSHROOM
+            Count: 5
+    - Id: 14661
+      Title: Jojo Is the Mage's Name 02
+    - Id: 14662
+      Title: You're Scaring Me
+    - Id: 14663
+      Title: Bloody Fight
+    - Id: 14664
+      Title: Deep Misunderstanding
+    - Id: 14665
+      Title: Is the Fight Over?
+    - Id: 14666
+      Title: Warden's Role
+    - Id: 14667
+      Title: Send the Dead Back to Earth
+      Targets:
+          - Mob: ILL_GHOUL
+            Count: 30
+          - Mob: ILL_ZOMBIE
+            Count: 30
+          - Mob: ILL_ZOMBIEC
+            Count: 30
+    - Id: 14668
+      Title: Get Some Rest
+      TimeLimit: +24h
+    - Id: 14669
+      Title: Sweet Dreams
+      Targets:
+          - Mob: ILL_NIGHTMARE
+            Count: 35
+    - Id: 14670
+      Title: Time for Dreaming
+      TimeLimit: +24h
+    - Id: 14671
+      Title: Unreliable Fake Blood
+      Targets:
+          - Mob: ILL_DRAINLIAR
+            Count: 30
+          - Mob: ILL_BLACKMUSHROOM
+            Count: 20
+    - Id: 14674
+      Title: Time to Digest
+      TimeLimit: +24h
+    - Id: 14675
+      Title: Noisy Neighbors
+      Targets:
+          - Mob: ILL_DRACULA
+            Count: 1
+          - Mob: ILL_BOMI
+            Count: 5
+    - Id: 14676
+      Title: Break Time
+      TimeLimit: +24h
+    - Id: 14677
+      Title: Studying in Dim Light
+      Targets:
+          - Mob: ILL_BLACKMUSHROOM
+            Count: 5
+          - Mob: ILL_NIGHTMARE
+            Count: 5
+    - Id: 14678
+      Title: Time to Study
+      TimeLimit: +24h
+    - Id: 14679
+      Title: Curious by Nature
+      Targets:
+          - Mob: ILL_ZOMBIEC
+            Count: 5
+          - Mob: ILL_ZOMBIE
+            Count: 5
+          - Mob: ILL_GHOUL
+            Count: 5
+    - Id: 14680
+      Title: Time to Research
+      TimeLimit: +24h
+    - Id: 7776
+      Title: Suspicious Sign
+    - Id: 7777
+      Title: What Happened?
+    - Id: 7778
+      Title: What Muyeon Saw
+    - Id: 7779
+      Title: Distressing Ritual
+    - Id: 7780
+      Title: Nightmare in the Ruined Village
+      Targets:
+          - Mob: ILL_MOONLIGHT
+            Count: 1
+    - Id: 7781
+      Title: Nightmare in the Ruined Village
+      TimeLimit: +24h
+    - Id: 7782
+      Title: Stop the Wizard!
+      Targets:
+          - Mob: ILL_HIGHWIZARD
+            Count: 5
+          - Mob: ILL_FURY_HERO
+            Count: 5
+    - Id: 7783
+      Title: Stop the Wizard!
+      TimeLimit: +24h
+    - Id: 7784
+      Title: No Mercy for Illusions
+      Targets:
+          - Mob: ILL_NINETAIL
+            Count: 20
+          - Mob: ILL_SOHEE
+            Count: 30
+    - Id: 7785
+      Title: No Mercy for Illusions - Cooldown
+      TimeLimit: +24h
+    - Id: 7786
+      Title: Remembering my ancestors
+      Targets:
+          - Mob: ILL_ARCHERSKELETON
+            Count: 20
+          - Mob: ILL_BON_GUN
+            Count: 30
+          - Mob: ILL_MUNAK
+            Count: 30
+    - Id: 7787
+      Title: No Mercy for Illusions - Cooldown
+      TimeLimit: +24h
+    - Id: 7788
+      Title: Back to Muyeon
+    - Id: 100500
+      Title: Illusion Hunt One
+      Targets:
+          - Mob: ILL_ICEICLE
+            Count: 30
+    - Id: 100501
+      Title: Illusion Hunt One - Cooldown
+      TimeLimit: +24h
+    - Id: 100502
+      Title: Illusion Hunt Two
+      Targets:
+          - Mob: ILL_GAZETI
+            Count: 20
+          - Mob: ILL_SNOWIER
+            Count: 20
+    - Id: 100503
+      Title: Illusion Hunt Two - Cooldown
+      TimeLimit: +24h
+    - Id: 100504
+      Title: Illusion Hunt Three
+      Targets:
+          - Mob: ILL_ICE_TITAN
+            Count: 20
+    - Id: 100505
+      Title: Illusion Hunt Three - Cooldown
+      TimeLimit: +24h
+    - Id: 100506
+      Title: Illusion Hunt Four
+      Targets:
+          - Mob: ILL_KTULLANUX
+            Count: 1
+    - Id: 100507
+      Title: Illusion Hunt Four - Cooldown
+      TimeLimit: +24h
+    - Id: 100508
+      Title: Illusion Hunt One
+      Targets:
+          - Mob: ILL_PERMETER
+            Count: 20
+          - Mob: ILL_SOLIDER
+            Count: 20
+    - Id: 100509
+      Title: Illusion Hunt One - Cooldown
+      TimeLimit: +24h
+    - Id: 100510
+      Title: Illusion Hunt Two
+      Targets:
+          - Mob: ILL_HEATER
+            Count: 20
+          - Mob: ILL_FREEZER
+            Count: 20
+    - Id: 100511
+      Title: Illusion Hunt Two - Cooldown
+      TimeLimit: +24h
+    - Id: 100512
+      Title: Illusion Hunt Three
+      Targets:
+          - Mob: ILL_ASSULTER
+            Count: 30
+    - Id: 100513
+      Title: Illusion Hunt Three - Cooldown
+      TimeLimit: +24h
+    - Id: 100514
+      Title: Illusion Hunt Four
+      Targets:
+          - Mob: ILL_TURTLE_GENERAL
+            Count: 1
+    - Id: 100515
+      Title: Illusion Hunt Four - Cooldown
+      TimeLimit: +24h
+    - Id: 100516
+      Title: Illusion Hunt One
+      Targets:
+          - Mob: ILL_TRI_JOINT
+            Count: 20
+          - Mob: ILL_STALACTIC_GOLEM
+            Count: 20
+    - Id: 100517
+      Title: Illusion Hunt One - Cooldown
+      TimeLimit: +24h
+    - Id: 100518
+      Title: Illusion Hunt Two
+      Targets:
+          - Mob: ILL_MEGALITH
+            Count: 20
+          - Mob: ILL_STONE_SHOOTER
+            Count: 20
+    - Id: 100519
+      Title: Illusion Hunt Two - Cooldown
+      TimeLimit: +24h
+    - Id: 100520
+      Title: Illusion Hunt Three
+      Targets:
+          - Mob: ILL_WOOTAN_SHOOTER
+            Count: 20
+          - Mob: ILL_WOOTAN_FIGHTER
+            Count: 20
+    - Id: 100521
+      Title: Illusion Hunt Three - Cooldown
+      TimeLimit: +24h
+    - Id: 100522
+      Title: Illusion Hunt Four
+      Targets:
+          - Mob: ILL_TAO_GUNKA
+            Count: 1
+          - Mob: ILL_WOOTAN_DEFENDER
+            Count: 1
+    - Id: 100523
+      Title: Illusion Hunt Four - Cooldown
+      TimeLimit: +24h
+    - Id: 100524
+      Title: Illusion Hunt One
+      Targets:
+          - Mob: ILL_TEDDY_BEAR_R
+            Count: 20
+          - Mob: ILL_TEDDY_BEAR_Y
+            Count: 20
+    - Id: 100525
+      Title: Illusion Hunt One - Cooldown
+      TimeLimit: +24h
+    - Id: 100526
+      Title: Illusion Hunt Two
+      Targets:
+          - Mob: ILL_TEDDY_BEAR_G
+            Count: 20
+          - Mob: ILL_TEDDY_BEAR_W
+            Count: 20
+    - Id: 100527
+      Title: Illusion Hunt Two - Cooldown
+      TimeLimit: +24h
+    - Id: 100528
+      Title: Illusion Hunt Three
+      Targets:
+          - Mob: ILL_TEDDY_BEAR_B
+            Count: 20
+          - Mob: ILL_TEDDY_BEAR_S
+            Count: 1
+    - Id: 100529
+      Title: Illusion Hunt Three - Cooldown
+      TimeLimit: +24h
+    - Id: 100530
+      Title: Illusion Hunt Four
+      Targets:
+          - Mob: ILL_MINERAL
+            Count: 30
+          - Mob: ILL_OBSIDIAN
+            Count: 30
+    - Id: 100531
+      Title: Illusion Hunt Four - Cooldown
+      TimeLimit: +24h
+    - Id: 100532
+      Title: Illusion Hunt One
+      Targets:
+          - Mob: ILL_ANDREA
+            Count: 20
+          - Mob: ILL_ANES
+            Count: 20
+    - Id: 100533
+      Title: Illusion Hunt One - Cooldown
+      TimeLimit: +24h
+    - Id: 100534
+      Title: Illusion Hunt Two
+      Targets:
+          - Mob: ILL_SILVANO
+            Count: 20
+          - Mob: ILL_CECILIA
+            Count: 20
+    - Id: 100535
+      Title: Illusion Hunt Two - Cooldown
+      TimeLimit: +24h
+    - Id: 100536
+      Title: Illusion Hunt Three
+      Targets:
+          - Mob: ILL_BAPHOMET_J
+            Count: 20
+          - Mob: ILL_SIDE_WINDER
+            Count: 20
+    - Id: 100537
+      Title: Illusion Hunt Three - Cooldown
+      TimeLimit: +24h
+    - Id: 100538
+      Title: Illusion Hunt Four
+      Targets:
+          - Mob: ILL_MANTIS
+            Count: 20
+          - Mob: ILL_KILLER_MANTIS
+            Count: 20
+    - Id: 100539
+      Title: Illusion Hunt Four - Cooldown
+      TimeLimit: +24h
+    - Id: 100540
+      Title: Werner's Lab Cooldown
+      TimeLimit: +23h
+    - Id: 100200
+      Title: Antler Hunting
+      Targets:
+          - Mob: ANTLER_SCARABA
+            Count: 200
+    - Id: 100201
+      Title: Rake Hunting
+      Targets:
+          - Mob: RAKE_SCARABA
+            Count: 200
+    - Id: 100202
+      Title: Venatu Hunting
+      Targets:
+          - Mob: VENATU_1
+            Count: 50
+          - Mob: VENATU_2
+            Count: 50
+    - Id: 100203
+      Title: Vanberk Hunting
+      Targets:
+          - Mob: VANBERK
+            Count: 200
+    - Id: 100204
+      Title: Isilla Hunting
+      Targets:
+          - Mob: ISILLA
+            Count: 200
+    - Id: 100205
+      Title: Agav Hunting
+      Targets:
+          - Mob: AGAV
+            Count: 200
+    - Id: 100206
+      Title: Echio Hunting
+      Targets:
+          - Mob: ECHIO
+            Count: 200
+    - Id: 100207
+      Title: Angra Mantis Hunting
+      Targets:
+          - Mob: ANGRA_MANTIS
+            Count: 200
+    - Id: 100208
+      Title: Little Fatum Hunting
+      Targets:
+          - Mob: LITTLE_FATUM
+            Count: 200
+    - Id: 100209
+      Title: Miming Hunting
+      Targets:
+          - Mob: MIMING
+            Count: 200
+    - Id: 100210
+      Title: Mummy Hunting
+      Targets:
+          - Mob: N_ANCIENT_MUMMY
+            Count: 200
+    - Id: 100211
+      Title: Arclouse Hunting
+      Targets:
+          - Mob: N_ARCLOUSE
+            Count: 200
+    - Id: 100212
+      Title: Mimic Hunting
+      Targets:
+          - Mob: N_MIMIC
+            Count: 200
+    - Id: 100213
+      Title: Verit Hunting
+      Targets:
+          - Mob: N_VERIT
+            Count: 200
+    - Id: 100214
+      Title: Rideword Hunting
+      Targets:
+          - Mob: NG_RIDEWORD
+            Count: 200
+    - Id: 100215
+      Title: Mimic Hunting
+      Targets:
+          - Mob: NG_MIMIC
+            Count: 200
+    - Id: 100216
+      Title: Big Bell Hunting
+      Targets:
+          - Mob: BIG_BELL
+            Count: 200
+    - Id: 100217
+      Title: Big Ben Hunting
+      Targets:
+          - Mob: BIG_BEN
+            Count: 200
+    - Id: 100220
+      Title: Antler Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100221
+      Title: Rake Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100222
+      Title: Venatu Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100223
+      Title: Vanberk Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100224
+      Title: Isilla Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100225
+      Title: Agav Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100226
+      Title: Echio Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100227
+      Title: Angra Mantis Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100228
+      Title: Little Fatum Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100229
+      Title: Miming Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100230
+      Title: Mummy Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100231
+      Title: Arclouse Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100232
+      Title: Mimic Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100233
+      Title: Verit Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100234
+      Title: Rideword Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100235
+      Title: Mimic Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100236
+      Title: Big Bell Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100237
+      Title: Big Ben Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100238
+      Title: Create A Fishing Rod
+    - Id: 100239
+      Title: Angry Fisherman
+      TimeLimit: +3h
+    - Id: 100540
+      Title: Werner's Lab Cooldown
+      TimeLimit: +23h
+    - Id: 100200
+      Title: Antler Hunting
+      Targets:
+          - Mob: ANTLER_SCARABA
+            Count: 200
+    - Id: 100201
+      Title: Rake Hunting
+      Targets:
+          - Mob: RAKE_SCARABA
+            Count: 200
+    - Id: 100202
+      Title: Venatu Hunting
+      Targets:
+          - Mob: VENATU_1
+            Count: 50
+          - Mob: VENATU_2
+            Count: 50
+          - Mob: VENATU_3
+            Count: 50
+          - Mob: VENATU_4
+            Count: 50
+    - Id: 100203
+      Title: Vanberk Hunting
+      Targets:
+          - Mob: VANBERK
+            Count: 200
+    - Id: 100204
+      Title: Isilla Hunting
+      Targets:
+          - Mob: ISILLA
+            Count: 200
+    - Id: 100205
+      Title: Agav Hunting
+      Targets:
+          - Mob: AGAV
+            Count: 200
+    - Id: 100206
+      Title: Echio Hunting
+      Targets:
+          - Mob: ECHIO
+            Count: 200
+    - Id: 100207
+      Title: Angra Mantis Hunting
+      Targets:
+          - Mob: ANGRA_MANTIS
+            Count: 200
+    - Id: 100208
+      Title: Little Fatum Hunting
+      Targets:
+          - Mob: LITTLE_FATUM
+            Count: 200
+    - Id: 100209
+      Title: Miming Hunting
+      Targets:
+          - Mob: MIMING
+            Count: 200
+    - Id: 100210
+      Title: Mummy Hunting
+      Targets:
+          - Mob: N_ANCIENT_MUMMY
+            Count: 200
+    - Id: 100211
+      Title: Arclouse Hunting
+      Targets:
+          - Mob: N_ARCLOUSE
+            Count: 200
+    - Id: 100212
+      Title: Mimic Hunting
+      Targets:
+          - Mob: N_MIMIC
+            Count: 200
+    - Id: 100213
+      Title: Verit Hunting
+      Targets:
+          - Mob: N_VERIT
+            Count: 200
+    - Id: 100214
+      Title: Rideword Hunting
+      Targets:
+          - Mob: NG_RIDEWORD
+            Count: 200
+    - Id: 100215
+      Title: Mimic Hunting
+      Targets:
+          - Mob: NG_MIMIC
+            Count: 200
+    - Id: 100216
+      Title: Big Bell Hunting
+      Targets:
+          - Mob: BIG_BELL
+            Count: 200
+    - Id: 100217
+      Title: Big Ben Hunting
+      Targets:
+          - Mob: BIG_BEN
+            Count: 200
+    - Id: 100220
+      Title: Antler Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100221
+      Title: Rake Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100222
+      Title: Venatu Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100223
+      Title: Vanberk Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100224
+      Title: Isilla Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100225
+      Title: Agav Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100226
+      Title: Echio Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100227
+      Title: Angra Mantis Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100228
+      Title: Little Fatum Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100229
+      Title: Miming Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100230
+      Title: Mummy Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100231
+      Title: Arclouse Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100232
+      Title: Mimic Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100233
+      Title: Verit Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100234
+      Title: Rideword Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100235
+      Title: Mimic Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100236
+      Title: Big Bell Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100237
+      Title: Big Ben Hunting - Cooldown
+      TimeLimit: +23h
+    - Id: 100238
+      Title: Create A Fishing Rod
+    - Id: 100239
+      Title: Angry Fisherman
+      TimeLimit: +3h
+    - Id: 100241
+      Title: Fishing 1
+    - Id: 100242
+      Title: Fishing 2
+    - Id: 100243
+      Title: Fishing 3
+    - Id: 100244
+      Title: Horror Toy Factory
+      Targets:
+          - Mob: XM_CELINE_KIMI
+            Count: 1
+    - Id: 100245
+      Title: Old Glast Heim
+      Targets:
+          - Mob: MG_CORRUPTION_ROOT
+            Count: 1
+    - Id: 100246
+      Title: Airship Assault
+      Targets:
+          - Mob: E1_FELOCK
+            Count: 1
+    - Id: 100247
+      Title: Nightmarish Jitterbug
+      Targets:
+          - Mob: GRAND_PERE
+            Count: 1
+    - Id: 100248
+      Title: Old Glast Heim 2
+      Targets:
+          - Mob: MG_AMDARAIS
+            Count: 1
+    - Id: 100249
+      Title: ILL Frozen
+      Targets:
+          - Mob: ILL_GAZETI
+            Count: 30
+    - Id: 100250
+      Title: ILL Vampire
+      Targets:
+          - Mob: ILL_BLACKMUSHROOM
+            Count: 20
+    - Id: 100251
+      Title: ILL Moonlight
+      Targets:
+          - Mob: ILL_ARCHERSKELETON
+            Count: 30
+    - Id: 100252
+      Title: Aimia 1
+      Targets:
+          - Mob: Permeating_Rage
+            Count: 5
+    - Id: 100253
+      Title: Aimia 2
+      Targets:
+          - Mob: Permeating_Solitude
+            Count: 5
+    - Id: 100254
+      Title: Aimia 3
+      Targets:
+          - Mob: Permeating_Terror
+            Count: 5
+    - Id: 100255
+      Title: Aimia 4
+      Targets:
+          - Mob: Joyful_Erda
+            Count: 2
+    - Id: 100256
+      Title: Aimia 5
+      Targets:
+          - Mob: Raging_Erda
+            Count: 2
+    - Id: 100257
+      Title: Aimia 6
+      Targets:
+          - Mob: Sad_Erda
+            Count: 2
+    - Id: 100258
+      Title: mvp 1
+      Targets:
+          - Mob: ATROCE
+            Count: 1
+    - Id: 100259
+      Title: mvp 2
+      Targets:
+          - Mob: _GOLDEN_BUG
+            Count: 1
+    - Id: 100260
+      Title: mvp 3
+      Targets:
+          - Mob: DETALE
+            Count: 1
+    - Id: 100261
+      Title: mvp 4
+      Targets:
+          - Mob: APOCALIPS_H
+            Count: 1
+    - Id: 100262
+      Title: mvp 5
+      Targets:
+          - Mob: KIEL_
+            Count: 1
+    - Id: 100263
+      Title: mvp 6
+      Targets:
+          - Mob: RSX_0806
+            Count: 1
+    - Id: 100264
+      Title: etc 1
+    - Id: 100265
+      Title: etc 2
+    - Id: 100266
+      Title: etc 3
+    - Id: 100267
+      Title: etc 4
+    - Id: 100268
+      Title: etc 5
+    - Id: 100269
+      Title: coins 1
+    - Id: 100270
+      Title: coins 2
+    - Id: 100271
+      Title: coins 3
+    - Id: 100272
+      Title: coins 4
+    - Id: 100273
+      Title: coins 5
+    - Id: 100281
+      Title: Fishing - Cooldown 
+      TimeLimit: +72h
+    - Id: 100282
+      Title: Instance Quest - Cooldown 
+      TimeLimit: +72h
+    - Id: 100283
+      Title: Hunting - Cooldown 
+      TimeLimit: +72h
+    - Id: 100284
+      Title: Aimia 1 - Cooldown 
+      TimeLimit: +72h
+    - Id: 100285
+      Title: Aimia 2- Cooldown 
+      TimeLimit: +72h
+    - Id: 100286
+      Title: MVP Quest - Cooldown 
+      TimeLimit: +72h
+    - Id: 100287
+      Title: Etc Quest - Cooldown 
+      TimeLimit: +72h
+    - Id: 100288
+      Title: Coins Quest - Cooldown 
+      TimeLimit: +72h
+    - Id: 100289
+      Title: Halloween Hunt 1
+      Targets:
+          - Mob: Undead_Knight
+            Count: 100
+          - Mob: Undead_Spearman
+            Count: 100
+    - Id: 100290
+      Title: Halloween Hunt 1- Cooldown
+      TimeLimit: +23h
+    - Id: 100291
+      Title: Halloween Items 1
+    - Id: 100292
+      Title: Halloween Items 1- Cooldown
+      TimeLimit: +23h
+    - Id: 100293
+      Title: Halloween Hunt 2
+      Targets:
+          - Mob: Hellgate_Guard
+            Count: 1
+    - Id: 100294
+      Title: Halloween Hunt 2- Cooldown
+      TimeLimit: +23h
+    - Id: 100295
+      Title: Halloween Items 2
+    - Id: 100296
+      Title: Halloween Items 2- Cooldown
+      TimeLimit: +23h
+    - Id: 100297
+      Title: Halloween Hunt 3
+      Targets:
+          - Mob: Hallo_Necro
+            Count: 100
+          - Mob: Ghost_Baron
+            Count: 100
+    - Id: 100298
+      Title: Halloween Hunt 3- Cooldown
+      TimeLimit: +23h
+    - Id: 100299
+      Title: Diavolo's Castle Entrance - Cooldown
+      TimeLimit: +1h
+    - Id: 100300
+      Title: Illusion Hunt One
+      Targets:
+          - Mob: ILL_SROPHO
+            Count: 20
+          - Mob: ILL_DEVIACE
+            Count: 20
+    - Id: 100301
+      Title: Illusion Hunt One - Cooldown
+      TimeLimit: +24h
+    - Id: 100302
+      Title: Illusion Hunt Two
+      Targets:
+          - Mob: ILL_OBEAUNE
+            Count: 20
+          - Mob: ILL_MARSE
+            Count: 20
+    - Id: 100303
+      Title: Illusion Hunt Two - Cooldown
+      TimeLimit: +24h
+    - Id: 100304
+      Title: Illusion Hunt Three
+      Targets:
+          - Mob: G_ILL_PHEN
+            Count: 20
+          - Mob: G_ILL_STROUF
+            Count: 20
+    - Id: 100305
+      Title: Illusion Hunt Three - Cooldown
+      TimeLimit: +24h
+    - Id: 100306
+      Title: Illusion Hunt Four
+      Targets:
+          - Mob: ILL_KRAKEN
+            Count: 1
+    - Id: 100307
+      Title: Illusion Hunt Four - Cooldown
+      TimeLimit: +24h
+    - Id: 100308
+      Title: Illusion Daily Hunt One
+      Targets:
+          - Mob: E17_DOLOR1
+            Count: 100
+          - Mob: E17_VENENUM1
+            Count: 100
+          - Mob: E17_TWIN_CAPUT1
+            Count: 100
+    - Id: 100309
+      Title: Illusion Daily Cooldown One
+      TimeLimit: +24h
+    - Id: 100310
+      Title: Illusion Gathering Quest One
+    - Id: 100311
+      Title: Illusion Hunting Two
+      Targets:
+          - Mob: E17_PLAGA1
+            Count: 150
+          - Mob: E17_BELLARE2
+            Count: 150
+          - Mob: E17_SANARE2
+            Count: 150
+    - Id: 100312
+      Title: Illusion Hunt Two - Cooldown
+      TimeLimit: +24h
+    - Id: 100313
+      Title: Illusion Hunting Three
+      Targets:
+          - Mob: E17_PLAGA2
+            Count: 200
+          - Mob: E17_VENENUM2
+            Count: 200
+          - Mob: E17_TWIN_CAPUT2
+            Count: 200
+    - Id: 100314
+      Title: Illusion Hunt Three - Cooldown
+      TimeLimit: +24h

@@ -1,0 +1,107 @@
+// Specific Item Drop Ratio Database
+// Overrides for global item_rate* values from conf/battle/drops.conf
+//
+// Structure of Database:
+// ItemID,Ratio{,MonsterID1,...,MonsterID10}
+//
+// Result:
+// ItemID base drop rates defined in mob_db will not get multiplied
+//  by global item_rate* values (aka drop rates) from
+//  conf/battle/drops.conf. Instead Ratio will be used (100 = 1x).
+// If no MonsterID is specified, all monsters will be affected,
+//  otherwise only listed ones.
+//
+// Examples:
+// 909,100 // Jellopies from monsters will drop with 1x drop rate regardless of global drop rate
+// 909,1000 // Jellopies from monsters will drop with 10x drop rate regardless of global drop rate
+// 909,100,1002 // Jellopies from Porings will drop with 1x drop rate. Other monsters that drop Jellopies are unaffected (use global drop rate).
+//
+// Notes:
+// - By default you can list up to 10 MonsterIDs per ItemID.
+//   It can be changed in src/map/mob.c by adjusting MAX_ITEMRATIO_MOBS.
+// - Only ItemIDs up to MAX_ITEMDB are supported (default: 32768).
+// - Does not override item_drop_*_min/max settings.
+// - Does not affect card/item-granted drops. To adjust card/item-granted
+//   drops, edit them in item_db.
+// - Does affect MVP prizes and Treasure Boxes.
+// - You can add only ONE line per ItemID. If you need various ratios
+//   for different monsters, override drop rate with Ratio=100 and edit
+//   base drop rates in mob_db.
+// - This file is reloaded by @reloadmobdb.
+
+60038,1000,31961,31967,31976
+60039,1000,31961,31967,31976
+
+50098,400000
+60005,5000
+6225,1000,31964,31983
+6240,1000,31964,31983
+12710,5000,31964,31983
+14545,3000,31964,31983
+50007,4000,31964,31983
+12103,1000,31964,31983
+50017,2000,31964,31983
+60017,2000,31964,31983
+
+12459,7000,31965,31988
+6417,4000,31965,31988
+12412,2000,31965,31988
+12460,7000,31965,31988
+12472,5000,31965,31988
+23436,5000,31965,31988
+50099,3000,31965,31988
+
+12796,5000,31966,31987
+12550,3000,31966,31987
+12684,5000,31966,31987
+13717,4000,31966,31987
+14766,5000,31966,31987
+17068,3000,31966,31987
+50072,6000,31966,31987
+
+//event aimia x3
+// 50098,1200000
+// 60005,15000
+// 6225,3000,31964,31983
+// 6240,3000,31964,31983
+// 12710,15000,31964,31983
+// 14545,9000,31964,31983
+// 50007,12000,31964,31983
+// 12103,6000,31964,31983
+// 50017,6000,31964,31983
+// 60017,6000,31964,31983
+// 
+// 12459,21000,31965,31988
+// 6417,12000,31965,31988
+// 12412,6000,31965,31988
+// 12460,21000,31965,31988
+// 12472,15000,31965,31988
+// 23436,15000,31965,31988
+// 50099,9000,31965,31988
+// 
+// 12796,15000,31966,31987
+// 12550,9000,31966,31987
+// 12684,15000,31966,31987
+// 13717,12000,31966,31987
+// 14766,15000,31966,31987
+// 17068,9000,31966,31987
+// 50072,18000,31966,31987
+
+//magma dun 03
+15378,100,20372
+15379,100,20372
+15380,100,20373
+20935,100,20376
+20936,100,20377
+20937,100,20378
+22199,100,20373
+22200,100,20374
+22201,100,20375
+
+//abyess glasthiem
+28619,5000,20371
+26016,5000,20367
+26139,5000,20379
+26138,5000,20380
+21039,5000,20420
+2049,750,20422

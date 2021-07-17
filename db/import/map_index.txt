@@ -1,0 +1,70 @@
+//======================================================================================
+// Map Index
+//======================================================================================
+//Contains the list of maps with their respective IDs for inter-server use.
+//IDs must never change, therefore any new maps need to be added at the end,
+//and old ones must not be removed, but may be replaced.
+//Format:
+//mapname<tab>index <- specifies index for this map
+//mapname <- map will use index of previous map +1
+//Note that map index 0 is special and reserved for "error" status. 
+
+//======================================================================================
+//Place your custom maps with a starting ID here.
+//======================================================================================
+//Example:
+//
+//mymap	1250
+//mymap-2
+wager01 1250
+1@zombie
+maze
+1@pvp
+pvp_n_5-5
+pvp_n_4-5
+pvp_n_3-5
+pvp_n_2-5
+pvp_n_1-5
+beginner01
+aimia
+poring_f01
+aim_fild01
+aim_fild01b
+aim_fild01c
+ghouse01
+gh_garden01
+ghouse02
+gh_garden02
+ghouse03
+gh_garden03
+ghouse04
+gh_garden04
+ghouse05
+gh_garden05
+mag_dun03
+gl_cas01_
+prt_mz03_i
+ytower
+map_lvl145
+map_lvl175
+aim_dun01
+aim_dun02
+1@hallow
+2@hallow
+hallow01
+luthadel
+wager02
+wager03
+guild_vs2-3
+iz_d04_i
+iz_d05_i
+pub_cat
+sp_cor
+sp_os
+sp_rudus
+sp_rudus2
+sp_rudus3
+sp_rudus4
+grandarena
+matrix_dojo
+1@os_a

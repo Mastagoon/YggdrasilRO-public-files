@@ -1,0 +1,46 @@
+###########################################################################
+#
+# Item Synthesis Database
+#
+# This feature need a sync client file: LapineDdukDDakBox.lub
+#
+###########################################################################
+# - Id:                 # (int) Item ID of synthesis box
+#   NeedRefine:         # (int) Minimum refine level for source item
+#   SourceNeeded:       # (int) Number of item sets (in SourceItem) must be selected
+#   SourceItem:         # List of item required
+#     - Item:           # (int) Item ID for source
+#     - Amount:         # (int) Item amount will be consumed
+#   Reward:             # (string) Script on synthesis success
+###########################################################################
+
+Header:
+    Type: ITEM_SYNTHESIS_DB
+    Version: 1
+
+Body:
+    - Id: 60022 # MVP Coin Shard(C)
+      SourceNeeded: 5
+      NeedRefine: 0
+      Reward: getitem(50003,1);
+    - Id: 60023 # MVP Coin Shard(B)
+      SourceNeeded: 5
+      NeedRefine: 0
+      Reward: getitem(50002,1);
+    - Id: 60024 # MVP Coin Shard(A)
+      SourceNeeded: 5
+      NeedRefine: 0
+      Reward: getitem(50001,1);
+    - Id: 60025 # MVP Coin Shard(S)
+      SourceNeeded: 5
+      NeedRefine: 0
+      Reward: getitem(50000,1);
+    - Id: 60246 # Racing_Hat_Scroll
+      SourceNeeded: 2
+      NeedRefine: 0
+      SourceItem:
+          - Item: 60244
+            Amount: 30
+          - Item: 60245
+            Amount: 5
+      Reward: getgroupitem(IG_racing_cap,1);
