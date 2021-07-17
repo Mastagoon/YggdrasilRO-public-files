@@ -1,0 +1,174 @@
+###########################################################################
+#
+# Item Upgrade Database
+#
+# This feature need a sync client file: LapineUpgradeBox.lub
+#
+###########################################################################
+# - Id:                   # (int) Item ID of upgrade box
+#   NeedRefineMin:        # (int) Minimum refine level for target item (default :0)
+#   NeedOptionNumMin:     # (int) Minimum random option that target item has (default :0)
+#   NotSocketEnchantItem: # (bool) Target item must not has enchant stone (default: true)
+#   TargetItem:           # List of possible item to be upgraded
+#     - Item:             # (int) Target's Item ID
+#   Result:               # (string) Script on upgrade success
+###########################################################################
+
+Header:
+    Type: ITEM_UPGRADE_DB
+    Version: 1
+
+Body:
+    - Id: 50072 # vm enchants(magic)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: false
+      TargetItem:
+          - Item: 1600 #Vicious Mind Rod [1]
+          - Item: 2026 #Vicious Mind Two-Handed Staff [1]
+          - Item: 21016 #Vicious Mind Two-Handed sword [1]
+          - Item: 1450 #Vicious Mind lance [1]
+          - Item: 1400 #Vicious Mind spear [1]
+          - Item: 28008 #Vicious Mind katar [1]
+          - Item: 1800 #Vicious Mind knuckle [1]
+          - Item: 13328 #Vicious Mind humma [1]
+          - Item: 28605 #Vicious Mind book [1]
+          - Item: 28706 #Vicious Mind dagger [1]
+          - Item: 28107 #Vicious Mind two hnded axe [1]
+          - Item: 16041 #Vicious Mind mace [1]
+          - Item: 13455 #Vicious Mind saber [1]
+          - Item: 1900 #Vicious Mind violin [1]
+          - Item: 1996 #Vicious Mind wire [1]
+          - Item: 13128 #Vicious Mind revolver [1]
+          - Item: 18121 #Vicious Mind bow [1]
+      Result: |
+          callfunc("F_Lapine_Vicious_Mind1", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[2]);
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 60006 #illusion weaps enchants(magical)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      TargetItem:
+          - Item: 16063
+          - Item: 26007
+          - Item: 26109
+          - Item: 28725
+          - Item: 13337
+          - Item: 1326
+          - Item: 1846
+          - Item: 28022
+          - Item: 2039
+          - Item: 18149
+          - Item: 28612
+          - Item: 32005
+          - Item: 28254
+          - Item: 21050
+          - Item: 28762
+          - Item: 32301
+          - Item: 2051
+          - Item: 28244
+          - Item: 28745
+          - Item: 13469
+          - Item: 13338
+          - Item: 16065
+          - Item: 18174
+          - Item: 28626
+          - Item: 580008
+          - Item: 570008
+          - Item: 630006
+          - Item: 610012
+          - Item: 600011
+          - Item: 630007
+      Result: |
+          callfunc("F_LAPINE_ILLU_P",.@opts[0],.@vals[0],.@opts[1],.@vals[1]);
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 60007 #illusion weaps enchants(physical)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      TargetItem:
+          - Item: 16063
+          - Item: 26007
+          - Item: 26109
+          - Item: 28725
+          - Item: 13337
+          - Item: 1326
+          - Item: 1846
+          - Item: 28022
+          - Item: 2039
+          - Item: 18149
+          - Item: 28612
+          - Item: 32005
+          - Item: 28254
+          - Item: 21050
+          - Item: 28762
+          - Item: 32301
+          - Item: 2051
+          - Item: 28244
+          - Item: 28745
+          - Item: 13469
+          - Item: 13338
+          - Item: 16065
+          - Item: 18174
+          - Item: 28626
+          - Item: 580008
+          - Item: 570008
+          - Item: 630006
+          - Item: 610012
+          - Item: 600011
+          - Item: 630007
+      Result: |
+          callfunc("F_LAPINE_ILLU_M",.@opts[0],.@vals[0],.@opts[1],.@vals[1]);
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23545 # Silver_Statue
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      TargetItem:
+          - Item: 28942
+      Result: |
+          .@rand = rand(1,1000);
+          setarray .@sid,28945,28946;
+          if(.@rand <= 40){
+              @last_lapine_id = .@sid[rand(0,1)];
+          } else {
+          callfunc("F_CKS_ENCHANT",.@opts[0],.@vals[0],.@opts[1],.@vals[1]);
+          }
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23546 # Cursed Blood
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      TargetItem:
+          - Item: 28945
+      Result: |
+          .@rand = rand(1,1000);
+          if(.@rand <= 40){
+              @last_lapine_id = 28942;
+           } else {
+          callfunc("F_CKS_ENCHANT",.@opts[0],.@vals[0],.@opts[1],.@vals[1]);
+            }
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23547 # Gold Angel Idol
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      TargetItem:
+          - Item: 28946
+      Result: |
+          callfunc("F_PKS_ENCHANT",.@opts[0],.@vals[0],.@opts[1],.@vals[1],.@opts[2],.@vals[2]);
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 60031 # woe refine ticket
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      Types:
+        - Type: 4
+        - Type: 5
+        - Type: 12
+      TargetItem:
+          - Item: 2484
+          - Item: 2587
+          - Item: 15047
+          - Item: 2483
+          - Item: 2586
+          - Item: 15046
+          - Item: 15048
+          - Item: 2485
+      Result: |
+          callfunc("F_WOE_ENCHANT",.@opts[0],.@vals[0],.@opts[1],.@vals[1]);
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);

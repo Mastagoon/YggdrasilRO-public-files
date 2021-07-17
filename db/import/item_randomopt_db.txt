@@ -1,0 +1,15 @@
+// Items Random Option Database	
+//
+// Structure of Database:
+// ID,{ Bonus Script }
+RDMOPT_FISHING_DURABILITY,{bonus bStr,1;}
+RDMOPT_RACE_IGNORE_MDEF_PERCENT_HUMAN_2,{ bonus2 bIgnoreMdefRaceRate,RC_DemiHuman,getrandomoptinfo(ROA_VALUE); }
+RDMOPT_RACE_IGNORE_DEF_PERCENT_HUMAN_2,{ bonus2 bIgnoreDefRaceRate,RC_DemiHuman,getrandomoptinfo(ROA_VALUE); }
+RDMOPT_RACE_MDAMAGE_HUMAN_2,{ bonus2 bMagicAddRace,RC_DemiHuman,getrandomoptinfo(ROA_VALUE); }
+RDMOPT_RACE_DAMAGE_HUMAN_2,{ bonus2 bAddRace,RC_DemiHuman,getrandomoptinfo(ROA_VALUE); }
+RDMOPT_RACE_TOLERACE_HUMAN_2,{ bonus2 bSubRace,RC_DemiHuman,getrandomoptinfo(ROA_VALUE); }
+RDMOPT_CLASS_DAMAGE_NORMAL_TARGET_2,{ .@m = checkmap(strcharinfo(3)); if(!.@m){ bonus2 bAddClass,Class_Normal,getrandomoptinfo(ROA_VALUE); } }
+RDMOPT_CLASS_DAMAGE_NORMAL_USER_2,{ .@m = checkmap(strcharinfo(3)); if(!.@m){ bonus2 bSubClass,Class_Normal,getrandomoptinfo(ROA_VALUE); } }
+RDMOPT_CLASS_MDAMAGE_NORMAL_2,{ .@m = checkmap(strcharinfo(3)); if(!.@m){ bonus2 bMagicAddClass,Class_Normal,getrandomoptinfo(ROA_VALUE); } }
+RDMOPT_CLASS_IGNORE_DEF_PERCENT_NORMAL_2,{ .@m = checkmap(strcharinfo(3)); if(!.@m){ bonus2 bIgnoreDefClassRate,Class_Normal,getrandomoptinfo(ROA_VALUE); } }
+RDMOPT_CLASS_IGNORE_MDEF_PERCENT_NORMAL_2,{ .@m = checkmap(strcharinfo(3)); if(!.@m){ bonus2 bIgnoreMdefClassRate,Class_Normal,getrandomoptinfo(ROA_VALUE); } }

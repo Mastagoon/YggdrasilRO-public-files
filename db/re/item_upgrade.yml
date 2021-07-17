@@ -1,0 +1,2443 @@
+###########################################################################
+#
+# Item Upgrade Database
+#
+# This feature need a sync client file: LapineUpgradeBox.lub
+#
+###########################################################################
+# - Id:                   # (int) Item ID of upgrade box
+#   NeedRefineMin:        # (int) Minimum refine level for target item (default :0)
+#   NeedOptionNumMin:     # (int) Minimum random option that target item has (default :0)
+#   NotSocketEnchantItem: # (bool) Target item must not has enchant stone (default: true)
+#   TargetItem:           # List of possible item to be upgraded
+#     - Item:             # (int) Target's Item ID
+#   Result:               # (string) Script on upgrade success
+###########################################################################
+
+Header:
+    Type: ITEM_UPGRADE_DB
+    Version: 1
+
+Body:
+    - Id: 100023 # Ancient_Hero_Bravery, ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 18164 #Royal_Bow_K
+          - Item: 18170 #Narcis_Bow
+          - Item: 26118 #Shadow_Staff_K
+          - Item: 1847 #Iron_Nail_K
+          - Item: 28744 #Magic_Sword
+          - Item: 13485 #Sword_Of_Bluefire
+          - Item: 28130 #Avenger
+          - Item: 2048 #Iron_Staff
+          - Item: 21038 #Oriental_Sword
+          - Item: 32018 #Undine_Spear_K
+          - Item: 28630 #Demon_Hunting_Bible_K
+          - Item: 28039 #Shiver_Katar_K
+          - Item: 28631 #OneSkyOneSun
+          - Item: 26154 #SoulWeight
+          - Item: 26155 #MeawFoxtail
+          - Item: 32302 #Crimson_Rose
+          - Item: 28255 #Master_Soul_Rifle
+          - Item: 28256 #Demon_S_Shot
+          - Item: 28257 #Golden_L_Launcher
+          - Item: 28258 #The_Black_Gatling
+          - Item: 28763 #Sharp_Wind_Sword
+          - Item: 28764 #Fog_Dew_Sword
+          - Item: 13345 #Humma_Clear
+          - Item: 600004 #Dragonic_Slayer
+          - Item: 500003 #Light_Blade
+          - Item: 500004 #Slate_Sword
+          - Item: 570002 #Trumpet_Shell_K
+          - Item: 580002 #Barb_Wire_K
+          - Item: 590002 #Meteor_Striker
+      Result: |
+          callfunc("F_Lapine_Ancient_Hero_Bravery", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+          // setarray .@properties[0], ITEMUPG_OPTION_ID0, ITEMUPG_OPTION_VALUE0, ITEMUPG_OPTION_ID1, ITEMUPG_OPTION_VALUE1;
+          // setarray .@values[0], .@opt1, .@val1, .@opt2, .@val2;
+          // upgrade @last_lapine_idx,.@properties,.@values;
+    - Id: 100025 # Ancient_Hero_Wisdom, ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 18164 #Royal_Bow_K
+          - Item: 18170 #Narcis_Bow
+          - Item: 26118 #Shadow_Staff_K
+          - Item: 1847 #Iron_Nail_K
+          - Item: 28744 #Magic_Sword
+          - Item: 13485 #Sword_Of_Bluefire
+          - Item: 28130 #Avenger
+          - Item: 2048 #Iron_Staff
+          - Item: 21038 #Oriental_Sword
+          - Item: 32018 #Undine_Spear_K
+          - Item: 28630 #Demon_Hunting_Bible_K
+          - Item: 28039 #Shiver_Katar_K
+          - Item: 28631 #OneSkyOneSun
+          - Item: 26154 #SoulWeight
+          - Item: 26155 #MeawFoxtail
+          - Item: 32302 #Crimson_Rose
+          - Item: 28255 #Master_Soul_Rifle
+          - Item: 28256 #Demon_S_Shot
+          - Item: 28257 #Golden_L_Launcher
+          - Item: 28258 #The_Black_Gatling
+          - Item: 28763 #Sharp_Wind_Sword
+          - Item: 28764 #Fog_Dew_Sword
+          - Item: 13345 #Humma_Clear
+          - Item: 600004 #Dragonic_Slayer
+          - Item: 500003 #Light_Blade
+          - Item: 500004 #Slate_Sword
+          - Item: 570002 #Trumpet_Shell_K
+          - Item: 580002 #Barb_Wire_K
+          - Item: 590002 #Meteor_Striker
+      Result: |
+          callfunc("F_Lapine_Ancient_Hero_Wisdom", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 100003 # ILL_Piece_A, 4?? ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 28762 #Bazerald_IL
+          - Item: 28254 #Butcher_IL
+          - Item: 32301 #Gold_Lux_IL
+          - Item: 28022 #??????_IL
+          - Item: 1326 #???_IL
+          - Item: 13469 #???_IL
+          - Item: 16065 #???????_IL
+          - Item: 32005 #???_IL
+          - Item: 28612 #???_IL
+          - Item: 18149 #????_IL
+          - Item: 13338 #??_??_IL
+          - Item: 2039 #???????_IL
+          - Item: 16063 #????_IL
+          - Item: 13337 #??_??_IL
+          - Item: 1846 #?????_IL
+          - Item: 26007 #????_IL
+          - Item: 26109 #????????_IL
+          - Item: 28725 #???_IL
+          - Item: 18174 #Hunter_Bow_IL
+          - Item: 28626 #Tablet_IL
+          - Item: 28244 #Gate_KeeperDD_IL
+          - Item: 28745 #Counter_Dagger_IL
+          - Item: 2051 #Survival_Staff_IL
+          - Item: 21050 #Taegoolyeon_IL
+      Result: |
+          callfunc("F_Lapine_ILL_Piece_A", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 100004 # ILL_Piece_B, 4?? ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 28762 #Bazerald_IL
+          - Item: 28254 #Butcher_IL
+          - Item: 32301 #Gold_Lux_IL
+          - Item: 28022 #??????_IL
+          - Item: 1326 #???_IL
+          - Item: 13469 #???_IL
+          - Item: 16065 #???????_IL
+          - Item: 32005 #???_IL
+          - Item: 28612 #???_IL
+          - Item: 18149 #????_IL
+          - Item: 13338 #??_??_IL
+          - Item: 2039 #???????_IL
+          - Item: 16063 #????_IL
+          - Item: 13337 #??_??_IL
+          - Item: 1846 #?????_IL
+          - Item: 26007 #????_IL
+          - Item: 26109 #????????_IL
+          - Item: 28725 #???_IL
+          - Item: 18174 #Hunter_Bow_IL
+          - Item: 28626 #Tablet_IL
+          - Item: 28244 #Gate_KeeperDD_IL
+          - Item: 28745 #Counter_Dagger_IL
+          - Item: 2051 #Survival_Staff_IL
+          - Item: 21050 #Taegoolyeon_IL
+      Result: |
+          callfunc("F_Lapine_ILL_Piece_B", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 9550 # Gemstone_Of_Time, ??? ?? 6?
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 15278 #Overwhelm_Str_Armor
+          - Item: 15279 #Overwhelm_Int_Armor
+          - Item: 15347 #Overwhelm_Vit_Armor
+          - Item: 15354 #Overwhelm_Dex_Armor
+          - Item: 15353 #Overwhelm_Agi_Armor
+          - Item: 15346 #Overwhelm_Luk_Armor
+      Result: |
+          callfunc("F_Lapine_Gemstone_Of_Time", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 9551 # Time_Unseal_Key, ??? ?? 6?
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 20963 #Temporal_M_Str
+          - Item: 20964 #Temporal_M_Agi
+          - Item: 20965 #Temporal_M_Vit
+          - Item: 20966 #Temporal_M_Int
+          - Item: 20967 #Temporal_M_Dex
+          - Item: 20968 #Temporal_M_Luk
+      Result: |
+          callfunc("F_Lapine_Time_Unseal_Key", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23815 # Magma_Essence, ?? ?? ?? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 2
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 15378 #Lava_Leather_Armor
+          - Item: 15379 #Lava_Leather_Suits
+          - Item: 15380 #Lava_Leather_Robe
+      Result: |
+          callfunc("F_Lapine_Magma_Essence", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[2], .@opts[3], .@vals[3]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23776 # EP17_1_SPC05, OS??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 13493 #Cannon_Rapier_OS
+          - Item: 21047 #Beam_Claymore_OS
+          - Item: 26151 #Rutilus_Stick_OS
+          - Item: 28629 #Circuit_Board_OS
+          - Item: 28136 #Blasti_OS
+          - Item: 16088 #Saphir_Hall_OS
+          - Item: 18178 #Virtual_Bow_OS
+          - Item: 18179 #MH_P89_OS
+          - Item: 28038 #Meuchler_OS
+          - Item: 1862 #Burning_Knuckle_OS
+          - Item: 28253 #HR_S55_OS
+          - Item: 28755 #Kuroiro_OS
+          - Item: 18180 #AC_B44_OS
+          - Item: 32019 #Boost_Lance_OS
+          - Item: 16089 #Ultio_Spes_OS
+          - Item: 26164 #ElectricFox_OS
+      Result: |
+          callfunc("F_Lapine_EP17_1_SPC05", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[2]);
+          .@params[0] = 0;
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23777 # EP17_1_SPC06, OS??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 13493 #Cannon_Rapier_OS
+          - Item: 21047 #Beam_Claymore_OS
+          - Item: 26151 #Rutilus_Stick_OS
+          - Item: 28629 #Circuit_Board_OS
+          - Item: 28136 #Blasti_OS
+          - Item: 16088 #Saphir_Hall_OS
+          - Item: 18178 #Virtual_Bow_OS
+          - Item: 18179 #MH_P89_OS
+          - Item: 28038 #Meuchler_OS
+          - Item: 1862 #Burning_Knuckle_OS
+          - Item: 28253 #HR_S55_OS
+          - Item: 28755 #Kuroiro_OS
+          - Item: 18180 #AC_B44_OS
+          - Item: 32019 #Boost_Lance_OS
+          - Item: 16089 #Ultio_Spes_OS
+          - Item: 26164 #ElectricFox_OS
+      Result: |
+          callfunc("F_Lapine_EP17_1_SPC06", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[2]);
+          .@params[0] = 0;
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23778 # EP17_1_SPC07, OS??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 13493 #Cannon_Rapier_OS
+          - Item: 21047 #Beam_Claymore_OS
+          - Item: 26151 #Rutilus_Stick_OS
+          - Item: 28629 #Circuit_Board_OS
+          - Item: 28136 #Blasti_OS
+          - Item: 16088 #Saphir_Hall_OS
+          - Item: 18178 #Virtual_Bow_OS
+          - Item: 18179 #MH_P89_OS
+          - Item: 28038 #Meuchler_OS
+          - Item: 1862 #Burning_Knuckle_OS
+          - Item: 28253 #HR_S55_OS
+          - Item: 28755 #Kuroiro_OS
+          - Item: 18180 #AC_B44_OS
+          - Item: 32019 #Boost_Lance_OS
+          - Item: 16089 #Ultio_Spes_OS
+          - Item: 26164 #ElectricFox_OS
+      Result: |
+          callfunc("F_Lapine_EP17_1_SPC07", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[2]);
+          .@params[0] = 0;
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23779 # EP17_1_SPC08, OS??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 13493 #Cannon_Rapier_OS
+          - Item: 21047 #Beam_Claymore_OS
+          - Item: 26151 #Rutilus_Stick_OS
+          - Item: 28629 #Circuit_Board_OS
+          - Item: 28136 #Blasti_OS
+          - Item: 16088 #Saphir_Hall_OS
+          - Item: 18178 #Virtual_Bow_OS
+          - Item: 18179 #MH_P89_OS
+          - Item: 28038 #Meuchler_OS
+          - Item: 1862 #Burning_Knuckle_OS
+          - Item: 28253 #HR_S55_OS
+          - Item: 28755 #Kuroiro_OS
+          - Item: 18180 #AC_B44_OS
+          - Item: 32019 #Boost_Lance_OS
+          - Item: 16089 #Ultio_Spes_OS
+          - Item: 26164 #ElectricFox_OS
+      Result: |
+          callfunc("F_Lapine_EP17_1_SPC08", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[2]);
+          .@params[0] = 0;
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23780 # EP17_1_SPC09, OS??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 13493 #Cannon_Rapier_OS
+          - Item: 21047 #Beam_Claymore_OS
+          - Item: 26151 #Rutilus_Stick_OS
+          - Item: 28629 #Circuit_Board_OS
+          - Item: 28136 #Blasti_OS
+          - Item: 16088 #Saphir_Hall_OS
+          - Item: 18178 #Virtual_Bow_OS
+          - Item: 18179 #MH_P89_OS
+          - Item: 28038 #Meuchler_OS
+          - Item: 1862 #Burning_Knuckle_OS
+          - Item: 28253 #HR_S55_OS
+          - Item: 28755 #Kuroiro_OS
+          - Item: 18180 #AC_B44_OS
+          - Item: 32019 #Boost_Lance_OS
+          - Item: 16089 #Ultio_Spes_OS
+          - Item: 26164 #ElectricFox_OS
+      Result: |
+          callfunc("F_Lapine_EP17_1_SPC09", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[2]);
+          .@params[0] = 0;
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23781 # EP17_1_SPC10, OS??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 13493 #Cannon_Rapier_OS
+          - Item: 21047 #Beam_Claymore_OS
+          - Item: 26151 #Rutilus_Stick_OS
+          - Item: 28629 #Circuit_Board_OS
+          - Item: 28136 #Blasti_OS
+          - Item: 16088 #Saphir_Hall_OS
+          - Item: 18178 #Virtual_Bow_OS
+          - Item: 18179 #MH_P89_OS
+          - Item: 28038 #Meuchler_OS
+          - Item: 1862 #Burning_Knuckle_OS
+          - Item: 28253 #HR_S55_OS
+          - Item: 28755 #Kuroiro_OS
+          - Item: 18180 #AC_B44_OS
+          - Item: 32019 #Boost_Lance_OS
+          - Item: 16089 #Ultio_Spes_OS
+          - Item: 26164 #ElectricFox_OS
+      Result: |
+          callfunc("F_Lapine_EP17_1_SPC10", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[2]);
+          .@params[0] = 0;
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23706 # Charleston_Parts_W, ??? ????? ??(??)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 1549 #????
+          - Item: 16030 #????S
+          - Item: 16032 #????T
+          - Item: 16031 #????P
+          - Item: 16033 #??????
+          - Item: 28101 #??????
+          - Item: 21011 #???????
+      Result: |
+          callfunc("F_Lapine_Charleston_Parts_W", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(@last_lapine_id,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23707 # Charleston_Parts_R, ??? ????? ??(???)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 1549 #????
+          - Item: 16030 #????S
+          - Item: 16032 #????T
+          - Item: 16031 #????P
+          - Item: 16033 #??????
+          - Item: 28101 #??????
+          - Item: 21011 #???????
+      Result: |
+          callfunc("F_Lapine_Charleston_Parts_R", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23678 # Gray_Charcoal_Range, ??? ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 18119 #?????
+          - Item: 1933 #????????
+          - Item: 1988 #???????
+          - Item: 13441 #?????
+          - Item: 21009 #??????
+          - Item: 1438 #?????
+          - Item: 1496 #???????
+          - Item: 28000 #???????
+          - Item: 1836 #??????
+          - Item: 16028 #??????
+          - Item: 28100 #??????
+      Result: |
+          callfunc("F_Lapine_Gray_Charcoal_Range", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23677 # Gray_Charcoal_Magic, ??? ?? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 2023 #?????????
+          - Item: 1669 #???????
+          - Item: 13093 #??????
+          - Item: 13441 #?????
+          - Item: 1933 #????????
+          - Item: 1988 #???????
+      Result: |
+          callfunc("F_Lapine_Gray_Charcoal_Magic", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23676 # Gray_Charcoal_Melee, ??? ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 1988 #???????
+          - Item: 13441 #?????
+          - Item: 21009 #??????
+          - Item: 1438 #?????
+          - Item: 1496 #???????
+          - Item: 13093 #??????
+          - Item: 28000 #???????
+          - Item: 1836 #??????
+          - Item: 16028 #??????
+          - Item: 28100 #??????
+          - Item: 1933 #????????
+      Result: |
+          callfunc("F_Lapine_Gray_Charcoal_Melee", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23679 # Geffen_Magic_Scroll2, ?? ?? ?? ???? (accessory)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 2963 #??????
+          - Item: 2964 #??????
+      Result: |
+          callfunc("F_Lapine_Geffen_Magic_Scroll2", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23675 # Geffen_Magic_Scroll, ?? ?? ?? ?? (armor)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 15074 #??????
+          - Item: 15073 #??????
+      Result: |
+          callfunc("F_Lapine_Geffen_Magic_Scroll", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23546 # Cursed_Blood, ??? ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 28945 #Bloody_Knight_Shield_
+      Result: |
+          callfunc("F_Lapine_Cursed_Blood", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23547 # Gold_Statue, ??? ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 28946 #Bloody_Knight_Shield__
+      Result: |
+          callfunc("F_Lapine_Gold_Statue", .@opts[0], .@vals[0], .@opts[1], .@vals[1], .@opts[2], .@vals[3]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23436 # Shadow_Refine_Hammer, ??? ???
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: false
+      TargetItem:
+          - Item: 24000 #T?1?????
+          - Item: 24001 #T??1?????
+          - Item: 24002 #T?1?????
+          - Item: 24003 #T??1?????
+          - Item: 24004 #T???1??R???
+          - Item: 24005 #T??1??L???
+          - Item: 24006 #T?2?????
+          - Item: 24007 #T??2?????
+          - Item: 24008 #T?2?????
+          - Item: 24009 #T??2?????
+          - Item: 24010 #T???2??R???
+          - Item: 24011 #T??2??L???
+          - Item: 24012 #??????S
+          - Item: 24013 #??????S
+          - Item: 24014 #??????S
+          - Item: 24015 #??????S
+          - Item: 24016 #???????S
+          - Item: 24017 #???????S
+          - Item: 24018 #??????S
+          - Item: 24019 #?????S
+          - Item: 24020 #??????S
+          - Item: 24021 #??????S
+          - Item: 24022 #?????S
+          - Item: 24023 #??????S
+          - Item: 24024 #?????S
+          - Item: 24025 #?????S
+          - Item: 24026 #?????S
+          - Item: 24027 #?????S
+          - Item: 24028 #????S
+          - Item: 24029 #??????S
+          - Item: 24030 #??????S
+          - Item: 24031 #?????S
+          - Item: 24032 #??????S
+          - Item: 24033 #????S
+          - Item: 24034 #????S
+          - Item: 24035 #?????S
+          - Item: 24036 #?????S
+          - Item: 24037 #???????S
+          - Item: 24038 #?????S
+          - Item: 24039 #??????S
+          - Item: 24040 #????S
+          - Item: 24041 #?????S
+          - Item: 24042 #?????S
+          - Item: 24043 #???????S
+          - Item: 24044 #?????S
+          - Item: 24045 #??????S
+          - Item: 24046 #???????????S
+          - Item: 24047 #??????S
+          - Item: 24048 #??????S
+          - Item: 24049 #?????S
+          - Item: 24050 #??????S
+          - Item: 24051 #??????S
+          - Item: 24052 #???????S
+          - Item: 24053 #???????S
+          - Item: 24054 #?????S
+          - Item: 24055 #??????S
+          - Item: 24056 #?????S
+          - Item: 24057 #?????S
+          - Item: 24058 #?????S
+          - Item: 24059 #???????S
+          - Item: 24060 #?????S
+          - Item: 24061 #????S
+          - Item: 24062 #?????S
+          - Item: 24063 #???????S
+          - Item: 24064 #?????S
+          - Item: 24065 #???????S
+          - Item: 24066 #????????S
+          - Item: 24067 #????S
+          - Item: 24068 #?????S
+          - Item: 24069 #?????S
+          - Item: 24070 #?????S
+          - Item: 24071 #?????S
+          - Item: 24072 #???S
+          - Item: 24073 #?????S
+          - Item: 24074 #????S
+          - Item: 24075 #???S
+          - Item: 24076 #?????S
+          - Item: 24077 #????S
+          - Item: 24078 #???????S
+          - Item: 24079 #????????S
+          - Item: 24080 #????????S
+          - Item: 24081 #??????S
+          - Item: 24082 #??????S
+          - Item: 24083 #??????S
+          - Item: 24084 #?????S
+          - Item: 24085 #?????S
+          - Item: 24086 #?????S
+          - Item: 24087 #?????S
+          - Item: 24088 #??????S
+          - Item: 24089 #??????S
+          - Item: 24090 #???????S
+          - Item: 24091 #????????S
+          - Item: 24092 #????????S
+          - Item: 24093 #??????S
+          - Item: 24094 #??????S
+          - Item: 24095 #??????S
+          - Item: 24096 #??????S
+          - Item: 24097 #???????S
+          - Item: 24098 #???????S
+          - Item: 24099 #??????S
+          - Item: 24100 #???????S
+          - Item: 24101 #???????S
+          - Item: 24102 #????????S
+          - Item: 24103 #????????S
+          - Item: 24104 #?????S
+          - Item: 24105 #??????S
+          - Item: 24106 #??????S
+          - Item: 24107 #??????S
+          - Item: 24108 #??????S
+          - Item: 24109 #??????S
+          - Item: 24110 #?????S
+          - Item: 24111 #???????S
+          - Item: 24112 #???????S
+          - Item: 24113 #???????S
+          - Item: 24114 #?????S
+          - Item: 24115 #?????S
+          - Item: 24116 #?????S
+          - Item: 24117 #?????S
+          - Item: 24118 #??????S
+          - Item: 24119 #??????S
+          - Item: 24120 #???S
+          - Item: 24121 #???S
+          - Item: 24122 #???S
+          - Item: 24123 #???S
+          - Item: 24124 #????S
+          - Item: 24125 #????S
+          - Item: 24126 #?????S
+          - Item: 24127 #?????S
+          - Item: 24128 #?????S
+          - Item: 24129 #?????S
+          - Item: 24130 #??????S
+          - Item: 24131 #??????S
+          - Item: 24132 #?????S
+          - Item: 24133 #?????S
+          - Item: 24134 #?????S
+          - Item: 24135 #?????S
+          - Item: 24136 #??????S
+          - Item: 24137 #??????S
+          - Item: 24138 #??????S
+          - Item: 24139 #??????S
+          - Item: 24140 #??????S
+          - Item: 24141 #??????S
+          - Item: 24142 #???????S
+          - Item: 24143 #???????S
+          - Item: 24144 #????S
+          - Item: 24145 #????S
+          - Item: 24146 #????S
+          - Item: 24147 #????S
+          - Item: 24148 #?????S
+          - Item: 24149 #?????S
+          - Item: 24150 #???????S
+          - Item: 24151 #???????S
+          - Item: 24152 #?????S
+          - Item: 24153 #??????S
+          - Item: 24154 #?????S
+          - Item: 24155 #??????S
+          - Item: 24156 #???????S
+          - Item: 24157 #???????S
+          - Item: 24158 #????S
+          - Item: 24159 #??????S
+          - Item: 24160 #????S
+          - Item: 24161 #???????S
+          - Item: 24162 #?????S
+          - Item: 24163 #????????S
+          - Item: 24164 #??????S
+          - Item: 24165 #?????S
+          - Item: 24166 #?????????S
+          - Item: 24167 #?????????S
+          - Item: 24168 #???????S
+          - Item: 24169 #???????S
+          - Item: 24170 #?????????S
+          - Item: 24171 #?????????S
+          - Item: 24172 #??????S
+          - Item: 24173 #????????S
+          - Item: 24174 #??????S
+          - Item: 24175 #?????????S
+          - Item: 24176 #???????S
+          - Item: 24177 #??????????S
+          - Item: 24178 #????????S
+          - Item: 24179 #???????S
+          - Item: 24180 #??????S
+          - Item: 24181 #??????S
+          - Item: 24182 #??????S
+          - Item: 24183 #??????S
+          - Item: 24184 #???????S
+          - Item: 24185 #???????S
+          - Item: 24186 #??????S
+          - Item: 24187 #??????S
+          - Item: 24188 #?????S
+          - Item: 24189 #??????S
+          - Item: 24190 #?????S
+          - Item: 24191 #????S
+          - Item: 24192 #?????S
+          - Item: 24193 #????S
+          - Item: 24194 #??????S
+          - Item: 24195 #?????S
+          - Item: 24196 #??????S
+          - Item: 24197 #??????S
+          - Item: 24198 #??????S
+          - Item: 24199 #??????S
+          - Item: 24200 #?????S
+          - Item: 24201 #??????S
+          - Item: 24202 #?????S
+          - Item: 24203 #????S
+          - Item: 24204 #?????S
+          - Item: 24205 #????S
+          - Item: 24206 #??????S
+          - Item: 24207 #?????S
+          - Item: 24208 #??????S
+          - Item: 24209 #??????S
+          - Item: 24210 #?????S
+          - Item: 24211 #?????S
+          - Item: 24212 #????S
+          - Item: 24213 #????S
+          - Item: 24214 #???????S
+          - Item: 24215 #???????S
+          - Item: 24216 #????S
+          - Item: 24217 #??????S
+          - Item: 24218 #??????S
+          - Item: 24219 #??????S
+          - Item: 24220 #???????S
+          - Item: 24221 #????????S
+          - Item: 24222 #????????S
+          - Item: 24223 #???????S
+          - Item: 24224 #????S
+          - Item: 24225 #?????S
+          - Item: 24226 #?????S
+          - Item: 24227 #????????S
+          - Item: 24228 #?????S
+          - Item: 24229 #??????S
+          - Item: 24230 #??????S
+          - Item: 24231 #?????S
+          - Item: 24232 #?????S
+          - Item: 24233 #?????S
+          - Item: 24234 #??????S
+          - Item: 24235 #??????S
+          - Item: 24236 #??????S
+          - Item: 24237 #??????S
+          - Item: 24238 #??????S
+          - Item: 24239 #??????S
+          - Item: 24240 #?????S
+          - Item: 24241 #?????S
+          - Item: 24242 #?????S
+          - Item: 24243 #?????S
+          - Item: 24244 #?????S
+          - Item: 24245 #?????S
+          - Item: 24246 #??????S
+          - Item: 24247 #??????S
+          - Item: 24248 #????????S
+          - Item: 24249 #??????S
+          - Item: 24250 #??????S
+          - Item: 24251 #??????S
+          - Item: 24252 #????????S
+          - Item: 24253 #?????S
+          - Item: 24254 #??????S
+          - Item: 24255 #?????S
+          - Item: 24256 #?????S
+          - Item: 24257 #???????S
+          - Item: 24258 #???????S
+          - Item: 24259 #???????S
+          - Item: 24260 #??????S
+          - Item: 24261 #????S
+          - Item: 24262 #?????S
+          - Item: 24263 #????S
+          - Item: 24264 #?????S
+          - Item: 24265 #?????S
+          - Item: 24266 #????S
+          - Item: 24267 #????S
+          - Item: 24268 #????S
+          - Item: 24269 #?????S
+          - Item: 24270 #???????S
+          - Item: 24271 #???????S
+          - Item: 24272 #???????S
+          - Item: 24273 #??????S
+          - Item: 24274 #????S
+          - Item: 24275 #?????S
+          - Item: 24276 #????S
+          - Item: 24277 #?????S
+          - Item: 24278 #?????S
+          - Item: 24279 #????S
+          - Item: 24280 #????S
+          - Item: 24281 #????S
+          - Item: 24282 #???????S
+          - Item: 24283 #??????S
+          - Item: 24284 #????S
+          - Item: 24285 #????S
+          - Item: 24286 #???????S
+          - Item: 24287 #???????S
+          - Item: 24288 #??????S
+          - Item: 24289 #??????S
+          - Item: 24290 #?????S
+          - Item: 24291 #?????S
+          - Item: 24292 #??????S
+          - Item: 24293 #????S
+          - Item: 24294 #????????S
+          - Item: 24295 #????????S
+          - Item: 24296 #????S
+          - Item: 24297 #?????S
+          - Item: 24298 #?????S
+          - Item: 24299 #??????S
+          - Item: 24300 #?????S
+          - Item: 24301 #??????S
+          - Item: 24302 #??????S
+          - Item: 24303 #?????S
+          - Item: 24304 #?????S
+          - Item: 24305 #??????S
+          - Item: 24306 #????S
+          - Item: 24307 #????????S
+          - Item: 24308 #????????S
+          - Item: 24309 #????S
+          - Item: 24310 #?????S
+          - Item: 24311 #?????S
+          - Item: 24312 #??????S
+          - Item: 24313 #?????S
+          - Item: 24314 #????S
+          - Item: 24315 #????S
+          - Item: 24316 #???????S
+          - Item: 24317 #???????S
+          - Item: 24318 #???????S
+          - Item: 24319 #??????S
+          - Item: 24320 #??????S2
+          - Item: 24321 #???????S2
+          - Item: 24322 #??????S2
+          - Item: 24323 #???????S2
+          - Item: 24324 #???????S2
+          - Item: 24325 #??????S2
+          - Item: 24326 #??????S
+          - Item: 24327 #??????S
+          - Item: 24328 #????????S2
+          - Item: 24329 #?????????S2
+          - Item: 24330 #?????S2
+          - Item: 24331 #?????S2
+          - Item: 24332 #??????S
+          - Item: 24333 #??????S
+          - Item: 24334 #???????S
+          - Item: 24335 #?????S2
+          - Item: 24336 #?????S2
+          - Item: 24337 #??????S2
+          - Item: 24338 #??????S2
+          - Item: 24339 #???????S
+          - Item: 24340 #???????S
+          - Item: 24341 #??????S
+          - Item: 24342 #??????S
+          - Item: 24343 #?????S
+          - Item: 24344 #?????S
+          - Item: 24345 #??????S
+          - Item: 24346 #??????S
+          - Item: 24347 #????????S
+          - Item: 24348 #?????????S
+          - Item: 24349 #??????????S
+          - Item: 24350 #?????????S
+          - Item: 24351 #?????????S
+          - Item: 24352 #????????S2
+          - Item: 24353 #??????S2
+          - Item: 24354 #??????S2
+          - Item: 24355 #???????S2
+          - Item: 24356 #??????S2
+          - Item: 24357 #????????S2
+          - Item: 24358 #?????S2
+          - Item: 24359 #??????S2
+          - Item: 24360 #????S
+          - Item: 24361 #?????S
+          - Item: 24362 #?????S
+          - Item: 24363 #??????S
+          - Item: 24364 #???????S
+          - Item: 24365 #???????S
+          - Item: 24366 #????S
+          - Item: 24367 #????S
+          - Item: 24368 #???????S
+          - Item: 24369 #???????S
+          - Item: 24370 #???????S
+          - Item: 24371 #????????S
+          - Item: 24372 #????????S
+          - Item: 24373 #????????S
+          - Item: 24374 #????????S
+          - Item: 24375 #??????S
+          - Item: 24376 #???????S
+          - Item: 24377 #????????S
+          - Item: 24378 #???????S
+          - Item: 24379 #???????S
+          - Item: 24380 #Sentimental_Weapone_S
+          - Item: 24381 #Sentimental_Earring_S
+          - Item: 24382 #Sentimental_Pendant_S
+          - Item: 24383 #Enchanting_Weapone_S
+          - Item: 24384 #Enchanting_Earring_S
+          - Item: 24385 #Enchanting_Pendant_S
+          - Item: 24386 #S_Infinity_Weapon
+          - Item: 24393 #S_Physical_Shoes
+          - Item: 24394 #S_Physical_Shield
+          - Item: 24395 #S_Physical_Armor
+          - Item: 24396 #S_Magical_Shoes
+          - Item: 24397 #S_Magical_Shield
+          - Item: 24398 #S_Magical_Armor
+          - Item: 24399 #S_ImmunedAthena_Shield
+          - Item: 24400 #S_HardChamption_Shoes
+          - Item: 24401 #S_KingbirdAncient_Armor
+          - Item: 15280 #S_CriticalHit_Armor
+          - Item: 28391 #?????S
+          - Item: 28392 #?????S
+          - Item: 24402 #S_Rebellion_Armor
+          - Item: 24403 #S_Kagerou_Armor
+          - Item: 24404 #S_Oboro_Armor
+          - Item: 24405 #S_Rebellion_Shoes
+          - Item: 24406 #S_Kagerou_Shoes
+          - Item: 24407 #S_Oboro_Shoes
+          - Item: 24408 #S_DoramPhysical_Armor
+          - Item: 24409 #S_DoramPhysical_Shoes
+          - Item: 24410 #S_DoramMagical_Armor
+          - Item: 24411 #S_DoramMagical_Shoes
+          - Item: 24412 #S_Star_Emperor_Armor
+          - Item: 24413 #S_Star_Emperor_Shoes
+          - Item: 24414 #S_Soul_Reaper_Armor
+          - Item: 24415 #S_Soul_Reaper_Shoes
+          - Item: 24423 #S_Tempest_Weapon
+          - Item: 24424 #S_Tempest_Armor
+          - Item: 24425 #S_PerfectSize_Weapon
+          - Item: 24426 #S_PerfectSize_Armor
+          - Item: 24427 #S_M_Exo_Co_Weapon
+          - Item: 24428 #S_M_Viv_Dr_Weapon
+          - Item: 24429 #S_M_Sci_Hu_Weapon
+          - Item: 24430 #S_M_Fis_In_Weapon
+          - Item: 24431 #S_M_Exe_Ho_Weapon
+          - Item: 24432 #S_Penetration_Weapon
+          - Item: 24433 #S_Penetration_Armor
+          - Item: 24434 #S_Exe_Ho_Weapon
+          - Item: 24435 #S_Fis_In_Weapon
+          - Item: 24436 #S_Sci_Hu_Weapon
+          - Item: 24437 #S_Viv_Dr_Weapon
+          - Item: 24438 #S_Exo_Co_Weapon
+          - Item: 24439 #S_Hasty_Weapon
+          - Item: 24440 #S_Sonic_Armor
+          - Item: 24441 #S_Sonic_Shield
+          - Item: 24442 #S_Sonic_Shoes
+          - Item: 24443 #S_Ignition_Weapon
+          - Item: 24444 #S_Ignition_Pendant
+          - Item: 24445 #S_Ignition_Earing
+          - Item: 24446 #S_W_Breath_Armor
+          - Item: 24447 #S_W_Breath_Shield
+          - Item: 24448 #S_W_Breath_Shoes
+          - Item: 24449 #S_F_Breath_Weapon
+          - Item: 24450 #S_F_Breath_Pendant
+          - Item: 24451 #S_F_Breath_Earing
+          - Item: 24452 #S_Cluster_Armor
+          - Item: 24453 #S_Cluster_Shield
+          - Item: 24454 #S_Cluster_Shoes
+          - Item: 24455 #S_Aimed_Weapon
+          - Item: 24456 #S_Aimed_Pendant
+          - Item: 24457 #S_Aimed_Earing
+          - Item: 24458 #S_Arrow_Armor
+          - Item: 24459 #S_Arrow_Shield
+          - Item: 24460 #S_Arrow_Shoes
+          - Item: 24461 #S_Shooting_Weapon
+          - Item: 24462 #S_Shooting_Pendant
+          - Item: 24463 #S_Shooting_Earing
+          - Item: 24464 #S_Tornado_Armor
+          - Item: 24465 #S_Tornado_Shield
+          - Item: 24466 #S_Tornado_Shoes
+          - Item: 24467 #S_Boomerang_Weapon
+          - Item: 24468 #S_Boomerang_Pendant
+          - Item: 24469 #S_Boomerang_Earing
+          - Item: 24470 #S_Vulcan_Armor
+          - Item: 24471 #S_Vulcan_Shield
+          - Item: 24472 #S_Vulcan_Shoes
+          - Item: 24473 #S_Arms_Weapon
+          - Item: 24474 #S_Arms_Pendant
+          - Item: 24475 #S_Arms_Earing
+          - Item: 60019 #Armor_of_Dawn
+          - Item: 60020 #Robe_of_Dawn
+          - Item: 60021 #Shoes_of_Dawn
+      Result: |
+          callfunc("F_Lapine_Shadow_Refine_Hammer", .@refine);
+          getitem2(@last_lapine_id,1,1,.@refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4);
+    - Id: 23926 # Shadow_9_Refine_Hammer, ??? ???
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: false
+      TargetItem:
+          - Item: 24000 #T?1?????
+          - Item: 24001 #T??1?????
+          - Item: 24002 #T?1?????
+          - Item: 24003 #T??1?????
+          - Item: 24004 #T???1??R???
+          - Item: 24005 #T??1??L???
+          - Item: 24006 #T?2?????
+          - Item: 24007 #T??2?????
+          - Item: 24008 #T?2?????
+          - Item: 24009 #T??2?????
+          - Item: 24010 #T???2??R???
+          - Item: 24011 #T??2??L???
+          - Item: 24012 #??????S
+          - Item: 24013 #??????S
+          - Item: 24014 #??????S
+          - Item: 24015 #??????S
+          - Item: 24016 #???????S
+          - Item: 24017 #???????S
+          - Item: 24018 #??????S
+          - Item: 24019 #?????S
+          - Item: 24020 #??????S
+          - Item: 24021 #??????S
+          - Item: 24022 #?????S
+          - Item: 24023 #??????S
+          - Item: 24024 #?????S
+          - Item: 24025 #?????S
+          - Item: 24026 #?????S
+          - Item: 24027 #?????S
+          - Item: 24028 #????S
+          - Item: 24029 #??????S
+          - Item: 24030 #??????S
+          - Item: 24031 #?????S
+          - Item: 24032 #??????S
+          - Item: 24033 #????S
+          - Item: 24034 #????S
+          - Item: 24035 #?????S
+          - Item: 24036 #?????S
+          - Item: 24037 #???????S
+          - Item: 24038 #?????S
+          - Item: 24039 #??????S
+          - Item: 24040 #????S
+          - Item: 24041 #?????S
+          - Item: 24042 #?????S
+          - Item: 24043 #???????S
+          - Item: 24044 #?????S
+          - Item: 24045 #??????S
+          - Item: 24046 #???????????S
+          - Item: 24047 #??????S
+          - Item: 24048 #??????S
+          - Item: 24049 #?????S
+          - Item: 24050 #??????S
+          - Item: 24051 #??????S
+          - Item: 24052 #???????S
+          - Item: 24053 #???????S
+          - Item: 24054 #?????S
+          - Item: 24055 #??????S
+          - Item: 24056 #?????S
+          - Item: 24057 #?????S
+          - Item: 24058 #?????S
+          - Item: 24059 #???????S
+          - Item: 24060 #?????S
+          - Item: 24061 #????S
+          - Item: 24062 #?????S
+          - Item: 24063 #???????S
+          - Item: 24064 #?????S
+          - Item: 24065 #???????S
+          - Item: 24066 #????????S
+          - Item: 24067 #????S
+          - Item: 24068 #?????S
+          - Item: 24069 #?????S
+          - Item: 24070 #?????S
+          - Item: 24071 #?????S
+          - Item: 24072 #???S
+          - Item: 24073 #?????S
+          - Item: 24074 #????S
+          - Item: 24075 #???S
+          - Item: 24076 #?????S
+          - Item: 24077 #????S
+          - Item: 24078 #???????S
+          - Item: 24079 #????????S
+          - Item: 24080 #????????S
+          - Item: 24081 #??????S
+          - Item: 24082 #??????S
+          - Item: 24083 #??????S
+          - Item: 24084 #?????S
+          - Item: 24085 #?????S
+          - Item: 24086 #?????S
+          - Item: 24087 #?????S
+          - Item: 24088 #??????S
+          - Item: 24089 #??????S
+          - Item: 24090 #???????S
+          - Item: 24091 #????????S
+          - Item: 24092 #????????S
+          - Item: 24093 #??????S
+          - Item: 24094 #??????S
+          - Item: 24095 #??????S
+          - Item: 24096 #??????S
+          - Item: 24097 #???????S
+          - Item: 24098 #???????S
+          - Item: 24099 #??????S
+          - Item: 24100 #???????S
+          - Item: 24101 #???????S
+          - Item: 24102 #????????S
+          - Item: 24103 #????????S
+          - Item: 24104 #?????S
+          - Item: 24105 #??????S
+          - Item: 24106 #??????S
+          - Item: 24107 #??????S
+          - Item: 24108 #??????S
+          - Item: 24109 #??????S
+          - Item: 24110 #?????S
+          - Item: 24111 #???????S
+          - Item: 24112 #???????S
+          - Item: 24113 #???????S
+          - Item: 24114 #?????S
+          - Item: 24115 #?????S
+          - Item: 24116 #?????S
+          - Item: 24117 #?????S
+          - Item: 24118 #??????S
+          - Item: 24119 #??????S
+          - Item: 24120 #???S
+          - Item: 24121 #???S
+          - Item: 24122 #???S
+          - Item: 24123 #???S
+          - Item: 24124 #????S
+          - Item: 24125 #????S
+          - Item: 24126 #?????S
+          - Item: 24127 #?????S
+          - Item: 24128 #?????S
+          - Item: 24129 #?????S
+          - Item: 24130 #??????S
+          - Item: 24131 #??????S
+          - Item: 24132 #?????S
+          - Item: 24133 #?????S
+          - Item: 24134 #?????S
+          - Item: 24135 #?????S
+          - Item: 24136 #??????S
+          - Item: 24137 #??????S
+          - Item: 24138 #??????S
+          - Item: 24139 #??????S
+          - Item: 24140 #??????S
+          - Item: 24141 #??????S
+          - Item: 24142 #???????S
+          - Item: 24143 #???????S
+          - Item: 24144 #????S
+          - Item: 24145 #????S
+          - Item: 24146 #????S
+          - Item: 24147 #????S
+          - Item: 24148 #?????S
+          - Item: 24149 #?????S
+          - Item: 24150 #???????S
+          - Item: 24151 #???????S
+          - Item: 24152 #?????S
+          - Item: 24153 #??????S
+          - Item: 24154 #?????S
+          - Item: 24155 #??????S
+          - Item: 24156 #???????S
+          - Item: 24157 #???????S
+          - Item: 24158 #????S
+          - Item: 24159 #??????S
+          - Item: 24160 #????S
+          - Item: 24161 #???????S
+          - Item: 24162 #?????S
+          - Item: 24163 #????????S
+          - Item: 24164 #??????S
+          - Item: 24165 #?????S
+          - Item: 24166 #?????????S
+          - Item: 24167 #?????????S
+          - Item: 24168 #???????S
+          - Item: 24169 #???????S
+          - Item: 24170 #?????????S
+          - Item: 24171 #?????????S
+          - Item: 24172 #??????S
+          - Item: 24173 #????????S
+          - Item: 24174 #??????S
+          - Item: 24175 #?????????S
+          - Item: 24176 #???????S
+          - Item: 24177 #??????????S
+          - Item: 24178 #????????S
+          - Item: 24179 #???????S
+          - Item: 24180 #??????S
+          - Item: 24181 #??????S
+          - Item: 24182 #??????S
+          - Item: 24183 #??????S
+          - Item: 24184 #???????S
+          - Item: 24185 #???????S
+          - Item: 24186 #??????S
+          - Item: 24187 #??????S
+          - Item: 24188 #?????S
+          - Item: 24189 #??????S
+          - Item: 24190 #?????S
+          - Item: 24191 #????S
+          - Item: 24192 #?????S
+          - Item: 24193 #????S
+          - Item: 24194 #??????S
+          - Item: 24195 #?????S
+          - Item: 24196 #??????S
+          - Item: 24197 #??????S
+          - Item: 24198 #??????S
+          - Item: 24199 #??????S
+          - Item: 24200 #?????S
+          - Item: 24201 #??????S
+          - Item: 24202 #?????S
+          - Item: 24203 #????S
+          - Item: 24204 #?????S
+          - Item: 24205 #????S
+          - Item: 24206 #??????S
+          - Item: 24207 #?????S
+          - Item: 24208 #??????S
+          - Item: 24209 #??????S
+          - Item: 24210 #?????S
+          - Item: 24211 #?????S
+          - Item: 24212 #????S
+          - Item: 24213 #????S
+          - Item: 24214 #???????S
+          - Item: 24215 #???????S
+          - Item: 24216 #????S
+          - Item: 24217 #??????S
+          - Item: 24218 #??????S
+          - Item: 24219 #??????S
+          - Item: 24220 #???????S
+          - Item: 24221 #????????S
+          - Item: 24222 #????????S
+          - Item: 24223 #???????S
+          - Item: 24224 #????S
+          - Item: 24225 #?????S
+          - Item: 24226 #?????S
+          - Item: 24227 #????????S
+          - Item: 24228 #?????S
+          - Item: 24229 #??????S
+          - Item: 24230 #??????S
+          - Item: 24231 #?????S
+          - Item: 24232 #?????S
+          - Item: 24233 #?????S
+          - Item: 24234 #??????S
+          - Item: 24235 #??????S
+          - Item: 24236 #??????S
+          - Item: 24237 #??????S
+          - Item: 24238 #??????S
+          - Item: 24239 #??????S
+          - Item: 24240 #?????S
+          - Item: 24241 #?????S
+          - Item: 24242 #?????S
+          - Item: 24243 #?????S
+          - Item: 24244 #?????S
+          - Item: 24245 #?????S
+          - Item: 24246 #??????S
+          - Item: 24247 #??????S
+          - Item: 24248 #????????S
+          - Item: 24249 #??????S
+          - Item: 24250 #??????S
+          - Item: 24251 #??????S
+          - Item: 24252 #????????S
+          - Item: 24253 #?????S
+          - Item: 24254 #??????S
+          - Item: 24255 #?????S
+          - Item: 24256 #?????S
+          - Item: 24257 #???????S
+          - Item: 24258 #???????S
+          - Item: 24259 #???????S
+          - Item: 24260 #??????S
+          - Item: 24261 #????S
+          - Item: 24262 #?????S
+          - Item: 24263 #????S
+          - Item: 24264 #?????S
+          - Item: 24265 #?????S
+          - Item: 24266 #????S
+          - Item: 24267 #????S
+          - Item: 24268 #????S
+          - Item: 24269 #?????S
+          - Item: 24270 #???????S
+          - Item: 24271 #???????S
+          - Item: 24272 #???????S
+          - Item: 24273 #??????S
+          - Item: 24274 #????S
+          - Item: 24275 #?????S
+          - Item: 24276 #????S
+          - Item: 24277 #?????S
+          - Item: 24278 #?????S
+          - Item: 24279 #????S
+          - Item: 24280 #????S
+          - Item: 24281 #????S
+          - Item: 24282 #???????S
+          - Item: 24283 #??????S
+          - Item: 24284 #????S
+          - Item: 24285 #????S
+          - Item: 24286 #???????S
+          - Item: 24287 #???????S
+          - Item: 24288 #??????S
+          - Item: 24289 #??????S
+          - Item: 24290 #?????S
+          - Item: 24291 #?????S
+          - Item: 24292 #??????S
+          - Item: 24293 #????S
+          - Item: 24294 #????????S
+          - Item: 24295 #????????S
+          - Item: 24296 #????S
+          - Item: 24297 #?????S
+          - Item: 24298 #?????S
+          - Item: 24299 #??????S
+          - Item: 24300 #?????S
+          - Item: 24301 #??????S
+          - Item: 24302 #??????S
+          - Item: 24303 #?????S
+          - Item: 24304 #?????S
+          - Item: 24305 #??????S
+          - Item: 24306 #????S
+          - Item: 24307 #????????S
+          - Item: 24308 #????????S
+          - Item: 24309 #????S
+          - Item: 24310 #?????S
+          - Item: 24311 #?????S
+          - Item: 24312 #??????S
+          - Item: 24313 #?????S
+          - Item: 24314 #????S
+          - Item: 24315 #????S
+          - Item: 24316 #???????S
+          - Item: 24317 #???????S
+          - Item: 24318 #???????S
+          - Item: 24319 #??????S
+          - Item: 24320 #??????S2
+          - Item: 24321 #???????S2
+          - Item: 24322 #??????S2
+          - Item: 24323 #???????S2
+          - Item: 24324 #???????S2
+          - Item: 24325 #??????S2
+          - Item: 24326 #??????S
+          - Item: 24327 #??????S
+          - Item: 24328 #????????S2
+          - Item: 24329 #?????????S2
+          - Item: 24330 #?????S2
+          - Item: 24331 #?????S2
+          - Item: 24332 #??????S
+          - Item: 24333 #??????S
+          - Item: 24334 #???????S
+          - Item: 24335 #?????S2
+          - Item: 24336 #?????S2
+          - Item: 24337 #??????S2
+          - Item: 24338 #??????S2
+          - Item: 24339 #???????S
+          - Item: 24340 #???????S
+          - Item: 24341 #??????S
+          - Item: 24342 #??????S
+          - Item: 24343 #?????S
+          - Item: 24344 #?????S
+          - Item: 24345 #??????S
+          - Item: 24346 #??????S
+          - Item: 24347 #????????S
+          - Item: 24348 #?????????S
+          - Item: 24349 #??????????S
+          - Item: 24350 #?????????S
+          - Item: 24351 #?????????S
+          - Item: 24352 #????????S2
+          - Item: 24353 #??????S2
+          - Item: 24354 #??????S2
+          - Item: 24355 #???????S2
+          - Item: 24356 #??????S2
+          - Item: 24357 #????????S2
+          - Item: 24358 #?????S2
+          - Item: 24359 #??????S2
+          - Item: 24360 #????S
+          - Item: 24361 #?????S
+          - Item: 24362 #?????S
+          - Item: 24363 #??????S
+          - Item: 24364 #???????S
+          - Item: 24365 #???????S
+          - Item: 24366 #????S
+          - Item: 24367 #????S
+          - Item: 24368 #???????S
+          - Item: 24369 #???????S
+          - Item: 24370 #???????S
+          - Item: 24371 #????????S
+          - Item: 24372 #????????S
+          - Item: 24373 #????????S
+          - Item: 24374 #????????S
+          - Item: 24375 #??????S
+          - Item: 24376 #???????S
+          - Item: 24377 #????????S
+          - Item: 24378 #???????S
+          - Item: 24379 #???????S
+          - Item: 24380 #Sentimental_Weapone_S
+          - Item: 24381 #Sentimental_Earring_S
+          - Item: 24382 #Sentimental_Pendant_S
+          - Item: 24383 #Enchanting_Weapone_S
+          - Item: 24384 #Enchanting_Earring_S
+          - Item: 24385 #Enchanting_Pendant_S
+          - Item: 24386 #S_Infinity_Weapon
+          - Item: 24393 #S_Physical_Shoes
+          - Item: 24394 #S_Physical_Shield
+          - Item: 24395 #S_Physical_Armor
+          - Item: 24396 #S_Magical_Shoes
+          - Item: 24397 #S_Magical_Shield
+          - Item: 24398 #S_Magical_Armor
+          - Item: 24399 #S_ImmunedAthena_Shield
+          - Item: 24400 #S_HardChamption_Shoes
+          - Item: 24401 #S_KingbirdAncient_Armor
+          - Item: 15280 #S_CriticalHit_Armor
+          - Item: 28391 #?????S
+          - Item: 28392 #?????S
+          - Item: 24402 #S_Rebellion_Armor
+          - Item: 24403 #S_Kagerou_Armor
+          - Item: 24404 #S_Oboro_Armor
+          - Item: 24405 #S_Rebellion_Shoes
+          - Item: 24406 #S_Kagerou_Shoes
+          - Item: 24407 #S_Oboro_Shoes
+          - Item: 24408 #S_DoramPhysical_Armor
+          - Item: 24409 #S_DoramPhysical_Shoes
+          - Item: 24410 #S_DoramMagical_Armor
+          - Item: 24411 #S_DoramMagical_Shoes
+          - Item: 24412 #S_Star_Emperor_Armor
+          - Item: 24413 #S_Star_Emperor_Shoes
+          - Item: 24414 #S_Soul_Reaper_Armor
+          - Item: 24415 #S_Soul_Reaper_Shoes
+          - Item: 24423 #S_Tempest_Weapon
+          - Item: 24424 #S_Tempest_Armor
+          - Item: 24425 #S_PerfectSize_Weapon
+          - Item: 24426 #S_PerfectSize_Armor
+          - Item: 24427 #S_M_Exo_Co_Weapon
+          - Item: 24428 #S_M_Viv_Dr_Weapon
+          - Item: 24429 #S_M_Sci_Hu_Weapon
+          - Item: 24430 #S_M_Fis_In_Weapon
+          - Item: 24431 #S_M_Exe_Ho_Weapon
+          - Item: 24432 #S_Penetration_Weapon
+          - Item: 24433 #S_Penetration_Armor
+          - Item: 24434 #S_Exe_Ho_Weapon
+          - Item: 24435 #S_Fis_In_Weapon
+          - Item: 24436 #S_Sci_Hu_Weapon
+          - Item: 24437 #S_Viv_Dr_Weapon
+          - Item: 24438 #S_Exo_Co_Weapon
+          - Item: 24439 #S_Hasty_Weapon
+          - Item: 24440 #S_Sonic_Armor
+          - Item: 24441 #S_Sonic_Shield
+          - Item: 24442 #S_Sonic_Shoes
+          - Item: 24443 #S_Ignition_Weapon
+          - Item: 24444 #S_Ignition_Pendant
+          - Item: 24445 #S_Ignition_Earing
+          - Item: 24446 #S_W_Breath_Armor
+          - Item: 24447 #S_W_Breath_Shield
+          - Item: 24448 #S_W_Breath_Shoes
+          - Item: 24449 #S_F_Breath_Weapon
+          - Item: 24450 #S_F_Breath_Pendant
+          - Item: 24451 #S_F_Breath_Earing
+          - Item: 24452 #S_Cluster_Armor
+          - Item: 24453 #S_Cluster_Shield
+          - Item: 24454 #S_Cluster_Shoes
+          - Item: 24455 #S_Aimed_Weapon
+          - Item: 24456 #S_Aimed_Pendant
+          - Item: 24457 #S_Aimed_Earing
+          - Item: 24458 #S_Arrow_Armor
+          - Item: 24459 #S_Arrow_Shield
+          - Item: 24460 #S_Arrow_Shoes
+          - Item: 24461 #S_Shooting_Weapon
+          - Item: 24462 #S_Shooting_Pendant
+          - Item: 24463 #S_Shooting_Earing
+          - Item: 24464 #S_Tornado_Armor
+          - Item: 24465 #S_Tornado_Shield
+          - Item: 24466 #S_Tornado_Shoes
+          - Item: 24467 #S_Boomerang_Weapon
+          - Item: 24468 #S_Boomerang_Pendant
+          - Item: 24469 #S_Boomerang_Earing
+          - Item: 24470 #S_Vulcan_Armor
+          - Item: 24471 #S_Vulcan_Shield
+          - Item: 24472 #S_Vulcan_Shoes
+          - Item: 24473 #S_Arms_Weapon
+          - Item: 24474 #S_Arms_Pendant
+          - Item: 24475 #S_Arms_Earing
+          - Item: 60019 #Armor_of_Dawn
+          - Item: 60020 #Robe_of_Dawn
+          - Item: 60021 #Shoes_of_Dawn
+      Result: |
+          callfunc("F_Lapine_Shadow_9_Refine_Hammer", .@refine);
+          getitem2(@last_lapine_id,1,1,.@refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4);
+    - Id: 23311 # ??????, ?? ??? ?????
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 19242 #?????????K
+      Result: |
+          callfunc("F_Lapine_Magic_Cat_Hand", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,0,0,0,0,0,0,.@opts,.@vals,.@params);
+    - Id: 23289 # ???????_??, ?? ??? ??(??)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 20842 #??????_??
+      Result: |
+          callfunc("F_Lapine_Candy_Pouch_Blessing_Scroll_W", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23290 # ???????_???, ?? ??? ??(???)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 20843 #??????_???
+      Result: |
+          callfunc("F_Lapine_Candy_Pouch_Blessing_Scroll_R", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23291 # ???????_??, ?? ??? ??(??)
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 20844 #??????_??
+      Result: |
+          callfunc("F_Lapine_Candy_Pouch_Blessing_Scroll_M", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23100 # ????????, ??? ????
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 19157 #???????
+      Result: |
+          callfunc("F_Lapine_Grown_Gunslinger", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 23229 # ??????????, ????? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 20835 #K???????
+          - Item: 2589 #???????
+      Result: |
+          if (@last_lapine_card1) {
+              getitem(@last_lapine_card1,1);
+          }
+          getitem2(LapineUpgradeItem,1,1,0,0,0,0,0,0);
+    - Id: 23175 # ??????, ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: true
+      TargetItem:
+          - Item: 15186 #?????
+      Result: |
+          callfunc("F_Lapine_Uniform_Repair_Kits", .@opts[0], .@vals[0], .@opts[1], .@vals[1]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,0,0,0,0,0,0,.@opts,.@vals,.@params);
+    - Id: 23720 # Shadow_Random_Mix, "+7 ??? ???"
+      NeedRefineMin: 7
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: false
+      TargetItem:
+          - Item: 24000 #T?1?????
+          - Item: 24001 #T??1?????
+          - Item: 24002 #T?1?????
+          - Item: 24003 #T??1?????
+          - Item: 24004 #T???1??R???
+          - Item: 24005 #T??1??L???
+          - Item: 24006 #T?2?????
+          - Item: 24007 #T??2?????
+          - Item: 24008 #T?2?????
+          - Item: 24009 #T??2?????
+          - Item: 24010 #T???2??R???
+          - Item: 24011 #T??2??L???
+          - Item: 24012 #??????S
+          - Item: 24013 #??????S
+          - Item: 24014 #??????S
+          - Item: 24015 #??????S
+          - Item: 24016 #???????S
+          - Item: 24017 #???????S
+          - Item: 24018 #??????S
+          - Item: 24019 #?????S
+          - Item: 24020 #??????S
+          - Item: 24021 #??????S
+          - Item: 24022 #?????S
+          - Item: 24023 #??????S
+          - Item: 24024 #?????S
+          - Item: 24025 #?????S
+          - Item: 24026 #?????S
+          - Item: 24027 #?????S
+          - Item: 24028 #????S
+          - Item: 24029 #??????S
+          - Item: 24030 #??????S
+          - Item: 24031 #?????S
+          - Item: 24032 #??????S
+          - Item: 24033 #????S
+          - Item: 24034 #????S
+          - Item: 24035 #?????S
+          - Item: 24036 #?????S
+          - Item: 24037 #???????S
+          - Item: 24038 #?????S
+          - Item: 24039 #??????S
+          - Item: 24040 #????S
+          - Item: 24041 #?????S
+          - Item: 24042 #?????S
+          - Item: 24043 #???????S
+          - Item: 24044 #?????S
+          - Item: 24045 #??????S
+          - Item: 24046 #???????????S
+          - Item: 24047 #??????S
+          - Item: 24048 #??????S
+          - Item: 24049 #?????S
+          - Item: 24050 #??????S
+          - Item: 24051 #??????S
+          - Item: 24052 #???????S
+          - Item: 24053 #???????S
+          - Item: 24054 #?????S
+          - Item: 24055 #??????S
+          - Item: 24056 #?????S
+          - Item: 24057 #?????S
+          - Item: 24058 #?????S
+          - Item: 24059 #???????S
+          - Item: 24060 #?????S
+          - Item: 24061 #????S
+          - Item: 24062 #?????S
+          - Item: 24063 #???????S
+          - Item: 24064 #?????S
+          - Item: 24065 #???????S
+          - Item: 24066 #????????S
+          - Item: 24067 #????S
+          - Item: 24068 #?????S
+          - Item: 24069 #?????S
+          - Item: 24070 #?????S
+          - Item: 24071 #?????S
+          - Item: 24072 #???S
+          - Item: 24073 #?????S
+          - Item: 24074 #????S
+          - Item: 24075 #???S
+          - Item: 24076 #?????S
+          - Item: 24077 #????S
+          - Item: 24078 #???????S
+          - Item: 24079 #????????S
+          - Item: 24080 #????????S
+          - Item: 24081 #??????S
+          - Item: 24082 #??????S
+          - Item: 24083 #??????S
+          - Item: 24084 #?????S
+          - Item: 24085 #?????S
+          - Item: 24086 #?????S
+          - Item: 24087 #?????S
+          - Item: 24088 #??????S
+          - Item: 24089 #??????S
+          - Item: 24090 #???????S
+          - Item: 24091 #????????S
+          - Item: 24092 #????????S
+          - Item: 24093 #??????S
+          - Item: 24094 #??????S
+          - Item: 24095 #??????S
+          - Item: 24096 #??????S
+          - Item: 24097 #???????S
+          - Item: 24098 #???????S
+          - Item: 24099 #??????S
+          - Item: 24100 #???????S
+          - Item: 24101 #???????S
+          - Item: 24102 #????????S
+          - Item: 24103 #????????S
+          - Item: 24104 #?????S
+          - Item: 24105 #??????S
+          - Item: 24106 #??????S
+          - Item: 24107 #??????S
+          - Item: 24108 #??????S
+          - Item: 24109 #??????S
+          - Item: 24110 #?????S
+          - Item: 24111 #???????S
+          - Item: 24112 #???????S
+          - Item: 24113 #???????S
+          - Item: 24114 #?????S
+          - Item: 24115 #?????S
+          - Item: 24116 #?????S
+          - Item: 24117 #?????S
+          - Item: 24118 #??????S
+          - Item: 24119 #??????S
+          - Item: 24120 #???S
+          - Item: 24121 #???S
+          - Item: 24122 #???S
+          - Item: 24123 #???S
+          - Item: 24124 #????S
+          - Item: 24125 #????S
+          - Item: 24126 #?????S
+          - Item: 24127 #?????S
+          - Item: 24128 #?????S
+          - Item: 24129 #?????S
+          - Item: 24130 #??????S
+          - Item: 24131 #??????S
+          - Item: 24132 #?????S
+          - Item: 24133 #?????S
+          - Item: 24134 #?????S
+          - Item: 24135 #?????S
+          - Item: 24136 #??????S
+          - Item: 24137 #??????S
+          - Item: 24138 #??????S
+          - Item: 24139 #??????S
+          - Item: 24140 #??????S
+          - Item: 24141 #??????S
+          - Item: 24142 #???????S
+          - Item: 24143 #???????S
+          - Item: 24144 #????S
+          - Item: 24145 #????S
+          - Item: 24146 #????S
+          - Item: 24147 #????S
+          - Item: 24148 #?????S
+          - Item: 24149 #?????S
+          - Item: 24150 #???????S
+          - Item: 24151 #???????S
+          - Item: 24152 #?????S
+          - Item: 24153 #??????S
+          - Item: 24154 #?????S
+          - Item: 24155 #??????S
+          - Item: 24156 #???????S
+          - Item: 24157 #???????S
+          - Item: 24158 #????S
+          - Item: 24159 #??????S
+          - Item: 24160 #????S
+          - Item: 24161 #???????S
+          - Item: 24162 #?????S
+          - Item: 24163 #????????S
+          - Item: 24164 #??????S
+          - Item: 24165 #?????S
+          - Item: 24166 #?????????S
+          - Item: 24167 #?????????S
+          - Item: 24168 #???????S
+          - Item: 24169 #???????S
+          - Item: 24170 #?????????S
+          - Item: 24171 #?????????S
+          - Item: 24172 #??????S
+          - Item: 24173 #????????S
+          - Item: 24174 #??????S
+          - Item: 24175 #?????????S
+          - Item: 24176 #???????S
+          - Item: 24177 #??????????S
+          - Item: 24178 #????????S
+          - Item: 24179 #???????S
+          - Item: 24180 #??????S
+          - Item: 24181 #??????S
+          - Item: 24182 #??????S
+          - Item: 24183 #??????S
+          - Item: 24184 #???????S
+          - Item: 24185 #???????S
+          - Item: 24186 #??????S
+          - Item: 24187 #??????S
+          - Item: 24188 #?????S
+          - Item: 24189 #??????S
+          - Item: 24190 #?????S
+          - Item: 24191 #????S
+          - Item: 24192 #?????S
+          - Item: 24193 #????S
+          - Item: 24194 #??????S
+          - Item: 24195 #?????S
+          - Item: 24196 #??????S
+          - Item: 24197 #??????S
+          - Item: 24198 #??????S
+          - Item: 24199 #??????S
+          - Item: 24200 #?????S
+          - Item: 24201 #??????S
+          - Item: 24202 #?????S
+          - Item: 24203 #????S
+          - Item: 24204 #?????S
+          - Item: 24205 #????S
+          - Item: 24206 #??????S
+          - Item: 24207 #?????S
+          - Item: 24208 #??????S
+          - Item: 24209 #??????S
+          - Item: 24210 #?????S
+          - Item: 24211 #?????S
+          - Item: 24212 #????S
+          - Item: 24213 #????S
+          - Item: 24214 #???????S
+          - Item: 24215 #???????S
+          - Item: 24216 #????S
+          - Item: 24217 #??????S
+          - Item: 24218 #??????S
+          - Item: 24219 #??????S
+          - Item: 24220 #???????S
+          - Item: 24221 #????????S
+          - Item: 24222 #????????S
+          - Item: 24223 #???????S
+          - Item: 24224 #????S
+          - Item: 24225 #?????S
+          - Item: 24226 #?????S
+          - Item: 24227 #????????S
+          - Item: 24228 #?????S
+          - Item: 24229 #??????S
+          - Item: 24230 #??????S
+          - Item: 24231 #?????S
+          - Item: 24232 #?????S
+          - Item: 24233 #?????S
+          - Item: 24234 #??????S
+          - Item: 24235 #??????S
+          - Item: 24236 #??????S
+          - Item: 24237 #??????S
+          - Item: 24238 #??????S
+          - Item: 24239 #??????S
+          - Item: 24240 #?????S
+          - Item: 24241 #?????S
+          - Item: 24242 #?????S
+          - Item: 24243 #?????S
+          - Item: 24244 #?????S
+          - Item: 24245 #?????S
+          - Item: 24320 #??????S2
+          - Item: 24321 #???????S2
+          - Item: 24322 #??????S2
+          - Item: 24323 #???????S2
+          - Item: 24324 #???????S2
+          - Item: 24325 #??????S2
+          - Item: 24326 #??????S
+          - Item: 24327 #??????S
+          - Item: 24328 #????????S2
+          - Item: 24329 #?????????S2
+          - Item: 24330 #?????S2
+          - Item: 24331 #?????S2
+          - Item: 24332 #??????S
+          - Item: 24333 #??????S
+          - Item: 24334 #???????S
+          - Item: 24335 #?????S2
+          - Item: 24336 #?????S2
+          - Item: 24337 #??????S2
+          - Item: 24338 #??????S2
+          - Item: 24339 #???????S
+          - Item: 24340 #???????S
+          - Item: 24341 #??????S
+          - Item: 24342 #??????S
+          - Item: 24343 #?????S
+          - Item: 24344 #?????S
+          - Item: 24345 #??????S
+          - Item: 24346 #??????S
+          - Item: 24347 #????????S
+          - Item: 24348 #?????????S
+          - Item: 24349 #??????????S
+          - Item: 24350 #?????????S
+          - Item: 24351 #?????????S
+          - Item: 24352 #????????S2
+          - Item: 24353 #??????S2
+          - Item: 24354 #??????S2
+          - Item: 24355 #???????S2
+          - Item: 24356 #??????S2
+          - Item: 24357 #????????S2
+          - Item: 24358 #?????S2
+          - Item: 24359 #??????S2
+          - Item: 24360 #????S
+          - Item: 24361 #?????S
+          - Item: 24362 #?????S
+          - Item: 24363 #??????S
+          - Item: 24364 #???????S
+          - Item: 24365 #???????S
+          - Item: 24366 #????S
+          - Item: 24367 #????S
+          - Item: 24368 #???????S
+          - Item: 24369 #???????S
+          - Item: 24370 #???????S
+          - Item: 24371 #????????S
+          - Item: 24372 #????????S
+          - Item: 24373 #????????S
+          - Item: 24374 #????????S
+          - Item: 24375 #??????S
+          - Item: 24376 #???????S
+          - Item: 24377 #????????S
+          - Item: 24378 #???????S
+          - Item: 24379 #???????S
+          - Item: 24380 #Sentimental_Weapone_S
+          - Item: 24381 #Sentimental_Earring_S
+          - Item: 24382 #Sentimental_Pendant_S
+          - Item: 24383 #Enchanting_Weapone_S
+          - Item: 24384 #Enchanting_Earring_S
+          - Item: 24385 #Enchanting_Pendant_S
+          - Item: 24386 #S_Infinity_Weapon
+          - Item: 24393 #S_Physical_Shoes
+          - Item: 24394 #S_Physical_Shield
+          - Item: 24395 #S_Physical_Armor
+          - Item: 24396 #S_Magical_Shoes
+          - Item: 24397 #S_Magical_Shield
+          - Item: 24398 #S_Magical_Armor
+          - Item: 24399 #S_ImmunedAthena_Shield
+          - Item: 24400 #S_HardChamption_Shoes
+          - Item: 24401 #S_KingbirdAncient_Armor
+          - Item: 15280 #S_CriticalHit_Armor
+          - Item: 24423 #S_Tempest_Weapon
+          - Item: 24424 #S_Tempest_Armor
+          - Item: 24425 #S_PerfectSize_Weapon
+          - Item: 24426 #S_PerfectSize_Armor
+          - Item: 24427 #S_M_Exo_Co_Weapon
+          - Item: 24428 #S_M_Viv_Dr_Weapon
+          - Item: 24429 #S_M_Sci_Hu_Weapon
+          - Item: 24430 #S_M_Fis_In_Weapon
+          - Item: 24431 #S_M_Exe_Ho_Weapon
+          - Item: 24432 #S_Penetration_Weapon
+          - Item: 24433 #S_Penetration_Armor
+          - Item: 24434 #S_Exe_Ho_Weapon
+          - Item: 24435 #S_Fis_In_Weapon
+          - Item: 24436 #S_Sci_Hu_Weapon
+          - Item: 24437 #S_Viv_Dr_Weapon
+          - Item: 24438 #S_Exo_Co_Weapon
+          - Item: 24439 #S_Hasty_Weapon
+          - Item: 24440 #S_Sonic_Armor
+          - Item: 24441 #S_Sonic_Shield
+          - Item: 24442 #S_Sonic_Shoes
+          - Item: 24443 #S_Ignition_Weapon
+          - Item: 24444 #S_Ignition_Pendant
+          - Item: 24445 #S_Ignition_Earing
+          - Item: 24446 #S_W_Breath_Armor
+          - Item: 24447 #S_W_Breath_Shield
+          - Item: 24448 #S_W_Breath_Shoes
+          - Item: 24449 #S_F_Breath_Weapon
+          - Item: 24450 #S_F_Breath_Pendant
+          - Item: 24451 #S_F_Breath_Earing
+          - Item: 24452 #S_Cluster_Armor
+          - Item: 24453 #S_Cluster_Shield
+          - Item: 24454 #S_Cluster_Shoes
+          - Item: 24455 #S_Aimed_Weapon
+          - Item: 24456 #S_Aimed_Pendant
+          - Item: 24457 #S_Aimed_Earing
+          - Item: 24458 #S_Arrow_Armor
+          - Item: 24459 #S_Arrow_Shield
+          - Item: 24460 #S_Arrow_Shoes
+          - Item: 24461 #S_Shooting_Weapon
+          - Item: 24462 #S_Shooting_Pendant
+          - Item: 24463 #S_Shooting_Earing
+          - Item: 24464 #S_Tornado_Armor
+          - Item: 24465 #S_Tornado_Shield
+          - Item: 24466 #S_Tornado_Shoes
+          - Item: 24467 #S_Boomerang_Weapon
+          - Item: 24468 #S_Boomerang_Pendant
+          - Item: 24469 #S_Boomerang_Earing
+          - Item: 24470 #S_Vulcan_Armor
+          - Item: 24471 #S_Vulcan_Shield
+          - Item: 24472 #S_Vulcan_Shoes
+          - Item: 24473 #S_Arms_Weapon
+          - Item: 24474 #S_Arms_Pendant
+          - Item: 24475 #S_Arms_Earing
+      Result: |
+          callfunc("F_Lapine_Shadow_Random_Mix", .@opts[0], .@vals[0]);
+          .@params[0] = 0;
+          getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+    - Id: 100043 # Boost_Up_1, ??? ???
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: false
+      TargetItem:
+          - Item: 450001 #Atker_Plate
+          - Item: 480000 #Atker_Manteau
+          - Item: 470000 #Atker_Greave
+          - Item: 450004 #Ran_Suits
+          - Item: 480003 #Ran_Manteau
+          - Item: 470003 #Ran_Boots
+          - Item: 450002 #Ele_Robe
+          - Item: 480001 #Ele_Muffler
+          - Item: 470001 #Ele_Shoes
+          - Item: 450003 #Defn_Robe
+          - Item: 480002 #Defn_Muffler
+          - Item: 470002 #Defn_Shoes
+      Result: |
+          callfunc("F_Lapine_Boost_Up_1", .@refine);
+          getitem2(LapineUpgradeItem,1,1,.@refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4);
+    - Id: 100044 # Boost_Up_2, ??? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: false
+      TargetItem:
+          - Item: 600001 #Boost_TH_Sword
+          - Item: 610000 #Boost_Katar
+          - Item: 590000 #Boost_Hall
+          - Item: 640000 #Boost_Staff
+          - Item: 700001 #Boost_Bow
+          - Item: 530000 #Boost_Spear
+          - Item: 500001 #Boost_Sword
+          - Item: 510001 #Boost_Dagger
+          - Item: 540000 #Boost_Spl_Book
+          - Item: 570000 #Boost_Guitar
+          - Item: 560000 #Boost_Knuckle
+          - Item: 580000 #Boost_Whip
+          - Item: 510002 #Boost_Nindo
+          - Item: 830000 #Boost_Gatling
+          - Item: 520000 #Boost_Axe
+          - Item: 540001 #Boost_Text
+          - Item: 550001 #Boost_Soul_Rod
+          - Item: 550002 #Boost_Foxtail
+      Result: |
+          callfunc("F_Lapine_Boost_Up_2", .@refine);
+          getitem2(LapineUpgradeItem,1,1,.@refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4);
+    - Id: 9523 # Metal_Rifine_Ticket, ?? ??
+      NeedRefineMin: 0
+      NeedOptionNumMin: 0
+      NotSocketEnchantItem: false
+      TargetItem:
+          - Item: 1296 #?????
+          - Item: 1398 #???????
+          - Item: 1493 #????
+          - Item: 1588 #???
+          - Item: 2018 #?????
+          - Item: 13079 #????
+          - Item: 16023 #?????
+          - Item: 18116 #????
+          - Item: 21005 #???????
+          - Item: 13125 #?????
+          - Item: 13322 #???????
+          - Item: 26111 #??????
+      Result: |
+          callfunc("F_Lapine_Metal_Rifine_Ticket", .@refine);
+          getitem2(LapineUpgradeItem,1,1,.@refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4);
+
+#- Id: 100128 # Noblesse_Rifine_Ticket, ???? ???
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 450018 # Noblesse_Breath_Armor
+#  - Item: 450019 # Noblesse_Knight_Armor
+#  - Item: 450020 # Noblesse_Spear_Armor
+#  - Item: 450021 # Noblesse_Genesis_Armor
+#  - Item: 450022 # Noblesse_Sharp_Suit
+#  - Item: 450023 # Noblesse_Aim_Suit
+#  - Item: 450024 # Noblesse_Severe_Suit
+#  - Item: 450025 # Noblesse_Reverb_Suit
+#  - Item: 450026 # Noblesse_Adora_Robe
+#  - Item: 450027 # Noblesse_Duple_Robe
+#  - Item: 450028 # Noblesse_Tonado_Armor
+#  - Item: 450029 # Noblesse_Vulcan_Armor
+#  - Item: 450030 # Noblesse_Kart_Suit
+#  - Item: 450031 # Noblesse_Kart_Suit2
+#  - Item: 450032 # Noblesse_Rolling_Suit
+#  - Item: 450033 # Noblesse_Assasin_Suit
+#  - Item: 450034 # Noblesse_Fatal_Suit
+#  - Item: 450035 # Noblesse_Stalker_Suit
+#  - Item: 450036 # Noblesse_Picky_Robe
+#  - Item: 450037 # Noblesse_Carrot_Robe
+#  - Item: 450038 # Noblesse_Trip_Suit
+#  - Item: 450039 # Noblesse_Firerain_Suit
+#  - Item: 450040 # Noblesse_Crimson_Robe
+#  - Item: 450041 # Noblesse_Frost_Robe
+#  - Item: 450042 # Noblesse_Psychic_Robe
+#  - Item: 450043 # Noblesse_Dust_Robe
+#  - Item: 450044 # Noblesse_Sun_Suit
+#  - Item: 450045 # Noblesse_Moon_Suit
+#  - Item: 450046 # Noblesse_Ninja_Suit
+#  - Item: 450047 # Noblesse_Kunai_Suit
+#  - Item: 450048 # Noblesse_Swhoo_Robe
+#  - Item: 450049 # Noblesse_Explosion_Robe
+#  - Item: 450050 # Noblesse_Knuckle_Suit
+#  - Item: 450051 # Noblesse_Tiger_Suit
+#  - Item: 450121 # Noblesse_Snovice_Suit
+#  - Item: 450122 # Noblesse_Snovice_Robe
+#  - Item: 470016 # Noblesse_Attack_Boots
+#  - Item: 470017 # Noblesse_Magic_Boots
+#  - Item: 480012 # Noblesse_Attack_Manteau
+#  - Item: 480014 # Noblesse_Magic_Manteau
+#  Result: |
+#    callfunc("F_Lapine_Noblesse_Refine_Ticket", .@refine);
+#    getitem2(LapineUpgradeItem,1,1,.@refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4);
+#- Id: 100129 # Imperial_Rifine_Ticket, ???? ???
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 450052 # Imperial_Breath_Armor
+#  - Item: 450053 # Imperial_Knight_Armor
+#  - Item: 450054 # Imperial_Spear_Armor
+#  - Item: 450055 # Imperial_Genesis_Armor
+#  - Item: 450056 # Imperial_Sharp_Suit
+#  - Item: 450057 # Imperial_Aim_Suit
+#  - Item: 450058 # Imperial_Severe_Suit
+#  - Item: 450059 # Imperial_Reverb_Suit
+#  - Item: 450060 # Imperial_Adora_Robe
+#  - Item: 450061 # Imperial_Duple_Robe
+#  - Item: 450064 # Imperial_Tonado_Armor
+#  - Item: 450065 # Imperial_Vulcan_Armor
+#  - Item: 450066 # Imperial_Kart_Suit
+#  - Item: 450067 # Imperial_Kart_Suit2
+#  - Item: 450068 # Imperial_Rolling_Suit
+#  - Item: 450069 # Imperial_Assasin_Suit
+#  - Item: 450070 # Imperial_Fatal_Suit
+#  - Item: 450071 # Imperial_Stalker_Suit
+#  - Item: 450072 # Imperial_Picky_Robe
+#  - Item: 450073 # Imperial_Carrot_Robe
+#  - Item: 450074 # Imperial_Trip_Suit
+#  - Item: 450075 # Imperial_Firerain_Suit
+#  - Item: 450076 # Imperial_Crimson_Robe
+#  - Item: 450077 # Imperial_Frost_Robe
+#  - Item: 450078 # Imperial_Psychic_Robe
+#  - Item: 450079 # Imperial_Dust_Robe
+#  - Item: 450080 # Imperial_Sun_Suit
+#  - Item: 450081 # Imperial_Moon_Suit
+#  - Item: 450082 # Imperial_Ninja_Suit
+#  - Item: 450083 # Imperial_Kunai_Suit
+#  - Item: 450084 # Imperial_Swhoo_Robe
+#  - Item: 450085 # Imperial_Explosion_Robe
+#  - Item: 450062 # Imperial_Knuckle_Suit
+#  - Item: 450063 # Imperial_Tiger_Suit
+#  - Item: 450123 # Imperial_Snovice_Suit
+#  - Item: 450124 # Imperial_Snovice_Robe
+#  - Item: 470018 # Imperial_Attack_Boots
+#  - Item: 470019 # Imperial_Magic_Boots
+#  - Item: 480016 # Imperial_Attack_Manteau
+#  - Item: 480017 # Imperial_Magic_Manteau
+#  Result: |
+#    callfunc("F_Lapine_Imperial_Refine_Ticket", .@refine);
+#    getitem2(LapineUpgradeItem,1,1,.@refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4);
+#- Id: 100130 # Grace_Rifine_Ticket, ???? ???
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 450086 # Grace_Breath_Armor
+#  - Item: 450087 # Grace_Knight_Armor
+#  - Item: 450088 # Grace_Spear_Armor
+#  - Item: 450089 # Grace_Genesis_Armor
+#  - Item: 450090 # Grace_Sharp_Suit
+#  - Item: 450091 # Grace_Aim_Suit
+#  - Item: 450092 # Grace_Severe_Suit
+#  - Item: 450093 # Grace_Reverb_Suit
+#  - Item: 450094 # Grace_Adora_Robe
+#  - Item: 450095 # Grace_Duple_Robe
+#  - Item: 450098 # Grace_Tonado_Armor
+#  - Item: 450099 # Grace_Vulcan_Armor
+#  - Item: 450100 # Grace_Kart_Suit
+#  - Item: 450101 # Grace_Kart_Suit2
+#  - Item: 450102 # Grace_Rolling_Suit
+#  - Item: 450103 # Grace_Assasin_Suit
+#  - Item: 450104 # Grace_Fatal_Suit
+#  - Item: 450105 # Grace_Stalker_Suit
+#  - Item: 450106 # Grace_Picky_Robe
+#  - Item: 450107 # Grace_Carrot_Robe
+#  - Item: 450108 # Grace_Trip_Suit
+#  - Item: 450109 # Grace_Firerain_Suit
+#  - Item: 450110 # Grace_Crimson_Robe
+#  - Item: 450111 # Grace_Frost_Robe
+#  - Item: 450112 # Grace_Psychic_Robe
+#  - Item: 450113 # Grace_Dust_Robe
+#  - Item: 450114 # Grace_Sun_Suit
+#  - Item: 450115 # Grace_Moon_Suit
+#  - Item: 450116 # Grace_Ninja_Suit
+#  - Item: 450117 # Grace_Kunai_Suit
+#  - Item: 450118 # Grace_Swhoo_Robe
+#  - Item: 450119 # Grace_Explosion_Robe
+#  - Item: 450096 # Grace_Knuckle_Suit
+#  - Item: 450097 # Grace_Tiger_Suit
+#  - Item: 450125 # Grace_Snovice_Suit
+#  - Item: 450126 # Grace_Snovice_Robe
+#  - Item: 470020 # Grace_Attack_Boots
+#  - Item: 470021 # Grace_Magic_Boots
+#  - Item: 480018 # Grace_Attack_Manteau
+#  - Item: 480019 # Grace_Magic_Manteau
+#  Result: |
+#    callfunc("F_Lapine_Grace_Refine_Ticket", .@refine);
+#    getitem2(LapineUpgradeItem,1,1,.@refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4);
+#- Id: 100131 # Imperial_Convert1, ???? ??
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 480016 # Imperial_Attack_Manteau
+#  - Item: 480017 # Imperial_Magic_Manteau
+#  Result: |
+#    callfunc("F_Lapine_Imperial_Convert1", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100132 # Imperial_Convert2, ???? ??
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 480016 # Imperial_Attack_Manteau
+#  - Item: 480017 # Imperial_Magic_Manteau
+#  Result: |
+#    callfunc("F_Lapine_Imperial_Convert2", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100135 # Imperial_Convert3, ???? ??
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 450052 # Imperial_Breath_Armor
+#  - Item: 450053 # Imperial_Knight_Armor
+#  - Item: 450054 # Imperial_Spear_Armor
+#  - Item: 450055 # Imperial_Genesis_Armor
+#  - Item: 450056 # Imperial_Sharp_Suit
+#  - Item: 450057 # Imperial_Aim_Suit
+#  - Item: 450058 # Imperial_Severe_Suit
+#  - Item: 450059 # Imperial_Reverb_Suit
+#  - Item: 450060 # Imperial_Adora_Robe
+#  - Item: 450061 # Imperial_Duple_Robe
+#  - Item: 450064 # Imperial_Tonado_Armor
+#  - Item: 450065 # Imperial_Vulcan_Armor
+#  - Item: 450066 # Imperial_Kart_Suit
+#  - Item: 450067 # Imperial_Kart_Suit2
+#  - Item: 450068 # Imperial_Rolling_Suit
+#  - Item: 450069 # Imperial_Assasin_Suit
+#  - Item: 450070 # Imperial_Fatal_Suit
+#  - Item: 450071 # Imperial_Stalker_Suit
+#  - Item: 450072 # Imperial_Picky_Robe
+#  - Item: 450073 # Imperial_Carrot_Robe
+#  - Item: 450074 # Imperial_Trip_Suit
+#  - Item: 450075 # Imperial_Firerain_Suit
+#  - Item: 450076 # Imperial_Crimson_Robe
+#  - Item: 450077 # Imperial_Frost_Robe
+#  - Item: 450078 # Imperial_Psychic_Robe
+#  - Item: 450079 # Imperial_Dust_Robe
+#  - Item: 450080 # Imperial_Sun_Suit
+#  - Item: 450081 # Imperial_Moon_Suit
+#  - Item: 450082 # Imperial_Ninja_Suit
+#  - Item: 450083 # Imperial_Kunai_Suit
+#  - Item: 450084 # Imperial_Swhoo_Robe
+#  - Item: 450085 # Imperial_Explosion_Robe
+#  - Item: 450062 # Imperial_Knuckle_Suit
+#  - Item: 450063 # Imperial_Tiger_Suit
+#  - Item: 450123 # Imperial_Snovice_Suit
+#  - Item: 450124 # Imperial_Snovice_Robe
+#  Result: |
+#    callfunc("F_Lapine_Imperial_Convert3", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100136 # Imperial_Convert4, ???? ??
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 450052 # Imperial_Breath_Armor
+#  - Item: 450053 # Imperial_Knight_Armor
+#  - Item: 450054 # Imperial_Spear_Armor
+#  - Item: 450055 # Imperial_Genesis_Armor
+#  - Item: 450056 # Imperial_Sharp_Suit
+#  - Item: 450057 # Imperial_Aim_Suit
+#  - Item: 450058 # Imperial_Severe_Suit
+#  - Item: 450059 # Imperial_Reverb_Suit
+#  - Item: 450060 # Imperial_Adora_Robe
+#  - Item: 450061 # Imperial_Duple_Robe
+#  - Item: 450064 # Imperial_Tonado_Armor
+#  - Item: 450065 # Imperial_Vulcan_Armor
+#  - Item: 450066 # Imperial_Kart_Suit
+#  - Item: 450067 # Imperial_Kart_Suit2
+#  - Item: 450068 # Imperial_Rolling_Suit
+#  - Item: 450069 # Imperial_Assasin_Suit
+#  - Item: 450070 # Imperial_Fatal_Suit
+#  - Item: 450071 # Imperial_Stalker_Suit
+#  - Item: 450072 # Imperial_Picky_Robe
+#  - Item: 450073 # Imperial_Carrot_Robe
+#  - Item: 450074 # Imperial_Trip_Suit
+#  - Item: 450075 # Imperial_Firerain_Suit
+#  - Item: 450076 # Imperial_Crimson_Robe
+#  - Item: 450077 # Imperial_Frost_Robe
+#  - Item: 450078 # Imperial_Psychic_Robe
+#  - Item: 450079 # Imperial_Dust_Robe
+#  - Item: 450080 # Imperial_Sun_Suit
+#  - Item: 450081 # Imperial_Moon_Suit
+#  - Item: 450082 # Imperial_Ninja_Suit
+#  - Item: 450083 # Imperial_Kunai_Suit
+#  - Item: 450084 # Imperial_Swhoo_Robe
+#  - Item: 450085 # Imperial_Explosion_Robe
+#  - Item: 450062 # Imperial_Knuckle_Suit
+#  - Item: 450063 # Imperial_Tiger_Suit
+#  - Item: 450123 # Imperial_Snovice_Suit
+#  - Item: 450124 # Imperial_Snovice_Robe
+#  Result: |
+#    callfunc("F_Lapine_Imperial_Convert4", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100133 # Grace_Convert1, ???? ??
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 480018 # Grace_Attack_Manteau
+#  - Item: 480019 # Grace_Magic_Manteau
+#  Result: |
+#    callfunc("F_Lapine_Grace_Convert1", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100134 # Grace_Convert2, ???? ??
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 480018 # Grace_Attack_Manteau
+#  - Item: 480019 # Grace_Magic_Manteau
+#  Result: |
+#    callfunc("F_Lapine_Grace_Convert2", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100137 # Grace_Convert3, ???? ??
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 450086 # Grace_Breath_Armor
+#  - Item: 450087 # Grace_Knight_Armor
+#  - Item: 450088 # Grace_Spear_Armor
+#  - Item: 450089 # Grace_Genesis_Armor
+#  - Item: 450090 # Grace_Sharp_Suit
+#  - Item: 450091 # Grace_Aim_Suit
+#  - Item: 450092 # Grace_Severe_Suit
+#  - Item: 450093 # Grace_Reverb_Suit
+#  - Item: 450094 # Grace_Adora_Robe
+#  - Item: 450095 # Grace_Duple_Robe
+#  - Item: 450098 # Grace_Tonado_Armor
+#  - Item: 450099 # Grace_Vulcan_Armor
+#  - Item: 450100 # Grace_Kart_Suit
+#  - Item: 450101 # Grace_Kart_Suit2
+#  - Item: 450102 # Grace_Rolling_Suit
+#  - Item: 450103 # Grace_Assasin_Suit
+#  - Item: 450104 # Grace_Fatal_Suit
+#  - Item: 450105 # Grace_Stalker_Suit
+#  - Item: 450106 # Grace_Picky_Robe
+#  - Item: 450107 # Grace_Carrot_Robe
+#  - Item: 450108 # Grace_Trip_Suit
+#  - Item: 450109 # Grace_Firerain_Suit
+#  - Item: 450110 # Grace_Crimson_Robe
+#  - Item: 450111 # Grace_Frost_Robe
+#  - Item: 450112 # Grace_Psychic_Robe
+#  - Item: 450113 # Grace_Dust_Robe
+#  - Item: 450114 # Grace_Sun_Suit
+#  - Item: 450115 # Grace_Moon_Suit
+#  - Item: 450116 # Grace_Ninja_Suit
+#  - Item: 450117 # Grace_Kunai_Suit
+#  - Item: 450118 # Grace_Swhoo_Robe
+#  - Item: 450119 # Grace_Explosion_Robe
+#  - Item: 450096 # Grace_Knuckle_Suit
+#  - Item: 450097 # Grace_Tiger_Suit
+#  - Item: 450125 # Grace_Snovice_Suit
+#  - Item: 450126 # Grace_Snovice_Robe
+#  Result: |
+#    callfunc("F_Lapine_Grace_Convert3", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100138 # Grace_Convert4, ???? ??
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 450086 # Grace_Breath_Armor
+#  - Item: 450087 # Grace_Knight_Armor
+#  - Item: 450088 # Grace_Spear_Armor
+#  - Item: 450089 # Grace_Genesis_Armor
+#  - Item: 450090 # Grace_Sharp_Suit
+#  - Item: 450091 # Grace_Aim_Suit
+#  - Item: 450092 # Grace_Severe_Suit
+#  - Item: 450093 # Grace_Reverb_Suit
+#  - Item: 450094 # Grace_Adora_Robe
+#  - Item: 450095 # Grace_Duple_Robe
+#  - Item: 450098 # Grace_Tonado_Armor
+#  - Item: 450099 # Grace_Vulcan_Armor
+#  - Item: 450100 # Grace_Kart_Suit
+#  - Item: 450101 # Grace_Kart_Suit2
+#  - Item: 450102 # Grace_Rolling_Suit
+#  - Item: 450103 # Grace_Assasin_Suit
+#  - Item: 450104 # Grace_Fatal_Suit
+#  - Item: 450105 # Grace_Stalker_Suit
+#  - Item: 450106 # Grace_Picky_Robe
+#  - Item: 450107 # Grace_Carrot_Robe
+#  - Item: 450108 # Grace_Trip_Suit
+#  - Item: 450109 # Grace_Firerain_Suit
+#  - Item: 450110 # Grace_Crimson_Robe
+#  - Item: 450111 # Grace_Frost_Robe
+#  - Item: 450112 # Grace_Psychic_Robe
+#  - Item: 450113 # Grace_Dust_Robe
+#  - Item: 450114 # Grace_Sun_Suit
+#  - Item: 450115 # Grace_Moon_Suit
+#  - Item: 450116 # Grace_Ninja_Suit
+#  - Item: 450117 # Grace_Kunai_Suit
+#  - Item: 450118 # Grace_Swhoo_Robe
+#  - Item: 450119 # Grace_Explosion_Robe
+#  - Item: 450096 # Grace_Knuckle_Suit
+#  - Item: 450097 # Grace_Tiger_Suit
+#  - Item: 450125 # Grace_Snovice_Suit
+#  - Item: 450126 # Grace_Snovice_Robe
+#  Result: |
+#    callfunc("F_Lapine_Grace_Convert4", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 9514 # Ein_Ddbox, ?? ?? ???
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 21054 # Ein_BHSWORD
+#  - Item: 2058 # Ein_BHSTAFF
+#  - Item: 13346 # Ein_BHHuuma
+#  - Item: 28045 # Ein_BHKATAR
+#  - Item: 28140 # Ein_BHAXE
+#  - Item: 18190 # Ein_BHBOW
+#  - Item: 1867 # Ein_1HKNUCK
+#  - Item: 16099 # Ein_1HHAMMER
+#  - Item: 26162 # Ein_1HWAND
+#  - Item: 26215 # Ein_1HWHIP
+#  - Item: 28635 # Ein_1HBOOK
+#  - Item: 28771 # Ein_1HDAGGER
+#  - Item: 28772 # Ein_1HMAGGER
+#  - Item: 32026 # Ein_1HSPEAR
+#  - Item: 32110 # Ein_1HLUTE
+#  - Item: 32352 # Ein_1HSWORD
+#  - Item: 32303 # Ein_1HGUN
+#  - Item: 550006 # Ein_1H_Foxtail
+#  Result: |
+#    // TODO
+#    callfunc("F_Lapine_Ein_Ddbox", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 9529 # Ein_Ddbox2, ?? ?? ???
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 21054 # Ein_BHSWORD
+#  - Item: 2058 # Ein_BHSTAFF
+#  - Item: 13346 # Ein_BHHuuma
+#  - Item: 28045 # Ein_BHKATAR
+#  - Item: 28140 # Ein_BHAXE
+#  - Item: 18190 # Ein_BHBOW
+#  - Item: 1867 # Ein_1HKNUCK
+#  - Item: 16099 # Ein_1HHAMMER
+#  - Item: 26162 # Ein_1HWAND
+#  - Item: 26215 # Ein_1HWHIP
+#  - Item: 28635 # Ein_1HBOOK
+#  - Item: 28771 # Ein_1HDAGGER
+#  - Item: 28772 # Ein_1HMAGGER
+#  - Item: 32026 # Ein_1HSPEAR
+#  - Item: 32110 # Ein_1HLUTE
+#  - Item: 32352 # Ein_1HSWORD
+#  - Item: 32303 # Ein_1HGUN
+#  - Item: 550006 # Ein_1H_Foxtail
+#  Result: |
+#    // TODO
+#    callfunc("F_Lapine_Ein_Ddbox2", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 23981 # Abyss_Ddbox, ???? ?? ?? ?
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 15391 # DragonA_Red
+#  - Item: 15392 # DragonA_Green
+#  - Item: 15393 # DragonA_Gold
+#  - Item: 15394 # DragonA_Purple
+#  - Item: 15395 # DragonA_Blue
+#  - Item: 15396 # DragonA_Silver
+#  Result: |
+#    // TODO
+#    callfunc("F_Lapine_Abyss_Ddbox", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100142 # Abyss_Ddbox2, ??? ?? ?
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 15391 # DragonA_Red
+#  - Item: 15392 # DragonA_Green
+#  - Item: 15393 # DragonA_Gold
+#  - Item: 15394 # DragonA_Purple
+#  - Item: 15395 # DragonA_Blue
+#  - Item: 15396 # DragonA_Silver
+#  Result: |
+#    // TODO
+#    callfunc("F_Lapine_Abyss_Ddbox2", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100144 # Abyss_Ddbox3, ??? ?? ?
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 20946 # Drag_Manteau
+#  Result: |
+#    // TODO
+#    callfunc("F_Lapine_Abyss_Ddbox3", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);
+#- Id: 100145 # Abyss_Ddbox4, ??? ?? ?
+#  NeedRefineMin: 0
+#  NeedOptionNumMin: 0
+#  NotSocketEnchantItem: true
+#  TargetItem:
+#  - Item: 22208 # Dragon_Boots
+#  Result: |
+#    // TODO
+#    callfunc("F_Lapine_Abyss_Ddbox4", .@opts[0], .@vals[0]);
+#    .@params[0] = 0;
+#    getitem3(LapineUpgradeItem,1,1,@last_lapine_refine,0,@last_lapine_card1,@last_lapine_card2,@last_lapine_card3,@last_lapine_card4,.@opts,.@vals,.@params);

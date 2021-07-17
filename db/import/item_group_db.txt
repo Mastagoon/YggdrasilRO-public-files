@@ -1,0 +1,2108 @@
+// Item Group Database
+//
+// Structure of Database:
+// GroupID,ItemID,Rate{,Amount,Random,isAnnounced,Duration,GUID,isBound,isNamed}
+
+
+//New Spin Box
+IG_S2WBOX,909,1
+
+
+//Modification Moodule Box
+//common
+IG_Modification_Moodule,25670,9          //Modification Module (Defense),
+IG_Modification_Moodule,25671,9          //Modification Module (Magic Defense
+IG_Modification_Moodule,25672,9          //Modification Module (Vit),
+IG_Modification_Moodule,25673,9          //Modification Module (Luk),
+IG_Modification_Moodule,25674,9          //Modification Module (Str),
+IG_Modification_Moodule,25675,9          //Modification Module (Agi),
+IG_Modification_Moodule,25676,9          //Modification Module (Int),
+IG_Modification_Moodule,25677,9          //Modification Module (Dex),
+//rare
+IG_Modification_Moodule,25678,6          //Modification Module (HP recovery
+IG_Modification_Moodule,25679,6          //Modification Module (SP recovery
+IG_Modification_Moodule,25680,6          //Modification Module (Spell),
+IG_Modification_Moodule,25681,6          //Modification Module (Attack Speed
+IG_Modification_Moodule,25682,6          //Modification Module (Fatal),
+IG_Modification_Moodule,25683,6          //Modification Module (Expert Archer
+IG_Modification_Moodule,25684,6          //Modification Module (Vital),
+IG_Modification_Moodule,25685,6          //Modification Module (Mental),
+IG_Modification_Moodule,25686,6          //Modification Module (Heal),
+IG_Modification_Moodule,25687,6          //Modification Module (Power),
+IG_Modification_Moodule,25688,6          //Modification Module (Magic),
+IG_Modification_Moodule,25689,6          //Modification Module (Shooter),
+IG_Modification_Moodule,25690,6          //Modification Module (Fast),
+IG_Modification_Moodule,25691,6          //Modification Module (Caster),
+IG_Modification_Moodule,25692,6          //Modification Module (Critical),
+//Unique
+IG_Modification_Moodule,25693,3          //Modification Module (Delay after
+IG_Modification_Moodule,25694,3          //Modification Module (Fixed Casting
+IG_Modification_Moodule,25695,3          //Modification Module (Above All
+IG_Modification_Moodule,25696,4       //Modification Module (Drain Life
+IG_Modification_Moodule,25697,4       //Modification Module (Drain Soul
+IG_Modification_Moodule,25698,4       //Modification Module (Magic Healing
+IG_Modification_Moodule,25699,4       //Modification Module (Magic Soul
+//Legendary
+IG_Modification_Moodule,25700,1          //Modification Module (Unlimited Vital
+IG_Modification_Moodule,25701,1          //Modification Module (Spell Buster
+IG_Modification_Moodule,25702,1          //Modification Module (Firing Shot
+IG_Modification_Moodule,25703,1          //Modification Module (Overpower),
+IG_Modification_Moodule,25704,1          //Modification Module (Fatal Flash
+IG_Modification_Moodule,25705,1          //Modification Module (Lucky Strike
+
+
+//IG_OS_WEAPON
+IG_OS_WEAPON,18180,1        //
+IG_OS_WEAPON,21047,1        //
+IG_OS_WEAPON,28136,1        //
+IG_OS_WEAPON,32019,1        //
+IG_OS_WEAPON,1862,1         //
+IG_OS_WEAPON,13493,1        //
+IG_OS_WEAPON,28629,1        //
+IG_OS_WEAPON,26164,1        //
+IG_OS_WEAPON,28253,1        //
+IG_OS_WEAPON,28755,1        //
+IG_OS_WEAPON,28038,1        //
+IG_OS_WEAPON,18179,1        //
+IG_OS_WEAPON,26151,1        //
+IG_OS_WEAPON,16088,1        //
+IG_OS_WEAPON,16089,1        //
+IG_OS_WEAPON,18178,1        //
+
+
+
+
+IG_racing_cap,19189,1       //Racing_Cap_MC
+IG_racing_cap,19190,1       //Racing_Cap_GN
+IG_racing_cap,19191,1       //Racing_Cap_GC
+IG_racing_cap,19192,1       //Racing_Cap_SC
+IG_racing_cap,19193,1       //Racing_Cap_WL
+IG_racing_cap,19194,1       //Racing_Cap_SO
+IG_racing_cap,19195,1       //Racing_Cap_RK
+IG_racing_cap,19196,1       //Racing_Cap_RG
+IG_racing_cap,19197,1       //Racing_Cap_AB
+IG_racing_cap,19198,1       //Racing_Cap_SR
+IG_racing_cap,19199,1       //Racing_Cap_RA
+IG_racing_cap,19200,1       //Racing_Cap_MI
+IG_racing_cap,19201,1       //Racing_Cap_WA
+IG_racing_cap,19202,1       //Racing_Cap_GS
+IG_racing_cap,19203,1       //Racing_Cap_NJ
+IG_racing_cap,19204,1       //Racing_Cap_SN
+IG_racing_cap,19205,1       //Racing_Cap_SU
+IG_racing_cap,19396,1       //Racing_Cap_SG
+IG_racing_cap,19397,1       //Racing_Cap_SL
+
+IG_Bs_Making_S,23818,1      //Bs_Item_M_S_2,Giant Orc Helm Combination,11
+IG_Bs_Making_S,23819,1      //Bs_Item_M_S_8,Scarlet Rose Combination,11,,,
+IG_Bs_Making_S,23820,1      //Bs_Item_M_S_10,Grand Peco Headdress Combination,11
+IG_Bs_Making_S,23821,1      //Bs_Item_M_S_11,Moonlight Flower Hat Combination,11
+IG_Bs_Making_S,23822,1      //Bs_Item_M_S_34,8 Forms Purgatory Wing Combination
+IG_Bs_Making_S,23823,1      //Bs_Item_M_S_41,Drooping Neko Crew Combination Scroll
+IG_Bs_Making_S,23824,1      //Bs_Item_M_S_42,Glory FB Hat Combination Scroll
+IG_Bs_Making_S,23825,1      //Bs_Item_M_S_43,Evil Marching Hat Combination Scroll
+IG_Bs_Making_S,23826,1      //Bs_Item_M_S_44,Wandering Wolf Helm Combination Scroll
+IG_Bs_Making_S,23832,1      //Bs_Item_M_S_4,Amistr Cap Combination Scroll,11
+IG_Bs_Making_S,23833,1      //Bs_Item_M_S_6,King Tiger Doll Hat Combination
+IG_Bs_Making_S,23834,1      //Bs_Item_M_S_7,Zaha Doll Hat Combination Scroll
+IG_Bs_Making_S,23835,1      //Bs_Item_M_S_12,Candy Bag Backpack Combination Scroll
+IG_Bs_Making_S,23836,1      //Bs_Item_M_S_13,Golden Fish Head Cap Combination
+// IG_Bs_Making_S,23837,1      //Bs_Item_M_S_15,Survivor's Combination Scroll,11
+IG_Bs_Making_S,23838,1      //Bs_Item_M_S_28,Toy Syringe Combination Scroll,11
+IG_Bs_Making_S,23839,1      //Bs_Item_M_S_29,Indigo Rear Ribbon Combination Scroll
+IG_Bs_Making_S,23840,1      //Bs_Item_M_S_31,Magical Booster Combination Scroll,11
+IG_Bs_Making_S,23841,1      //Bs_Item_M_S_32,Rosario Necklace Combination Scroll,11
+IG_Bs_Making_S,23842,1      //Bs_Item_M_S_33,Elemental Crown Combination Scroll,11
+IG_Bs_Making_S,23843,1      //Bs_Item_M_S_36,Palace Guard's Cap Combination
+IG_Bs_Making_S,23844,1      //Bs_Item_M_S_37,Bandit's Hood Combination Scroll
+IG_Bs_Making_S,23845,1      //Bs_Item_M_S_38,Fallen Angel Blessing Combination Scroll
+IG_Bs_Making_S,23846,1      //Bs_Item_M_S_39,Rabbit Magic Hat Combination Scroll
+IG_Bs_Making_S,23847,1      //Bs_Item_M_S_40,Anubis Helm Combination Scroll,11
+IG_Bs_Making_S,23848,1      //Bs_Item_M_S_45,Imp Hat Combination Scroll,11
+IG_Bs_Making_S,23849,1      //Bs_Item_M_S_46,Holy Marching Hat Combination Scroll
+IG_Bs_Making_S,23850,1      //Bs_Item_M_S_47,Mask Of Ifrit Combination Scroll
+IG_Bs_Making_S,23851,1      //Bs_Item_M_S_48,Drooping Morocc Minion Combination Scroll
+IG_Bs_Making_S,23852,1      //Bs_Item_M_S_49,Samambaia Combination Scroll,11,,,
+IG_Bs_Making_S,23853,1      //Bs_Item_M_S_50,Chick Hat Combination Scroll,11
+IG_Bs_Making_S,23854,1      //Bs_Sha_M_S_2,Class Shadow Combination Scroll,11
+IG_Bs_Making_S,23863,1      //Bs_Item_M_S_5,Mad Bunny Combination Scroll,11
+IG_Bs_Making_S,23864,1      //Bs_Item_M_S_9,Archangel Wings Combination Scroll,11
+IG_Bs_Making_S,23865,1      //Bs_Item_M_S_14,Smokie's Transformation Leaf Combination
+IG_Bs_Making_S,23866,1      //Bs_Item_M_S_16,Ears Of Ifrit Combination Scroll
+IG_Bs_Making_S,23867,1      //Bs_Item_M_S_17,Heart Wing Hairband Combination Scroll
+IG_Bs_Making_S,23868,1      //Bs_Item_M_S_19,Sigrun's Wings Combination Scroll
+IG_Bs_Making_S,23869,1      //Bs_Item_M_S_27,Kitten Headdress Combination Scroll,11
+IG_Bs_Making_S,23870,1      //Bs_Item_M_S_35,Noble Mask Combination Scroll,11
+IG_Bs_Making_S,23876,1      //Bs_Item_M_S_1,Fallen Angel Wing Combination Scroll
+IG_Bs_Making_S,23877,1      //Bs_Item_M_S_3,Adventurer's Backpack Combination Scroll
+IG_Bs_Making_S,23879,1      //Bs_Item_M_S_18,Spell Circuit Combination Scroll,11
+IG_Bs_Making_S,23880,1      //Bs_Item_M_S_20,New Wave Sunglasses Combination Scroll
+IG_Bs_Making_S,23881,1      //Bs_Item_M_S_21,Giant Snake Breath Combination Scroll
+IG_Bs_Making_S,23882,1      //Bs_Item_M_S_22,Korean Judge Hat Combination Scroll
+IG_Bs_Making_S,23883,1      //Bs_Item_M_S_23,Ruff Officer Combination Scroll,11
+IG_Bs_Making_S,23884,1      //Bs_Item_M_S_24,Fancy Feather Hat Combination Scroll
+IG_Bs_Making_S,23885,1      //Bs_Item_M_S_25,Amistr Beret Combination Scroll,11
+IG_Bs_Making_S,23886,1      //Bs_Item_M_S_26,General Helm Combination Scroll,11
+IG_Bs_Making_S,23887,1      //Bs_Item_M_S_30,Cursed Knight's Shield Combination
+IG_Bs_Making_S,23894,1      //Bs_Item_M_S_51,Wickebine's Black Cat Ears
+
+
+
+IG_Bs_Item_M_S_12,20842,1      //Candy_Bag_Backpack_Physical,Candy Bag Backpack (Physical),
+IG_Bs_Item_M_S_12,20843,1      //Candy_Bag_Backpack_Ranged,Candy Bag Backpack (Ranged),
+IG_Bs_Item_M_S_12,20844,1      //Candy_Bag_Backpack_Magical,Candy Bag Backpack (Magical),
+
+IG_Bs_Item_M_S_15,19020,1     //Survivor's Circlet [1]
+IG_Bs_Item_M_S_15,19139,1     //Survivor's Orb
+
+IG_Bs_Item_M_S_5,28901,1     //mad bunny
+IG_Bs_Item_M_S_5,28902,1     //mad bunny
+
+//costume enchantmet stones
+//upper
+IG_STONE_UPPER,6636,1       //Floor Str,Strength Stone(Upper)
+IG_STONE_UPPER,6637,1       //Floor Int,Intelligence Stone(Upper)
+IG_STONE_UPPER,6638,1       //Floor Agi,Agility Stone(Upper),
+IG_STONE_UPPER,6639,1       //Floor Dex,Dexterity Stone(Upper)
+IG_STONE_UPPER,6640,1       //Floor Vit,Health Stone(Upper)
+IG_STONE_UPPER,6641,1       //Floor Luk,Lucky Stone(Upper)
+IG_STONE_UPPER,6716,1       //Cri Stone,Critical Stone(Upper)
+IG_STONE_UPPER,6740,1       //HealStone Top,Stone Recovery(Upper)
+IG_STONE_UPPER,6741,1       //HealStone2 Top,Stone Recovery Skills(Upper)
+IG_STONE_UPPER,6790,1       //BigStone Top,Large Stone(Upper),
+IG_STONE_UPPER,6791,1       //MediumStone Top,Medium Stone(Upper)
+IG_STONE_UPPER,6792,1       //SmallStone Top,Small Stone(Upper)
+IG_STONE_UPPER,6943,1       //ATKStone Top,Attack Stone(Upper)
+IG_STONE_UPPER,6944,1       //MATKStone Top,Magic Stone(Upper)
+IG_STONE_UPPER,6999,1       //HPdrainStone Top,HP Absorption Stone(Upper)
+IG_STONE_UPPER,25000,1       //,SP Absorb Stone Upper,SP Absorp Stone (Upper)
+IG_STONE_UPPER,25068,1       //,ASPD Stone Upper,ASPD Stone(Upper)
+IG_STONE_UPPER,25069,1       //,Reload Stone Upper,Reload Stone(Upper)
+IG_STONE_UPPER,25171,1       //,Experience Stone Upper,Experience Stone(Upper)
+IG_STONE_UPPER,25172,1       //,Variable Cast Stone Upper,Variable Cast Stone(Upper)
+IG_STONE_UPPER,25207,1       //,Enhanced SP Absorb Stone Upper,Enhanced SP Absorb Stone(Upper)
+IG_STONE_UPPER,25210,1       //,Enhanced HP Absorb Stone Upper,Enhanced HP Absorb Stone(Upper)
+IG_STONE_UPPER,25304,1       //,Critical Stone Upper,Critical Stone(Upper)
+
+//MIDDLE
+IG_STONE_MIDDLE,6642,1     //ATKStone Middle     Attack Stone(Middle)
+IG_STONE_MIDDLE,6643,1     //Floor Matk     Magic Stone(Middle)
+IG_STONE_MIDDLE,6717,1     //MHPStone Middle     Fitness Stone(Middle)
+IG_STONE_MIDDLE,6742,1     //HealStone Middle     Stone Recovery(Middle)
+IG_STONE_MIDDLE,6743,1     //HPStone Middle     HP Stone(Middle)
+IG_STONE_MIDDLE,6744,1     //SPStone Middle     SP Stone(Middle)
+IG_STONE_MIDDLE,6945,1     //Floor Str2     Strength Stone(Middle)
+IG_STONE_MIDDLE,6946,1     //Floor Int2     Intelligence Stone(Middle)
+IG_STONE_MIDDLE,6947,1     //Floor Agi2     Agility Stone(Middle)
+IG_STONE_MIDDLE,6948,1     //Floor Dex2     Dexterity Stone(Middle)
+IG_STONE_MIDDLE,6949,1     //Floor Vit2     Vitality Stone(Middle)
+IG_STONE_MIDDLE,6950,1     //Floor Luk2     Lucky Stone(Middle)
+IG_STONE_MIDDLE,25001,1    // Defense Stone Middle     Defense Stone(Middle)
+IG_STONE_MIDDLE,25002,1    // LUK Convert Stone Middle     LUK Convert Stone(Middle)
+IG_STONE_MIDDLE,25003,1    // STR Convert Stone Middle     STR Convert Stone(Middle)
+IG_STONE_MIDDLE,25004,1    // AGI Convert Stone Middle     AGI Convert Stone(Middle)
+IG_STONE_MIDDLE,25005,1    // INT Convert Stone Middle     INT Convert Stone(Middle)
+IG_STONE_MIDDLE,25006,1    // VIT Convert Stone Middle     VIT Convert Stone(Middle)
+IG_STONE_MIDDLE,25007,1    // DEX Convert Stone Middle     DEX Convert Stone(Middle)
+IG_STONE_MIDDLE,25060,1    // Critical Stone Middle     Critical Stone(Middle)
+IG_STONE_MIDDLE,25061,1    // Range Stone Middle     Range Stone(Middle)
+IG_STONE_MIDDLE,25070,1    // Reload Stone Middle     Reload Stone(Middle)
+IG_STONE_MIDDLE,25141,1    // Experience Stone Middle     Experience Stone(Middle)
+IG_STONE_MIDDLE,25173,1    // Variable Cast Stone Middle     Variable Cast Stone(Middle)
+IG_STONE_MIDDLE,25175,1    // Lex Aeterna Stone Middle     Lex Aeterna Stone(Middle)
+
+//LOWER
+IG_STONE_LOWER,6644,1   //HITStone_Bottom    Hit Stone(Lower)
+IG_STONE_LOWER,6645,1   //FLEEStone_Bottom    Evasion Stone(Lower)
+IG_STONE_LOWER,6718,1   //MSPStone_Bottom    Magical Stone(Lower)
+IG_STONE_LOWER,6745,1  //HealStone_Bottom  Recovery Stone(Low)
+IG_STONE_LOWER,6951,1   //HPStone_Bottom    HP Stone(Lower)
+IG_STONE_LOWER,25008,1   // VIT_Convert_Stone_Lower    VIT Convert Stone(Lower)
+IG_STONE_LOWER,25009,1   // AGI_Convert_Stone_Lower    AGI Convert Stone(Lower)
+IG_STONE_LOWER,25010,1   // DEX_Convert_Stone_Lower    DEX Convert Stone(Lower)
+IG_STONE_LOWER,25011,1   // LUK_Convert_Stone_Lower    LUK Convert Stone(Lower)
+IG_STONE_LOWER,25012,1   // STR_Convert_Stone_Lower    STR Convert Stone(Lower)
+IG_STONE_LOWER,25013,1   // INT_Convert_Stone_Lower    INT Convert Stone(Lower)
+IG_STONE_LOWER,25014,1   // Magic_Defense_Stone_Lower    Magic Defense Stone(Lower)    
+IG_STONE_LOWER,25015,1   // Experience_Stone_Lower    Experience Stone(Lower)
+IG_STONE_LOWER,25016,1   // Attack_Stone_Lower    Attack Stone(Lower)
+IG_STONE_LOWER,25017,1   // Magic_Stone_Lower    Magic Stone(Lower)
+IG_STONE_LOWER,25062,1   // Greed_Stone_Lower    Greed Stone(Lower)
+IG_STONE_LOWER,25063,1   // Stamina_Stone_Lower    Stamina Stone(Lower)
+IG_STONE_LOWER,25064,1   // Spirit_Stone_Lower    Spirit Stone(Lower)
+IG_STONE_LOWER,25065,1   // Detoxify_Stone_Lower    Detoxify Stone(Lower)
+IG_STONE_LOWER,25066,1   // Status_Stone_Lower    Status Recovery Stone(Lower)
+IG_STONE_LOWER,25071,1   // Reload_Stone_Lower    Reload Stone(Lower)
+IG_STONE_LOWER,25072,1   // Kyrie_Eleison_Stone_Lower    Kyrie Eleison Stone(Lower)
+IG_STONE_LOWER,25139,1   // Item_Appraisal_Stone_Lower    Item Appraisal Stone(Lower)
+IG_STONE_LOWER,25140,1   // Resurrection_Stone_Lower    Resurrection Stone(Lower)
+IG_STONE_LOWER,25174,1   // Variable_Cast_Stone_Lower    Variable Cast Stone(Lower)
+IG_STONE_LOWER,25227,1   // Detox_Stone_Lower    Heal Stone(Lower)
+IG_STONE_LOWER,25228,1   // Teleport_Stone_Lower    Teleport Stone(Lower)
+IG_STONE_LOWER,25229,1   // Steal_Stone_Lower    Steal Stone(Lower)
+IG_STONE_LOWER,25305,1   // Critical_Stone_Lower    Critical Stone(Lower)
+
+//GERMENT
+
+IG_STONE_GARMENT,6908,1     //Stone ASPD (Garment)
+IG_STONE_GARMENT,6963,1     //HP Absorption Stone(Garment)
+IG_STONE_GARMENT,6964,1     //SP Absorption Stone(Garment)
+IG_STONE_GARMENT,25067,1    //Fixed Cast Stone(Garment)
+IG_STONE_GARMENT,25170,1    //Minor Fixed Cast Stone(Garment)
+IG_STONE_GARMENT,25208,1    //Enhanced SP Absorb Stone(Garment)
+IG_STONE_GARMENT,25209,1    //Enhanced HP Absorb Stone(Garment)
+IG_STONE_GARMENT,25302,1    //Double Attack Stone(Garment)
+IG_STONE_GARMENT,25303,1    //Critical Stone(Garment)
+IG_STONE_GARMENT,25306,1    //Variable Cast Stone(Garment)
+
+
+
+//CLASS_SHADOW_ACC
+IG_CLASS_SHADOW_ACC,24246,1      //S_Swordman_Earring
+IG_CLASS_SHADOW_ACC,24247,1      //S_Merchant_Earring
+IG_CLASS_SHADOW_ACC,24248,1      //S_Acolyte_Earring
+IG_CLASS_SHADOW_ACC,28391,1      //S_Thief_Earring
+IG_CLASS_SHADOW_ACC,28392,1      //S_Archer_Earring
+IG_CLASS_SHADOW_ACC,24249,1      //S_Magician_Earring
+IG_CLASS_SHADOW_ACC,24250,1      //S_Swordman_Pendant
+IG_CLASS_SHADOW_ACC,24251,1      //S_Merchant_Pendant
+IG_CLASS_SHADOW_ACC,24252,1      //S_Acolyte_Pendant
+IG_CLASS_SHADOW_ACC,24253,1      //S_Thief_Pendant
+IG_CLASS_SHADOW_ACC,24254,1      //S_Magician_Pendant
+IG_CLASS_SHADOW_ACC,24255,1      //S_Archer_Pendant
+//SHOES
+IG_CLASS_SHADOW_SHOES,24256,1      //Knight_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24257,1      //Crusader_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24258,1      //Blacksmith_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24259,1      //Alchemist_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24260,1      //Priest_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24261,1      //Monk_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24262,1      //Assassin_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24263,1      //Rogue_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24264,1      //Wizard_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24265,1      //Sage_Shadow_Shoese
+IG_CLASS_SHADOW_SHOES,24266,1      //Hunter_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24267,1      //Bard_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24268,1      //Dancer_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24405,1      //Rebellion_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24406,1      //Kagerou_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24407,1      //Oboro_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24409,1      //Doram_Physical_Shadow_Sho
+IG_CLASS_SHADOW_SHOES,24411,1      //Doram_Magical_Shadow_Shoe
+IG_CLASS_SHADOW_SHOES,24413,1      //Star_Emperor_Shadow_Shoes
+IG_CLASS_SHADOW_SHOES,24415,1      //Soul_Reaper_Shadow_Shoes
+//ARMOR
+IG_CLASS_SHADOW_ARMOR,24269,1      //Knight_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24270,1      //Crusader_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24271,1      //Blacksmith_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24272,1      //Alchemist_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24273,1      //Priest_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24274,1      //Monk_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24275,1      //Assassin_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24276,1      //Rogue_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24277,1      //Wizard_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24278,1      //Sage_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24279,1      //Hunter_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24280,1      //Bard_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24281,1      //Dancer_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24402,1      //Rebellion_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24403,1      //Kagerou_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24404,1      //Oboro_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24408,1      //Doram_Physical_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24410,1      //Doram_Magical_Shadow_Armo
+IG_CLASS_SHADOW_ARMOR,24412,1      //Star_Emperor_Shadow_Armor
+IG_CLASS_SHADOW_ARMOR,24414,1      //Soul_Reaper_Shadow_Armor
+//WEAPON
+IG_CLASS_SHADOW_WEAPON,24282,1      //Super_Novice_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24283,1      //Gunslinger_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24284,1      //Taekwondo_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24285,1      //Ninja_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24286,1      //Doram_Magical_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24287,1      //Doram_Physical_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24288,1      //Rune_Knight_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24289,1      //Royal_Guard_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24290,1      //Mechanic_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24291,1      //Genetic_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24292,1      //Arcbishop_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24293,1      //Sura_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24294,1      //Guillotine_Cross_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24295,1      //Shadow_Chaser_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24296,1      //Warlock_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24297,1      //Sorcerer_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24298,1      //Ranger_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24299,1      //Minstrel_Shadow_Weapon
+IG_CLASS_SHADOW_WEAPON,24300,1      //Wanderer_Shadow_Weapon
+//SHEILD
+IG_CLASS_SHADOW_SHEILD,24301,1      //Rune_Knight_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24302,1      //Royal_Guard_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24303,1      //Mechanic_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24304,1      //Genetic_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24305,1      //Archbishop_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24306,1      //Sura_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24307,1      //Guillotine_Cross_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24308,1      //Shadow_Chaser_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24309,1      //Warlock_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24310,1      //Sorcerer_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24311,1      //Ranger_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24312,1      //Minstrel_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24313,1      //Wanderer_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24314,1      //Ninja_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24315,1      //Taekwon_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24316,1      //Doram_Physical_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24317,1      //Doram_Magical_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24318,1      //Super_Novice_Shadow_Shield
+IG_CLASS_SHADOW_SHEILD,24319,1      //Gunslinger_Shadow_Shield
+//Jobs Shadow Gear
+IG_CLASS_SHADOW,24246,1      //S_Swordman_Earring
+IG_CLASS_SHADOW,24247,1      //S_Merchant_Earring
+IG_CLASS_SHADOW,24248,1      //S_Acolyte_Earring
+IG_CLASS_SHADOW,28391,1      //S_Thief_Earring
+IG_CLASS_SHADOW,28392,1      //S_Archer_Earring
+IG_CLASS_SHADOW,24249,1      //S_Magician_Earring
+IG_CLASS_SHADOW,24250,1      //S_Swordman_Pendant
+IG_CLASS_SHADOW,24251,1      //S_Merchant_Pendant
+IG_CLASS_SHADOW,24252,1      //S_Acolyte_Pendant
+IG_CLASS_SHADOW,24253,1      //S_Thief_Pendant
+IG_CLASS_SHADOW,24254,1      //S_Magician_Pendant
+IG_CLASS_SHADOW,24255,1      //S_Archer_Pendant
+IG_CLASS_SHADOW,24256,1      //Knight_Shadow_Shoes
+IG_CLASS_SHADOW,24257,1      //Crusader_Shadow_Shoes
+IG_CLASS_SHADOW,24258,1      //Blacksmith_Shadow_Shoes
+IG_CLASS_SHADOW,24259,1      //Alchemist_Shadow_Shoes
+IG_CLASS_SHADOW,24260,1      //Priest_Shadow_Shoes
+IG_CLASS_SHADOW,24261,1      //Monk_Shadow_Shoes
+IG_CLASS_SHADOW,24262,1      //Assassin_Shadow_Shoes
+IG_CLASS_SHADOW,24263,1      //Rogue_Shadow_Shoes
+IG_CLASS_SHADOW,24264,1      //Wizard_Shadow_Shoes
+IG_CLASS_SHADOW,24265,1      //Sage_Shadow_Shoese
+IG_CLASS_SHADOW,24266,1      //Hunter_Shadow_Shoes
+IG_CLASS_SHADOW,24267,1      //Bard_Shadow_Shoes
+IG_CLASS_SHADOW,24268,1      //Dancer_Shadow_Shoes
+IG_CLASS_SHADOW,24269,1      //Knight_Shadow_Armor
+IG_CLASS_SHADOW,24270,1      //Crusader_Shadow_Armor
+IG_CLASS_SHADOW,24271,1      //Blacksmith_Shadow_Armor
+IG_CLASS_SHADOW,24272,1      //Alchemist_Shadow_Armor
+IG_CLASS_SHADOW,24273,1      //Priest_Shadow_Armor
+IG_CLASS_SHADOW,24274,1      //Monk_Shadow_Armor
+IG_CLASS_SHADOW,24275,1      //Assassin_Shadow_Armor
+IG_CLASS_SHADOW,24276,1      //Rogue_Shadow_Armor
+IG_CLASS_SHADOW,24277,1      //Wizard_Shadow_Armor
+IG_CLASS_SHADOW,24278,1      //Sage_Shadow_Armor
+IG_CLASS_SHADOW,24279,1      //Hunter_Shadow_Armor
+IG_CLASS_SHADOW,24280,1      //Bard_Shadow_Armor
+IG_CLASS_SHADOW,24281,1      //Dancer_Shadow_Armor
+IG_CLASS_SHADOW,24282,1      //Super_Novice_Shadow_Weapon
+IG_CLASS_SHADOW,24283,1      //Gunslinger_Shadow_Weapon
+IG_CLASS_SHADOW,24284,1      //Taekwondo_Shadow_Weapon
+IG_CLASS_SHADOW,24285,1      //Ninja_Shadow_Weapon
+IG_CLASS_SHADOW,24286,1      //Doram_Magical_Shadow_Weapon
+IG_CLASS_SHADOW,24287,1      //Doram_Physical_Shadow_Weapon
+IG_CLASS_SHADOW,24288,1      //Rune_Knight_Shadow_Weapon
+IG_CLASS_SHADOW,24289,1      //Royal_Guard_Shadow_Weapon
+IG_CLASS_SHADOW,24290,1      //Mechanic_Shadow_Weapon
+IG_CLASS_SHADOW,24291,1      //Genetic_Shadow_Weapon
+IG_CLASS_SHADOW,24292,1      //Arcbishop_Shadow_Weapon
+IG_CLASS_SHADOW,24293,1      //Sura_Shadow_Weapon
+IG_CLASS_SHADOW,24294,1      //Guillotine_Cross_Shadow_Weapon
+IG_CLASS_SHADOW,24295,1      //Shadow_Chaser_Shadow_Weapon
+IG_CLASS_SHADOW,24296,1      //Warlock_Shadow_Weapon
+IG_CLASS_SHADOW,24297,1      //Sorcerer_Shadow_Weapon
+IG_CLASS_SHADOW,24298,1      //Ranger_Shadow_Weapon
+IG_CLASS_SHADOW,24299,1      //Minstrel_Shadow_Weapon
+IG_CLASS_SHADOW,24300,1      //Wanderer_Shadow_Weapon
+IG_CLASS_SHADOW,24301,1      //Rune_Knight_Shadow_Shield
+IG_CLASS_SHADOW,24302,1      //Royal_Guard_Shadow_Shield
+IG_CLASS_SHADOW,24303,1      //Mechanic_Shadow_Shield
+IG_CLASS_SHADOW,24304,1      //Genetic_Shadow_Shield
+IG_CLASS_SHADOW,24305,1      //Archbishop_Shadow_Shield
+IG_CLASS_SHADOW,24306,1      //Sura_Shadow_Shield
+IG_CLASS_SHADOW,24307,1      //Guillotine_Cross_Shadow_Shield
+IG_CLASS_SHADOW,24308,1      //Shadow_Chaser_Shadow_Shield
+IG_CLASS_SHADOW,24309,1      //Warlock_Shadow_Shield
+IG_CLASS_SHADOW,24310,1      //Sorcerer_Shadow_Shield
+IG_CLASS_SHADOW,24311,1      //Ranger_Shadow_Shield
+IG_CLASS_SHADOW,24312,1      //Minstrel_Shadow_Shield
+IG_CLASS_SHADOW,24313,1      //Wanderer_Shadow_Shield
+IG_CLASS_SHADOW,24314,1      //Ninja_Shadow_Shield
+IG_CLASS_SHADOW,24315,1      //Taekwon_Shadow_Shield
+IG_CLASS_SHADOW,24316,1      //Doram_Physical_Shadow_Shield
+IG_CLASS_SHADOW,24317,1      //Doram_Magical_Shadow_Shield
+IG_CLASS_SHADOW,24318,1      //Super_Novice_Shadow_Shield
+IG_CLASS_SHADOW,24319,1      //Gunslinger_Shadow_Shield
+IG_CLASS_SHADOW,24402,1      //Rebellion_Shadow_Armor
+IG_CLASS_SHADOW,24403,1      //Kagerou_Shadow_Armor
+IG_CLASS_SHADOW,24404,1      //Oboro_Shadow_Armor
+IG_CLASS_SHADOW,24405,1      //Rebellion_Shadow_Shoes
+IG_CLASS_SHADOW,24406,1      //Kagerou_Shadow_Shoes
+IG_CLASS_SHADOW,24407,1      //Oboro_Shadow_Shoes
+IG_CLASS_SHADOW,24408,1      //Doram_Physical_Shadow_Armor
+IG_CLASS_SHADOW,24409,1      //Doram_Physical_Shadow_Sho
+IG_CLASS_SHADOW,24410,1      //Doram_Magical_Shadow_Armo
+IG_CLASS_SHADOW,24411,1      //Doram_Magical_Shadow_Shoe
+IG_CLASS_SHADOW,24412,1      //Star_Emperor_Shadow_Armor
+IG_CLASS_SHADOW,24413,1      //Star_Emperor_Shadow_Shoes
+IG_CLASS_SHADOW,24414,1      //Soul_Reaper_Shadow_Armor
+IG_CLASS_SHADOW,24415,1      //Soul_Reaper_Shadow_Shoes
+
+
+//halloween costume's
+IG_CHallow,50301,1
+IG_CHallow,50300,1
+IG_CHallow,50298,1
+IG_CHallow,50295,1
+IG_CHallow,50294,1
+IG_CHallow,50289,1
+IG_CHallow,50288,1
+IG_CHallow,50287,1
+IG_CHallow,50244,1
+//IG_CHallow,50245,1
+IG_CHallow,50246,1
+IG_CHallow,50242,1
+IG_CHallow,50241,1
+IG_CHallow,50240,1
+IG_CHallow,50239,1
+IG_CHallow,50238,1
+IG_CHallow,50237,1
+IG_CHallow,50236,1
+IG_CHallow,50235,1
+IG_CHallow,50234,1
+IG_CHallow,50232,1
+IG_CHallow,50233,1
+IG_CHallow,50227,1
+IG_CHallow,50224,1
+IG_CHallow,50225,1
+IG_CHallow,50228,1
+IG_CHallow,50229,1
+IG_CHallow,50223,1
+IG_CHallow,50222,1
+IG_CHallow,50220,1
+IG_CHallow,50152,1
+IG_CHallow,50153,1
+IG_CHallow,50154,1
+IG_CHallow,50155,1
+IG_CHallow,50156,1
+IG_CHallow,50157,1
+IG_CHallow,50158,1
+IG_CHallow,50159,1
+IG_CHallow,50160,1
+IG_CHallow,50146,1
+IG_CHallow,50147,1
+IG_CHallow,50148,1
+IG_CHallow,50149,1
+IG_CHallow,50150,1
+IG_CHallow,50151,1
+IG_CHallow,50145,1
+IG_CHallow,50144,1
+IG_CHallow,50133,1
+IG_CHallow,50134,1
+IG_CHallow,50135,1
+IG_CHallow,50136,1
+IG_CHallow,50137,1
+IG_CHallow,50138,1
+IG_CHallow,50139,1
+IG_CHallow,50140,1
+IG_CHallow,50141,1
+IG_CHallow,50142,1
+IG_CHallow,50120,1
+IG_CHallow,50121,1
+IG_CHallow,50313,1
+IG_CHallow,50314,1
+IG_CHallow,50315,1
+IG_CHallow,50316,1
+IG_CHallow,50317,1
+IG_CHallow,50318,1
+
+
+//yggdrasil egg
+IG_Yggegg,28502,1       //Mob_Scarf
+IG_Yggegg,22069,1       //Lian_Shoes
+IG_Yggegg,2195,1        //Lian_Shield
+IG_Yggegg,20753,1       //Lian_Robe
+IG_Yggegg,20734,1      //Manteau_Of_Leafwind,Man
+IG_Yggegg,20735,1      //Manteau_Of_Flame_Heart,
+IG_Yggegg,20745,1      //Manteau_Of_Mistic_Froz,
+IG_Yggegg,20747,1      //Manteau_Great_Nature,
+IG_Yggegg,19439,1     //vicious-mind-aura
+IG_Yggegg,20940,1        //Violet_Halo
+IG_Yggegg,19296,1      //Fancy_Feather_Hat_,
+IG_Yggegg,19249,1      //Spell_Circuit_
+IG_Yggegg,19308,1      //Amistr_Beret_,
+IG_Yggegg,19300,1      //Ruff_Officer_,
+IG_Yggegg,19098,5	    //piammette hood
+IG_Yggegg,5898,5    //autumn headband
+IG_Yggegg,19171,5	//Magician Knit Hat [1]
+IG_Yggegg,5778,6	//Turkey On Your Head [1]
+IG_Yggegg,19163,6	//Catherina Von Blood [1]
+IG_Yggegg,5469,6	//Musketeer Hat
+IG_Yggegg,5973,6	//Ancient Elven Ear
+IG_Yggegg,5876,6	//Star-Spangled Bandana [1]
+IG_Yggegg,18522,6	//evil marching hat
+IG_Yggegg,18597,6	//mercury raiser
+IG_Yggegg,19095,6	//Happy Balloon
+IG_Yggegg,18564,6		//Love Piece
+IG_Yggegg,18750,5		//poker card
+IG_Yggegg,5800,5		//blush of groom
+IG_Yggegg,5377,5		//gentlman's pipe
+IG_Yggegg,18787,5		//hockey mask
+IG_Yggegg,5483,5		//odin mask
+IG_Yggegg,50020,12	// custom garment
+IG_Yggegg,12913,12  	//blessing scroll box
+IG_Yggegg,12914,12  	//agi scroll box
+IG_Yggegg,13913,12  	//party blessing scroll box
+IG_Yggegg,13914,12  	//party agi scroll box
+IG_Yggegg,13700,12  	//adrenalin rush scroll box
+IG_Yggegg,12917,12  	//windwalker scroll box
+IG_Yggegg,13749,12  	//big def potion box
+IG_Yggegg,14091,12  	//big mdef potion box
+IG_Yggegg,50017,12  	//FCP Scroll box
+IG_Yggegg,14159,12      // +10 luk food  box
+IG_Yggegg,14161,12      // +10 Int food  box
+IG_Yggegg,14162,12      // +10 Dex food  box
+IG_Yggegg,14163,12      // +10 Agi food  box
+IG_Yggegg,14160,12      // +10 Str food  box
+IG_Yggegg,14164,12      // +10 Vit food  box
+IG_Yggegg,12902,12      //bubble gum box
+IG_Yggegg,12910,12      //Giant Flywing Box
+IG_Yggegg,13749,12      //big def potion box
+IG_Yggegg,14091,12      //big mdef potion box
+IG_Yggegg,14542,12      //big def potion
+IG_Yggegg,14544,12      //big def potion
+IG_Yggegg,13717,12		//abrasive box
+IG_Yggegg,50021,12      //change announcer ticket
+IG_Yggegg,50010,12		//change outfit ticket
+IG_Yggegg,12909,12		//kafra card box
+// IG_Yggegg,13710,10		//Gym pass box
+IG_Yggegg,12922,12		//ToS box
+IG_Yggegg,16770,12		//silvervine fruit bo
+
+//aim_box
+IG_aimbox,26154,5       //spirit Pendulum [2]
+IG_aimbox,60109,5        //Trumpet Shell
+IG_aimbox,60110,5        //Barbed Wire Whip
+IG_aimbox,21038,5        //Oriental Sword
+IG_aimbox,28631,5        //Thousand Sun
+IG_aimbox,28942,5        //Bloody_Knight_Shield
+IG_aimbox,1847,5         //Iron_Nail
+IG_aimbox,2048,5         //Aeon_Staff
+IG_aimbox,13485,5        //Red_Lotus_Sword
+IG_aimbox,18164,5        //Royal_Bow
+IG_aimbox,18170,5        //Neev_Bow_Of_Rogue
+IG_aimbox,32018,5        //Aquatic_Spear_
+IG_aimbox,28744,5        //Madogum,Madogum
+IG_aimbox,26118,5        //Shadow_Staff
+IG_aimbox,28039,5        //Katar_of_Shiver
+IG_aimbox,28130,5        //Avenger_,Avenger
+IG_aimbox,28439,5        //Sea_Otter_Mini_Fan
+IG_aimbox,28257,5        //Golden_Lord_Launcher
+IG_aimbox,22171,5        //Ancient_Hero_Boots
+IG_aimbox,19048,5        //Elemental_Clothe
+IG_aimbox,19083,5        //Mask_of_Hero
+IG_aimbox,28225,5        //Burning_Rose
+IG_aimbox,28353,5        //Vesper_Gear_02
+IG_aimbox,32302,5        //Crimson_Rose
+IG_aimbox,28258,5        //The_Black
+IG_aimbox,28256,5        //Demon_Slayer_Shot
+IG_aimbox,26155,5        //Meowmeow_Foxtail
+IG_aimbox,13345,5        //Huuma_Shuriken_Clearness
+IG_aimbox,28255,5        //Master_Soul_Rifle
+IG_aimbox,60100,5        //Scarlet_Dragon_Leather_Bow
+IG_aimbox,60101,5        //Saint_Mace
+IG_aimbox,60103,5        //Fatalist
+IG_aimbox,28632,5        //Exorcists_Bible
+IG_aimbox,60104,5        //Blade_Katar
+IG_aimbox,28763,5        //Surudoi_Kaze
+IG_aimbox,28764,5        //Kiri_no_Tsuyu
+IG_aimbox,18754,5        //Blood_Sucker
+IG_aimbox,19241,5        //Magical_Booster
+IG_aimbox,19245,5        //Crimson_Booster
+IG_aimbox,60105,5        //Meteor_Striker
+IG_aimbox,60106,5        //Slate_Sword
+IG_aimbox,60107,5        //Light_Blade
+IG_aimbox,20940,5        //Violet_Halo
+IG_aimbox,23926,5        //Shadow_Refine_Hammer_9
+
+
+//shadow gear
+//Tier 3 shadow box
+IG_T3SHADOW,24018,5    // physical shadow earring
+IG_T3SHADOW,24019,5    // physical shadow wepaon
+IG_T3SHADOW,24020,5    // physical shadow pendant
+IG_T3SHADOW,24021,5    // magical shadow earring
+IG_T3SHADOW,24022,5    // magical shadow weapon
+IG_T3SHADOW,24023,5    // magical shadow pendant
+IG_T3SHADOW,24028,5    // hard shadow armor hp)
+IG_T3SHADOW,24025,5    // champion shadow footgearhp)
+IG_T3SHADOW,24048,5    // caster shadow pendant
+IG_T3SHADOW,24110,5    // caster shadow weap
+IG_T3SHADOW,24109,5    // caster shadow earring
+IG_T3SHADOW,24197,5    // hasty shadow armor flee & MS)
+IG_T3SHADOW,24196,5    // hasty shadow shoes flee & MS)
+IG_T3SHADOW,24212,5    // rookie shadow shoes
+IG_T3SHADOW,24213,5    // rookie shadow shield
+IG_T3SHADOW,24360,5    // tension shadow waep hp regain)
+IG_T3SHADOW,24361,5    // tension shadow earr hp regain)
+IG_T3SHADOW,24362,5    // tension shadow pend hp regain)
+IG_T3SHADOW,24366,5    // healing shadow shield
+IG_T3SHADOW,24367,5    // healing shadow shoes
+IG_T3SHADOW,24033,5    // healing shadow weap
+
+//Tier 2 shadow box
+IG_T2SHADOW,24030,5    // crit shadow armor
+IG_T2SHADOW,24032,5    // crit shadow weap
+IG_T2SHADOW,24031,5    // kingbird shadow weap (ranged)
+IG_T2SHADOW,24029,5    // ancient shadow armor (ranged)
+IG_T2SHADOW,24053,5    // safeguard shadow shield (-% boss damage)
+IG_T2SHADOW,24063,5    // liberation shadow shield (+% damage boss)
+IG_T2SHADOW,24081,5    // malicious shadow armor
+IG_T2SHADOW,24082,5    // malicious shadow shpes
+IG_T2SHADOW,24083,5    // malicious shadow shield
+IG_T2SHADOW,24216,5    // attack shadow armor(chance)
+IG_T2SHADOW,24219,5    // cold bolt shadow armor
+IG_T2SHADOW,24220,5    // fire bolt shadow armor
+IG_T2SHADOW,24221,5    // lightning bolt shadow armor
+IG_T2SHADOW,24222,5    // earth spike shadow armor
+IG_T2SHADOW,24231,5    // blitz shadow shoes
+IG_T2SHADOW,24232,5    // blitz shadow shield
+
+//Tier 1 shadow box
+IG_T1SHADOW,24084,5    // gemstone shadow armor
+IG_T1SHADOW,24085,5    // gemstone shadow shoes
+IG_T1SHADOW,24086,5    // gemstone shadow shield
+IG_T1SHADOW,24087,5    // gemstone shadow weap
+IG_T1SHADOW,24088,5    // gemstone shadow earring
+IG_T1SHADOW,24089,5    // gemstone shadow pendant
+IG_T1SHADOW,24180,5    // bearer's shadow armor
+IG_T1SHADOW,24181,5    // bearer's shadow shoes
+IG_T1SHADOW,24182,5    // bearer's shadow shield
+IG_T1SHADOW,24183,5    // bearer's shadow weap
+IG_T1SHADOW,24184,5    // bearer's shadow earring
+IG_T1SHADOW,24185,5    // bearer's shadow pendant
+IG_T1SHADOW,24233,5    // exceeding shadow weap
+IG_T1SHADOW,24245,5    //reload armor
+IG_T1SHADOW,24244,5    //reload shield
+IG_T1SHADOW,24243,5    //reload boots
+IG_T1SHADOW,24370,5    // mrotal blow shadow weap (high crit)
+IG_T1SHADOW,24371,5    // mrotal blow shadow ear
+IG_T1SHADOW,24372,5    // mrotal blow shadow weap
+
+//Skills shadow box 
+IG_SKILLBOX,24114,5    // greed shadow armor
+IG_SKILLBOX,24120,5    // heal shadow armor
+IG_SKILLBOX,24126,5    // hide shadow armor
+IG_SKILLBOX,24132,5    // cloaking shadow armor
+IG_SKILLBOX,24138,5    // teleport shadow armor
+IG_SKILLBOX,24144,5    // steal shadow armor
+
+// Normal slot machine reward
+IG_S2W1,12100,40 // +10 luk food low
+IG_S2W1,12080,40 // +10 Int food low 
+IG_S2W1,12095,40 // +10 Dex food low
+IG_S2W1,12090,40 // +10 Agi food low 
+IG_S2W1,12075,40 // +10 Str food low
+IG_S2W1,12085,40 // +10 Vit food low 
+IG_S2W1,50062,40 // mhaer scroll
+IG_S2W1,60204,10,1 // 5 MVP coins (C) low
+IG_S2W1,60203,10,1 // 5 MVP coins (B) low
+IG_S2W1,50007,10,1 // more tickets low 
+IG_S2W1,50007,10,5 // more tickets low 
+IG_S2W1,12208,10,1 // battle manual
+IG_S2W1,616,10 // old card album medium
+//IG_S2W1,7776,10 // Gym pass low 
+IG_S2W1,12211,10 // Kafra card low
+IG_S2W1,6417,10,3 // Silvervine fruit medium
+IG_S2W1,50004,5 // Random costume box (upper) medium
+IG_S2W1,50005,5 // Random costume box (middle) medium
+IG_S2W1,50006,5 // Random costume box (lower) medium
+IG_S2W1,12884,5 // Infinite concentration potion medium
+IG_S2W1,6241,1 // HD Elunium high
+IG_S2W1,6240,1 // HD Oiredon high 
+IG_S2W1,7620,1 // Enriched Oiredon medium
+IG_S2W1,7619,1 // Enriched Elunium medium
+IG_S2W1,12210,1,1 // bubble gum
+IG_S2W1,6226,1 // HD Bradium high
+IG_S2W1,6225,1 // HD Carnium high
+
+
+// Medium slot machine reward
+IG_S2W2,12100,45,2 	// +10 luk food low
+IG_S2W2,12080,45,2 	// +10 Int food low 
+IG_S2W2,12095,45,2 	// +10 Dex food low
+IG_S2W2,12090,45,2 	// +10 Agi food low 
+IG_S2W2,12075,45,2 	// +10 Str food low
+IG_S2W1,50062,40 	// mhaer scroll
+IG_S2W2,12085,45,2 	// +10 Vit food low 
+IG_S2W2,60204,10,3 	// 5 MVP coins (C) low
+IG_S2W2,60203,10,3 	// 5 MVP coins (B) low
+IG_S2W2,12211,10 	// Kafra card low
+IG_S2W2,50004,10 	// Random costume box (upper) low
+IG_S2W1,12208,10,1 	// battle manual
+IG_S2W1,12210,5,1 	// bubble gum
+IG_S2W2,50005,5 	// Random costume box (middle) low 
+IG_S2W2,50006,3 	// Random costume box (lower) low
+IG_S2W2,616,10 		// old card album medium
+IG_S2W2,12103,5 	// Bloody branch low
+IG_S2W2,50007,5,5 	// more tickets low
+IG_S2W2,50007,5,10 	// more tickets low
+IG_S2W2,6241,1		// HD Elunium medium
+IG_S2W2,6240,1		// HD Oiredon medium
+IG_S2W2,6226,1		// HD Bradium medium
+IG_S2W2,50008,5,25 	// Cash Points medium
+IG_S2W2,6225,1		// HD Carnium medium
+IG_S2W2,12886,1 	// Infinite berserk potion medium
+IG_S2W2,12885,1 	// Infinite awakening potion high
+IG_S2W1,50010,1 	// new outfit coupon medium
+IG_S2W2,7776,1 		// Gym pass low
+IG_S2W2,50008,1,100 // Cash Points high
+//IG_S2W2,6229,1 		// Safe to +8 weap high
+IG_S2W2,50010,1 	// new outfit coupon low
+//IG_S2W2,6233,1 		// Safe to +8 armor high
+IG_S2W2,12622,1 	// Hatler Lead low
+
+// High slot machine reward
+IG_S2W3,60057,10 	// 3d phone
+IG_S2W3,6241,30,3 	// HD Elunium medium
+IG_S2W3,6240,30,3 	// HD Oiredon medium
+IG_S2W3,6226,30,3 	// HD Bradium medium
+IG_S2W3,6225,30,3 	// HD Carnium medium
+IG_S2W3,7620,30,3 	// Enriched Oiredon medium
+IG_S2W3,7619,30,3 	// Enriched Elunium medium
+IG_S2W3,12887,10 	// Infinite fly wing
+//IG_S2W3,50000,2,1 	// 3 MVP coins (S)
+IG_S2W3,50008,3,150 // Cash Points medium
+IG_S2W3,50007,3,100 // more tickets low
+IG_S2W3,50008,2,250 // Cash Points high
+IG_S2W3,50008,1,500 // Cash Points
+IG_S2W3,60202,10,1 	// 1 MVP coins (A)
+IG_S2W2,50020,2 // Random costume box (Garment) low
+IG_S2W3,6232,1,1,1,1 // Safe to +9 !weap high
+IG_S2W3,6228,1,1,1,1 // Safe to +9 !armor high
+IG_S2W3,2589,1,1,1,1 // FAW
+IG_S2W3,2168,1,1,1,1 // Immune shield
+IG_S2W3,50008,1,750,1,1 // Cash Points
+IG_S2W3,50008,1,1000,1,1 // Cash Points
+IG_S2W3,12246,1,1,1,1 // Mystical card album
+IG_S2W3,50007,3,300,1,1 // more tickets low
+
+
+
+
+//yggdrasil box
+IG_Yggbox,60057,3 	// 3d phone
+IG_Yggbox,7621,20		//Token of seigfried
+IG_Yggbox,14542,20	//big def potion
+IG_Yggbox,14544,20	//big def potion
+IG_Yggbox,14537,20	//regen potion
+IG_Yggbox,12221,20  	//Megaphone 
+IG_Yggbox,12215,20	//blessing scroll
+IG_Yggbox,12216,20	//increase Agi scroll
+IG_Yggbox,14588,20	//party blessing scroll
+IG_Yggbox,14589,20	//party agi scroll scroll
+IG_Yggbox,12218,20	//Assumption scroll scroll
+IG_Yggbox,12220,20	//adrenalin rush scroll
+IG_Yggbox,12219,20	//windwalker scroll
+IG_Yggbox,14536,20	//abrasive
+IG_Yggbox,12710,20	//juyak pudding
+IG_Yggbox,12202,20	//str food
+IG_Yggbox,12204,20	//int food
+IG_Yggbox,12205,20	//dex food
+IG_Yggbox,12206,20	//luk food
+IG_Yggbox,12203,20	//agi food
+IG_Yggbox,12207,20	//vit food
+IG_Yggbox,12922,10	//ToS box
+IG_Yggbox,12913,10	//blessing scroll box
+IG_Yggbox,12914,10	//agi scroll box
+IG_Yggbox,13913,10	//party blessing scroll box
+IG_Yggbox,13914,10	//party agi scroll box
+IG_Yggbox,13700,10	//adrenalin rush scroll box
+IG_Yggbox,12917,10	//windwalker scroll box
+IG_Yggbox,13749,10	//big def potion box
+IG_Yggbox,14091,10	//big mdef potion box
+IG_Yggbox,50017,10	//FCP Scroll
+//IG_Yggbox,14545,10	//3x Battle manual
+IG_Yggbox,14159,10 // +10 luk food  box
+IG_Yggbox,14161,10 // +10 Int food  box
+IG_Yggbox,14162,10 // +10 Dex food  box
+IG_Yggbox,14163,10 // +10 Agi food  box
+IG_Yggbox,14160,10 // +10 Str food  box
+IG_Yggbox,14164,10 // +10 Vit food  box
+IG_Yggbox,12902,10//bubble gum box
+IG_Yggbox,13639,10//battle manual box
+IG_Yggbox,12208,25 // battle manual
+IG_Yggbox,14592,25 //job manual
+IG_Yggbox,12210,25 // bubble gum
+IG_Yggbox,7776,10 // Gym pass
+IG_Yggbox,12885,5 // Infinite awakening potion high
+IG_Yggbox,12887,5 // Infinite fly wing
+IG_Yggbox,12622,5 // Hatler Lead 
+IG_Yggbox,12103,10 // Bloody branch 
+IG_Yggbox,6241,10 // HD Elunium high
+IG_Yggbox,6240,10 // HD Oiredon high 
+IG_Yggbox,7620,10 // Enriched Oiredon medium
+IG_Yggbox,7619,10 // Enriched Elunium medium
+IG_Yggbox,50010,5 // new outfit coupon 
+IG_Yggbox,6229,5// Safe to +8 weap high
+IG_Yggbox,6233,5// Safe to +8 armor high
+IG_Yggbox,5380,7//Fish Head Hat
+IG_Yggbox,5381,7	//Santa Poring Hat
+IG_Yggbox,5382,7	//Bell Ribbon
+IG_Yggbox,5383,7	//Hunter's Cap [1]
+IG_Yggbox,5515,7		//Pisces Crown
+IG_Yggbox,5514,7		//Pisces Diadem
+IG_Yggbox,5502,7		//Necromancer's Hood [1]
+IG_Yggbox,5472,7		//Red White Cap
+IG_Yggbox,5208,7		//rideword hat
+IG_Yggbox,5474,7	//AFK Hat
+IG_Yggbox,5479,7		//Shaman's Hair Decoration
+IG_Yggbox,5485,7		//Tiger Face
+IG_Yggbox,5490,7		//Anubis Helm
+IG_Yggbox,5495,7		//Power Of Thor [1]
+IG_Yggbox,5496,7		//Dice Hat
+IG_Yggbox,5508,7		//Shark Hat
+IG_Yggbox,5547,7		//Red Flower Hairband [1]
+IG_Yggbox,5388,7	//snake head hat
+IG_Yggbox,5283,7		//chick hat
+IG_Yggbox,5563,7		//dolor hat
+IG_Yggbox,18539,7	//skull cap
+IG_Yggbox,5389,7		//agnle spirit
+IG_Yggbox,2589,1,1,1,1 // FAW
+IG_Yggbox,2168,1,1,1,1 // Immune shield
+
+
+//Costume (Gerement)
+IG_C_Gerement,20500,1,1
+IG_C_Gerement,20502,1,1
+IG_C_Gerement,20504,1,1
+IG_C_Gerement,20506,1,1
+IG_C_Gerement,20507,1,1
+//IG_C_Gerement,20508,1,1
+IG_C_Gerement,20509,1,1
+IG_C_Gerement,20510,1,1
+IG_C_Gerement,20511,1,1
+IG_C_Gerement,20512,1,1
+IG_C_Gerement,20514,1,1
+IG_C_Gerement,20515,1,1
+IG_C_Gerement,20516,1,1
+IG_C_Gerement,20517,1,1
+IG_C_Gerement,20519,1,1
+IG_C_Gerement,20524,1,1
+IG_C_Gerement,20525,1,1
+IG_C_Gerement,20526,1,1
+IG_C_Gerement,20528,1,1
+IG_C_Gerement,20530,1,1
+IG_C_Gerement,20533,1,1
+IG_C_Gerement,20539,1,1
+IG_C_Gerement,20540,1,1
+IG_C_Gerement,20541,1,1 //valk wing
+IG_C_Gerement,20543,1,1
+IG_C_Gerement,20546,1,1
+IG_C_Gerement,20547,1,1
+IG_C_Gerement,20548,1,1
+IG_C_Gerement,20570,1,1
+IG_C_Gerement,20572,1,1
+IG_C_Gerement,20737,1,1
+IG_C_Gerement,20746,1,1
+IG_C_Gerement,20761,1,1
+IG_C_Gerement,20762,1,1
+IG_C_Gerement,20763,1,1
+IG_C_Gerement,20764,1,1
+
+//Costume (Upper)
+IG_C_Upper,5980,1,1
+IG_C_Upper,18740,1,1
+IG_C_Upper,18741,1,1
+IG_C_Upper,18743,1,1
+IG_C_Upper,19501,1,1
+IG_C_Upper,19506,1,1
+IG_C_Upper,19507,1,1
+IG_C_Upper,19508,1,1
+IG_C_Upper,19515,1,1
+IG_C_Upper,19516,1,1
+IG_C_Upper,19517,1,1
+IG_C_Upper,19518,1,1
+IG_C_Upper,19519,1,1
+IG_C_Upper,19520,1,1
+IG_C_Upper,19521,1,1
+IG_C_Upper,19522,1,1
+IG_C_Upper,19523,1,1
+IG_C_Upper,19524,1,1
+IG_C_Upper,19525,1,1
+IG_C_Upper,19526,1,1
+IG_C_Upper,19527,1,1
+IG_C_Upper,19529,1,1
+IG_C_Upper,19530,1,1
+IG_C_Upper,19532,1,1
+IG_C_Upper,19533,1,1
+IG_C_Upper,19535,1,1
+IG_C_Upper,19536,1,1
+IG_C_Upper,19537,1,1
+IG_C_Upper,19538,1,1
+IG_C_Upper,19539,1,1
+IG_C_Upper,19543,1,1
+IG_C_Upper,19544,1,1
+IG_C_Upper,19545,1,1
+IG_C_Upper,19546,1,1
+IG_C_Upper,19547,1,1
+IG_C_Upper,19548,1,1
+IG_C_Upper,19549,1,1
+IG_C_Upper,19557,1,1
+IG_C_Upper,19558,1,1
+IG_C_Upper,19559,1,1
+IG_C_Upper,19560,1,1
+IG_C_Upper,19561,1,1
+IG_C_Upper,19565,1,1
+IG_C_Upper,19567,1,1
+IG_C_Upper,19568,1,1
+IG_C_Upper,19569,1,1
+IG_C_Upper,19570,1,1
+IG_C_Upper,19571,1,1
+IG_C_Upper,19572,1,1
+IG_C_Upper,19573,1,1
+IG_C_Upper,19575,1,1
+IG_C_Upper,19576,1,1
+IG_C_Upper,19577,1,1
+IG_C_Upper,19579,1,1
+IG_C_Upper,19581,1,1
+IG_C_Upper,19582,1,1
+IG_C_Upper,19585,1,1
+IG_C_Upper,19586,1,1
+IG_C_Upper,19587,1,1
+IG_C_Upper,19588,1,1
+IG_C_Upper,19589,1,1
+IG_C_Upper,19590,1,1
+IG_C_Upper,19591,1,1
+IG_C_Upper,19592,1,1
+IG_C_Upper,19593,1,1
+IG_C_Upper,19594,1,1
+IG_C_Upper,19595,1,1
+IG_C_Upper,19596,1,1
+IG_C_Upper,19597,1,1
+IG_C_Upper,19598,1,1
+IG_C_Upper,19599,1,1
+IG_C_Upper,19600,1,1
+IG_C_Upper,19601,1,1
+IG_C_Upper,19602,1,1
+IG_C_Upper,19607,1,1
+IG_C_Upper,19608,1,1
+IG_C_Upper,19613,1,1
+IG_C_Upper,19614,1,1
+IG_C_Upper,19616,1,1
+IG_C_Upper,19617,1,1
+IG_C_Upper,19618,1,1
+IG_C_Upper,19619,1,1
+IG_C_Upper,19620,1,1
+IG_C_Upper,19622,1,1
+IG_C_Upper,19623,1,1
+IG_C_Upper,19625,1,1
+IG_C_Upper,19627,1,1
+IG_C_Upper,19628,1,1
+IG_C_Upper,19629,1,1
+IG_C_Upper,19630,1,1
+IG_C_Upper,19631,1,1
+IG_C_Upper,19632,1,1
+IG_C_Upper,19633,1,1
+IG_C_Upper,19635,1,1
+IG_C_Upper,19637,1,1
+IG_C_Upper,19639,1,1
+IG_C_Upper,19640,1,1
+IG_C_Upper,19643,1,1
+IG_C_Upper,19645,1,1
+IG_C_Upper,19646,1,1
+IG_C_Upper,19647,1,1
+IG_C_Upper,19648,1,1
+IG_C_Upper,19649,1,1
+IG_C_Upper,19650,1,1
+IG_C_Upper,19652,1,1
+IG_C_Upper,19653,1,1
+IG_C_Upper,19654,1,1
+IG_C_Upper,19655,1,1
+IG_C_Upper,19656,1,1
+IG_C_Upper,19657,1,1
+IG_C_Upper,19658,1,1
+IG_C_Upper,19659,1,1
+IG_C_Upper,19660,1,1
+IG_C_Upper,19661,1,1
+IG_C_Upper,19663,1,1
+IG_C_Upper,19664,1,1
+IG_C_Upper,19665,1,1
+IG_C_Upper,19666,1,1
+IG_C_Upper,19667,1,1
+IG_C_Upper,19668,1,1
+IG_C_Upper,19670,1,1
+IG_C_Upper,19671,1,1
+IG_C_Upper,19676,1,1
+IG_C_Upper,19677,1,1
+IG_C_Upper,19678,1,1
+IG_C_Upper,19682,1,1
+IG_C_Upper,19685,1,1
+IG_C_Upper,19686,1,1
+IG_C_Upper,19687,1,1
+IG_C_Upper,19690,1,1
+IG_C_Upper,19695,1,1
+IG_C_Upper,19696,1,1
+IG_C_Upper,19697,1,1
+IG_C_Upper,19701,1,1
+IG_C_Upper,19702,1,1
+IG_C_Upper,19706,1,1
+IG_C_Upper,19707,1,1
+IG_C_Upper,19709,1,1
+IG_C_Upper,19712,1,1
+IG_C_Upper,19714,1,1
+IG_C_Upper,19716,1,1
+IG_C_Upper,19717,1,1
+IG_C_Upper,19718,1,1
+IG_C_Upper,19719,1,1
+IG_C_Upper,19720,1,1
+IG_C_Upper,19721,1,1
+IG_C_Upper,19723,1,1
+IG_C_Upper,19724,1,1
+IG_C_Upper,19727,1,1
+IG_C_Upper,19728,1,1
+IG_C_Upper,19729,1,1
+IG_C_Upper,19730,1,1
+IG_C_Upper,19731,1,1
+IG_C_Upper,19733,1,1
+IG_C_Upper,19734,1,1
+IG_C_Upper,19735,1,1
+IG_C_Upper,19737,1,1
+IG_C_Upper,19738,1,1
+IG_C_Upper,19739,1,1
+IG_C_Upper,19741,1,1
+IG_C_Upper,19744,1,1
+IG_C_Upper,19745,1,1
+IG_C_Upper,19749,1,1
+IG_C_Upper,19750,1,1
+IG_C_Upper,19751,1,1
+IG_C_Upper,19753,1,1
+IG_C_Upper,19757,1,1
+IG_C_Upper,19758,1,1
+IG_C_Upper,19759,1,1
+IG_C_Upper,19761,1,1
+IG_C_Upper,19762,1,1
+IG_C_Upper,19763,1,1
+IG_C_Upper,19767,1,1
+IG_C_Upper,19768,1,1
+IG_C_Upper,19771,1,1
+IG_C_Upper,19772,1,1
+IG_C_Upper,19773,1,1
+IG_C_Upper,19774,1,1
+IG_C_Upper,19775,1,1
+IG_C_Upper,19777,1,1
+IG_C_Upper,19778,1,1
+IG_C_Upper,19779,1,1
+IG_C_Upper,19780,1,1
+IG_C_Upper,19782,1,1
+IG_C_Upper,19784,1,1
+IG_C_Upper,19786,1,1
+IG_C_Upper,19789,1,1
+IG_C_Upper,19790,1,1
+IG_C_Upper,19795,1,1
+IG_C_Upper,19796,1,1
+IG_C_Upper,19797,1,1
+IG_C_Upper,19799,1,1
+IG_C_Upper,19800,1,1
+IG_C_Upper,19802,1,1
+IG_C_Upper,19803,1,1
+IG_C_Upper,19804,1,1
+IG_C_Upper,19806,1,1
+IG_C_Upper,19807,1,1
+IG_C_Upper,19808,1,1
+IG_C_Upper,19811,1,1
+IG_C_Upper,19812,1,1
+IG_C_Upper,19813,1,1
+IG_C_Upper,19814,1,1
+IG_C_Upper,19815,1,1
+IG_C_Upper,19816,1,1
+IG_C_Upper,19818,1,1
+IG_C_Upper,19822,1,1
+IG_C_Upper,19824,1,1
+IG_C_Upper,19825,1,1
+IG_C_Upper,19827,1,1
+IG_C_Upper,19828,1,1
+IG_C_Upper,19829,1,1
+IG_C_Upper,19831,1,1
+IG_C_Upper,19832,1,1
+IG_C_Upper,19833,1,1
+IG_C_Upper,19834,1,1
+IG_C_Upper,19835,1,1
+IG_C_Upper,19836,1,1
+IG_C_Upper,19839,1,1
+IG_C_Upper,19841,1,1
+IG_C_Upper,19842,1,1
+IG_C_Upper,19843,1,1
+IG_C_Upper,19844,1,1
+IG_C_Upper,19845,1,1
+IG_C_Upper,19847,1,1
+IG_C_Upper,19848,1,1
+IG_C_Upper,19851,1,1
+IG_C_Upper,19852,1,1
+IG_C_Upper,19854,1,1
+IG_C_Upper,19856,1,1
+IG_C_Upper,19857,1,1
+IG_C_Upper,19858,1,1
+IG_C_Upper,19859,1,1
+IG_C_Upper,19860,1,1
+IG_C_Upper,19861,1,1
+IG_C_Upper,19862,1,1
+IG_C_Upper,19863,1,1
+IG_C_Upper,19865,1,1
+IG_C_Upper,19876,1,1
+IG_C_Upper,19878,1,1
+IG_C_Upper,19883,1,1
+IG_C_Upper,19884,1,1
+IG_C_Upper,19889,1,1
+IG_C_Upper,19903,1,1
+IG_C_Upper,19910,1,1
+IG_C_Upper,19913,1,1
+IG_C_Upper,19914,1,1
+IG_C_Upper,19916,1,1
+IG_C_Upper,19917,1,1
+IG_C_Upper,19928,1,1
+IG_C_Upper,19929,1,1
+IG_C_Upper,19930,1,1
+IG_C_Upper,19934,1,1
+IG_C_Upper,19935,1,1
+IG_C_Upper,19936,1,1
+IG_C_Upper,19937,1,1
+IG_C_Upper,19939,1,1
+IG_C_Upper,19941,1,1
+IG_C_Upper,19949,1,1
+IG_C_Upper,19953,1,1
+IG_C_Upper,19955,1,1
+IG_C_Upper,19956,1,1
+IG_C_Upper,19957,1,1
+IG_C_Upper,19958,1,1
+IG_C_Upper,19959,1,1
+IG_C_Upper,19960,1,1
+IG_C_Upper,19961,1,1
+IG_C_Upper,19962,1,1
+IG_C_Upper,19963,1,1
+IG_C_Upper,19964,1,1
+IG_C_Upper,19965,1,1
+IG_C_Upper,19966,1,1
+IG_C_Upper,19967,1,1
+IG_C_Upper,19968,1,1
+IG_C_Upper,19969,1,1
+IG_C_Upper,19970,1,1
+IG_C_Upper,19971,1,1
+IG_C_Upper,19972,1,1
+IG_C_Upper,19973,1,1
+IG_C_Upper,19974,1,1
+IG_C_Upper,19976,1,1
+IG_C_Upper,19977,1,1
+IG_C_Upper,19978,1,1
+IG_C_Upper,19979,1,1
+IG_C_Upper,19980,1,1
+IG_C_Upper,19982,1,1
+IG_C_Upper,19983,1,1
+IG_C_Upper,19984,1,1
+IG_C_Upper,19985,1,1
+IG_C_Upper,19986,1,1
+IG_C_Upper,19987,1,1
+IG_C_Upper,19988,1,1
+IG_C_Upper,19990,1,1
+IG_C_Upper,19991,1,1
+IG_C_Upper,19994,1,1
+IG_C_Upper,19997,1,1
+IG_C_Upper,19998,1,1
+IG_C_Upper,19999,1,1
+IG_C_Upper,20004,1,1
+IG_C_Upper,20005,1,1
+IG_C_Upper,20007,1,1
+IG_C_Upper,20008,1,1
+IG_C_Upper,20009,1,1
+IG_C_Upper,20011,1,1
+IG_C_Upper,20012,1,1
+IG_C_Upper,20013,1,1
+IG_C_Upper,20014,1,1
+IG_C_Upper,20016,1,1
+IG_C_Upper,20017,1,1
+IG_C_Upper,20018,1,1
+IG_C_Upper,20019,1,1
+IG_C_Upper,20020,1,1
+IG_C_Upper,20021,1,1
+IG_C_Upper,20023,1,1
+IG_C_Upper,20024,1,1
+IG_C_Upper,20025,1,1
+IG_C_Upper,20026,1,1
+IG_C_Upper,20027,1,1
+IG_C_Upper,20028,1,1
+IG_C_Upper,20031,1,1
+IG_C_Upper,20032,1,1
+IG_C_Upper,20033,1,1
+IG_C_Upper,20036,1,1
+IG_C_Upper,20037,1,1
+IG_C_Upper,20038,1,1
+IG_C_Upper,20040,1,1
+IG_C_Upper,20041,1,1
+IG_C_Upper,20042,1,1
+IG_C_Upper,20044,1,1
+IG_C_Upper,20045,1,1
+IG_C_Upper,20046,1,1
+IG_C_Upper,20047,1,1
+IG_C_Upper,20048,1,1
+IG_C_Upper,20049,1,1
+IG_C_Upper,20050,1,1
+IG_C_Upper,20051,1,1
+IG_C_Upper,20052,1,1
+IG_C_Upper,20053,1,1
+IG_C_Upper,20055,1,1
+IG_C_Upper,20056,1,1
+IG_C_Upper,20057,1,1
+IG_C_Upper,20058,1,1
+IG_C_Upper,20060,1,1
+IG_C_Upper,20062,1,1
+IG_C_Upper,20063,1,1
+IG_C_Upper,20064,1,1
+IG_C_Upper,20065,1,1
+IG_C_Upper,20066,1,1
+IG_C_Upper,20067,1,1
+IG_C_Upper,20068,1,1
+IG_C_Upper,20069,1,1
+IG_C_Upper,20073,1,1
+IG_C_Upper,20074,1,1
+IG_C_Upper,20075,1,1
+IG_C_Upper,20076,1,1
+IG_C_Upper,20078,1,1
+IG_C_Upper,20079,1,1
+IG_C_Upper,20080,1,1
+IG_C_Upper,20081,1,1
+IG_C_Upper,20082,1,1
+IG_C_Upper,20083,1,1
+IG_C_Upper,20084,1,1
+IG_C_Upper,20085,1,1
+IG_C_Upper,20086,1,1
+IG_C_Upper,20087,1,1
+IG_C_Upper,20088,1,1
+IG_C_Upper,20089,1,1
+IG_C_Upper,20090,1,1
+IG_C_Upper,20091,1,1
+IG_C_Upper,20092,1,1
+IG_C_Upper,20093,1,1
+IG_C_Upper,20094,1,1
+IG_C_Upper,20095,1,1
+IG_C_Upper,20096,1,1
+IG_C_Upper,20097,1,1
+IG_C_Upper,20098,1,1
+IG_C_Upper,20099,1,1
+IG_C_Upper,20100,1,1
+IG_C_Upper,20101,1,1
+IG_C_Upper,20103,1,1
+IG_C_Upper,20104,1,1
+IG_C_Upper,20105,1,1
+IG_C_Upper,20106,1,1
+IG_C_Upper,20109,1,1
+IG_C_Upper,20110,1,1
+IG_C_Upper,20111,1,1
+IG_C_Upper,20112,1,1
+IG_C_Upper,20113,1,1
+IG_C_Upper,20114,1,1
+IG_C_Upper,20117,1,1
+IG_C_Upper,20118,1,1
+IG_C_Upper,20119,1,1
+IG_C_Upper,20120,1,1
+IG_C_Upper,20121,1,1
+IG_C_Upper,20122,1,1
+IG_C_Upper,20127,1,1
+IG_C_Upper,20128,1,1
+IG_C_Upper,20129,1,1
+IG_C_Upper,20130,1,1
+IG_C_Upper,20133,1,1
+IG_C_Upper,20134,1,1
+IG_C_Upper,20135,1,1
+IG_C_Upper,20137,1,1
+IG_C_Upper,20138,1,1
+IG_C_Upper,20139,1,1
+IG_C_Upper,20140,1,1
+IG_C_Upper,20148,1,1
+IG_C_Upper,20151,1,1
+IG_C_Upper,20153,1,1
+IG_C_Upper,20155,1,1
+IG_C_Upper,20157,1,1
+IG_C_Upper,20158,1,1
+IG_C_Upper,20159,1,1
+IG_C_Upper,20160,1,1
+IG_C_Upper,20161,1,1
+IG_C_Upper,20164,1,1
+IG_C_Upper,20165,1,1
+IG_C_Upper,20167,1,1
+IG_C_Upper,20170,1,1
+IG_C_Upper,20171,1,1
+IG_C_Upper,20172,1,1
+IG_C_Upper,20173,1,1
+IG_C_Upper,20174,1,1
+IG_C_Upper,20175,1,1
+IG_C_Upper,20177,1,1
+IG_C_Upper,20178,1,1
+IG_C_Upper,20179,1,1
+IG_C_Upper,20180,1,1
+IG_C_Upper,20181,1,1
+IG_C_Upper,20182,1,1
+IG_C_Upper,20184,1,1
+IG_C_Upper,20185,1,1
+IG_C_Upper,20186,1,1
+IG_C_Upper,20187,1,1
+IG_C_Upper,20188,1,1
+IG_C_Upper,20189,1,1
+IG_C_Upper,20190,1,1
+IG_C_Upper,20191,1,1
+IG_C_Upper,20194,1,1
+IG_C_Upper,20196,1,1
+IG_C_Upper,20197,1,1
+IG_C_Upper,20198,1,1
+IG_C_Upper,20199,1,1
+IG_C_Upper,20200,1,1
+IG_C_Upper,20203,1,1
+IG_C_Upper,20204,1,1
+IG_C_Upper,20205,1,1
+IG_C_Upper,20207,1,1
+IG_C_Upper,20208,1,1
+IG_C_Upper,20212,1,1
+IG_C_Upper,20214,1,1
+IG_C_Upper,20216,1,1
+IG_C_Upper,20217,1,1
+IG_C_Upper,20218,1,1
+IG_C_Upper,20219,1,1
+IG_C_Upper,20222,1,1
+IG_C_Upper,20224,1,1
+IG_C_Upper,20225,1,1
+IG_C_Upper,20226,1,1
+IG_C_Upper,20227,1,1
+IG_C_Upper,20228,1,1
+IG_C_Upper,20231,1,1
+IG_C_Upper,20232,1,1
+IG_C_Upper,20233,1,1
+IG_C_Upper,20236,1,1
+IG_C_Upper,20237,1,1
+IG_C_Upper,20238,1,1
+IG_C_Upper,20241,1,1
+IG_C_Upper,20242,1,1
+IG_C_Upper,20243,1,1
+IG_C_Upper,20245,1,1
+IG_C_Upper,20247,1,1
+IG_C_Upper,20248,1,1
+IG_C_Upper,20249,1,1
+IG_C_Upper,20250,1,1
+IG_C_Upper,20251,1,1
+IG_C_Upper,20252,1,1
+IG_C_Upper,20253,1,1
+IG_C_Upper,20254,1,1
+IG_C_Upper,20256,1,1
+IG_C_Upper,20257,1,1
+IG_C_Upper,20258,1,1
+IG_C_Upper,20260,1,1
+IG_C_Upper,20262,1,1
+IG_C_Upper,20263,1,1
+IG_C_Upper,20265,1,1
+IG_C_Upper,20266,1,1
+IG_C_Upper,20267,1,1
+IG_C_Upper,20268,1,1
+IG_C_Upper,20269,1,1
+IG_C_Upper,20271,1,1
+IG_C_Upper,20272,1,1
+IG_C_Upper,20273,1,1
+IG_C_Upper,20274,1,1
+IG_C_Upper,20277,1,1
+IG_C_Upper,20278,1,1
+IG_C_Upper,20281,1,1
+IG_C_Upper,20282,1,1
+IG_C_Upper,20283,1,1
+IG_C_Upper,20284,1,1
+IG_C_Upper,20287,1,1
+IG_C_Upper,20288,1,1
+IG_C_Upper,20292,1,1
+IG_C_Upper,20293,1,1
+IG_C_Upper,20294,1,1
+IG_C_Upper,20296,1,1
+IG_C_Upper,20297,1,1
+IG_C_Upper,20301,1,1
+IG_C_Upper,20302,1,1
+IG_C_Upper,20303,1,1
+IG_C_Upper,20304,1,1
+IG_C_Upper,20316,1,1
+IG_C_Upper,20317,1,1
+IG_C_Upper,20320,1,1
+IG_C_Upper,20322,1,1
+IG_C_Upper,20324,1,1
+IG_C_Upper,20327,1,1
+IG_C_Upper,20329,1,1
+IG_C_Upper,20330,1,1
+IG_C_Upper,20331,1,1
+IG_C_Upper,20332,1,1
+IG_C_Upper,20333,1,1
+IG_C_Upper,20334,1,1
+IG_C_Upper,20338,1,1
+IG_C_Upper,20339,1,1
+IG_C_Upper,20346,1,1
+IG_C_Upper,20347,1,1
+IG_C_Upper,20348,1,1
+IG_C_Upper,20371,1,1
+IG_C_Upper,20372,1,1
+IG_C_Upper,20373,1,1
+IG_C_Upper,20374,1,1
+IG_C_Upper,20375,1,1
+IG_C_Upper,20377,1,1
+IG_C_Upper,20378,1,1
+IG_C_Upper,20380,1,1
+IG_C_Upper,20381,1,1
+IG_C_Upper,20382,1,1
+IG_C_Upper,20383,1,1
+IG_C_Upper,20384,1,1
+IG_C_Upper,20386,1,1
+IG_C_Upper,20393,1,1
+IG_C_Upper,20394,1,1
+IG_C_Upper,20396,1,1
+IG_C_Upper,20398,1,1
+IG_C_Upper,20401,1,1
+IG_C_Upper,20402,1,1
+IG_C_Upper,20403,1,1
+IG_C_Upper,20408,1,1
+IG_C_Upper,20409,1,1
+IG_C_Upper,20431,1,1
+IG_C_Upper,20432,1,1
+IG_C_Upper,20433,1,1
+IG_C_Upper,20434,1,1
+IG_C_Upper,20435,1,1
+IG_C_Upper,20436,1,1
+IG_C_Upper,20437,1,1
+IG_C_Upper,20442,1,1
+IG_C_Upper,20446,1,1
+IG_C_Upper,20447,1,1
+IG_C_Upper,20449,1,1
+IG_C_Upper,20450,1,1
+IG_C_Upper,20451,1,1
+IG_C_Upper,20452,1,1
+IG_C_Upper,20455,1,1
+IG_C_Upper,20456,1,1
+IG_C_Upper,20458,1,1
+IG_C_Upper,20460,1,1
+IG_C_Upper,20463,1,1
+IG_C_Upper,20464,1,1
+IG_C_Upper,20466,1,1
+IG_C_Upper,20467,1,1
+IG_C_Upper,20470,1,1
+IG_C_Upper,20490,1,1
+IG_C_Upper,20491,1,1
+IG_C_Upper,20492,1,1
+IG_C_Upper,20495,1,1
+IG_C_Upper,20496,1,1
+IG_C_Upper,20498,1,1
+IG_C_Upper,20499,1,1
+//IG_C_Upper,20508,1,1
+IG_C_Upper,31027,1,1
+IG_C_Upper,31028,1,1
+IG_C_Upper,31031,1,1
+IG_C_Upper,31032,1,1
+IG_C_Upper,31034,1,1
+IG_C_Upper,31035,1,1
+IG_C_Upper,31036,1,1
+IG_C_Upper,31037,1,1
+IG_C_Upper,31038,1,1
+IG_C_Upper,31039,1,1
+IG_C_Upper,31040,1,1
+IG_C_Upper,31041,1,1
+IG_C_Upper,31042,1,1
+IG_C_Upper,31043,1,1
+IG_C_Upper,31044,1,1
+IG_C_Upper,31046,1,1
+IG_C_Upper,31048,1,1
+IG_C_Upper,31049,1,1
+IG_C_Upper,31050,1,1
+IG_C_Upper,31051,1,1
+IG_C_Upper,31053,1,1
+IG_C_Upper,31054,1,1
+IG_C_Upper,31058,1,1
+IG_C_Upper,31059,1,1
+IG_C_Upper,31060,1,1
+IG_C_Upper,31061,1,1
+IG_C_Upper,31062,1,1
+IG_C_Upper,31063,1,1
+IG_C_Upper,31064,1,1
+IG_C_Upper,31065,1,1
+IG_C_Upper,31066,1,1
+IG_C_Upper,31067,1,1
+IG_C_Upper,31068,1,1
+IG_C_Upper,31069,1,1
+IG_C_Upper,31070,1,1
+IG_C_Upper,31071,1,1
+IG_C_Upper,31072,1,1
+IG_C_Upper,31073,1,1
+IG_C_Upper,31074,1,1
+IG_C_Upper,31075,1,1
+IG_C_Upper,31076,1,1
+IG_C_Upper,31077,1,1
+IG_C_Upper,31078,1,1
+IG_C_Upper,31079,1,1
+IG_C_Upper,31080,1,1
+IG_C_Upper,31081,1,1
+IG_C_Upper,31082,1,1
+IG_C_Upper,31083,1,1
+IG_C_Upper,31084,1,1
+IG_C_Upper,31085,1,1
+IG_C_Upper,31086,1,1
+IG_C_Upper,31090,1,1
+IG_C_Upper,31092,1,1
+IG_C_Upper,31094,1,1
+IG_C_Upper,31095,1,1
+IG_C_Upper,31097,1,1
+IG_C_Upper,31098,1,1
+IG_C_Upper,31099,1,1
+IG_C_Upper,31100,1,1
+IG_C_Upper,31101,1,1
+IG_C_Upper,31102,1,1
+IG_C_Upper,31103,1,1
+IG_C_Upper,31104,1,1
+IG_C_Upper,31105,1,1
+IG_C_Upper,31113,1,1
+IG_C_Upper,31114,1,1
+IG_C_Upper,31119,1,1
+IG_C_Upper,31123,1,1
+IG_C_Upper,31124,1,1
+IG_C_Upper,31125,1,1
+IG_C_Upper,31126,1,1
+IG_C_Upper,31127,1,1
+IG_C_Upper,31128,1,1
+IG_C_Upper,31130,1,1
+IG_C_Upper,31131,1,1
+IG_C_Upper,31132,1,1
+IG_C_Upper,31135,1,1
+IG_C_Upper,31136,1,1
+IG_C_Upper,31137,1,1
+IG_C_Upper,31138,1,1
+IG_C_Upper,31139,1,1
+IG_C_Upper,31140,1,1
+IG_C_Upper,31141,1,1
+IG_C_Upper,31144,1,1
+IG_C_Upper,31145,1,1
+IG_C_Upper,31147,1,1
+IG_C_Upper,31148,1,1
+IG_C_Upper,31149,1,1
+IG_C_Upper,31150,1,1
+IG_C_Upper,31151,1,1
+IG_C_Upper,31153,1,1
+IG_C_Upper,31154,1,1
+IG_C_Upper,31158,1,1
+IG_C_Upper,31160,1,1
+IG_C_Upper,31163,1,1
+IG_C_Upper,31165,1,1
+IG_C_Upper,31166,1,1
+IG_C_Upper,31169,1,1
+IG_C_Upper,31170,1,1
+IG_C_Upper,31171,1,1
+IG_C_Upper,31173,1,1
+IG_C_Upper,31174,1,1
+IG_C_Upper,31175,1,1
+IG_C_Upper,31176,1,1
+IG_C_Upper,31177,1,1
+IG_C_Upper,31179,1,1
+IG_C_Upper,31180,1,1
+IG_C_Upper,31182,1,1
+IG_C_Upper,31183,1,1
+IG_C_Upper,31185,1,1
+IG_C_Upper,31187,1,1
+IG_C_Upper,31188,1,1
+IG_C_Upper,31190,1,1
+IG_C_Upper,31193,1,1
+IG_C_Upper,31194,1,1
+IG_C_Upper,31195,1,1
+IG_C_Upper,31196,1,1
+IG_C_Upper,31197,1,1
+IG_C_Upper,31198,1,1
+IG_C_Upper,31200,1,1
+IG_C_Upper,31201,1,1
+IG_C_Upper,31202,1,1
+IG_C_Upper,31204,1,1
+IG_C_Upper,31238,1,1
+IG_C_Upper,31239,1,1
+IG_C_Upper,31240,1,1
+IG_C_Upper,31242,1,1
+IG_C_Upper,31244,1,1
+IG_C_Upper,31245,1,1
+IG_C_Upper,31246,1,1
+IG_C_Upper,31247,1,1
+IG_C_Upper,31248,1,1
+IG_C_Upper,31249,1,1
+IG_C_Upper,31252,1,1
+IG_C_Upper,31253,1,1
+IG_C_Upper,31263,1,1
+IG_C_Upper,31290,1,1
+IG_C_Upper,31291,1,1
+IG_C_Upper,31293,1,1
+IG_C_Upper,31294,1,1
+IG_C_Upper,31295,1,1
+IG_C_Upper,31297,1,1
+IG_C_Upper,31298,1,1
+IG_C_Upper,31303,1,1
+IG_C_Upper,31306,1,1
+IG_C_Upper,31307,1,1
+IG_C_Upper,31309,1,1
+IG_C_Upper,31312,1,1
+IG_C_Upper,31314,1,1
+IG_C_Upper,31317,1,1
+IG_C_Upper,31318,1,1
+IG_C_Upper,31320,1,1
+IG_C_Upper,31321,1,1
+IG_C_Upper,31322,1,1
+IG_C_Upper,31323,1,1
+IG_C_Upper,31326,1,1
+IG_C_Upper,31328,1,1
+IG_C_Upper,31329,1,1
+IG_C_Upper,31331,1,1
+IG_C_Upper,31332,1,1
+IG_C_Upper,31368,1,1
+IG_C_Upper,31369,1,1
+IG_C_Upper,31370,1,1
+IG_C_Upper,31373,1,1
+IG_C_Upper,31376,1,1
+IG_C_Upper,31378,1,1
+IG_C_Upper,31379,1,1
+IG_C_Upper,31382,1,1
+IG_C_Upper,31385,1,1
+IG_C_Upper,31387,1,1
+IG_C_Upper,31389,1,1
+IG_C_Upper,31390,1,1
+IG_C_Upper,31392,1,1
+IG_C_Upper,31394,1,1
+IG_C_Upper,31396,1,1
+IG_C_Upper,31397,1,1
+IG_C_Upper,31400,1,1
+IG_C_Upper,31402,1,1
+IG_C_Upper,31405,1,1
+IG_C_Upper,31406,1,1
+IG_C_Upper,31407,1,1
+IG_C_Upper,31408,1,1
+IG_C_Upper,31410,1,1
+IG_C_Upper,31411,1,1
+IG_C_Upper,31412,1,1
+IG_C_Upper,31413,1,1
+IG_C_Upper,31414,1,1
+IG_C_Upper,31417,1,1
+IG_C_Upper,31420,1,1
+IG_C_Upper,31433,1,1
+IG_C_Upper,31434,1,1
+IG_C_Upper,31435,1,1
+IG_C_Upper,31436,1,1
+IG_C_Upper,31440,1,1
+IG_C_Upper,31441,1,1
+IG_C_Upper,31443,1,1
+IG_C_Upper,31444,1,1
+IG_C_Upper,31447,1,1
+IG_C_Upper,31448,1,1
+IG_C_Upper,31451,1,1
+IG_C_Upper,31456,1,1
+IG_C_Upper,31457,1,1
+IG_C_Upper,31459,1,1
+IG_C_Upper,31464,1,1
+IG_C_Upper,31465,1,1
+IG_C_Upper,31466,1,1
+IG_C_Upper,31467,1,1
+IG_C_Upper,31468,1,1
+IG_C_Upper,31471,1,1
+IG_C_Upper,31475,1,1
+IG_C_Upper,31476,1,1
+IG_C_Upper,31481,1,1
+IG_C_Upper,31484,1,1
+IG_C_Upper,31485,1,1
+IG_C_Upper,31489,1,1
+IG_C_Upper,31494,1,1
+IG_C_Upper,31495,1,1
+IG_C_Upper,31496,1,1
+IG_C_Upper,31504,1,1
+IG_C_Upper,31506,1,1
+IG_C_Upper,31507,1,1
+IG_C_Upper,31508,1,1
+IG_C_Upper,31509,1,1
+IG_C_Upper,31513,1,1
+IG_C_Upper,31516,1,1
+IG_C_Upper,31518,1,1
+IG_C_Upper,31519,1,1
+IG_C_Upper,31520,1,1
+IG_C_Upper,31521,1,1
+IG_C_Upper,31522,1,1
+IG_C_Upper,31523,1,1
+IG_C_Upper,31524,1,1
+IG_C_Upper,31526,1,1
+IG_C_Upper,31528,1,1
+IG_C_Upper,31529,1,1
+IG_C_Upper,31531,1,1
+IG_C_Upper,31541,1,1
+IG_C_Upper,31543,1,1
+IG_C_Upper,31546,1,1
+IG_C_Upper,31547,1,1
+IG_C_Upper,31555,1,1
+IG_C_Upper,31556,1,1
+IG_C_Upper,31560,1,1
+IG_C_Upper,31562,1,1
+IG_C_Upper,31564,1,1
+IG_C_Upper,31565,1,1
+IG_C_Upper,31571,1,1
+IG_C_Upper,31573,1,1
+IG_C_Upper,31576,1,1
+IG_C_Upper,31577,1,1
+IG_C_Upper,31579,1,1
+IG_C_Upper,31581,1,1
+IG_C_Upper,31581,1,1
+IG_C_Upper,31588,1,1
+IG_C_Upper,31589,1,1
+IG_C_Upper,31606,1,1
+IG_C_Upper,31624,1,1
+IG_C_Upper,31631,1,1
+IG_C_Upper,31632,1,1
+IG_C_Upper,31633,1,1
+IG_C_Upper,31720,1,1
+IG_C_Upper,31721,1,1
+
+
+// Costume (Middle)
+IG_C_Middle,18742,1,1
+IG_C_Middle,18744,1,1
+IG_C_Middle,19158,1,1
+IG_C_Middle,19542,1,1
+IG_C_Middle,19551,1,1
+IG_C_Middle,19609,1,1
+IG_C_Middle,19611,1,1
+IG_C_Middle,19621,1,1
+IG_C_Middle,19710,1,1
+IG_C_Middle,19722,1,1
+IG_C_Middle,19742,1,1
+IG_C_Middle,19752,1,1
+IG_C_Middle,19755,1,1
+IG_C_Middle,19765,1,1
+IG_C_Middle,19769,1,1
+IG_C_Middle,19776,1,1
+IG_C_Middle,19787,1,1
+IG_C_Middle,19810,1,1
+IG_C_Middle,19826,1,1
+IG_C_Middle,19853,1,1
+IG_C_Middle,19871,1,1
+IG_C_Middle,19954,1,1
+IG_C_Middle,19989,1,1
+IG_C_Middle,20077,1,1
+IG_C_Middle,20108,1,1
+IG_C_Middle,20115,1,1
+IG_C_Middle,20116,1,1
+IG_C_Middle,20131,1,1
+IG_C_Middle,20136,1,1
+IG_C_Middle,20141,1,1
+IG_C_Middle,20144,1,1
+IG_C_Middle,20145,1,1
+IG_C_Middle,20146,1,1
+IG_C_Middle,20147,1,1
+IG_C_Middle,20149,1,1
+IG_C_Middle,20215,1,1
+IG_C_Middle,20221,1,1
+IG_C_Middle,20246,1,1
+IG_C_Middle,20255,1,1
+IG_C_Middle,20270,1,1
+IG_C_Middle,20286,1,1
+IG_C_Middle,20295,1,1
+IG_C_Middle,20298,1,1
+IG_C_Middle,20311,1,1
+IG_C_Middle,20312,1,1
+IG_C_Middle,20314,1,1
+IG_C_Middle,20318,1,1
+IG_C_Middle,20319,1,1
+IG_C_Middle,20321,1,1
+IG_C_Middle,20325,1,1
+IG_C_Middle,20335,1,1
+IG_C_Middle,20345,1,1
+IG_C_Middle,20376,1,1
+IG_C_Middle,20379,1,1
+IG_C_Middle,20399,1,1
+IG_C_Middle,20406,1,1
+IG_C_Middle,20461,1,1
+IG_C_Middle,20465,1,1
+IG_C_Middle,31047,1,1
+IG_C_Middle,31096,1,1
+IG_C_Middle,31122,1,1
+IG_C_Middle,31133,1,1
+IG_C_Middle,31146,1,1
+IG_C_Middle,31167,1,1
+IG_C_Middle,31168,1,1
+IG_C_Middle,31184,1,1
+IG_C_Middle,31203,1,1
+IG_C_Middle,31234,1,1
+IG_C_Middle,31235,1,1
+IG_C_Middle,31236,1,1
+IG_C_Middle,31243,1,1
+IG_C_Middle,31250,1,1
+IG_C_Middle,31260,1,1
+IG_C_Middle,31265,1,1
+IG_C_Middle,31266,1,1
+IG_C_Middle,31267,1,1
+IG_C_Middle,31268,1,1
+IG_C_Middle,31269,1,1
+IG_C_Middle,31270,1,1
+IG_C_Middle,31271,1,1
+IG_C_Middle,31272,1,1
+IG_C_Middle,31273,1,1
+IG_C_Middle,31274,1,1
+IG_C_Middle,31275,1,1
+IG_C_Middle,31276,1,1
+IG_C_Middle,31277,1,1
+IG_C_Middle,31278,1,1
+IG_C_Middle,31279,1,1
+IG_C_Middle,31280,1,1
+IG_C_Middle,31281,1,1
+IG_C_Middle,31282,1,1
+IG_C_Middle,31283,1,1
+IG_C_Middle,31284,1,1
+IG_C_Middle,31285,1,1
+IG_C_Middle,31286,1,1
+IG_C_Middle,31287,1,1
+IG_C_Middle,31288,1,1
+IG_C_Middle,31301,1,1
+IG_C_Middle,31302,1,1
+IG_C_Middle,31310,1,1
+IG_C_Middle,31313,1,1
+IG_C_Middle,31327,1,1
+IG_C_Middle,31375,1,1
+IG_C_Middle,31380,1,1
+IG_C_Middle,31384,1,1
+IG_C_Middle,31398,1,1
+IG_C_Middle,31399,1,1
+IG_C_Middle,31439,1,1
+IG_C_Middle,31449,1,1
+IG_C_Middle,31463,1,1
+IG_C_Middle,31472,1,1
+IG_C_Middle,31527,1,1
+IG_C_Middle,31538,1,1
+IG_C_Middle,31540,1,1
+IG_C_Middle,31542,1,1
+IG_C_Middle,31550,1,1
+IG_C_Middle,31552,1,1
+IG_C_Middle,31553,1,1
+IG_C_Middle,31561,1,1
+IG_C_Middle,31563,1,1
+IG_C_Middle,31570,1,1
+IG_C_Middle,31574,1,1
+IG_C_Middle,31580,1,1
+
+//Costume (Lower)
+IG_C_Lower,19715,1,1
+IG_C_Lower,19726,1,1
+IG_C_Lower,19764,1,1
+IG_C_Lower,19770,1,1
+IG_C_Lower,19805,1,1
+IG_C_Lower,19817,1,1
+IG_C_Lower,19952,1,1
+IG_C_Lower,19992,1,1
+IG_C_Lower,20015,1,1
+IG_C_Lower,20022,1,1
+IG_C_Lower,20029,1,1
+IG_C_Lower,20030,1,1
+IG_C_Lower,20034,1,1
+IG_C_Lower,20035,1,1
+IG_C_Lower,20043,1,1
+IG_C_Lower,20071,1,1
+IG_C_Lower,20107,1,1
+IG_C_Lower,20132,1,1
+IG_C_Lower,20150,1,1
+IG_C_Lower,20156,1,1
+IG_C_Lower,20169,1,1
+IG_C_Lower,20192,1,1
+IG_C_Lower,20193,1,1
+IG_C_Lower,20202,1,1
+IG_C_Lower,20239,1,1
+IG_C_Lower,20259,1,1
+IG_C_Lower,20264,1,1
+IG_C_Lower,20279,1,1
+IG_C_Lower,20280,1,1
+IG_C_Lower,20285,1,1
+IG_C_Lower,20313,1,1
+IG_C_Lower,20315,1,1
+IG_C_Lower,20323,1,1
+IG_C_Lower,20326,1,1
+IG_C_Lower,20328,1,1
+IG_C_Lower,20340,1,1
+IG_C_Lower,20341,1,1
+IG_C_Lower,20342,1,1
+IG_C_Lower,20349,1,1
+IG_C_Lower,20350,1,1
+IG_C_Lower,20351,1,1
+IG_C_Lower,20352,1,1
+IG_C_Lower,20353,1,1
+IG_C_Lower,20354,1,1
+IG_C_Lower,20355,1,1
+IG_C_Lower,20356,1,1
+IG_C_Lower,20357,1,1
+IG_C_Lower,20358,1,1
+IG_C_Lower,20359,1,1
+IG_C_Lower,20360,1,1
+IG_C_Lower,20361,1,1
+IG_C_Lower,20362,1,1
+IG_C_Lower,20363,1,1
+IG_C_Lower,20364,1,1
+IG_C_Lower,20365,1,1
+IG_C_Lower,20366,1,1
+IG_C_Lower,20367,1,1
+IG_C_Lower,20368,1,1
+IG_C_Lower,20369,1,1
+IG_C_Lower,20370,1,1
+IG_C_Lower,20400,1,1
+IG_C_Lower,20405,1,1
+IG_C_Lower,20416,1,1
+IG_C_Lower,20417,1,1
+IG_C_Lower,20418,1,1
+IG_C_Lower,20419,1,1
+IG_C_Lower,20420,1,1
+IG_C_Lower,20421,1,1
+IG_C_Lower,20422,1,1
+IG_C_Lower,20423,1,1
+IG_C_Lower,20424,1,1
+IG_C_Lower,20425,1,1
+IG_C_Lower,20426,1,1
+IG_C_Lower,20427,1,1
+IG_C_Lower,20428,1,1
+IG_C_Lower,20429,1,1
+IG_C_Lower,20438,1,1
+IG_C_Lower,20440,1,1
+IG_C_Lower,20441,1,1
+IG_C_Lower,20462,1,1
+IG_C_Lower,20487,1,1
+IG_C_Lower,20497,1,1
+IG_C_Lower,31029,1,1
+IG_C_Lower,31045,1,1
+IG_C_Lower,31055,1,1
+IG_C_Lower,31057,1,1
+IG_C_Lower,31087,1,1
+IG_C_Lower,31093,1,1
+IG_C_Lower,31121,1,1
+IG_C_Lower,31134,1,1
+IG_C_Lower,31152,1,1
+IG_C_Lower,31162,1,1
+IG_C_Lower,31164,1,1
+IG_C_Lower,31181,1,1
+IG_C_Lower,31189,1,1
+IG_C_Lower,31199,1,1
+IG_C_Lower,31208,1,1
+IG_C_Lower,31209,1,1
+IG_C_Lower,31210,1,1
+IG_C_Lower,31211,1,1
+IG_C_Lower,31212,1,1
+IG_C_Lower,31213,1,1
+IG_C_Lower,31214,1,1
+IG_C_Lower,31215,1,1
+IG_C_Lower,31216,1,1
+IG_C_Lower,31217,1,1
+IG_C_Lower,31218,1,1
+IG_C_Lower,31219,1,1
+IG_C_Lower,31220,1,1
+IG_C_Lower,31221,1,1
+IG_C_Lower,31222,1,1
+IG_C_Lower,31223,1,1
+IG_C_Lower,31224,1,1
+IG_C_Lower,31225,1,1
+IG_C_Lower,31226,1,1
+IG_C_Lower,31227,1,1
+IG_C_Lower,31228,1,1
+IG_C_Lower,31229,1,1
+IG_C_Lower,31230,1,1
+IG_C_Lower,31231,1,1
+IG_C_Lower,31232,1,1
+IG_C_Lower,31233,1,1
+IG_C_Lower,31237,1,1
+IG_C_Lower,31241,1,1
+IG_C_Lower,31251,1,1
+IG_C_Lower,31261,1,1
+IG_C_Lower,31264,1,1
+IG_C_Lower,31289,1,1
+IG_C_Lower,31296,1,1
+IG_C_Lower,31300,1,1
+IG_C_Lower,31315,1,1
+IG_C_Lower,31330,1,1
+IG_C_Lower,31374,1,1
+IG_C_Lower,31377,1,1
+IG_C_Lower,31383,1,1
+IG_C_Lower,31393,1,1
+IG_C_Lower,31404,1,1
+IG_C_Lower,31418,1,1
+IG_C_Lower,31438,1,1
+IG_C_Lower,31446,1,1
+IG_C_Lower,31450,1,1
+IG_C_Lower,31453,1,1
+IG_C_Lower,31454,1,1
+IG_C_Lower,31469,1,1
+IG_C_Lower,31473,1,1
+IG_C_Lower,31474,1,1
+IG_C_Lower,31477,1,1
+IG_C_Lower,31490,1,1
+IG_C_Lower,31492,1,1
+IG_C_Lower,31493,1,1
+IG_C_Lower,31510,1,1
+IG_C_Lower,31511,1,1
+IG_C_Lower,31533,1,1
+IG_C_Lower,31544,1,1
+IG_C_Lower,31545,1,1
+IG_C_Lower,31548,1,1
+IG_C_Lower,31549,1,1
+IG_C_Lower,31551,1,1
+IG_C_Lower,31559,1,1
+IG_C_Lower,31566,1,1
+IG_C_Lower,31567,1,1
+IG_C_Lower,31569,1,1
+IG_C_Lower,31575,1,1
+IG_C_Lower,31586,1,1
+IG_C_Lower,31599,1,1
+IG_C_Lower,31635,1,1
+IG_C_Lower,31636,1,1
+IG_C_Lower,31670,1,1
+IG_C_Lower,31684,1,1
+IG_C_Lower,31689,1,1
+IG_C_Lower,31693,1,1
+IG_C_Lower,19783,1,1
+
+
+// IG_FISHING_EQUIP,12124,1,1
+// Add(1,12124,3);		//Rainbow Cake
+// Add(1,14601,3);		// Tyr's Blessing
+// Add(1,14536,3);		// Abrasive
+// Add(1,12210,4);		// Bubble gum
+// Add(1,12208,4);		// BM
+// Add(1,14592,4);		// JOB BM
+// Add(1,12646,5);		// takoyaki
+// Add(1,12122,5);		//Sesame Pastry 
+// Add(1,12535,5);		// berry box (15)
+// Add(1,50004,10);	// custom upper
+// Add(1,50005,10);	// custom mid
+// Add(1,50006,10);	// custom lower
+// Add(1,12887,100);	// infinite flywing
+// Add(1,12246,300);	// MCA
+// Add(1,50020,300);	// custom garment
+// Add(2,14159,8);		//str food box
+// Add(2,14161,8);		//int food box
+// Add(2,14162,8);		//dex food box
+// Add(2,14163,8);		//luk food box
+// Add(2,14160,8);		//agi food box
+// Add(2,14164,8);		//vit food box
+// Add(2,12883,8);		//Almighty
+// Add(3,5286,10);		//Pecopeco Hairband
+// Add(3,5788,10);		//3D glasses
+// Add(3,2910,15);		//Bakonawa Agimat Tattoo
+// Add(3,2911,15);		//Bangungot Agimat Tattoo
+// Add(3,2907,15);		//Buwaya Agimat Tattoo
+// Add(3,18603,20);	//Black devil mask[1]
+// Add(3,2576,20);		//adventurer's backpack
+// Add(3,5518,30);		//defensive bapho horns
+// Add(3,18600,30);	//cat ear beret
+// Add(3,18601,30);	//red pom band
+// Add(3,15166,30);	//rosary's necklace
+// Add(3,5361,30);		//Gangster Scarf
+// Add(3,28429,40);        //Arquien's Necklace [1]
+// Add(3,28410,40);        //Sapphire Wrist [1]
+// Add(3,22064,40);        //THORNY SHOES
+// Add(3,28386,40);        //FALLEN MONK ROSARY
+// // Add(3,2192,40);        // ROSE OF EDEN
+// Add(3,5933,40);        // tengu mask
+// Add(3,19112,40);        // tengu scroll
+// Add(3,18561,40);        // BFB
+// Add(3,18878,40);        // palace guard hat
+// Add(4,18670,5);			//handcurhcif in mouth
+// Add(4,18894,5);			//rainbow star
+// Add(4,5968,5);			//Clergy Nurse Cap
+// Add(4,18813,5);			//new wave sunglasses
+// Add(4,2589,10);			//FAW
+// Add(4,5497,10);			//king tiger doll 
+// Add(4,5464,10);			//Zaha doll hat
+// Add(4,16051,10);		//Valkyire Hammer
+// //Add(4,28717,15);		//valkyrie knife[4]
+// Add(4,28903,10);		//Scutum
+// Add(4,32242,15);		//ODR
