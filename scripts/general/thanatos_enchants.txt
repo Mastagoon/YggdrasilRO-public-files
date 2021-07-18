@@ -1,0 +1,219 @@
+//===== rAthena Script ======================================= 
+//= Thanatos Weapons Enchants by KiNa
+//===== Description: =========================================
+//= Enchant weapons from ghost palace instance
+//============================================================
+
+aimia,173,190,4	script	Dimension Wanderer	4_M_SAKRAYROYAL,{
+	disable_command;
+	disable_items;
+	.@npc$ = "[ ^0000FFDimension Wanderer^000000 ]";
+	mes .@npc$,
+		"would you like to enchant your weapon?";
+	next;
+    set .@part,EQI_HAND_R;
+		if(!getequipisequiped(.@part)) {
+			mes .@npc$;
+			mes "Young one... Your not wearing anything there that I can enchant.";
+			close;
+		}
+    mes .@npc$;
+    mes "enchantment costs ^0000FF75 Gray Shards^000000 and each enchantment will give both the first and second enchantment.";
+    next;
+    if(select("Very well. Do it.:Never mind.") == 2) {
+		mes .@npc$;
+		mes "Very well. Return at once if you seek my services.";
+		close;
+	}
+	if(.cost > countitem(.itemId)){
+		mes .@npc$,
+			"You're missing " + (.cost - countitem(.itemId)),
+			"<ITEM>Gray Shards<INFO>6672</INFO></ITEM>.";
+		close;
+	}
+    .@itemEqId = getequipid (EQI_HAND_R);
+    switch(.@itemEqId){
+        //melee
+        case 13093:set .@melee,1; // Thanatos Dagger [1]
+        case 13441:set .@melee,1; // Thanatos Sword [1]
+        case 21009:set .@melee,1; //Thanatos Great Sword [1]
+        case 28100:set .@melee,1; //Thanatos Axe [1]
+        case 16028:set .@melee,1; //Thanatos Hammer [1]
+        case 1438: set .@melee,1;//Thanatos Spear [1]
+        case 1496: set .@melee,1;//Thanatos Long Spear [1]
+        case 28000:set .@melee,1; // Thanatos Katar [1]
+        case 1836: set .@melee,1;//Thanatos Knuckle [1]
+        //range
+        case 18119: set .@range,1; //Thanatos Bow [1]
+        //mage
+        case 1669: set .@mage,1;//Thanatos Staff [1]
+        case 2023: set .@mage,1; // Thanatos Two-Handed Staff [1]
+        case 1933:  set .@mage,1;//Thanatos Violin
+        case 1988:  set .@mage,1;// Thanatos Whip [1]
+        break;
+		default:
+		mes .@npc$;
+		mes "I don't see anything, please make sure you've equipped the item.";
+		close;
+    }
+	if(.@melee){
+		delitem .itemId,.cost;
+		.@opt1rand = rand(getarraysize(.RandOpt1_melee)-1);
+		.@opt2rand = rand(getarraysize(.RandOpt2_melee)-1);
+		.@Opt1 = .RandOpt1_melee[.@opt1rand];
+		.@Opt2 = .RandOpt2_melee[.@opt2rand];
+		.@Opt1_V = rand(.RandOpt1_melee_minV[.@opt1rand],.RandOpt1_melee_maxV[.@opt1rand]);
+		.@Opt2_V = rand(.RandOpt2_melee_minV[.@opt2rand],.RandOpt2_melee_maxV[.@opt2rand]);
+		setrandomoption(.@part,0,.@Opt1,.@Opt1_V,0);
+		setrandomoption(.@part,1,.@Opt2,.@Opt2_V,0);
+		specialeffect2 1031;
+		mes .@npc$,
+			"There you are, come back any time and try your luck again!";
+		close;
+	}
+	if(.@range){
+		delitem .itemId,.cost;
+		.@opt1rand = rand(getarraysize(.RandOpt1_range)-1);
+		.@opt2rand = rand(getarraysize(.RandOpt2_range)-1);
+		.@Opt1 = .RandOpt1_range[.@opt1rand];
+		.@Opt2 = .RandOpt2_range[.@opt2rand];
+		.@Opt1_V = rand(.RandOpt1_range_minV[.@opt1rand],.RandOpt1_range_maxV[.@opt1rand]);
+		.@Opt2_V = rand(.RandOpt2_range_minV[.@opt2rand],.RandOpt2_range_maxV[.@opt2rand]);
+		setrandomoption(.@part,0,.@Opt1,.@Opt1_V,0);
+		setrandomoption(.@part,1,.@Opt2,.@Opt2_V,0);
+		specialeffect2 1031;
+		mes .@npc$,
+			"There you are, come back any time and try your luck again!";
+		close;
+	}
+	if(.@mage){
+		delitem .itemId,.cost;
+		.@opt1rand = rand(getarraysize(.RandOpt1_mage)-1);
+		.@opt2rand = rand(getarraysize(.RandOpt2_mage)-1);
+		.@Opt1 = .RandOpt1_mage[.@opt1rand];
+		.@Opt2 = .RandOpt2_mage[.@opt2rand];
+		.@Opt1_V = rand(.RandOpt1_mage_minV[.@opt1rand],.RandOpt1_mage_maxV[.@opt1rand]);
+		.@Opt2_V = rand(.RandOpt2_mage_minV[.@opt2rand],.RandOpt2_mage_maxV[.@opt2rand]);
+		setrandomoption(.@part,0,.@Opt1,.@Opt1_V,0);
+		setrandomoption(.@part,1,.@Opt2,.@Opt2_V,0);
+		specialeffect2 1031;
+		mes .@npc$,
+			"There you are, come back any time and try your luck again!";
+		close;
+	}
+
+OnInit:
+	.cost = 75;
+	.itemId = 6672;
+	
+setarray .RandOpt1_melee[0],RDMOPT_DAMAGE_PROPERTY_NOTHING_TARGET, 		
+							RDMOPT_DAMAGE_PROPERTY_WATER_TARGET,		
+							RDMOPT_DAMAGE_PROPERTY_FIRE_TARGET,			
+							RDMOPT_DAMAGE_PROPERTY_GROUND_TARGET,		
+							RDMOPT_DAMAGE_PROPERTY_WIND_TARGET,			
+							RDMOPT_DAMAGE_PROPERTY_POISON_TARGET,		
+							RDMOPT_DAMAGE_PROPERTY_SAINT_TARGET,		
+							RDMOPT_DAMAGE_PROPERTY_DARKNESS_TARGET,
+							RDMOPT_DAMAGE_PROPERTY_TELEKINESIS_TARGET,
+							RDMOPT_DAMAGE_PROPERTY_UNDEAD_TARGET,
+							RDMOPT_DAMAGE_SIZE_PERFECT,
+							RDMOPT_VAR_PLUSASPD,
+							RDMOPT_VAR_PLUSASPDPERCENT,	
+							RDMOPT_WEAPON_ATTR_SAINT,
+							RDMOPT_WEAPON_ATTR_WATER,
+							RDMOPT_WEAPON_ATTR_GROUND,
+							RDMOPT_WEAPON_ATTR_FIRE,
+							RDMOPT_WEAPON_ATTR_WIND,
+							RDMOPT_WEAPON_ATTR_POISON,
+							RDMOPT_WEAPON_ATTR_DARKNESS;
+setarray .RandOpt1_melee_minV[0],1,1,1,1,1,1,1,1,1,1,0,1,5,0,0,0,0,0,0,0;
+setarray .RandOpt1_melee_maxV[0],20,20,20,20,20,20,20,20,20,20,0,1,10,0,0,0,0,0,0,0;
+
+setarray .RandOpt2_melee[0],RDMOPT_RACE_DAMAGE_NOTHING,
+							RDMOPT_RACE_DAMAGE_UNDEAD,
+							RDMOPT_RACE_DAMAGE_ANIMAL,
+							RDMOPT_RACE_DAMAGE_PLANT,
+							RDMOPT_RACE_DAMAGE_INSECT,
+							RDMOPT_RACE_DAMAGE_FISHS,
+							RDMOPT_RACE_DAMAGE_DEVIL,
+							RDMOPT_RACE_DAMAGE_HUMAN,
+							RDMOPT_RACE_DAMAGE_ANGEL,
+							RDMOPT_RACE_DAMAGE_DRAGON,							
+							RDMOPT_CLASS_DAMAGE_NORMAL_TARGET,
+							RDMOPT_CLASS_DAMAGE_BOSS_TARGET,
+							RDMOPT_VAR_ATKPERCENT,
+							RDMOPT_DAMAGE_CRI_TARGET,
+							RDMOPT_WEAPON_INDESTRUCTIBLE;
+setarray .RandOpt2_melee_minV[0],1,1,1,1,1,1,1,1,1,1,1,1,3,5,0;
+setarray .RandOpt2_melee_maxV[0],20,20,20,20,20,20,20,20,20,20,10,10,5,20,0;
+							
+setarray .RandOpt1_range[0],RDMOPT_DAMAGE_PROPERTY_NOTHING_TARGET, 		
+							RDMOPT_DAMAGE_PROPERTY_WATER_TARGET,		
+							RDMOPT_DAMAGE_PROPERTY_FIRE_TARGET,			
+							RDMOPT_DAMAGE_PROPERTY_GROUND_TARGET,		
+							RDMOPT_DAMAGE_PROPERTY_WIND_TARGET,			
+							RDMOPT_DAMAGE_PROPERTY_POISON_TARGET,		
+							RDMOPT_DAMAGE_PROPERTY_SAINT_TARGET,		
+							RDMOPT_DAMAGE_PROPERTY_DARKNESS_TARGET,
+							RDMOPT_DAMAGE_PROPERTY_TELEKINESIS_TARGET,
+							RDMOPT_DAMAGE_PROPERTY_UNDEAD_TARGET,
+							RDMOPT_DAMAGE_SIZE_PERFECT,
+							RDMOPT_VAR_PLUSASPD,
+							RDMOPT_VAR_PLUSASPDPERCENT,
+							RDMOPT_RANGE_ATTACK_DAMAGE_TARGET,
+							RDMOPT_WEAPON_INDESTRUCTIBLE;	
+setarray .RandOpt1_range_minV[0],1,1,1,1,1,1,1,1,1,1,0,1,5,5,0;
+setarray .RandOpt1_range_maxV[0],20,20,20,20,20,20,20,20,20,20,0,1,10,10,0;
+
+setarray .RandOpt2_range[0],RDMOPT_RACE_DAMAGE_NOTHING,
+							RDMOPT_RACE_DAMAGE_UNDEAD,
+							RDMOPT_RACE_DAMAGE_ANIMAL,
+							RDMOPT_RACE_DAMAGE_PLANT,
+							RDMOPT_RACE_DAMAGE_INSECT,
+							RDMOPT_RACE_DAMAGE_FISHS,
+							RDMOPT_RACE_DAMAGE_DEVIL,
+							RDMOPT_RACE_DAMAGE_HUMAN,
+							RDMOPT_RACE_DAMAGE_ANGEL,
+							RDMOPT_RACE_DAMAGE_DRAGON,			
+							RDMOPT_CLASS_DAMAGE_NORMAL_TARGET,
+							RDMOPT_CLASS_DAMAGE_BOSS_TARGET,
+							RDMOPT_VAR_ATKPERCENT,
+							RDMOPT_DAMAGE_CRI_TARGET;																																																																																										
+setarray .RandOpt2_range_minV[0],1,1,1,1,1,1,1,1,1,1,5,5,3,5;
+setarray .RandOpt2_range_maxV[0],20,20,20,20,20,20,20,20,20,20,10,10,7,20;
+	
+setarray .RandOpt1_mage[0],RDMOPT_MDAMAGE_PROPERTY_NOTHING_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_WATER_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_GROUND_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_FIRE_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_WIND_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_POISON_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_SAINT_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_DARKNESS_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_TELEKINESIS_TARGET,
+							RDMOPT_MDAMAGE_PROPERTY_UNDEAD_TARGET,
+							RDMOPT_HEAL_MODIFY_PERCENT,
+							RDMOPT_DEC_SPELL_CAST_TIME,
+							RDMOPT_DEC_SPELL_DELAY_TIME,
+							RDMOPT_DEC_SP_CONSUMPTION;																												
+setarray .RandOpt1_mage_minV[0],1,1,1,1,1,1,1,1,1,1,5,5,1,5;
+setarray .RandOpt1_mage_maxV[0],20,20,20,20,20,20,20,20,20,20,20,10,5,10;
+
+setarray .RandOpt2_mage[0],RDMOPT_RACE_MDAMAGE_NOTHING,
+							RDMOPT_RACE_MDAMAGE_UNDEAD,
+							RDMOPT_RACE_MDAMAGE_ANIMAL,
+							RDMOPT_RACE_MDAMAGE_PLANT,
+							RDMOPT_RACE_MDAMAGE_INSECT,
+							RDMOPT_RACE_MDAMAGE_FISHS,
+							RDMOPT_RACE_MDAMAGE_DEVIL,
+							RDMOPT_RACE_MDAMAGE_HUMAN,
+							RDMOPT_RACE_MDAMAGE_ANGEL,
+							RDMOPT_RACE_MDAMAGE_DRAGON,
+							RDMOPT_CLASS_MDAMAGE_NORMAL,
+							RDMOPT_CLASS_MDAMAGE_BOSS,
+							RDMOPT_VAR_MAGICATKPERCENT,
+							RDMOPT_DEC_SPELL_CAST_TIME;						
+setarray .RandOpt2_mage_minV[0],1,1,1,1,1,1,1,1,1,1,5,5,3,5;
+setarray .RandOpt2_mage_maxV[0],20,20,20,20,20,20,20,20,20,20,10,10,7,10;
+end;
+}
