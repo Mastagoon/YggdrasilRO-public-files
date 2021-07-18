@@ -1,0 +1,1078 @@
+//===== rAthena Script ======================================= 
+//= Episode 17.1 Quests
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrsailRO's Episode 17.1 Quests (short)
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= These quests are incomplete. They are shortened for players' convenience
+//= 17.1 equipments exchange and enchant included (not official)
+//============================================================
+
+prt_cas_q,21,39,4	script	Nihil M. Heine#ep17_01	4_EP16_NIHIL,{
+	if(!illusion_main && banquet_main_quest > 17) {
+		cutin "ep16_nihi_miseria_heine02.bmp",2;
+		mes .n$;
+		mes "I came back here because i wanted to express my gratitude";
+		mes "Thanks to you, things have gotten better.";
+		next;
+		mes .n$;
+		mes "However, not everything is going as expected";
+		mes "I think i may have to take Peter's place instead";
+		next;
+		select("What does that mean?");
+		mes .n$;
+		mes "Yes... it appears i'm next in line to the throne";
+		mes "That is not at all what i wanted.";
+		next;
+		mes .n$;
+		mes "Everyone else has a better right to the throne, they're natural and qualified for it.";
+		mes "This is quite strange and unfamiliar to me.";
+		next;
+		mes .n$;
+		mes "I've been in some discussions with the Schwarz government, so i'll be busy for a while...";
+		next;
+		mes .n$;
+		mes "It seems to me they like this arrangment.";
+		mes "I believe the relationship between our two countries will be maintained in the future thanks to our efforts.";
+		next;
+		mes .n$;
+		mes "If you still plan on attacking other enterprise facilities, you may want to rest first.";
+		mes "For the time being, you will need your strength.";
+		next;
+		mes .n$;
+		mes "I hope you'll keep on going.";
+		mes "Thanks again for all the help.";
+		mes "I have to go now.";
+		illusion_main = 1;
+		close2;
+		cutin "",255;
+		cloakonnpc strnpcinfo(3);
+		end;
+	}
+
+
+OnInit:
+	.n$ = "[Nyhill]";
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "illusion_main == 0 && banquet_main_quest > 17" );
+	cloakonnpc strnpcinfo(3);
+	end;
+}
+
+prt_cas_q,22,29,0	script	illusion_enabler	HIDDEN_WARP_NPC,2,2,{
+	end;
+OnTouch:
+	if(!illusion_main && banquet_main_quest > 17) {
+		cloakoffnpc "Nihil M. Heine#ep17_01",getcharid(0);
+	}
+	end;
+}
+
+einbech,219,80,6	script	Rebellion Crew#17_1	4_M_GUNSLINGER2,{
+	if(illusion_main == 1) {
+		mes .n$;
+		mes "Wait a second!";
+		mes "We have recently widened our base of operations.";
+		mes "Due to this expansion, we've been set up in a new base in einbroch.";
+		next;
+		mes .n$;
+		mes "So let me reveal the location to you.";
+		mes "It's in a small bar called [Cat on Bullet], not far from the einbroch railway station....";
+		mes "We're preparing for our next operation.";
+		next;
+		mes .n$;
+		mes "I've delievered you the information, we'll meet again over there!";
+		setquest 62239;
+		illusion_main = 2;
+		close;
+ 	}
+	if(illusion_main == 2) {
+		mes .n$;
+		mes "It's a bar next to the train station of Einbroch.";
+		mes "[Cat on Bullet]. Don't you think it's a cute name?";
+	}
+	
+
+OnInit:
+	cloakonnpc strnpcinfo(0);
+	end;
+}
+
+pub_cat,93,105,5	script	Philopontes#17_11	4_M_PHILOFONTES,{
+	// #TODO cutins
+	if(illusion_main == 2) {
+		mes .n$;
+		mes "I've been waiting for you";
+		mes "This place is a bit chaotic, but the Rebellions rather like it here.";
+		next;
+		mes .n$;
+		mes "This place will be used as a base while you carry out your other duties.";
+		next;
+		mes .n$;
+		mes "Anyhow, i've analyzed all the information gathered from the last oepration.";
+		mes "It turns out there are more facilities with secret laboratories.";
+		next;
+		mes .n$;
+		mes "We already expected as much when we started our research.";
+		mes "It's not just speculation this time, the evidence is clear now.";
+		next;
+		mes .n$;
+		mes "Elena Bolkova is organising an advanced team for investigating the suspected areas.";
+		mes "I think it would greatly help if you joined her team too....";
+		next;
+		//# TODO bolkoba appears here as another npc
+		mes .n2$;
+		mes "Hey~~ Tess1";
+		mes "We sent a recon team to investigate the areas you spoke about.";
+		next;
+		select("Where is it?");
+		mes .n2$;
+		mes "Oh, you're the adventurer? Did Tess call you?";
+		mes "It really helps if someone as strnog as you joined us.";
+		next;
+		mes .n2$;
+		mes "Are you really sure about this place?";
+		mes "Lucky said it's just an abandoned smetting plant after a mine closed.";
+		next;
+		mes .n$;
+		mes "I know it doesn't look like much, but thanks to the previous data collected by the Werner Institute...";
+		mes "We found an entry to the ^0000ffabandoned waste of Rudos^000000.";
+		next;
+		mes .n$;
+		mes "We figured out a path or a location to get inside, so i'd like you to investigate it further.";
+		next;
+		mes .n2$;
+		mes "Anyway, so this is the area with all the experiments?";
+		mes "Then i'll go to the field.";
+		mes "The adventurer should come after me.";
+		next;
+		mes .n$;
+		mes "Then i'll inform the adventurer of your location seperately.";
+		next;
+		mes .n2$;
+		mes "I'm going alone now.";
+		// bolkova disappears
+		next;
+		mes .n$;
+		mes "So why not join us and see the situation for yourself?";
+		mes "The location is at the Einbroch North-East field. The code name for the operation is Rudos.";
+		next;
+		mes .n$;
+		mes "I'll call this location [Rudos] from now on.";
+		mes "I would be grateful if you joined.";
+		next;
+		mes .n$;
+		mes "In the meantime, I will try and learn more about Lighthalzen.";
+		mes "You should have recieved enough information to start investigating now.";
+		//#TODO quest : New operation
+		illusion_main = 3;
+		close;
+	}
+	if(illusion_main >= 3 && illusion_main < 9) {
+		mes .n$;
+		mes "[Rudos] is at the Einbroch North-East field, If you join, it will definately help.";
+		close;
+	}
+	if(illusion_main == 9) {
+		mes .n$;
+		mes "You went there?";
+		mes "Hmm, so you've found a barrier in the closed mine and there's monsters behind it?";
+		next;
+		mes .n$;
+		mes "I don't think this was a research facility, even by looking at other members' reports.";
+		mes "It seems to be a place to cover up some unsuccessful experiments.";
+		next;
+		mes .n$;
+		mes "For some reason, there's been no accident on the outside. Tsk.";
+		mes "For the time being, i'm going to be split from the rebellions.";
+		next;
+		mes .n$;
+		mes "Unfortunately, Rudus didn't bring out great results. Bolkova has been quite helpful";
+		next;
+		mes .n$;
+		mes "I'll have to go the backdoor room now.";
+		mes "it seems i've picked up a bad customer, but with the adveturer's help it will not be a problem.";
+		illusion_main = 10;
+		next;
+		mes "- لقد أنهيت مهام الحلقة 17.1 المتاحة -";
+		mes "- حالياً بنجاح. -";
+		close2;
+		warp "ein_fild03",284,267;
+		end;
+	} 
+	if(illusion_main >= 10) {
+		mes .n$;
+		mes "That room over there, it's a place where only rebels can go in or out.";
+		mes "Only the captains are inside.";
+		close;
+	}
+
+OnInit:
+	.n$ = "[Tess]";
+	.n2$ = "[Elena Bolkova]";
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "illusion_main == 9 || illusion_main == 2" );
+	end;
+}
+
+pub_cat,104,105,1	script	Retired Rebellion	4_M_GUNSLINGER,{
+	if(illusion_main < 10) end;
+	mes "[Retired Rebellion]";
+	mes "Are you going?";
+	if(select("Yes:Not yet") -1 ) close;
+	warp "pub_cat",150,105;
+	end;
+}
+
+ein_fild05,156,288,9	script	Rebellion Crew#17_1_RUDUS	4_M_GUNSLINGER2,{
+	if(illusion_main >= 3) {
+		mes .n$;
+		mes "Hey adventurer!";
+		mes "This way, i'll let you in.";
+		close2;
+		warp "sp_rudus",200,377;
+		end;
+	}
+
+OnInit:
+	.n$ = "[Rebellion Crew]";
+	end;
+}
+
+sp_rudus,184,360,5	script	Elena Bolkova#17_1_rudus	4_F_ELENA,{
+	if(illusion_main == 3) {
+		mes .n$;
+		mes "Oh, this place is so peaceful.";
+		mes "You look pale";
+		mes "...";
+		mes "It's a joke, I think i need more time to properly investigate the area.";
+		next;
+		select("Any problem?");
+		mes .n$;
+		mes "They said barriers were built because the factory is closed.";
+		mes "Something doesn't feel right here though.";
+		next;
+		mes .n$;
+		mes "Anyway, should i go beyond the barrier to get satisfying information for Tess?";
+		mes "My crew is working on securing the doorway first. If you open it, go check out the other side.";
+		next;
+		mes .n$;
+		mes "You remember Lucky? i brought him along, so go ahead and ask him about the progress.";
+		illusion_main = 4;
+		close;
+	}
+	if(illusion_main == 4) {
+		mes .n$;
+		mes "I need to find out what's beyond the barrier.";
+		mes "If there's nothing there, i'll withdraw.";
+		mes "But if there's anything at all, I'll go at full force.";
+		mes "What do you think?";
+		close;
+	}
+
+	if((ill_mob1 >= 20 && ill_mob2 >= 20 && ill_mob3 >= 20) && illusion_main == 8) {
+		mes .n$;
+		mes "So now it's Elena Bolkova's Turn!";
+		mes "Adventurer, you go the Cat on bullet and tell Tess what happened here.";
+		next;
+		mes .n$;
+		mes "Goodluck.";
+		completequest 62240;
+		getitem 25723,20;
+		getitem 25669,20;
+		getexp 1000000,1000000;
+		illusion_main = 9;
+		close;
+	}
+
+OnInit:
+	.n$ = "[Elena Bolkova]";
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "illusion_main == 3 || (ill_mob1 >= 20 && ill_mob2 >= 20 && ill_mob3 >= 20)" );
+	end;
+}
+
+sp_rudus,197,282,0	script	Firmly Closed Door#17_1_rudus	4_ENERGY_BLUE,{
+	if(illusion_main < 8) {
+		mes .n$;
+		mes "Aahh...I haven't finished yet.";
+		mes "It's more secure than i thought.";
+		close;
+	}
+	if(illusion_main == 8) {
+		warp "sp_rudus",197,267;
+		end;
+	}
+
+OnInit:
+	.n$ = "[Lucky]";
+	end;
+}
+
+sp_rudus,193,284,7	script	Lucky#17_1_rudus	4_M_ROOKIE,{
+	if(illusion_main == 4) {
+		mes .n$;
+		mes "Are you the adventurer?";
+		mes "Did Tess send you? If you want more information, you'll have to find it yousrelf";
+		next;
+		mes .n$;
+		mes "Would you look at this place?";
+		mes "it's a triple edged door. I'm having a hard time opening it up.";
+		next;
+		mes .n$;
+		mes "But of course, if you use magic like Teleport or Fly Wings, you can get past it";
+		mes "We have a lot of people with us though...ahaha..";
+		mes "Wouldn't you prefer to go in directly with your own two legs?";
+		next;
+		mes .n$;
+		mes "Ohter rebellion members are already looking for an entry point. If you don't mind, look for them adventurer.";
+		mes "Maybe you'll find something out.";
+		next;
+		mes .n$;
+		mes "The abandoned mine is beyond this barrier. Be careful.";
+		illusion_main = 5;
+		close;
+	}
+	if(illusion_main >= 5 && illusion_main < 7) {
+		mes .n$;
+		mes "Ohter rebellion members are already looking for an entry point. If you don't mind, look for them adventurer.";
+		mes "Maybe you'll find something out.";
+		mes "The abandoned mine is beyond this barrier. Be careful.";
+		close;
+	}
+	if(illusion_main == 7) {
+		mes .n$;
+		mes "Hey...so you found a watchtower and a small hole?";
+		mes "A hole so small a human couldn't have made it? Ahahah that's too bad";
+		next;
+		mes .n$;
+		mes "If i could use that small hole, my efforts would be in vain wouldn't they?";
+		mes "Don't be disappointed!";
+		mes "I've finally unlocked this door.";
+		next;
+		mes .n$;
+		mes "The button right here opens the door, but the moment you release it, the door closes.";
+		mes "Does that mean there's no way for a single person to cross to the other side?";
+		next;
+		mes .n$;
+		mes "Even if you come with 2 people, this is awkward.";
+		mes "It seems to have been made with the intention of 'throwing in'";
+		next;
+		select("Throwing in?");
+		mes .n$;
+		mes "There is a place like this with similar devices.";
+		mes "A prison. a jail. It's for prisoners....What is this place?";
+		mes "Are we in a criminal camp?";
+		next;
+		mes .n$;
+		mes "No, that's not it. if it was such a facility, Tess wouldn't have known about it.";
+		mes "Well, for now, you should just go in";
+		next;
+		select("I hear suspicious sounds");
+		mes .n$;
+		mes "Well? Aahh, I heared that. Theses are...strange screams? So the other members went in.";
+		mes "I'll stay here to manage the switch while you go on the other side.";
+		next;
+		mes .n$;
+		mes "Are you going to join the others too?";
+		mes "If you find the source of the noises, see monsters, or anything else out of the ordinary, please let me know.";
+		setquest 62240;
+		illusion_main = 8;
+		close;
+	}
+	if(illusion_main >= 8) {
+		debugmes "Setting quests...";
+		mes .n$;
+		mes "Ohter memebrs of the rebellion have already entered.";
+		mes "We're not going to abandon them";
+		mes "Be careful";
+		next;
+		mes "- return after killing 20 dolors, 20 venenums, and 20 twin caputs. -";
+		close;
+	}
+
+OnInit:
+	.n$ = "[Lucky]";
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "illusion_main == 4 || illusion_main == 7" );
+	end;
+}
+
+sp_rudus,121,286,3	script	Rebellion Crew#rudus_1	4_F_REBELLION2,{
+	if(illusion_main == 6) {
+		mes .n$;
+		mes "Well? What is the adventurer doing here? Are you part of the operation aswell?";
+		next;
+		mes .n$;
+		mes "Oh! I'll let you know what i found here.";
+		mes "Do you see this big column?";
+		mes "I went on top of it, the watchtower!";
+		next;
+		mes .n$;
+		mes "It looks better than the barrier.";
+		mes "I don't know why there's a watchtower in a smetting facility. But it's deinately a watchtower!";
+		mes "This is the discovery of the century. Ahah!";
+		next;
+		mes .n$;
+		mes "When i was looking up there, I think i saw something move.";
+		mes "I'm going to make sure of what i saw by going back up.";
+		illusion_main = 7;
+		close;
+	}
+	mes "Huhu, this watchtower is very good!";
+	close;
+
+OnInit:
+	.n$ = "[Rebellion Crew]";
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "illusion_main == 6" );
+	end;
+}
+
+sp_rudus,304,266,4	script	Rebellion Crew#rudus_2	4_F_REBELLION3,{
+	if(illusion_main == 5) {
+		mes .n$;
+		mes "Well? are you also involved in the operation?";
+		mes "Even thouh i live in einbroch, this is the first time i see it";
+		next;
+		select("What's wrong?");
+		mes .n$;
+		mes "Look over there, isn't it stragen? it's a railway to carry minerals, but they've built a barrier on top.";
+		mes "It doesn't even have a door.";
+		next;
+		mes .n$;
+		mes "At first i tohught this barrier is meant to seperate the smetting factory and the mine...";
+		mes "But don't you think it's not?";
+		next;
+		select("Was the barrier created afterwards?");
+		mes .n$;
+		mes "For sure.";
+		mes "But why do you need a barrier to an already closed mine and factory?";
+		mes "And this type of structure is what's used in prisons";
+		next;
+		mes .n$;
+		mes "I don't know the purpose of this wall, but it was built while the factory was running.";
+		next;
+		mes .n$;
+		mes "I'll have a closer look and join you later, please tell Lucky";
+		illusion_main = 6;
+		close;
+	}
+
+OnInit:
+	.n$ = "[Rebellion Crew]";
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "illusion_main == 5" );
+	end;
+}
+
+sp_rudus,28,300,4	script	Small Hole#rudus	4_ENERGY_BLUE,{
+	if(illusion_main == 7) {
+		mes "There is a small enough hole for a child to go through.";
+		mes "It seems like an animal made a hole and made a little cave";
+		mes "Let's have another look around.";
+		illusion_main = 8;
+		close;
+	}
+	if(illusion_main == 8) {
+		showscript "I'll be back";
+		sleep2 500;
+		showscript "This hole is too small to be useful";
+		end;
+	}
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "illusion_main == 7" );
+	end;
+}
+
+-	script	rudus_spawn_controller	-1,{
+
+OnInit:
+	areamonster "sp_rudus",15,13,376,260,"--ja--",20366,50,strnpcinfo(3)+"::OnCaputDead";
+	areamonster "sp_rudus",15,13,376,260,"--ja--",20364,50,strnpcinfo(3)+"::OnVenenmumDead";
+	areamonster "sp_rudus",15,13,376,260,"--ja--",20362,50,strnpcinfo(3)+"::OnDolorDead";
+	end;
+
+OnDolorDead:
+	areamonster "sp_rudus",15,13,376,260,"--ja--",20362,1,strnpcinfo(3)+"::OnDolorDead";
+	if(ill_mob1 < 20 && illusion_main == 8) {
+		ill_mob1++;
+		dispbottom "Dolor hunting quest. progress: ["+ill_mob1+" / 20]";
+		if(ill_mob1 == 20) {
+			dispbottom "You finished the Dolor hunting mission.";
+		}
+	}
+	end;
+OnVenenmumDead:
+	areamonster "sp_rudus",15,13,376,260,"--ja--",20364,1,strnpcinfo(3)+"::OnVenenmumDead";
+	if(ill_mob2 < 20 && illusion_main == 8) {
+		ill_mob2++;
+		dispbottom "Venenum hunting quest. progress: ["+ill_mob2+" / 20]";
+		if(ill_mob2 == 20) {
+			dispbottom "You finished the Venenum hunting mission.";
+		}
+	}
+	end;
+OnCaputDead:
+	areamonster "sp_rudus",15,13,376,260,"--ja--",20366,1,strnpcinfo(3)+"::OnCaputDead";
+	if(ill_mob3 < 20 && illusion_main == 8) {
+		ill_mob3++;
+			dispbottom "Twin Caput hunting quest. progress: ["+ill_mob3+" / 20]";
+		if(ill_mob3 == 20) {
+			dispbottom "You finished the Twin Caput hunting mission.";
+		}
+	}
+	end;
+}
+
+ein_fild03,288,268,4	script	Rebellion Crew#OS	4_M_REBELLION3,{
+	if(illusion_main >= 10) {
+		mes .n$;
+		mes "would you like to enter OS?";
+		if(select("Yes:No") -1) close;
+		if(illusion_main == 10) illusion_main = 11;
+		warp "sp_os",188,63;
+	}
+	end;
+
+OnInit:
+	.n$ = "[Rebellion Crew]";
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "illusion_main == 10" );
+	end;
+}
+
+
+
+//17.1 merchants
+ein_fild03,273,268,3	script	Illusion Gear	4_EP17_ELYUMINA,{
+	if(illusion_main < 10) end;
+	callshop "IllusionShop1";
+	end;
+
+OnInit:
+	.n$ = "[Elyumina]";
+	end;
+}
+
+ein_fild03,279,268,3	script	OS Weapons	4_EP17_ELYUMINA,{
+	disable_items;
+	if(illusion_main < 10) end;
+	mes .n$;
+	mes "I can give you one OS weapons box in exchange for";
+	mes "50 unknown parts and 1 broken weapon.";
+	mes "and 5 Cor Cores or 1,000,000z for a Random Weapon Modifiers";
+	next;
+	switch(select("Exchange OS weapon box:Random Weapon Modifiers:Cancel")) {
+		case 3: close;
+		case 1:
+			if(countitem(25669) < 50 || countitem(25668) < 1) {
+				mes .n$;
+				mes "You don't have enough materials.";
+				mes "Bring me ^ff000050 unknown parts and 1 broken weapon^000000";
+				close;
+			}
+			delitem 25669,50;
+			delitem 25668,1;
+			getitem 60247,1;
+			close;
+		break;
+		case 2:
+			if(countitem(25723) < 1 && Zeny < 1000000){
+				mes .n$;
+				mes "You don't have enough materials or zeny.";
+				mes "Bring me ^ff00005 Cor Cores Or 1,000,000z^000000";
+				close;			
+			}
+			.@weap = select("Cor Cores:Zeny:Exit");
+			if (.@weap == 3) close;
+			if (.@weap == 1){
+				delitem 25723,5;
+				.@i = rand(6);
+				getitem .weapmod[.@i],1;
+				close;
+			}
+			if (.@weap == 2){
+				Zeny = Zeny - 1000000;
+				.@i = rand(6);
+				getitem .weapmod[.@i],1;
+				close;
+			}
+			close;
+		break;
+	}
+
+OnInit:
+	.n$ = "[Elyumina]";
+	setarray .weapmod[0],23776,23777,23778,23779,23780,23781;
+	end;
+}
+
+ein_fild03,276,268,3	script	Module Master	4_EP17_ELYUMINA,{
+	disable_items;
+	if(illusion_main < 10) end;
+	mes .n$;
+	mes "I can give you a random modification module in exchange for";
+	mes "30 Unknown parts and 5 Cor cores";
+	next;
+	switch(select("Exchange Module Box:Enchant Illusion Gear:Cancel")) {
+		case 3: close;
+		case 1:
+			if(countitem(25669) < 30 || countitem(25723) < 5) {
+				mes .n$;
+				mes "You don't have enough materials.";
+				mes "Bring me ^ff000050 unknown parts and 1 broken weapon^000000";
+				close;
+			}
+			delitem 25669,30;
+			delitem 25723,5;
+			getitem 60248,1;
+			close;
+		case 2:
+			mes .n$;
+			mes "What item do you want to enchant?";
+			next;
+			getinventorylist;
+			switch(select("Illusion Armors:Illusion Wings:Illusion Shoes:Illusion Accessory(Left):Illusion Accessory(Right)")) {
+				case 1:
+					if(inarray(.armors, getequipid(EQI_ARMOR)) == -1) {
+						mes .n$;
+						mes "Please wear your illusion armor first.";
+						close;
+					}
+					for(.@i = 0; .@i < @inventorylist_count; .@i++) {
+						if(inarray(.armor_enchants, @inventorylist_id[.@i]) > -1) setarray .@enchants[getarraysize(.@enchants)],@inventorylist_id[.@i];
+					}	
+					.@slot = EQI_ARMOR;
+					break;
+				case 2:
+					if(inarray(.wings, getequipid(EQI_GARMENT)) == -1) {
+						mes .n$;
+						mes "Please wear your illusion wings first.";
+						close;
+					}
+					for(.@i = 0; .@i < @inventorylist_count; .@i++) {
+						if(inarray(.wing_enchants, @inventorylist_id[.@i]) > -1) setarray .@enchants[getarraysize(.@enchants)],@inventorylist_id[.@i];
+					}	
+					.@slot = EQI_GARMENT;
+					break;
+				case 3:
+					if(inarray(.shoes, getequipid(EQI_SHOES)) == -1) {
+						mes .n$;
+						mes "Please wear your illusion shoes first.";
+						close;
+					}
+					for(.@i = 0; .@i < @inventorylist_count; .@i++) {
+						if(inarray(.shoes_enchants, @inventorylist_id[.@i]) > -1) setarray .@enchants[getarraysize(.@enchants)],@inventorylist_id[.@i];
+					}	
+					.@slot = EQI_SHOES;
+					break;
+				case 4:
+					if(inarray(.accessories_l, getequipid(EQI_ACC_L)) == -1) {
+						mes .n$;
+						mes "Please wear your illusion accessory in your LEFT slot first.";
+						close;
+					}
+					for(.@i = 0; .@i < @inventorylist_count; .@i++) {
+						if(inarray(.acc_l_enchants, @inventorylist_id[.@i]) > -1) setarray .@enchants[getarraysize(.@enchants)],@inventorylist_id[.@i];
+					}		
+					.@slot = EQI_ACC_L;
+					break;
+				case 5:
+				default:
+					if(inarray(.accessories_r, getequipid(EQI_ACC_R)) == -1) {
+						mes .n$;
+						mes "Please wear your illusion accessory in your LEFT slot first.";
+						close;
+					}
+					.@slot = EQI_ACC_R;
+					for(.@i = 0; .@i < @inventorylist_count; .@i++) {
+						if(inarray(.acc_r_enchants, @inventorylist_id[.@i]) > -1) setarray .@enchants[getarraysize(.@enchants)],@inventorylist_id[.@i];
+					}
+					break;
+			}
+			setarray .@card[0],
+				getequipcardid(.@slot,0),
+				getequipcardid(.@slot,1),
+				getequipcardid(.@slot,2),
+				getequipcardid(.@slot,3);
+			.@equip_id = getequipid(.@slot);
+			.@equip_refine = getequiprefinerycnt(.@slot);
+			if(.@card[1] > 0) {
+				mes .n$;
+				mes "This item is completely enchanted!";
+				close;
+			}
+			if(.@card[3] == 0)
+				.@enchant_slot = 3;
+			else if(.@card[2] == 0)
+				.@enchant_slot = 2;
+			else .@enchant_slot = 1;
+			
+			if(!getarraysize(.@enchants)) {
+				mes .n$;
+				mes "You don't have any modules.";
+				close;
+			}
+			for(.@i = 0; .@i < getarraysize(.@enchants); .@i++) {
+				.@menu$ += getitemname(.@enchants[.@i])+":";
+			}
+			mes .n$;
+			mes "Select the module you want to enchant.";
+			next;
+			.@enchantId = .@enchants[select(.@menu$) - 1];
+			.@index = inarray(.moduleID,.@enchantId);
+			.@modificationId = .modificationID[.@index];
+			.@limit = .enchant_limits[inarray(.enchant_limits, .@enchantId)+1];
+			if(.@limit < 3) {
+				if(.@slot == EQI_SHOES){
+					if(inarray(.modificationLimit_1,.@modificationId) > -1){
+						for(.@i = 0; .@i < getarraysize(.modificationLimit_1); .@i++) {
+							if(inarray(.modificationLimit_1,.@card[.@i]) > -1) .@count = 4;
+						}
+					}
+				}
+				for(.@i = 0; .@i < getarraysize(.@card); .@i++) {
+					if(.@card[.@i] == .@modificationId) .@count++;
+				}
+			}
+			if(.@count >= .@limit) {
+				mes .n$;
+				mes "You cannot enchant this module more than "+.@limit+" times.";
+				close;
+			}
+			.@card[.@enchant_slot] = .@modificationId;
+			// if (callfunc("F_IsEquipIDHack", .@slot, .@equip_id) || callfunc("F_IsEquipCardHack", .@slot, .@card[0], .@card[1], .@card[2], .@card[3]) || 
+			// 	callfunc("F_IsEquipRefineHack", .@slot, .@equip_refine))
+			// 		close; 
+			mes .n$;
+			mes "Done.";
+			delitem .@enchantId,1;
+			specialeffect2 EF_REPAIRWEAPON;
+			delequip .@slot;
+			getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+			close;
+	}
+
+OnInit:
+	setarray .enchant_limits[0],25670,3,
+	25671,3,
+	25672,3,
+	25673,3,
+	25674,3,
+	25675,3,
+	25676,3,
+	25677,3,
+	25678,2,
+	25679,2,
+	25680,1,
+	25681,1,
+	25682,1,
+	25683,1,
+	25684,2,
+	25685,2,
+	25686,2,
+	25687,2,
+	25688,2,
+	25689,2,
+	25690,2,
+	25691,2,
+	25692,2,
+	25693,1,
+	25694,1,
+	25695,1,
+	25696,1,
+	25697,1,
+	25698,1,
+	25699,1,
+	25700,1,
+	25701,1,
+	25702,1,
+	25703,1,
+	25704,1,
+	25705,1;
+	setarray .modificationLimit_1[0],29557,29558,29559,29560,29561,29562;
+	setarray .armor_enchants[0],25670,25671,25687,25688,25689,25693;
+	setarray .shoes_enchants[0],25670,25671,25684,25685,25686,25694,25700,25701,25702,25703,25704,25705;
+	setarray .acc_l_enchants[0],25672,25673,25676,25677,25679,25680,25681,25682,25683,25684,25697,25699;
+	setarray .acc_r_enchants[0],25672,25673,25674,25675,25678,25680,25681,25682,25683,25684,25696,25698;
+	setarray .wing_enchants[0],25670, 25671,25690,25691,25692,25695;
+
+	setarray .moduleID[0],25670,25671,25672,25673,25674,25675,25676,25677,25678,25679,25680,25681,25682,25683,25684,25685,25686,25687,25688,25689,25690,25691,25692,25693,25694,25695,25696,25697,25698,25699,25700,25701,25702,25703,25704,25705;
+	setarray .modificationID[0],29527,29528,29529,29530,29531,29532,29533,29534,29535,29536,29537,29538,29539,29540,29541,29542,29543,29544,29545,29546,29547,29548,29549,29550,29551,29552,29553,29554,29555,29556,29557,29558,29559,29560,29561,29562;
+
+	setarray .armors[0], 15376, 15377;
+	setarray .shoes[0], 22196, 22197;
+	setarray .wings[0], 20933, 20934;
+	setarray .accessories_r[0], 32207, 32209;
+	setarray .accessories_l[0], 32208, 32210;
+	.n$ = "[Illusion Enchanter]";
+	end;
+}
+
+//warps
+einbroch,302,331	warp	catpubwarp#1	2,2,pub_cat,49,27
+pub_cat,44,27	warp	catpubwarp#2	2,2,einbroch,302,326
+pub_cat,146,105	warp	catpubwarp#3	2,2,pub_cat,100,106
+sp_rudus,198,270	warp	ruduswarp#1		2,2,sp_rudus,198,290
+
+
+-	itemshop	IllusionShop1	-1,25723,15376:50,15377:50,20933:50,20934:50,22196:50,22197:50,32208:50,32207:50,32209:50,32210:50,32208:50
+-	shop	Card Exchanger	-1,909:40,502:200
+
+sp_os,0,0	monster	Heart Hunter Bellare	20355,40,5000
+sp_os,0,0	monster	Heart Hunter Sanare	20357,40,5000
+sp_os,0,0	monster	Venenum	20363,5,5000
+
+sp_rudus,0,0	monster	Dolor	20361,30,5000
+sp_rudus,0,0	monster	Venenum	20363,30,5000
+sp_rudus,0,0	monster	Twin Caputs	20365,30,5000
+
+sp_rudus2,0,0	monster	Plaga	20359,58,5000
+sp_rudus2,0,0	monster	High Hunter Bellare	20356,40,5000
+sp_rudus2,0,0	monster	High Hunter Sanare	20358,37,5000
+sp_rudus2,0,0	monster	Mutant Dolor	20362,45,5000
+sp_rudus2,0,0,0,0	boss_monster	R48-85-Bestia 	20381,1,43200000,600000,1
+
+sp_rudus3,0,0	monster	Mutant Dolor	20362,60,5000
+sp_rudus3,0,0	monster	Mutant Twin Caput	20366,65,5000
+sp_rudus3,0,0	monster	Mutant Venenum	20364,65,5000
+sp_rudus3,0,0	monster	Mutant Plaga	20360,53,5000
+
+
+sp_rudus,194,375,5	script	Rudus Warper#rudus	811,{
+	if(illusion_main < 10) end;
+	mes "[Warper]";
+	mes "Please tell me";
+	mes "which floor you'd like to visit";
+	if(select("F2:F3") == 1 ){
+		warp "sp_rudus2",184,260;
+		end;
+	}
+	warp "sp_rudus3",369,207;
+	end;
+}
+
+sp_rudus,205,375,3	script	Rudus Quests#rudus	402,{
+	mes .n$;
+	if(illusion_main < 10) {
+		mes "You cannot recieve the daily quests yet";
+		close;
+	}
+	.@cooldown = checkquest(.cooldown_quest,PLAYTIME);
+	.@hunt = checkquest(.hunt_quest, HUNTING);
+	switch(.@cooldown) {
+		case -1:
+			if(!isbegin_quest(.hunt_quest)) {
+				mes "Do you want to start doing the Rudus Daily quest?";
+				next;
+				if(select("Yes:No") -1 ) close;
+				mes .n$;
+				if(checkquest(.hunt_quest) > -1) erasequest .hunt_quest;
+				setquest .hunt_quest;
+				mes "You need to hunt down :";
+				mes "^ff0000100 Dolors^000000";
+				mes "^ff0000100 Venenums^000000";
+				mes "^ff0000100 Twin Caputs^000000";
+				close;
+			}
+			if(.@hunt == 2) {
+				mes "I can't believe it, you actually killed all these monsters!";
+				mes "I'll give you a small reward for your efforts.";
+				mes "Check back with me tomorrow for more quest";
+				for(.@i = 0; .@i < getarraysize(.rewards); .@i = .@i + 2) {
+					getitem .rewards[.@i], .rewards[.@i+1];
+				}
+				getexp 100000,100000;
+				if(checkquest(.cooldown_quest)) erasequest .cooldown_quest;
+				erasequest .hunt_quest;
+				setquest .cooldown_quest;
+				close;
+			}
+			mes "You need to hunt down :";
+			mes "^ff0000100 Dolors^000000";
+			mes "^ff0000100 Venenums^000000";
+			mes "^ff0000100 Twin Caputs^000000";
+			close;
+		case 0:
+		case 1:
+			mes "You cannot recieve the hunting quest yet.";
+			close;
+
+		case 2:
+			mes "You can now recieve your daily quest.";
+			erasequest .cooldown_quest;
+			close;
+	}
+	close;
+
+OnInit:
+	.cooldown_quest = 100309;
+	.hunt_quest = 100308;
+	.n$ = "[^0000ffRudus Daily Quests^000000]";
+	setarray .rewards[0],25669,100,25723,100,25668,1;
+	end;
+}
+
+// sp_rudus,205,371,3	script	Rudus Gathering Quests	402,{
+// 	mes .n$;
+// 	switch(checkquest(.cooldown_quest,PLAYTIME)) {
+// 		case -1:
+// 			if(!isbegin_quest(.gathering_quest)) {
+// 				mes "Hello, can you help me with my research?";
+// 				next;
+// 				mes .n$:
+// 				mes "I need to gather samples from the....deformeties in this area";
+// 				mes "But they are dangerous so i can't approach them";
+// 				mes "Could you gather samples for me?";
+// 				next;
+// 				if(select("Sure:Nah") -1 ) close;
+// 				mes .n$;
+// 				mes "Thank you, you're a life saver!";
+// 				mes "Please gather:";
+// 				mes "^ff0000100x Tendon^000000";
+// 				mes "^ff0000100x Tough Scalelike Stem^000000";
+// 				mes "^ff0000100x Fluorescent Liquid^000000";
+// 				setquest .gathering_quest;
+// 				close;
+// 			}
+// 			if(countitem(1050) >= 100 && countitem(7012) >= 100 && countitem(7326) >= 100) {
+// 				delitem 1050,100;
+// 				delitem 7012,100;
+// 				delitem 7326,100;
+// 				mes "Thank you so much for gathering the required samples for me!";
+// 				erasequest(.gathering_quest);
+// 				setquest .cooldown_quest;
+// 				for(.@i = 0; .@i < getarraysize(.rewards); .@i = .@i +2) {
+// 					getitem .rewards[.@i], .rewards[.@i+1]
+// 				}
+// 				getexp 100000,100000;
+// 				close;
+// 			}
+// 	}
+
+// OnInit:
+// 	.gathering_quest = 100310;
+// 	.cooldown_quest = 100309;
+// 	.n$ = "[^0000ffRudus Daily Quests^000000]";
+// 	setarray .rewards[0],25669,20,25723,20,25668,3;
+// 	end;
+// }
+
+sp_rudus2,205,375,3	script	Rudus Quests#scndflr	402,{
+	mes .n$;
+	if(illusion_main < 10) {
+		mes "You cannot recieve the daily quests yet";
+		close;
+	}
+	.@cooldown = checkquest(.cooldown_quest,PLAYTIME);
+	.@hunt = checkquest(.hunt_quest, HUNTING);
+	switch(.@cooldown) {
+		case -1:
+			if(!isbegin_quest(.hunt_quest)) {
+				mes "Do you want to start doing the Rudus Daily quest?";
+				next;
+				if(select("Yes:No") -1 ) close;
+				mes .n$;
+				if(checkquest(.hunt_quest) > -1) erasequest .hunt_quest;
+				setquest .hunt_quest;
+				mes "You need to hunt down :";
+				mes "^ff0000150 Plaga^000000";
+				mes "^ff0000150 Heart Hunter Senare^000000";
+				mes "^ff0000150 Heart Hunter Beillare^000000";
+				close;
+			}
+			if(.@hunt == 2) {
+				mes "I can't believe it, you actually killed all these monsters!";
+				mes "I'll give you a small reward for your efforts.";
+				mes "Check back with me tomorrow for more quest";
+				for(.@i = 0; .@i < getarraysize(.rewards); .@i = .@i + 2) {
+					getitem .rewards[.@i], .rewards[.@i+1];
+				}
+				getexp 200000,200000;
+				if(checkquest(.cooldown_quest)) erasequest .cooldown_quest;
+				erasequest .hunt_quest;
+				setquest .cooldown_quest;
+				close;
+			}
+			mes "You need to hunt down :";
+			mes "^ff0000150 Plaga^000000";
+			mes "^ff0000150 Heart Hunter Senare^000000";
+			mes "^ff0000150 Heart Hunter Beillare^000000";
+			close;
+		case 0:
+		case 1:
+			mes "You cannot recieve the hunting quest yet.";
+			close;
+
+		case 2:
+			mes "You can now recieve your daily quest.";
+			erasequest .cooldown_quest;
+			close;
+	}
+	close;
+
+OnInit:
+	.cooldown_quest = 100312;
+	.hunt_quest = 100311;
+	.n$ = "[^0000ffRudus Daily Quests^000000]";
+	setarray .rewards[0],25669,150,25723,150,25668,2;
+	end;
+}
+
+sp_rudus3,205,375,3	script	Rudus Quests#thrdflr	402,{
+	mes .n$;
+	if(illusion_main < 10) {
+		mes "You cannot recieve the daily quests yet";
+		close;
+	}
+	.@cooldown = checkquest(.cooldown_quest,PLAYTIME);
+	.@hunt = checkquest(.hunt_quest, HUNTING);
+	switch(.@cooldown) {
+		case -1:
+			if(!isbegin_quest(.hunt_quest)) {
+				mes "Do you want to start doing the Rudus Daily quest?";
+				next;
+				if(select("Yes:No") -1 ) close;
+				mes .n$;
+				if(checkquest(.hunt_quest) > -1) erasequest .hunt_quest;
+				setquest .hunt_quest;
+				mes "You need to hunt down :";
+				mes "^ff0000200 Mutant Dolors^000000";
+				mes "^ff0000200 Mutant Venenums^000000";
+				mes "^ff0000200 Mutant Twin Caputs^000000";
+				close;
+			}
+			if(.@hunt == 2) {
+				mes "I can't believe it, you actually killed all these monsters!";
+				mes "I'll give you a small reward for your efforts.";
+				mes "Check back with me tomorrow for more quest";
+				for(.@i = 0; .@i < getarraysize(.rewards); .@i = .@i + 2) {
+					getitem .rewards[.@i], .rewards[.@i+1];
+				}
+				getexp 300000,300000;
+				if(checkquest(.cooldown_quest)) erasequest .cooldown_quest;
+				erasequest .hunt_quest;
+				setquest .cooldown_quest;
+				close;
+			}
+			mes "You need to hunt down :";
+			mes "^ff0000200 Mutant Dolors^000000";
+			mes "^ff0000200 Mutant Venenums^000000";
+			mes "^ff0000200 Mutant Twin Caputs^000000";
+			close;
+		case 0:
+		case 1:
+			mes "You cannot recieve the hunting quest yet.";
+			close;
+
+		case 2:
+			mes "You can now recieve your daily quest.";
+			erasequest .cooldown_quest;
+			close;
+	}
+
+OnInit:
+	.cooldown_quest = 100314;
+	.hunt_quest = 100313;
+	.n$ = "[^0000ffRudus Daily Quests^000000]";
+	setarray .rewards[0],25669,200,25723,200,25668,3;
+	end;
+}
