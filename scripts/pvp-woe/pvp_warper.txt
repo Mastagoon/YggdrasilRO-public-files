@@ -1,0 +1,573 @@
+//===== rAthena Script ======================================= 
+//= PvP Warper
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrsailRO's PvP Warper
+//= use @set $eventpvpmode to change the event PvP mode (0 = abracadabra, 1 = rapidfire, 2 = biohazard)
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+
+// You can use this function with other scripts as well.
+function	script	getEventpvpMap	{
+	.@mode = $eventpvpmode;
+	setarray .@maps$[0],"guild_vs2","guild_vs2-1","guild_vs2-3";
+	return .@maps$[.@mode];
+}
+function	script	dispell	{
+
+	while(.@i++ < SC_SPL_MATK) {
+		if(
+			.@i != SC_WEIGHT50 &&
+			.@i != SC_WEIGHT90 &&
+			.@i != SC_NOCHAT &&
+			.@i != SC_BABY &&
+			/*
+			.@i != SC_WEDDING &&
+			.@i != SC_XMAS &&
+			.@i != SC_SUMMER &&
+			.@i != SC_HANBOK &&
+			.@i != SC_OKTOBERFEST &&
+			*/
+			.@i != SC_JAILED &&
+			.@i != SC_EXPBOOST &&
+			.@i != SC_ITEMBOOST
+		)
+			sc_end .@i;
+	}
+	.@i = SC_FEAR;
+	while(.@i++ < SC_AKAITSUKI)
+		sc_end .@i;
+	return;
+}
+
+function	script	strip	{
+	for(.@i = 0; .@i < 10; .@i++) {	// all normal equips
+		//debugmes "checking equip: "+.@i;
+		if(!getequipisequiped(.@i)) continue;
+		//debugmes "equip: "+.@i+" is equipped.";
+		setarray @pvp_equips[getarraysize(@pvp_equips)],getequipid(.@i,getcharid(0));
+		//debugmes "player item added: "+getequipid(.@i,getcharid(0));
+		unequip .@i;
+	}
+	for(.@i = 14; .@i < 21; .@i++) {	// all shadow gear/ammo
+		if(!getequipisequiped(.@i)) continue;
+		setarray @pvp_equips[getarraysize(@pvp_equips)],getequipid(.@i,getcharid(0));
+		//debugmes "player item added: "+getequipid(.@i,getcharid(0));
+		unequip .@i;
+	}
+	return;
+}
+prontera,127,62,4	script	PVP#0	4_M_SAKRAYROYAL,{
+OnDial:
+	.@n$ = "^3227cd[حلبة الشغب]^000000";
+	mes .@n$;
+	if(BaseLevel >= .min_lv) {
+		mes "هل تريد دخول الحلبة؟";
+		if(.debuff)
+			mes "^8b0d1fسيتم إزالة جميع الحالات عنك عند الدخول^000000";
+		next;
+		.@users = getmapusers(.map$);
+		.@users2 = getmapusers(getEventpvpMap());
+		setarray .@menu$[1],"^777777["+lastchoice$+"]^000000","دخول الحلبة [ "+.@users+" ]","حلبة الفعاليّات [ "+.@users2+" ]","حلبة النقابة","إنشاء حلبة خاصة","دخول حلبة خاصة","متجر الحلبة","توقيت الساعة السعيدة","إلغاء";
+		switch(select(implode(.@menu$,":"))-1) {
+			case 1:	
+				if(lastchoice$ == "دخول حلبة النقابة") .@lastmap$ = "guild_vs3";
+			    else if(lastchoice$ == "دخول حلبة الفعاليّات") callsub OnEnterEventPvp;
+				else { .@lastmap$ = .map$; lastchoice$ = "دخول الحلبة"; }
+				.@playermap$ = strcharinfo(3);
+				specialeffect2 F_Rand(EF_STORMKICK1,EF_STORMKICK2,EF_STORMKICK3,EF_STORMKICK6,EF_STORMKICK7);
+				sleep2 600;
+				specialeffect2 F_Rand(EF_SPINMOVE,EF_CASTSPIN2);
+				sleep2 550;
+				if(.@playermap$ != strcharinfo(3)) end;
+				if(.debuff)
+					dispell();
+				warp .@lastmap$,0,0;
+				announce callfunc("formatArabic",""+strcharinfo(0)+" دخل إلى الحلبة"),bc_all,0xb50505;
+				discord(strcharinfo(0)+" دخل إلى الحلبة.", "pvp");
+				end;
+
+			case 2:	// enter normal pvp room
+				.@playermap$ = strcharinfo(3);
+				specialeffect2 F_Rand(EF_STORMKICK1,EF_STORMKICK2,EF_STORMKICK3,EF_STORMKICK6,EF_STORMKICK7);
+				sleep2 600;
+				specialeffect2 F_Rand(EF_SPINMOVE,EF_CASTSPIN2);
+				sleep2 550;
+				if(.@playermap$ != strcharinfo(3)) end;
+				if(.debuff)
+					dispell();
+				warp .map$,0,0;
+				announce callfunc("formatArabic",""+strcharinfo(0)+" دخل إلى الحلبة"),bc_all,0xb50505;
+				discord(strcharinfo(0)+" دخل إلى الحلبة.", "pvp");
+				lastchoice$ = "دخول الحلبة";
+				end;
+			case 3: // enter event pvp
+				callsub OnEnterEventPvp;
+				end;
+			case 4:	// gvg
+				.@playermap$ = strcharinfo(3);
+				specialeffect2 F_Rand(EF_STORMKICK1,EF_STORMKICK2,EF_STORMKICK3,EF_STORMKICK6,EF_STORMKICK7);
+				sleep2 600;
+				specialeffect2 F_Rand(EF_SPINMOVE,EF_CASTSPIN2);
+				sleep2 550;
+				if(.@playermap$ != strcharinfo(3)) end;
+				if(.debuff)
+					dispell();
+				warp "guild_vs3",0,0;
+				announce callfunc("formatArabic",""+strcharinfo(0)+" دخل إلى حلبة النقابة"),bc_all,0xb50505;
+				discord(strcharinfo(0)+" دخل إلى حلبة النقابة.", "pvp");
+				lastchoice$ = "دخول حلبة النقابة";
+				end;
+			case 5:	// create private room
+				next;
+				mes .@n$;
+				if(Zeny < 100000) {
+					mes "ليس لديك زيني كافي, إنشاء";
+					mes "حلبة خاصة سيكلفك 100,000 زيني";
+				}
+				mes "إنشاء حلبة خاصة سيكلفك 100,000 زيني";
+				mes "هل أنت متأكد من انك تريد إنشاء حلبة خاصة؟";
+				next;
+				select("نعم انا متأكد");
+				if(.maps_available == 0) {
+					mes .@n$;
+					mes "يبدو أن كل الحلبات الخاصة مشغولة حالياً.";
+					mes "حاول مرة أخرى لاحقاً.";
+					close;
+				}
+				mes .@n$;
+				mes "اختر كلمة المرور للخريطة الخاصة";
+				mes "^ff0000كلمة المرور يجب أن تكون على الأقل";
+				mes "من ثلاثة أحرف.^000000";
+				input .@password$,3,20;
+				next;
+				mes .@n$;
+				if(getstrlen(.@password$) < 3 || getstrlen(.@password$) > 20) {
+					mes "كلمة المرور يجب أن تكون مابين 3 و 20 حرفاً.";
+					close;
+				}
+				mes "كلمة المرور هي";
+				mes .@password$;
+				mes "سيتم نقلك إلى غرفة الشغب الخاصة.";
+				next;
+				setarray .private_map_passwords$[.maps_available],.@password$;
+				setarray .private_map_owner$[.maps_available],strcharinfo(0);
+				Zeny = Zeny - 100000;
+				if(.maps_available == 5) initnpctimer;
+				warp .private_maps$[.maps_available],0,0;
+				.maps_available--;
+				end;
+			case 6:	// join private
+				mes .@n$;
+				mes "أدخل كلمة المرور للحلبة التي تريد دخولها";
+				input .@password$,3,20;
+				next;
+				if(inarray(.private_map_passwords$,.@password$) == -1) {
+					mes .@n$;
+					mes "كلمة المرور التي أدخلتها خاطئة.";
+					close;
+				}
+				warp .private_maps$[inarray(.private_map_passwords$,.@password$)],0,0;
+				mapannounce .private_maps$[inarray(.private_map_passwords$,.@password$)],callfunc("formatArabic",""+strcharinfo(0)+" دخل إلى الحلبة"),bc_map,0xb50505;
+				end;
+			case 7:	//pvp shop
+				close2;
+				callshop "newpvpshop";
+				end;
+			case 8:
+				mes "الساعة السعيدة هي الفترة التي";
+				mes "يسقط فيها من اللاعبين عملات";
+				mes "الحلبة عند قتلهم.";
+				next;
+				mes .@n$;
+				mes "أوقات الساعة السعيدة:";
+				mes "1:00 PM";
+				mes "5:00 PM";
+				mes "11:00 PM";
+				close;
+			case 9:
+				close;
+		}
+	} else {
+		mes "You must be at least level "+.min_lv+" to be able to enter the room.";
+		close;
+	}
+	end;
+
+OnEnterEventPvp:
+	// mes "حلبة الفعاليّات مغلقة حالياً.";
+	// close;
+	switch($eventpvpmode) {
+		case 0:	//abracadabra
+			if(checkwug() || checkhomcall() == 0) {
+				mes "لايمكنك إدخال الذئاب والحيوانات";
+				mes "الأليفة والهومنكلس إلى هذه الحلبة.";
+				close;
+			}
+			dispell();
+			hocuspvp = 1;
+			strip();
+			gethotkeys();
+			STR_hocus = readparam(bStr);
+			AGI_hocus = readparam(bAgi);
+			VIT_hocus = readparam(bVIT);
+			INT_hocus = readparam(bInt);
+			DEX_hocus = readparam(bDex);
+			LUK_hocus = readparam(bLuk);
+			STA_hocus = StatusPoint;
+			ResetStatus;
+			set StatusPoint,0;
+			percentheal 100,100;
+			getskilllist(getcharid(0));
+			SKILLP_hocus = SkillPoint;
+			resetskill;
+			SkillPoint = 0;
+			clearhotkeys();
+			if(!countitem(60030)) getitem 60030,1;
+			equip 60030;
+			specialeffect2 EF_INCAGILITY;
+			sc_start SC_INCREASEAGI,240000,10;
+			specialeffect2 EF_BLESSING;
+			sc_start SC_BLESSING,240000,10;
+			getitem 715,100;
+			break;
+		case 1:
+			if(!countitem(60033)) getitem 60033,1;
+			equip 60033;
+			break;
+		case 2:	//lab pvp
+			if(checkwug() || checkhomcall() == 0) {
+				mes "لايمكنك إدخال الذئاب والحيوانات";
+				mes "الأليفة والهومنكلس إلى هذه الحلبة.";
+				close;
+			}
+			dispell();
+			strip();
+			specialeffect2 EF_INCAGILITY;
+			sc_start SC_INCREASEAGI,240000,10;
+			specialeffect2 EF_BLESSING;
+			sc_start SC_BLESSING,240000,10;
+			setarray .mobs[0],1646,1649,1651,2228,2230,2231,2225,1647,1642,2229,1638,2226;
+			//,1648,1647,1646;
+			// setarray .mobs[0],1651,1650,1649,1648,1647,1646;
+			gethotkeys();
+			STR_lab = readparam(bStr);
+			AGI_lab = readparam(bAgi);
+			VIT_lab = readparam(bVIT);
+			INT_lab = readparam(bInt);
+			DEX_lab = readparam(bDex);
+			LUK_lab = readparam(bLuk);
+			STA_lab = StatusPoint;
+			ResetStatus;
+			set StatusPoint,0;
+			percentheal 100,100;
+			getskilllist(getcharid(0));
+			SKILLP_lab = SkillPoint;
+			resetskill;
+			SkillPoint = 0;
+			clearhotkeys();
+			switch(.mobs[rand(getarraysize(.mobs))]) {//9999999
+				case 1646:	//Lord knight
+					disguise 1646;
+					if(!countitem(60066)) getitem 60066,1;
+					equip 60066;
+					labpvp = 1;
+					break;
+				case 1649:	//high priest
+					disguise 1649;
+					if(!countitem(60068)) getitem 60068,1;
+					equip 60068;
+					labpvp = 2;
+					break;
+				case 1651:	//hw
+					disguise 1651;
+					if(!countitem(60070)) getitem 60070,1;
+					equip 60070;
+					labpvp = 3;
+					break;
+				case 2228:
+					disguise 2228;
+					if(!countitem(60071)) getitem 60071,1;
+					if(!countitem(2101)) getitem 2101,1;
+					equip 60071;
+					equip 2101;
+					labpvp = 4;
+					break;
+				case 2230:
+					disguise 2230;
+					if(!countitem(60072)) getitem 60072,1;
+					equip 60072;
+					labpvp = 5;
+					break;
+				case 2231:
+					disguise 2231;
+					if(!countitem(60073)) getitem 60073,1;
+					equip 60073;
+					labpvp = 6;
+					break;
+				case 1647:	//SinX
+					disguise 1647;
+					if(!countitem(60074)) getitem 60074,1;
+					// if(!countitem(1286)) getitem 1286,1;
+					// equip 1286;
+					equip 60074;
+					sleep2 500;
+					// updatehotkey(1,135,10,0);
+					// updatehotkey(1,136,5,1);
+					// updatehotkey(1,379,10,2);
+					labpvp = 7;
+					break;
+				case 2225:	//stalker
+					disguise 2225;
+					if(!countitem(60075)) getitem 60075,1;
+					if(!countitem(1286)) getitem 1286,1;
+					equip 1286;
+					equip 60075;
+					sleep2 500;
+					// updatehotkey(1,135,10,0);
+					// updatehotkey(1,136,5,1);
+					// updatehotkey(1,379,10,2);
+					labpvp = 8;
+					break;
+				case 1642:	//whitesmith
+					disguise 1642;
+					if(!countitem(60077)) getitem 60077,1;
+					equip 60077;
+					labpvp = 9;
+					break;
+				case 2229:	//creator
+					disguise 2229;
+					if(!countitem(60078)) getitem 60078,1;
+					equip 60078;
+					labpvp = 10;
+					break;
+				case 1638:	//cecil sniper
+					disguise 1638;
+					if(!countitem(60069)) getitem 60069,1;
+					equip 60069;
+					labpvp = 11;
+					break;
+				case 2226:
+					if(Sex == SEX_FEMALE) disguise 2227;
+					else disguise 2226;
+					if(!countitem(60067)) getitem 60067,1;
+					equip 60067;
+					labpvp = 12;
+					break;
+			}
+	}
+	.@playermap$ = strcharinfo(3);
+	specialeffect2 F_Rand(EF_STORMKICK1,EF_STORMKICK2,EF_STORMKICK3,EF_STORMKICK6,EF_STORMKICK7);
+	sleep2 600;
+	specialeffect2 F_Rand(EF_SPINMOVE,EF_CASTSPIN2);
+	sleep2 550;
+	// if(.@playermap$ != strcharinfo(3)) end;
+	announce callfunc("formatArabic",""+strcharinfo(0)+" دخل إلى حلبة الفعاليّات"),bc_all,0xb50505;
+	discord(strcharinfo(0)+" دخل إلى حلبة الفعاليّات.", "pvp");
+	warp getEventpvpMap(),0,0;
+	lastchoice$ = "دخول حلبة الفعاليّات";
+	end;
+
+
+OnTimer10000:
+	delwaitingroom;
+	.@count = getmapusers(.map$);
+	.@count2 = getmapusers(getEventpvpMap());
+	.@num = .@count > .@count2 ? .@count : .@count2;
+	waitingroom "PVP Room ["+.@num+"]",0;
+	sleep 2000;
+	stopnpctimer;
+	end;
+OnInit:
+	// This command can be used to enter the PvP Room.
+	//bindatcmd "pvp","PvP#0::OnCommand";
+	startnpctimer;
+
+	// Command to rotate the room maually.
+	//bindatcmd "rotatepvp","PvP#0::OnMinute00",60;
+	.pvpcoin = 60206;
+	// Min LvL to enter the room.
+	.min_lv = 1;
+
+	// Will players be dispelled upon entering the room?
+	.debuff = false;
+	//waiting room
+	//waitingroom ("PVP Room [0]")+".",0;
+
+	//private maps
+	.maps_available = 5;
+	setarray .private_map_passwords$[0],"";
+	setarray .private_maps$[1],"pvp_n_1-5",
+								"pvp_n_2-5",
+								"pvp_n_3-5",
+								"pvp_n_4-5",
+								"pvp_n_5-5";
+	setarray .private_map_owner$[0],"";
+
+	// PvP maps go here. Change them as you wish.//getEventpvpMap(),"guild_vs3","guild_vs5","pvp_y_1-1","guild_vs4","guild_vs1","arena_room";
+	setarray .maps$[0],"guild_vs3", // sandwich
+						"pvp_n_7-5", // compass
+						"guild_vs4", //izlude
+						"guild_vs5", //gvs5
+						"pvp_n_7-3",
+						"grandarena",
+						"matrix_dojo"; //four room
+	
+	// Max amount of times a map can be repeated. 0 = unlimited.
+	.row = 3;
+
+	.size = getarraysize(.maps$);
+
+	if(.map$ == "") {
+		// You can edit the room mapflags here.
+		setarray .mapfl[0], mf_nosave,
+					mf_nodrop,
+					mf_novending,
+					mf_noteleport,
+					mf_noreturn,
+					mf_nowarp,
+					mf_nowarpto,
+					mf_nomemo,
+					mf_nopenalty,
+					mf_nobranch,
+					mf_hidemobhpbar,
+					// mf_nocommand,
+					mf_pvp,
+					mf_pvp_noguild,
+					//mf_pvp_noparty,
+					//mf_pvp_nocalcrank,
+					mf_loadevent;
+
+		.@i = getarraysize(.mapfl);
+		while(.@i--) {
+			.@j = .size;
+			while(.@j--)
+				setmapflag .maps$[.@j],.mapfl[.@i];
+		}
+
+	}
+	.@map$ = .map$;
+	.@r    = rand(.size);
+	.map$  = .maps$[.@r];
+	if(.@row && .map$ == .@map$) {
+		if(++.row >= .@row) {
+			deletearray .maps$[.@r],1;
+			.map$ = .maps$[rand(.size - 1)];
+			.row  = 0;
+		}
+	} else if(.row) {
+		.row = 0;
+	}
+	if(.map$ != .@map$ && .@map$ != "") {
+		mapwarp .@map$,.map$,0,0;
+		sleep 2500;
+		mapannounce .map$,"لقد تم تغيير غرفة الحلبة",bc_npc,0xe53a12;
+	}
+	//donpcevent "PVP#0::OnUpdateCount";
+	freeloop(1);
+	while( 1 ){
+		delwaitingroom;
+		.@count = getmapusers(.map$);
+		.@count2 = getmapusers(getEventpvpMap());
+		.@num = .@count > .@count2 ? .@count : .@count2;
+		waitingroom "PVP Room ["+.@num+"]",0;
+		sleep 2000;
+		delwaitingroom;
+	}
+	freeloop(0);
+	end;
+OnMinute00:
+OnMinute30:
+	if(strnpcinfo(3) != "PVP#0") end;
+	.@map$ = .map$;
+	.@r    = rand(.size);
+	.map$  = .maps$[.@r];
+	if(.@row && .map$ == .@map$) {
+		if(++.row >= .@row) {
+			deletearray .maps$[.@r],1;
+			.map$ = .maps$[rand(.size - 1)];
+			.row  = 0;
+		}
+	} else if(.row) {
+		.row = 0;
+	}
+	if(.map$ != .@map$ && .@map$ != "") {
+		mapwarp .@map$,.map$,0,0;
+		sleep 2500;
+		mapannounce .map$,"لقد تم تغيير غرفة الحلبة",bc_npc,0xe53a12;
+	}
+	//donpcevent "PVP#0::OnUpdateCount";
+	end;
+
+
+OnTimer180000:
+	if(.maps_available == 5) { stopnpctimer; end; }
+	for(.@i = .maps_available; .@i < getarraysize(.private_maps$); .@i++) {
+		if(getmapusers(.private_maps$[.@i+1]) == 0) {
+			.maps_available++;
+			setarray .private_map_passwords$[.@i+1],"";
+			message .private_map_owner$[.@i+1], "لقد تم إغلاق الحلبة الخاصة بك.";
+			setarray .private_map_owner$[.@i+1],"";
+		}
+	}
+	setnpctimer 0;
+	end;
+// OnPCLoadMapEvent:
+OnPCLogoutEvent:
+	if(strcharinfo(3) == "guild_vs2-1") dispell();
+	/*if(strcharinfo(3) == .map$ || @in_pvp) {
+		@in_pvp = !@in_pvp;
+		donpcevent "PVP#0::OnUpdateCount";
+	}
+	*/end;
+}
+
+pvp_n_7-3,99,151,5	script	Leave PVP	678,{
+	message strcharinfo(0),"Quitting the room...";
+	unitstopwalk getcharid(3);
+	pcblockmove getcharid(3),true;
+	pcblockskill getcharid(3),true;
+	setoption OPTION_HIDE|OPTION_CLOAK|OPTION_CHASEWALK,false;
+	.@hp = HP;
+	sleep2 1400;
+	while(.@i++ < 5) {
+		message strcharinfo(0),(6 - .@i)+"...";
+		sleep2 990;
+		if(HP+3000 < .@hp) {
+			message strcharinfo(0),"تم مقاطعة الخروج من الحلبة";
+			pcblockmove getcharid(3),false;
+			pcblockskill getcharid(3),false;
+			end;
+		}
+	}
+	specialeffect2 F_Rand(EF_STORMKICK1,EF_STORMKICK2,EF_STORMKICK3,EF_STORMKICK6,EF_STORMKICK7);
+	sleep2 600;
+	specialeffect2 F_Rand(EF_SPINMOVE,EF_CASTSPIN2);
+	sleep2 550;
+	warp "SavePoint",0,0;
+	pcblockmove getcharid(3),false;
+	pcblockskill getcharid(3),false;
+	//donpcevent "PVP#0::OnUpdateCount";
+	end;
+}
+
+pvp_n_7-1,99,182,5	duplicate(Leave PVP)	Leave PVP#2	678
+pvp_n_7-5,99,134,5	duplicate(Leave PVP)	Leave PVP#3	678
+pvp_y_7-2,128,57,5	duplicate(Leave PVP)	Leave PVP#4	678
+guild_vs5,50,77,5	duplicate(Leave PVP)	Leave PVP#5	678
+guild_vs3,49,86,5	duplicate(Leave PVP)	Leave PVP#6	678
+guild_vs4,48,95,5	duplicate(Leave PVP)	Leave PVP#7	678
+grandarena,49,85,5	duplicate(Leave PVP)	Leave PVP#8	678
+//getEventpvpMap()49,92,5	duplicate(Leave PVP)	Leave PVP#8	678
+aimia,114,186,4	duplicate(PVP#0)	PVP#aimia	4_M_SAKRAYROYAL
+ghouse01,110,187,3	duplicate(PVP#0)	PVP#gh1	4_M_SAKRAYROYAL
+ghouse02,110,187,3	duplicate(PVP#0)	PVP#gh2	4_M_SAKRAYROYAL
+ghouse03,110,187,3	duplicate(PVP#0)	PVP#gh3	4_M_SAKRAYROYAL
+ghouse04,110,187,3	duplicate(PVP#0)	PVP#gh4	4_M_SAKRAYROYAL
+ghouse05,110,187,3	duplicate(PVP#0)	PVP#gh5	4_M_SAKRAYROYAL
+manuk,269,139,4	duplicate(PVP#0)	PVP#manuk	4_M_SAKRAYROYAL
+rachel,122,113,4	duplicate(PVP#0)	PVP#rachel	4_M_SAKRAYROYAL
+lasagna,197,171,3	duplicate(PVP#0)	PVP#las1	4_M_SAKRAYROYAL
+ayothaya,218,188,3	duplicate(PVP#0)	PVP#ayo	4_M_SAKRAYROYAL

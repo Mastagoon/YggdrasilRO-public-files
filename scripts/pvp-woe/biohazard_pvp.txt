@@ -1,0 +1,205 @@
+//===== rAthena Script ======================================= 
+//= Biohazard PvP Mode
+//===== By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= YggdrsailRO's Biohazard PvP Mode
+//===== Current Version: =====================================
+//= 1.0
+//===== Notes: ===============================================
+//= Video: https://www.youtube.com/watch?v=42aJJ_5ysFA&ab_channel=Mastagoon
+//============================================================
+
+-	script	pvplab	-1,{
+OnInit:
+	.map$ = "guild_vs2-3";
+    setarray .@flags[0],mf_loadevent, mf_pvp, mf_pvp_noguild, mf_noitemconsumption, mf_nowarp, mf_noteleport, mf_nowarpto, mf_nosave, mf_nomemo, mf_noequip, mf_noreturn;
+    for(.@i = 0; .@i < getarraysize(.@flags); .@i++)
+        if(!getmapflag(.map$, .@flags[.@i])) setmapflag(.map$, .@flags[.@i]);
+	// removemapflag .map$,mf_nocommand;
+	end;
+
+
+function	lableave	{
+	labpvp = 0;
+	undisguise;
+	resetskill;
+	freeloop(1);
+	warp "SavePoint",0,0;
+	for(.@i = 0; .@i < @skilllist_count; .@i++) {
+		skill @skilllist_id[.@i],@skilllist_lv[.@i],@skilllist_flag[.@i];
+	}
+	SkillPoint = SKILLP_lab;
+	for(.@i = 0; .@i < @hotkey_count; .@i++){
+		updatehotkey(@hotkey_type[.@i],@hotkey_id[.@i],@hotkey_lv[.@i],@hotkey_pos[.@i]);
+	}
+	for(.@i = 0; .@i < getarraysize(@pvp_equips); .@i++) {
+		equip @pvp_equips[.@i];
+	}
+	freeloop(0);
+	deletearray @pvp_equips;
+	hocuspvp = 0;
+	ResetStatus;
+	set StatusPoint,STA_lab;
+	statusup2 bStr,STR_lab - 1;
+	statusup2 bAgi,AGI_lab - 1;
+	statusup2 bVit,VIT_lab - 1;
+	statusup2 bInt,INT_lab - 1;
+	statusup2 bDex,DEX_lab - 1;
+	statusup2 bLuk,LUK_lab - 1;
+	undisguise;
+	setarray .@items[0],60066,60068,60070,60071,60072,60073,60074,60075;
+	for(.@i = 0; .@i < getarraysize(.@items); .@i++) {
+		if(countitem(.@items[.@i])) delitem .@items[.@i],countitem(.@items[.@i]);
+	}
+	maxhp = @maxhp_labs;
+	atcommand("@adjgroup 0");
+	return;
+}
+
+OnPCKillEvent:
+	if(strcharinfo(3) != .map$) end;
+	percentheal 100,100;
+	specialeffect2 EF_SPHERE;
+	specialeffect2 EF_HEAL2;
+	emotion 78,getcharid(3);
+	announce "[Event PvP]: "+strcharinfo(0)+" Has Slain "+rid2name(killedrid),bc_all;
+	end;
+
+OnPCLoadMapEvent:
+	if(strcharinfo(3) != .map$) end;
+	switch(labpvp) {
+		case 1:
+			updatehotkey(1,5,10,0);
+			updatehotkey(1,"SM_MAGNUM",10,1);
+			updatehotkey(1,"KN_CHARGEATK",1,2);
+			updatehotkey(1,"SM_PROVOKE",10,3);
+			updatehotkey(1,"LK_BERSERK",1,4);
+			@maxhp_labs = maxhp;
+			maxhp = 140000;
+			break;
+		case 2:
+			updatehotkey(1,"MG_SAFETYWALL",10,0);
+			updatehotkey(1,"AL_PNEUMA",1,1);
+			updatehotkey(1,"PR_LEXDIVINA",1,2);
+			updatehotkey(1,"NPC_HOLYATTACK",5,3);
+			updatehotkey(1,"AB_HIGHNESSHEAL",10,4);
+			@maxhp_labs = maxhp;
+			maxhp = 80000;
+			break;
+		case 3:
+			updatehotkey(1,"WZ_JUPITEL",10,0);
+			updatehotkey(1,"WZ_STORMGUST",10,1);
+			updatehotkey(1,"WZ_VERMILION",10,2);
+			updatehotkey(1,"MG_FROSTDIVER",10,3);
+			updatehotkey(1,"HW_MAGICPOWER",10,4);
+			@maxhp_labs = maxhp;
+			maxhp = 50000;
+			break;
+		case 4:
+			updatehotkey(1,"CR_AUTOGUARD",10,0);
+			updatehotkey(1,"CR_REFLECTSHIELD",10,1);
+			updatehotkey(1,"CR_SHIELDCHARGE",3,2);
+			updatehotkey(1,"CR_HOLYCROSS",10,3);
+			updatehotkey(1,"CR_GRANDCROSS",10,4);
+			@maxhp_labs = maxhp;
+			maxhp = 140000;
+			break;
+		case 5:
+			updatehotkey(1,"PF_DOUBLECASTING",5,0);
+			updatehotkey(1,"PF_FOGWALL",1,1);
+			updatehotkey(1,"MG_STONECURSE",10,2);
+			updatehotkey(1,"MG_FIREBOLT",10,3);
+			updatehotkey(1,"PF_SPIDERWEB",1,4);
+			atcommand("@adjgroup 1");
+			@maxhp_labs = maxhp;
+			maxhp = 70000;
+			break;
+		case 6:
+			updatehotkey(1,"MO_CHAINCOMBO",5,0);
+			updatehotkey(1,"MO_COMBOFINISH",5,1);
+			updatehotkey(1,"CH_TIGERFIST",5,2);
+			updatehotkey(1,"CH_CHAINCRUSH",5,3);
+			updatehotkey(1,"AL_RUWACH",1,4);
+			atcommand("@adjgroup 1");
+			@maxhp_labs = maxhp;
+			maxhp = 90000;
+			break;
+		case 7:	//sinx
+			updatehotkey(1,"AS_CLOAKING",2,0);
+			updatehotkey(1,"AS_SPLASHER",10,1);
+			updatehotkey(1,"ASC_BREAKER",10,2);
+			updatehotkey(1,"ASC_METEORASSAULT",5,3);
+			updatehotkey(1,"AS_SONICBLOW",5,4);
+			atcommand("@adjgroup 1");
+			@maxhp_labs = maxhp;
+			maxhp = 60000;
+			break;
+		case 8:	//stalker
+			updatehotkey(1,"ST_CHASEWALK",5,0);
+			updatehotkey(1,"TF_HIDING",10,1);
+			updatehotkey(1,"RG_BACKSTAP",10,2);
+			updatehotkey(1,"RG_CLOSECONFINE",1,3);
+			updatehotkey(1,"ST_PRESERVE",1,4);
+			@maxhp_labs = maxhp;
+			maxhp = 80000;
+			break;
+		case 9:	//ws
+			updatehotkey(1,"BS_WEAPONPERFECT",5,0);
+			updatehotkey(1,"WS_CARTBOOST",1,1);
+			updatehotkey(1,"WS_OVERTHRUSTMAX",5,2);
+			updatehotkey(1,"BS_HAMMERFALL",5,3);
+			updatehotkey(1,"WS_CARTTERMINATION",10,4);
+			atcommand("@adjgroup 1");
+			@maxhp_labs = maxhp;
+			maxhp = 140000;
+			break;
+		case 10:	//creator
+			updatehotkey(1,"AM_CANNIBALIZE",5,0);
+			updatehotkey(1,"AM_SPHEREMINE",5,1);
+			updatehotkey(1,"AM_DEMONSTRATION",5,2);
+			updatehotkey(1,"AM_ACIDTERROR",5,3);
+			updatehotkey(1,"AM_POTIONPITCHER",4,4);
+			atcommand("@adjgroup 1");
+			@maxhp_labs = maxhp;
+			maxhp = 80000;
+			break;
+		case 11:
+			updatehotkey(1,"SN_SHARPSHOOTING",5,0);
+			updatehotkey(1,"AC_CONCENTRATION",10,1);
+			updatehotkey(1,"AC_SHOWER",1,2);
+			updatehotkey(1,"HT_SKIDTRAP",5,3);
+			updatehotkey(1,"HT_FREEZINGTRAP",5,4);
+			atcommand("@adjgroup 1");
+			@maxhp_labs = maxhp;
+			maxhp = 70000;
+			break;
+		case 12:
+			updatehotkey(1,"CG_ARROWVULCAN",5,0);
+			updatehotkey(1,"AC_CONCENTRATION",10,1);
+			updatehotkey(1,"CG_TAROTCARD",5,2);
+			updatehotkey(1,"BA_PANGVOICE",1,3);
+			updatehotkey(1,"BA_POEMBRAGI",10,4);
+			atcommand("@adjgroup 1");
+			@maxhp_labs = maxhp;
+			maxhp = 75000;
+			break;
+
+		
+		default:
+			lableave();
+			break;
+	}
+	percentheal 100,100;
+	end;
+
+OnPCDieEvent:
+OnPCLogoutEvent:
+	if(strcharinfo(3) != .map$) end;
+OnLeave:
+	undisguise;
+	dispell();
+	if(!labpvp) end;
+	lableave();
+	end;
+}
