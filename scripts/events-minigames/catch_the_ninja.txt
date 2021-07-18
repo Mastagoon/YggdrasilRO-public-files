@@ -1,0 +1,78 @@
+//===== rAthena Script ======================================= 
+//= Catch the Ninja Event
+//===== Edited By: ==================================================
+//= Mastagoon
+//===== Description: =========================================
+//= The ninja will keep jumping around. Click him before he disappears to win a point!
+//= Option to reward players on every ninja jump
+//===== Current Version: =====================================
+//= 1.0
+//============================================================
+	script	NinjaEventStart	-1,{
+
+function endEvent;
+
+OnInit:
+	.MaxNpc = 1; 
+	.XMin = 187; 
+	.XMax = 197;
+	.YMin = 49;
+	.YMax = 59;
+	.Rounds = 70;
+	.Current = 1;
+	.Round = 0;
+	end;
+
+OnStart:
+	//debugmes "ninja event started";
+	deletearray $ninjaPoints[0];
+	deletearray $ninjaPlayers[0];
+	for(.@i = 1;.@i <= .MaxNpc;.@i++)
+		disablenpc "EvNinjaTrainDup"+.@i;
+	initnpctimer;
+	end;
+OnTimer500:
+	.@npcName$ = "EvNinjaTrainDup1";
+	movenpc .@npcName$,rand(.XMin,.XMax),rand(.YMin,.YMax);
+	enablenpc .@npcName$;
+	//debugmes "ontimer 100";
+	/*for(.@i = 1; .@i <= .MaxNpc; .@i++) {
+		.@npcName$ = "EvNinjaTrainDup"+.@i;
+		movenpc .@npcName$,rand(.XMin,.XMax),rand(.YMin,.YMax);
+		enablenpc .@npcName$;
+	}*/
+	.Round++;
+	if(.Round >= .Rounds) endEvent();
+	setnpctimer 0;
+	end;
+
+function	endEvent	{
+	//announce "انتهى الحدث",bc_all;
+	stopnpctimer;
+	disablenpc "EvNinjaTrainDup1";
+	.Round = 0;
+	.@max = 0;
+	.@winnerId = 0;
+	for(.@i = 1; .@i < getarraysize($ninjaPoints); .@i = .@i+2) {
+		if($ninjaPoints[.@i] > .@max) {
+			.@max = $ninjaPoints[.@i];
+			.@winnerId = $ninjaPoints[.@i-1];
+		}
+	}
+	if(.@winnerId > 0) {
+		announce callfunc("formatArabic","الفائز في فعالية إمساك النينجا هو "+rid2name(.@winnerId)),bc_all|bc_blue;
+		attachrid(.@winnerId);
+		WonEvents++;
+		MWonEvents++;
+		WonEventsDaily++;
+		getitem 50007,10;
+	} else {
+		announce "لقد انتهت فعالية إمساك النينجا, لا يوجد فائز",bc_all|bc_blue;
+	}
+	deletearray $ninjaPoints[0];
+	deletearray $ninjaPlayers[0];
+	donpcevent "مدير الفعاليات::OnNinjaStart";
+	end;
+}
+
+}
